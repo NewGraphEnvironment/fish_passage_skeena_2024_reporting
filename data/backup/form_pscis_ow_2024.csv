@@ -1,0 +1,107 @@
+date_time_start,pscis_crossing_id,my_crossing_reference,crew_members,aggregated_crossings_id,camera_id,site_id,gps_id,moti_chris_culvert_id,moti_chris_culvert_id2,moti_chris_culvert_id3,gps_waypoint_number,stream_name,road_name,road_km_mark,road_tenure,crossing_type,crossing_subtype,crossing_fix,diameter_or_span_meters,length_or_width_meters,assessment_comment,rowid,date,utm_zone,easting,northing,continuous_embeddedment_yes_no,average_depth_embededdment_meters,resemble_channel_yes_no,backwatered_yes_no,percentage_backwatered,fill_depth_meters,outlet_drop_meters,outlet_pool_depth_0_01m,inlet_drop_yes_no,culvert_slope_percent,downstream_channel_width_meters,stream_slope,beaver_activity_yes_no,fish_observed_yes_no,valley_fill,habitat_value,stream_width_ratio,culvert_length_score,embed_score,outlet_drop_score,culvert_slope_score,stream_width_ratio_score,final_score,barrier_result,recommended_diameter_or_span_meters,source,time_start,mergin_user,assess_type_phase1,assess_type_reassessment,assess_type_phase2,my_priority,erosion_issues,embankment_fill_issues,blockage_issues,condition_rank,condition_notes,likelihood_flood_event_affecting_culvert,consequence_flood_event_affecting_culvert,climate_change_flood_risk,vulnerability_rank,climate_notes,traffic_volume,community_access,cost,constructability,fish_bearing,environmental_impacts,priority_rank,overall_rank,climate_priority_notes,photo_road,photo_upstream,photo_downstream,photo_inlet,photo_barrel,photo_outlet,photo_condition,photo_embankment_fill,photo_blockage,photo_paper_card,photo_extra1,photo_extra2,photo_extra3,photo_extra1_tag,photo_extra2_tag,photo_extra3_tag,link_method_phase1,my_citation_key1,my_citation_key2,my_citation_key3,uav_flight_completed
+2024-09-10T16:39:08Z,,1806259,"TP, TO",,tieasha.pierre,1806259,tieasha.pierre,,,,"Wpt 2024-09-10, 9:45:59 AM",Maish Creek,"Upper Fulton, spur rd",,,Other,,,,,"No crossing, road deactivated",,2024-09-10T16:39:08Z,9,630942,6121928,No,,,No,,,0,0,No,0,0,0,No,No,,,,,,,,,,,,,,tieasha.pierre,No,No,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ignore_mobile/photos/20240910_094226.jpg,,,No structure. ,,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" font-size:14px; text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No
+2024-09-10T17:38:05Z,6273,,TP TO,,tieasha.pierre,6273,tieasha.pierre,,,,,Camp Creek,Upper Fulton FSR,,,Closed Bottom Structure,Round Culvert,,1.2,14,"Dewatered. No fish habitat
+",,2024-09-10T17:38:05Z,9,627297,6121734,No,0.03,Yes,No,,0.25,0,0,No,0,0,0,No,No,Shallow Fill,Low,,0,5,0,0,,,,,,,tieasha.pierre,No,No,,low,,,,,,,,,,,,,,,,,,,,ignore_mobile/photos/20240910_103247.jpg,ignore_mobile/photos/20240910_103317.jpg,ignore_mobile/photos/20240910_103332.jpg,ignore_mobile/photos/20240910_103324.jpg,ignore_mobile/photos/20240910_103310.jpg,ignore_mobile/photos/20240910_103327.jpg,,ignore_mobile/photos/20240910_103852.jpg,,,,,,,,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No
+2024-09-10T17:55:25Z,,1804808,,,tieasha.pierre,1804808,tieasha.pierre,,,,"Wpt 2024-09-10, 10:57:29 AM",,,,,Open Bottom Structure,Bridge,,8.4,4.3,,,2024-09-10T17:55:25Z,9,630621,6122165,No,,,No,,,0,0,No,0,0,0,No,No,,,,,,,,,,,,,,tieasha.pierre,No,No,,low,,,,,,,,,,,,,,,,,,,,ignore_mobile/photos/20240910_105836.jpg,ignore_mobile/photos/20240910_110037.jpg,ignore_mobile/photos/20240910_110321.jpg,ignore_mobile/photos/20240910_110040.jpg,,ignore_mobile/photos/20240910_110318.jpg,,ignore_mobile/photos/20240910_110100.jpg,,,,,,,,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No
+2024-09-10T18:08:57Z,,1804826,TP TO,,tieasha.pierre,1804826,tieasha.pierre,,,,"Wpt 2024-09-10, 11:09:29 AM",Maish Creek,Upper Fulton FSR,47,,Closed Bottom Structure,Round Culvert,,1.15,9.5,Beaver dams upstream,,2024-09-10T18:08:57Z,9,630849,6122044,No,,,No,,0.2,0.6,0.18,No,5,1.9,2,Yes,No,Shallow Fill,Medium,,,,,,,,,,,,tieasha.pierre,No,No,,,,,,,,,,,,,,,,,,,,,,ignore_mobile/photos/20240910_113537.jpg,ignore_mobile/photos/20240910_113557.jpg,ignore_mobile/photos/20240910_113622.jpg,ignore_mobile/photos/20240910_113603.jpg,ignore_mobile/photos/20240910_113833.jpg,ignore_mobile/photos/20240910_113619.jpg,,ignore_mobile/photos/20240910_113627.jpg,,,ignore_mobile/photos/20240910_113638.jpg,ignore_mobile/photos/20240910_113646.jpg,,Beaver dam,Beaver pond,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" font-size:14px; text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No
+2024-09-10T19:22:01Z,,24756610,,,tieasha.pierre,24756610,tieasha.pierre,,,,,,,,,Other,,,1.14,1.83,"Road deactivated, crossing was pulled out. Make shift bridge placed within dewatered channel. Most likely for ATV access or possibly for winter sled access?",,2024-09-10T19:22:01Z,9,625297,6115679,No,,,No,,,0,0,No,0,0,0,No,No,,,,,,,,,,,,,,tieasha.pierre,No,No,,,,,,,,,,,,,,,,,,,,,,ignore_mobile/photos/20240910_122707.jpg,ignore_mobile/photos/20240910_122812.jpg,ignore_mobile/photos/20240910_122830.jpg,ignore_mobile/photos/20240910_122822.jpg,ignore_mobile/photos/20240910_122805.jpg,ignore_mobile/photos/20240910_122827.jpg,,,,,,,,,,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" font-size:14px; text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No
+2024-09-10T19:54:40Z,,24756607,,,tieasha.pierre,24756607,tieasha.pierre,,,,,Touhey creek,338 rd,14.5,,Open Bottom Structure,Bridge,,4.9,15,"Nice stream with decent pools and riffles. Bridge in decent shape, spans more than channel width. ",,2024-09-10T19:54:40Z,9,625876,6115665,No,,,No,,,0,0,No,0,0,0,No,No,,,,,,,,,,,,,,tieasha.pierre,No,No,,,,,,,,,,,,,,,,,,,,,,ignore_mobile/photos/20240910_125553.jpg,ignore_mobile/photos/20240910_125953.jpg,ignore_mobile/photos/20240910_130005.jpg,ignore_mobile/photos/20240910_125958.jpg,,ignore_mobile/photos/20240910_130002.jpg,,ignore_mobile/photos/20240910_130023.jpg,,,ignore_mobile/photos/20240910_130239.jpg,,,Bridge,,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" font-size:14px; text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No
+2024-09-10T21:59:34Z,,1803834,,,tieasha.pierre,1803834,tieasha.pierre,,,,,,,,,Other,,,,,Bridge deactivation ,,2024-09-10T21:59:34Z,9,637899,6109009,No,,,No,,,0,0,No,0,0,0,No,No,,,,,,,,,,,,,,tieasha.pierre,No,No,,,,,,,,,,,,,,,,,,,,,,ignore_mobile/photos/20240910_150025.jpg,ignore_mobile/photos/20240910_150014.jpg,ignore_mobile/photos/20240910_150019.jpg,,,,,,,,,,,,,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No
+2024-09-11T16:12:46Z,,1804520,,,tieasha.pierre,1804520,tieasha.pierre,,,,1804520,Trib to Klo crk ,Klo creek FSR ,,,Closed Bottom Structure,Round Culvert,,1.01,12,"Fish observed downstream, good habitat upstream",,2024-09-11T14:55:58Z,9,668637,6021398,No,,,No,,1.2,0,0.4,No,2,2.6,3,No,Yes,Shallow Fill,Medium,,,,,,,,,,,,tieasha.pierre,No,No,,,,,,,,,,,,,,,,,,,,,,ignore_mobile/photos/20240911_092717.jpg,ignore_mobile/photos/20240911_092734.jpg,ignore_mobile/photos/20240911_092747.jpg,ignore_mobile/photos/20240911_092738.jpg,ignore_mobile/photos/20240911_092730.jpg,ignore_mobile/photos/20240911_092742.jpg,,ignore_mobile/photos/20240911_092838.jpg,,,ignore_mobile/photos/20240911_092753.jpg,,,Ds of pool,,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" font-size:14px; text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No
+2024-09-11T16:50:16Z,,1805032,,,tieasha.pierre,1805032,tieasha.pierre,,,,1805032,Trib to Klo creek,Klo creek FSR ,,,,,,,,Culvert removed. Stream redirected down ditch to a buried culvert wit no out flow,,2024-09-11T14:56:29Z,9,669328,6019822,No,,,No,,,0,0,No,0,0,0,No,No,,,,,,,,,,,,,,tieasha.pierre,No,No,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" font-size:14px; text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No
+2024-09-11T14:57:12Z,,1806282,,,tieasha.pierre,1806282,tieasha.pierre,,,,,,,,,,,,,,,,2024-09-11T14:57:12Z,9,668586,6019376,No,,,No,,,0,0,No,0,0,0,No,No,,,,,,,,,,,,,,tieasha.pierre,No,No,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" font-size:14px; text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No
+2024-09-11T17:27:52Z,,1801075,,,tieasha.pierre,1801075,tieasha.pierre,,,,1801075,Trib to Klo,Houston snowmobile dungate trail,,,Other,Ford,,,,"Recreational trail, snowmobile and ATV use. No culvert or bridge",,2024-09-11T14:57:53Z,9,667729,6019111,No,,,No,,,0,0,No,0,0,0,No,No,,,,,,,,,,,,,,tieasha.pierre,No,No,,,,,,,,,,,,,,,,,,,,,,ignore_mobile/photos/20240911_103326.jpg,ignore_mobile/photos/20240911_103334.jpg,ignore_mobile/photos/20240911_105208.jpg,ignore_mobile/photos/20240911_105140.jpg,,ignore_mobile/photos/20240911_105150.jpg,,,,,,,,,,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" font-size:14px; text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No
+2024-09-11T17:53:42Z,,1800247,,,tieasha.pierre,1800247,tieasha.pierre,,,,1800247,Trib to Klo,Equity Mine,20,,Closed Bottom Structure,Round Culvert,,1.2,30,2 culverts next to each other. 1 is buried with no water flow. The other is flowing with water. Beaver dam downstream.,,2024-09-11T14:58:48Z,9,666882,6019030,No,,,Yes,40,3.5,0,0.5,No,4,2,3,Yes,Yes,Deep Fill,Medium,,,,,,,,,,,,tieasha.pierre,No,No,,low,,,,,,,,,,,,,,,,,,,,ignore_mobile/photos/20240911_111445.jpg,ignore_mobile/photos/20240911_111456.jpg,ignore_mobile/photos/20240911_111514.jpg,ignore_mobile/photos/20240911_111503.jpg,ignore_mobile/photos/20240911_111449.jpg,ignore_mobile/photos/20240911_111510.jpg,,ignore_mobile/photos/20240911_111559.jpg,,,,,,,,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" font-size:14px; text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No
+2024-09-11T18:39:29Z,,1804408,TO TP VJ,,tieasha.pierre,1804408,tieasha.pierre,,,,,Trib to Klo,Foxy,1.5,,Closed Bottom Structure,Round Culvert,,1.18,18,"Beautiful clear stream downstream. Inlet drop of 0.4m. Logs at inlet blocking fish passage. 2nd culvert buried beside. Fish observed downstream. Debris jam observed 50m downstream 
+",,2024-09-11T18:39:29Z,9,673136,6015936,No,,,No,,2,0,1,Yes,2,3.4,2,No,Yes,Shallow Fill,Medium,,,,,,,,,,,,tieasha.pierre,No,No,,,,,,,,,,,,,,,,,,,,,,ignore_mobile/photos/20240911_115326.jpg,ignore_mobile/photos/20240911_115402.jpg,ignore_mobile/photos/20240911_115425.jpg,ignore_mobile/photos/20240911_115413.jpg,ignore_mobile/photos/20240911_115626.jpg,ignore_mobile/photos/20240911_115631.jpg,,,ignore_mobile/photos/20240911_115917.jpg,,ignore_mobile/photos/20240911_115924.jpg,,,Blockage upstream,,,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0//EN"" ""http://www.w3.org/TR/REC-html40/strict.dtd"">
+<html><head><meta name=""qrichtext"" content=""1"" /><meta charset=""utf-8"" /><style type=""text/css"">
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: ""\2610""; }
+li.checked::marker { content: ""\2612""; }
+</style></head><body style="" font-family:'Inter'; font-size:14px; font-weight:400; font-style:normal;"">
+<p style="" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;""><a href=""https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/land-based-investment/forests-for-tomorrow/field-assessment-for-determining-fish-passage-status-of-cbs.pdf/""><span style="" text-decoration: underline; color:#007aff;"">Link to Methods for Fish Passage Assessment</span></a></p></body></html>",,,,No

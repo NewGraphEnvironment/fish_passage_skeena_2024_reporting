@@ -1,0 +1,7 @@
+book_filename: "fish_passage_template_reporting"
+language:
+  ui:
+    chapter_name: ""
+delete_merged_file: TRUE
+output_dir: "docs"
+
