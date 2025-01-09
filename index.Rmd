@@ -1,18 +1,22 @@
 --- 
-title: "My Bookdown Template"
+title: "Skeena Watershed Fish Passage Restoration Planning 2024"
 author: |
  |
  | Prepared for
-
+ | Habitat Conservation Trust Foundation - CAT23-6-288
+ | BC Fish Passage Remediation Program
+ | Ministry of Transportation and Infrastructure
  |
  |
  | Prepared by
- | Al Irvine, B.Sc., R.P.Bio. and Lucy Schick, B.Sc.
+ | Al Irvine, B.Sc., R.P.Bio and Lucy Schick, B.Sc.
  | New Graph Environment Ltd.
+ | on behalf of
+ | Society for Ecosytem Restoration in Northern British Columbia
 
 date: |
  |
- | Version 0.0.4 `r format(Sys.Date(), "%Y-%m-%d")`
+ | Version 0.0.1 `r format(Sys.Date(), "%Y-%m-%d")`
 toc-title: Table of Contents
 site: bookdown::bookdown_site
 output: 
@@ -20,10 +24,12 @@ output:
           includes:
             in_header: header.html
 params:
-  repo_url: 'https://github.com/NewGraphEnvironment/fish_passage_template_reporting'
-  report_url: 'https://www.newgraphenvironment.com/fish_passage_template_reporting/'
-  job_name: 'fish_passage_template_reporting'
+  repo_url: 'https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/'
+  report_url: 'https://newgraphenvironment.github.io/fish_passage_skeena_2024_reporting'
   update_packages: FALSE
+  update_form_pscis: TRUE
+  update_gis: FALSE
+  gis_project_name: "sern_skeena_2023"
 nocite: |
   @busch_etal2011LandscapeLevelModela, 
   @woll_etal2017SalmonEcological,
@@ -102,6 +108,6 @@ Modern civilization has a long journey ahead to acknowledge and address the hist
 
 ```{js, logo-header, echo = FALSE, eval= T}
 title=document.getElementById('header');
-title.innerHTML = '<img src="fig/nge-full_white.png" alt="NewGraph">' + title.innerHTML
+title.innerHTML = '<img src="fig/logo_sern_hctf.png" alt="NewGraph">' + title.innerHTML
 ```
 
