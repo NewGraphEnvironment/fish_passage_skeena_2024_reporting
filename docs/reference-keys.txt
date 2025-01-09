@@ -16,6 +16,8 @@ tab:tab-barrier-scoring
 tab:tab-barrier-result
 tab:tab-cost-mult
 tab:tab-moti-params
+tab:tab-sites-sum-cap
+tab:tab-sites-cap
 intro
 background
 wetsuweten
