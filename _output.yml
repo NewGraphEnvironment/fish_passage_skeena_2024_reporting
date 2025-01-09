@@ -1,7 +1,7 @@
 bookdown::gitbook:
   toc_depth: 2
   css: style.css
-   config:
+  config:
     toc:
       before: |
         <li><a href="./">Fish Passage Planning Skeena 2024</a></li>
@@ -10,7 +10,7 @@ bookdown::gitbook:
       collapse: section
     download: ["https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/raw/main/docs/fish_passage_skeena_2024.pdf", "fish_passage_skeena_2024.html"]
     fontsettings:
-      theme: night
+      theme: white
       family: sans
 pagedown::html_paged:
   front_cover: "fig/logo_newgraph/BLACK/PNG/nge-full_black.png"
