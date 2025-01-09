@@ -19,10 +19,13 @@ wsg_skeena <- c("Bulkley River",
               "Zymoetz River",
               "Kispiox River",
               "Kalum River",
-              "Morice River",
-              "Parsnip River",
-              "Carp Lake",
-              "Crooked River")
+              "Morice River"
+              )
+
+wsg_code_skeena <- c(
+  'BULK','KISP','KLUM','MORR','ZYMO',
+  'BABL', 'BABR', 'LKEL', 'LSKE', 'MSKE', 'SUST'
+)
 
 # wsg_peace <- c(
 #               "Parsnip River",
