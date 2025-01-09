@@ -5,7 +5,7 @@ The study area includes the Bulkley River, Zymoetz River, Kispiox River, Morice 
 <br>
 
 ```{r overview-map, fig.cap = 'Overview map of Study Areas',eval=T}
-knitr::include_graphics("fig/fishpassage_overview.png")
+knitr::include_graphics("fig/fishpassage_2024_hctf_progress.jpeg")
 ```
 
 
