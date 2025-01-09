@@ -1,8 +1,3 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
 # Background
 
 The study area includes the Bulkley River, Zymoetz River, Kispiox River, Morice River and Kitsumkalum River watershed groups (Figure \@ref(fig:overview-map)) and is within the traditional territories of the Wet'suwet'en, Gitxsan and Tsimshian.
@@ -315,7 +310,7 @@ gantt <- gantt_raw %>%
          life_stage,
          morice_start2,
          morice_end2) %>%
-  filter(
+  dplyr::filter(
     life_stage != 'Rearing' &
       life_stage != 'Upstream fry migration' &
       !is.na(life_stage),
@@ -328,7 +323,7 @@ gantt <- gantt_raw %>%
                           c('Migration', 'Overwintering', 'Spawning', 'Incubation', 'Emergence', 'Outmigration')),
     life_stage = forcats::fct_rev(life_stage) ##last line was upside down!
   ) %>%
-  filter(life_stage != 'Overwintering')
+  dplyr::filter(life_stage != 'Overwintering')
 
 
 ##make a plot
@@ -352,14 +347,14 @@ ggplot(gantt, aes(xmin = morice_start2,
 fiss_sum_grad <- readr::read_csv(file = 'data/inputs_extracted/fiss_sum_grad.csv')
 fiss_sum_width <- readr::read_csv(file = 'data/inputs_extracted/fiss_sum_width.csv')
 
-# A summary of historical westslope cutthrout trout observations in the Elk River watershed group by average gradient category of associated stream segment is provided in Figure \@ref(fig:fish-wct-bar). Of `r wct_elkr_grad %>% filter(gradient_id == 3) %>% pull(total)` observations, `r wct_elkr_grad %>% filter(gradient_id == 3) %>% pull(Percent) + wct_elkr_grad %>% filter(gradient_id == 5) %>% pull(Percent) + wct_elkr_grad %>% filter(gradient_id == 8) %>% pull(Percent)`% were within stream segments with average gradients ranging from 0 - 8%.  A total of `r wct_elkr_grad %>% filter(gradient_id == 3) %>% pull(Percent)`% of historic observations were within stream segments with gradients between 0 - 3%, `r wct_elkr_grad %>% filter(gradient_id == 5) %>% pull(Percent)`% were within stream segments with gradients ranging from 3 - 5% and `r wct_elkr_grad %>% filter(gradient_id == 5) %>% pull(Percent)`% were within stream segments with gradients between 5 - 8% [@data_fish_obs; @norris2020bcfishobs]. 
+# A summary of historical westslope cutthrout trout observations in the Elk River watershed group by average gradient category of associated stream segment is provided in Figure \@ref(fig:fish-wct-bar). Of `r wct_elkr_grad %>% dplyr::filter(gradient_id == 3) %>% pull(total)` observations, `r wct_elkr_grad %>% dplyr::filter(gradient_id == 3) %>% pull(Percent) + wct_elkr_grad %>% dplyr::filter(gradient_id == 5) %>% pull(Percent) + wct_elkr_grad %>% dplyr::filter(gradient_id == 8) %>% pull(Percent)`% were within stream segments with average gradients ranging from 0 - 8%.  A total of `r wct_elkr_grad %>% dplyr::filter(gradient_id == 3) %>% pull(Percent)`% of historic observations were within stream segments with gradients between 0 - 3%, `r wct_elkr_grad %>% dplyr::filter(gradient_id == 5) %>% pull(Percent)`% were within stream segments with gradients ranging from 3 - 5% and `r wct_elkr_grad %>% dplyr::filter(gradient_id == 5) %>% pull(Percent)`% were within stream segments with gradients between 5 - 8% [@data_fish_obs; @norris2020bcfishobs]. 
 
 ```
 
 ```{r fish-plot-grad, out.width = photo_width, fig.cap= 'Summary of historic salmonid observations vs. stream gradient category for the Bulkley River watershed group.', eval=T}
 ##bar graph
 plot_grad <- fiss_sum_grad %>% 
-  filter(gradient_id != 99) %>% 
+  dplyr::filter(gradient_id != 99) %>% 
   ggplot(aes(x = Gradient, y = Percent)) +
   geom_bar(stat = "identity")+
   facet_wrap(~species_code, ncol = 2)+
@@ -374,7 +369,7 @@ plot_grad
 ```{r fish-plot-width, out.width = photo_width, fig.cap= 'Summary of historic salmonid observations vs. channel width category for the Bulkley River watershed group.', eval=T}
 ##bar graph
 plot_width <- fiss_sum_width %>% 
-  filter(!is.na(width_id)) %>%
+  dplyr::filter(!is.na(width_id)) %>%
   ggplot(aes(x = Width, y = Percent)) +
   geom_bar(stat = "identity")+
   facet_wrap(~species_code, ncol = 2)+
@@ -388,7 +383,7 @@ plot_width
 ```{r fish-plot-wshed, out.width = photo_width, fig.cap= 'Summary of historic salmonid observations vs. watershed size category for the Bulkley River watershed group.', eval=F}
 ##bar graph
 fiss_sum_wshed_filter <- fiss_sum %>% 
-  filter(upstream_area_ha < 5000) %>% 
+  dplyr::filter(upstream_area_ha < 5000) %>% 
   mutate(upstream_area_km = upstream_area_ha/100)
 
 bin_1 <- 0
@@ -435,7 +430,7 @@ plot_wshed_hist
 
 
 ```{r}
-##`r pscis_historic_phase1 %>% filter(watershed_group_code %ilike% 'BULK' & assessment_date < '2020-01-01') %>% nrow()`
+##`r pscis_historic_phase1 %>% dplyr::filter(watershed_group_code %ilike% 'BULK' & assessment_date < '2020-01-01') %>% nrow()`
 ### Bulkley River
 
 # There is a rich history of fish passage restoration planning in the Bulkley River watershed group with not all the work documented in the PSCIS system. A non-exhaustive list of historic fish passage reports for the watershed includes @wilson_rabnett2007FishPassage, @mccarthy_fernando20152015Inventory,@smith2018AssessingBarriers @casselman_stanley2010BulkleyFulton and @irvine2018AnalysisPriority.
@@ -453,5 +448,5 @@ plot_wshed_hist
 
 
 ```{r}
-##`r pscis_historic_phase1 %>% filter(watershed_group_code %ilike% 'MORR' & assessment_date < '2020-01-01') %>% nrow()`
+##`r pscis_historic_phase1 %>% dplyr::filter(watershed_group_code %ilike% 'MORR' & assessment_date < '2020-01-01') %>% nrow()`
 ```
