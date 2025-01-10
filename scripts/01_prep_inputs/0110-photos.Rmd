@@ -146,7 +146,7 @@ fs::dir_delete("/Users/airvine/Projects/gis/sern_peace_fwcp_2023/photos")
 form_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'form_pscis.gpkg'))
 form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_pscis_2024.gpkg'))
 
-#this can be run for the ow photos once the issue with ids is resolved
+#this can be run for the ow photos
 # form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_pscis_ow_2024.gpkg'))
 
 
@@ -188,7 +188,6 @@ form_pscis_photos_raw |>
   )
 
 # also create on onedrive
-#!didn't do this for ow skeena phtos 2024!!!
 form_pscis_photos_raw |>
   dplyr::pull(site_id) |>
   as.character() |>
@@ -199,7 +198,7 @@ form_pscis_photos_raw |>
 
 ```{r rename-qa-pscis}
 
-# NOTE - needed to add a / to the end of the dir names for now untill we update fpr::fpr_photo_rename with fs functions
+# NOTE - needed to add a / to the end of the dir names for now until we update fpr::fpr_photo_rename with fs functions
 fpr::fpr_photo_rename(
   dat = form_pscis_photos_raw,
   dir_from_stub = paste0(dir_photos_mergin_resized, "/"),
@@ -229,6 +228,27 @@ test <- fpr::fpr_photo_qa(dat = form_pscis_photos_raw) |>
   bind_rows() |>
   dplyr::filter(if_any(everything(), is.na))
 ```
+
+
+Specific to skeena 2024 - Copy the renamed photos from mergin to the site specific folders on onedrive that contain the extra photos.
+
+```{r move-photos}
+
+#these are the photos we are copying
+files_to_copy <- fs::dir_ls(dir_photos_mergin_raw, recurse = T, type = "file") %>% 
+  .[!grepl("\\.txt$", .)]   # Exclude files ending in .txt 
+
+# make the paths for where we are copying the photos to
+path_to_paste <- dir_photos_onedrive
+photos_to_paste <- stringr::str_remove(files_to_copy, "^.*photos/")
+files_to_paste <- fs::path(path_to_paste, photos_to_paste)
+
+
+# Copy files using from mergin to onedrive
+purrr::map2(files_to_copy, files_to_paste, ~ fs::file_copy(.x, .y, overwrite = TRUE))
+
+```
+
 
 
 # FISS Site - Rename the photos from the FISS cards and remove duplicates
