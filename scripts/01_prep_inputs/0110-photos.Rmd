@@ -410,13 +410,12 @@ form_photos_raw |>
 
 ```{r rename-monitoring}
 
-# NOTE - needed to add a / to the end of the dir names for now untill we update fpr::fpr_photo_rename with fs functions
+# NOTE - needed to add a / to the end of the dir names for now until we update fpr::fpr_photo_rename with fs functions
 fpr::fpr_photo_rename(
   dat = form_photos_raw,
-  dir_from_stub = "/Users/airvine/Projects/gis/sern_peace_fwcp_2023b/photos/",
-  dir_to_stub = "/Users/airvine/Projects/gis/sern_peace_fwcp_2023b/photos/"
+  dir_from_stub = paste0(dir_photos_mergin_resized, "/"),
+  dir_to_stub = paste0(dir_photos_onedrive, "/")
 )
-
 ```
 
 
