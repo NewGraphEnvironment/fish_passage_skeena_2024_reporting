@@ -423,75 +423,110 @@ After we sort the photos that came off the camera by hand into their directories
 
 When a photo is renamed using `fpr::fpr_photo_rename` the photo renamed is not duplicated. However, we take many more photos on our phones than we upload to `Mergin` via our field forms. We subsequently transfer all of our field photos off of our phones onto company drives. Because we use the gallery to upload our photos to `Mergin` (an important procedure so we don't lose photos when `mergin` glitches) we have a lot of duplicates. We use the `fpr::fpr_photo_remove_dupes` function to remove duplicates. We also have a `min_replicates` argument that allows us to remove photos that are not duplicated at least `n` times.
 
-```{r remove-dupes}
+
+```{r photos-no-metadata}
+
+##### HACK for missing metadata issue, explained here https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/issues/4#####
+
+# These are the photos that are missing metadata and are NOT duplicated but they are being seen as duplicates. 
+photos_no_metadata <- photos_dry_run |> 
+  dplyr::filter(is.na(date_time_original))
+
+# create new folders
+path_photos_no_metadata <- fs::path("/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-072-sern-skeena-fish-passage/data/photos/photos_no_metadata")
+fs::dir_create(path_photos_no_metadata)
+
+#make the site specific folders
+sites_no_metadata <- photos_no_metadata |> 
+  dplyr::mutate(site_number = basename(dirname(source_file))) |> 
+  dplyr::distinct(site_number) |> 
+  dplyr::pull(site_number) |> 
+  purrr::map(
+    fpr::fpr_photo_folders, path = paste0(path_photos_no_metadata, "/"))
+
+
+#these are the photos we are copying
+files_to_copy <- photos_no_metadata |> 
+  dplyr::pull(source_file)
+
+# make the paths for where we are copying the photos to
+photos_to_paste <- stringr::str_remove(files_to_copy, "^.*sorted/")
+files_to_paste <- fs::path(path_photos_no_metadata, photos_to_paste)
+
+
+# Copy files using from folder `photos/sorted` to `photos/photos_no_metadata`
+purrr::map2(files_to_copy, files_to_paste, ~ fs::file_copy(.x, .y, overwrite = TRUE))
+
+# Check to see they moved successfully
+# Now remove them from the `photos/sorted` folders
+fs::file_delete(files_to_copy)
+
+
+
+# run remove dupes as usual
 
 # use fpr_photo_remove_dupes to see the duplicated photos
-photos_dry_run <- fpr::fpr_photo_remove_dupes(
-  '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/')
+photos_dry_run <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"))
 
-# use fpr_photo_remove_dupes to see the triplicated photos
-photos_dry_run3 <- fpr::fpr_photo_remove_dupes(
-  '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/',
+# # use fpr_photo_remove_dupes to see the triplicated photos
+photos_dry_run3 <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"),
                                                min_replicates = 3)
 
-
-# # actually run the removal of the first un-renamed photo
-# fpr::fpr_photo_remove_dupes('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/sorted',
+# # # actually run the removal of the first un-renamed photo
+# fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"),
 #                             dry_run = F)
 
 # now there should only be photos that had triplets. The un-renamed photos have been removed so there will only be duplicates of renamed photos. These should be same photos as in photos_dry_run3.
-photos_dry_run_after <- fpr::fpr_photo_remove_dupes('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/sorted')
+photos_dry_run_after <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"))
 
-# # now run the removal of the duplicated renamed photos (photos that had triplets)
-# fpr::fpr_photo_remove_dupes('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/sorted',
-#                             dry_run = F, remove_renamed = TRUE)
+# now run the removal of the duplicated renamed photos (photos that had triplets)
+fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"),
+                            dry_run = F, remove_renamed = TRUE)
 
 # Now there should be no duplicated of any kind, this object should be empty. 
-photos_dry_run_after <- fpr::fpr_photo_remove_dupes('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/sorted')
+photos_dry_run_after <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"))
                                                   
 
 # backup the dry runs to a csv so we can track which photos were removed.
 readr::write_csv(photos_dry_run, "data/inputs_extracted/photo_duplicate_rm_log.csv" )
 
+
+# DONT FORGET !!!
+# Move files back from folder `photos/photos_no_metadata` to `photos/sorted`
+purrr::map2(files_to_paste, files_to_copy, ~ fs::file_copy(.x, .y))
+
 ```
 
-The following is a special workflow to deal with this issue https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/49
-unique to the peace 2024 data.
 
-```{r site-125161-only-remove-dups}
 
-# use fpr_photo_remove_dupes to see the duplicated photos in just the 125261 folder
-photos_dry_run <- fpr::fpr_photo_remove_dupes(
-  '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/125261')
+```{r remove-dupes}
 
-# use fpr_photo_remove_dupes to see the triplicated photos in just the 125261 folder
-photos_dry_run3 <- fpr::fpr_photo_remove_dupes(
-  '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/125261',
+# # use fpr_photo_remove_dupes to see the duplicated photos
+photos_dry_run <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"))
+
+
+# # use fpr_photo_remove_dupes to see the triplicated photos
+photos_dry_run3 <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"),
                                                min_replicates = 3)
 
-# There are no triplicated photos in the 125261 folder
 
-# actually run the removal of the first un-renamed photo
-fpr::fpr_photo_remove_dupes('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/125261',
-dry_run = F)
+# # # actually run the removal of the first un-renamed photo
+# fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"),
+#                             dry_run = F)
 
-# Now there should be no duplicated of any kind in the 125261 folder, this object should be empty. 
-photos_dry_run_after <- fpr::fpr_photo_remove_dupes('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/125261')
+# now there should only be photos that had triplets. The un-renamed photos have been removed so there will only be duplicates of renamed photos. These should be same photos as in photos_dry_run3.
+photos_dry_run_after <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"))
 
-# Empty, sweet.
+# now run the removal of the duplicated renamed photos (photos that had triplets)
+fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted",
+                            dry_run = F, remove_renamed = TRUE))
 
-# Now join the site 125261 specific dry run data to the photo_duplicate_rm_log.csv so we can track which photos were removed.
+# Now there should be no duplicated of any kind, this object should be empty. 
+photos_dry_run_after <- fpr::fpr_photo_remove_dupes(dir_photos_onedrive)
+                                                  
 
-# read `photo_duplicate_rm_log.csv` which tracks which photos were removed
-photo_duplicate_rm_log <- readr::read_csv("data/inputs_extracted/photo_duplicate_rm_log.csv")
-
-# now join the site 125261 specific dry run data to the photo_duplicate_rm_log.csv so we can see these changes
-test_photo_duplicate_rm_log <- photos_dry_run |> 
-  bind_rows(photo_duplicate_rm_log) 
-  
-# Check to see it worked. looks good, now burn over photo_duplicate_rm_log.csv
-test_photo_duplicate_rm_log |> 
-  readr::write_csv("data/inputs_extracted/photo_duplicate_rm_log.csv" )
+# backup the dry runs to a csv so we can track which photos were removed.
+readr::write_csv(photos_dry_run, "data/inputs_extracted/photo_duplicate_rm_log.csv" )
 
 ```
 
