@@ -170,7 +170,7 @@ form_pscis_photos_raw <- fpr::fpr_sp_gpkg_backup(
 # check for duplicate sites
 form_pscis_photos_raw |>
   dplyr::filter(!is.na(site_id)) |>
-  group_by(site_id) |>
+  dplyr::group_by(site_id) |>
   dplyr::filter(n()>1) |>
   nrow()
 
@@ -205,7 +205,7 @@ fpr::fpr_photo_rename(
   dir_to_stub = paste0(dir_photos_mergin_raw, "/")
 )
 ##this section does not seem to be working
-qa_missing <- fpr_photo_qa_missing_all(
+qa_missing <- fpr::fpr_photo_qa_missing_all(
   dat = form_pscis_photos_raw,
   # needed to add a / to the end of the dir names for now
   dir_photos =  paste0(dir_photos_mergin_raw, "/")
@@ -217,7 +217,7 @@ qa_all <- fpr::fpr_photo_qa(
 ) |>
   data.table::rbindlist(fill = TRUE)
 
-qa <- fpr_photo_qa_df(
+qa <- fpr::fpr_photo_qa_df(
   dat = form_pscis_photos_raw,
   # needed to add a / to the end of the dir names for now
   dir_photos = paste0(dir_photos_mergin_raw, "/")
@@ -253,13 +253,13 @@ purrr::map2(files_to_copy, files_to_paste, ~ fs::file_copy(.x, .y, overwrite = T
 
 # FISS Site - Rename the photos from the FISS cards and remove duplicates
 
-CANT USUALLY DO THIS UNTILL WE SUBMIT THE DATA AND GET THE PSCIS IDS BUT WE HAVE NO NEW SITES IN THE PEACE SO WE ALREADY HAVE THE IDS...
+CANT USUALLY DO THIS UNTILL WE SUBMIT THE DATA AND GET THE PSCIS IDS BUT WE HAVE NO NEW SITES IN THE SKEENA SO WE ALREADY HAVE THE IDS...
 
 ```{r dir-site-create-fiss}
 
 # copy the gpkg to the new location - this is just as easily done by hand. Named it weird
-form_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'form_fiss_site.gpkg'))
-form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_fiss_site_2024.gpkg'))
+form_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'form_fiss_site_newgraph.gpkg'))
+form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_fiss_site_newgraph_2024.gpkg'))
 
 fs::dir_create(fs::path_dir(form_new))
 
@@ -273,18 +273,25 @@ form_fiss_photos_raw <- fpr::fpr_sp_gpkg_backup(
   form_new,
   write_back_to_path = FALSE,
   return_object = TRUE,
+  update_site_id = F,
   col_easting = "utm_easting",
   col_northing = "utm_northing"
 ) 
 
-
+# create new columns used for naming
 form_fiss_photos <- form_fiss_photos_raw |> 
-  tidyr::separate(local_name, into = c('site', 'photo_tag_site'),
-                  extra = "merge", 
-                  fill = "right", 
-                  remove = FALSE) |> 
-  tidyr::separate(local_name, into = c('site', 'location', 'ef'), remove = FALSE) |> 
-  mutate(site_id = paste0(site, location))
+  tidyr::separate_wider_delim(local_name, 
+                              delim = "_", 
+                              names = c('site', 'location', 'ef'),
+                              too_few = "align_start",
+                              cols_remove = FALSE) |> 
+  # create the photo_tag_site
+  dplyr::mutate(photo_tag_site = stringr::str_extract(local_name, "(?<=_).*")) |> 
+  dplyr::relocate(photo_tag_site, .after = gazetted_names) |> 
+  dplyr::relocate(location:ef, .after = local_name) |>
+  # remove any whitespace because this messes up the naming later on
+  dplyr::mutate(photo_tag_site = stringr::str_trim(photo_tag_site))
+
 
 # check for duplicate sites
 form_fiss_photos |>
@@ -319,13 +326,13 @@ form_fiss_photos |>
 We don't qa with the fpr functions bc they just check for pscis photos
 ```{r rename-fiss}
 
-# NOTE - needed to add a / to the end of the dir names for now untill we update fpr::fpr_photo_rename with fs functions
+# NOTE - needed to add a / to the end of the dir names for now until we update fpr::fpr_photo_rename with fs functions
 fpr::fpr_photo_rename(
   dat = form_fiss_photos,
   # we need to pick the correct column for this dataframe
   col_directories = site,
   dir_from_stub = paste0(dir_photos_mergin_resized, "/"),
-  dir_to_stub = paste0(dir_photos_mergin_raw, "/"),
+  dir_to_stub = paste0(dir_photos_onedrive, "/"),
   col_string_add = TRUE,
   # we just made this column
   col_string_append = photo_tag_site
@@ -421,11 +428,11 @@ When a photo is renamed using `fpr::fpr_photo_rename` the photo renamed is not d
 
 # use fpr_photo_remove_dupes to see the duplicated photos
 photos_dry_run <- fpr::fpr_photo_remove_dupes(
-  '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/sorted')
+  '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/')
 
 # use fpr_photo_remove_dupes to see the triplicated photos
 photos_dry_run3 <- fpr::fpr_photo_remove_dupes(
-  '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/sorted',
+  '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/',
                                                min_replicates = 3)
 
 
