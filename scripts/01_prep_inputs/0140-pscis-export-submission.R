@@ -4,7 +4,7 @@
 ##convert jpg (or other formats - need to code) to JPG for consistency and to avoid issues with submission/reporting
 ##move the photos and spreadsheet ready for submission to pscis
 
-## Prepped and updated for Peace 2024 data.
+## Prepped and updated for skeena 2024 data.
 
 source('scripts/packages.R')
 source('scripts/functions.R')
@@ -25,8 +25,8 @@ tfpr_photo_change_name <- function(filenames_to_change = filestocopy_list){
 }
 
 
-name_repo <- 'fish_passage_peace_2024_reporting'
-name_pdf <- 'fish_passage_peace_2024_reporting.pdf' #see the output.yml
+name_repo <- 'fish_passage_skeena_2024_reporting'
+name_pdf <- 'fish_passage_skeena_2024_reporting.pdf' #see the output.yml
 url_github <- 'https://github.com/NewGraphEnvironment/'
 url_gitpages <- 'https://newgraphenvironment.github.io/'
 
@@ -39,15 +39,15 @@ name_submission <- 'pscis_phase1.xlsm'
 # Create folders and copy over photos -------------
 
 # need to add photos to local machine to upload to PSCIS
-targetdir = fs::path('~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/peace/PSCIS_peace_2024_phase1')
+targetdir = fs::path('~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_phase1')
 
 # create the directory. Take note about which phase
 fs::dir_create(targetdir)
 
 
-# use the pscis spreadsheet to make the folders to copy the photos to. For peace 2024, the photos are stored in Onedrive.
+# use the pscis spreadsheet to make the folders to copy the photos to. For skeena 2024, the photos are stored in Onedrive.
 
-path_photos <- fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos')
+path_photos <- fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-072-sern-skeena-fish-passage/data/photos/')
 
 d <- fpr::fpr_import_pscis(workbook_name = 'pscis_phase1.xlsm')
 
@@ -103,7 +103,7 @@ mapply(fs::file_copy,
 
 # do a little QA to be sure all the photos are there.
 
-t <- fpr::fpr_photo_qa_df(dat = d, dir_photos = '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/peace/PSCIS_peace_2024_phase1/')
+t <- fpr::fpr_photo_qa_df(dat = d, dir_photos = '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_phase1/')
 
 
 # Move Pscis file -------------
@@ -146,15 +146,15 @@ name_submission <- 'pscis_phase2.xlsm'
 # Create folders and copy over photos -------------
 
 # need to add photos to local machine to upload to PSCIS
-targetdir = fs::path('~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/peace/PSCIS_peace_2024_phase2')
+targetdir = fs::path('~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_phase2')
 
 # create the directory. Take note about which phase
 fs::dir_create(targetdir)
 
 
-# use the pscis spreadsheet to make the folders to copy the photos to. For peace 2024, the photos are stored in Onedrive.
+# use the pscis spreadsheet to make the folders to copy the photos to. For skeena 2024, the photos are stored in Onedrive.
 
-path_photos <- fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos')
+path_photos <- fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-072-sern-skeena-fish-passage/data/photos')
 
 d <- fpr::fpr_import_pscis(workbook_name = 'pscis_phase2.xlsm')
 
@@ -211,7 +211,7 @@ mapply(fs::file_copy,
 
 # do a little QA to be sure all the photos are there.
 
-t <- fpr::fpr_photo_qa_df(dat = d, dir_photos = '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/peace/PSCIS_peace_2024_phase2/')
+t <- fpr::fpr_photo_qa_df(dat = d, dir_photos = '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_phase2/')
 
 
 # Move Pscis file -------------
@@ -250,15 +250,15 @@ name_submission <- 'pscis_reassessments.xlsm'
 # Create folders and copy over photos -------------
 
 # need to add photos to local machine to upload to PSCIS
-targetdir = fs::path('~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/peace/PSCIS_peace_2024_reassessments')
+targetdir = fs::path('~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_reassessments')
 
 # create the directory. Take note about which phase
 fs::dir_create(targetdir)
 
 
-# use the pscis spreadsheet to make the folders to copy the photos to. For peace 2024, the photos are stored in Onedrive.
+# use the pscis spreadsheet to make the folders to copy the photos to. For skeena 2024, the photos are stored in Onedrive.
 
-path_photos <- fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos')
+path_photos <- fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-072-sern-skeena-fish-passage/data/photos')
 
 d <- fpr::fpr_import_pscis(workbook_name = 'pscis_reassessments.xlsm')
 
@@ -315,7 +315,7 @@ mapply(fs::file_copy,
 
 # do a little QA to be sure all the photos are there.
 
-t <- fpr::fpr_photo_qa_df(dat = d, dir_photos = '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/peace/PSCIS_peace_2024_reassessments/')
+t <- fpr::fpr_photo_qa_df(dat = d, dir_photos = '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_reassessments/')
 
 
 # Move Pscis file -------------
