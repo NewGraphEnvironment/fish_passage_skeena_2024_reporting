@@ -117,6 +117,7 @@ pscis_export <- pscis_export_prep1 |>
   dplyr::mutate(assessment_comment = dplyr::case_when(moti_chris_culvert_id2 > 1000000 ~ paste0(assessment_comment, ', ', moti_chris_culvert_id2), TRUE ~ assessment_comment)) |>
   dplyr::mutate(assessment_comment = dplyr::case_when(moti_chris_culvert_id3 > 1000000 ~ paste0(assessment_comment, ', ', moti_chris_culvert_id3), TRUE ~ assessment_comment)) |>
   # add in pscis phase
+  ## DOUBLE CHECK IF THERE ARE ANY SITES THAT ARE PHASE 1 AND 2S!!! FIRST TIME HAB CON SITES
   dplyr::mutate(pscis_phase = case_when(
     assess_type_phase1 == "Yes" ~ "phase 1",
     assess_type_phase2 == "Yes" ~ "phase 2",
