@@ -86,6 +86,7 @@ photo_sort_tracking <- path_to_photos |>
 ##here we back up a csv that gives us the new location and name of the original JPG photos.
 
 ##burn to csv
+fs::dir_create("data/photos")
 photo_sort_tracking |>
   readr::write_csv(file = 'data/photos/photo_sort_tracking_phase1.csv')
 
