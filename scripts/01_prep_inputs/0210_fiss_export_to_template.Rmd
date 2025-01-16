@@ -1,0 +1,319 @@
+---
+title: "0210_fiss_export_to_template"
+date: "Created: 2024-06-20 | Updated: `r format(Sys.Date(), '%Y-%m-%d')`"
+output: 
+  html_document:
+    code_folding: "hide"
+params:
+  repo_owner: "NewGraphEnvironment"
+  repo_name: "fish_passage_peace_2024_reporting"
+  gis_name: "sern_peace_fwcp_2023"
+  job_name: "2024-073-sern-peace-fish-passage"
+editor_options: 
+  chunk_output_type: console
+---
+
+# Purpose of this script
+
+Export fiss site data to csv for cut and paste into the fish data submission spreadsheet (habitat_confimations.xls). This script has been updated so that csv contains as much of the data as possible, so that only a few copy/pastes are required. We are trying to move away from all the back and forths between the spreadsheet, R, and Q. 
+
+```{r params}
+
+path_form_fiss_site <- fs::path('~/Projects/gis/sern_peace_fwcp_2023/data_field/2024/form_fiss_site_2024.gpkg')
+```
+
+
+
+# Prepare the data for copy/paste into submission spreadsheet
+
+After QAing the data in QGIS, now we will prepare it for copy/paste into submission spreadsheet.
+
+
+## Backup the form after the QA
+
+```{r backup}
+
+form_fiss_site <- fpr::fpr_sp_gpkg_backup(
+  path_gpkg = path_form_fiss_site,
+  dir_backup = "data/backup/",
+  update_utm = TRUE,
+  update_site_id = FALSE,
+  write_back_to_path = FALSE,
+  return_object = TRUE,
+  col_easting = "utm_easting",
+  col_northing = "utm_northing"
+) 
+```
+
+
+## Fix the timezone
+
+We need to fix the times because they are in UTC and we need them in PDT. This issue is documented here https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/18
+
+```{r time-fix}
+
+form_fiss_site_prep1 <- form_fiss_site |> 
+# make a new column for the time as is with different name then mutate to PST
+  # we don't need the new column but will leave here for now so we can visualize and confirm the time is correct
+  dplyr::mutate(date_time_start_raw = date_time_start,
+         date_time_start = lubridate::force_tz(date_time_start_raw, tzone = "America/Vancouver"),
+         date_time_start = lubridate::with_tz(date_time_start, tzone = "UTC")) |> 
+   dplyr::relocate(date_time_start_raw, .after = date_time_start)
+
+## Double check the time is correct and now remove the date_time_start_raw column
+form_fiss_site_prep1 <- form_fiss_site_prep1 |> 
+  select(-date_time_start_raw)
+```
+
+## Query database to get 1:50,000 watershed codes
+Really kind of humorous that we are getting 1:50,000 watershed codes from the database then the province turns around
+and converts them back to 1:20,000 (pers. comm. Dave McEwan - Fisheries Standards Biologist - 778 698-4010 - Dave.McEwan@gov.bc.ca).
+
+```{r get-wsc}
+
+ids <- form_fiss_site_prep1 |> 
+  dplyr::distinct(site_id) |> 
+  dplyr::pull(site_id)
+
+##### HACK FOR IF WE CANT USE bcfishpass.crossings_vw FROM BCFISHPASS #####
+
+# this was a work around for this issue here https://github.com/NewGraphEnvironment/fish_passage_peace_2024_reporting/issues/7. 
+
+# use the bcfishpass.crossings_vw layer form the sern_peace_fwcp_2023 GIS project
+crossings_vw <- sf::st_read(dsn = '/Users/lucyschick/Projects/gis/sern_peace_fwcp_2023/background_layers.gpkg',
+                       layer = 'bcfishpass.crossings_vw') |> 
+  sf::st_drop_geometry() |> 
+  dplyr::filter(stream_crossing_id %in% ids)
+
+
+fwa_streams <- fpr::fpr_db_query(query = glue::glue("
+  SELECT DISTINCT ON (linear_feature_id_20k)
+    linear_feature_id_20k,
+    watershed_code_50k,
+    blue_line_key_20k,
+    watershed_key_20k,
+    blue_line_key_50k,
+    watershed_key_50k,
+    match_type
+  FROM whse_basemapping.fwa_streams_20k_50k
+  WHERE linear_feature_id_20k IN ({glue::glue_collapse(glue::single_quote(crossings_vw$linear_feature_id), sep = ', ')})
+  ORDER BY linear_feature_id_20k, match_type
+"))
+
+wscodes <- crossings_vw |>
+  left_join(fwa_streams, by = c("linear_feature_id" = "linear_feature_id_20k")) |>
+  mutate(
+    watershed_code_50k_parsed = paste(
+      substring(watershed_code_50k, 1, 3),    # First 3 digits
+      substring(watershed_code_50k, 4, 9),   # Next 6 digits
+      substring(watershed_code_50k, 10, 14), # Next 5 digits
+      substring(watershed_code_50k, 15, 19), # Next 5 digits
+      substring(watershed_code_50k, 20, 24), # Next 5 digits
+      substring(watershed_code_50k, 25, 29), # Next 5 digits
+      substring(watershed_code_50k, 30, 34), # Next 5 digits
+      substring(watershed_code_50k, 35, 39), # Next 5 digits
+      substring(watershed_code_50k, 40, 44), # Next 5 digits
+      substring(watershed_code_50k, 45, 49), # Next 5 digits
+      sep = "-"
+    )
+  ) |>
+  select(
+    stream_crossing_id,
+    linear_feature_id,
+    watershed_group_code,
+    watershed_code_50k,
+    watershed_code_50k_parsed,
+    blue_line_key_20k,
+    watershed_key_20k,
+    blue_line_key_50k,
+    watershed_key_50k,
+    match_type
+  )
+
+##### END HACK #####
+
+
+
+wscodes <- fpr::fpr_db_query(
+  query = glue::glue("SELECT DISTINCT ON (stream_crossing_id)
+    a.stream_crossing_id,
+    a.linear_feature_id,
+    a.watershed_group_code,
+    b.watershed_code_50k,
+    substring(b.watershed_code_50k from 1 for 3)
+    || '-' || substring(b.watershed_code_50k from 4 for 6)
+    || '-' || substring(b.watershed_code_50k from 10 for 5)
+    || '-' || substring(b.watershed_code_50k from 15 for 5)
+    || '-' || substring(b.watershed_code_50k from 20 for 4)
+    || '-' || substring(b.watershed_code_50k from 24 for 4)
+    || '-' || substring(b.watershed_code_50k from 28 for 3)
+    || '-' || substring(b.watershed_code_50k from 31 for 3)
+    || '-' || substring(b.watershed_code_50k from 34 for 3)
+    || '-' || substring(b.watershed_code_50k from 37 for 3)
+    || '-' || substring(b.watershed_code_50k from 40 for 3)
+    || '-' || substring(b.watershed_code_50k from 43 for 3) AS watershed_code_50k_parsed,
+    b.blue_line_key_20k,
+    b.watershed_key_20k,
+    b.blue_line_key_50k,
+    b.watershed_key_50k,
+    b.match_type
+    FROM bcfishpass.crossings_vw a
+    LEFT OUTER JOIN whse_basemapping.fwa_streams_20k_50k b
+    ON a.linear_feature_id = b.linear_feature_id_20k
+    WHERE a.stream_crossing_id IN ({glue::glue_collapse(glue::single_quote(ids), sep = ', ')})
+    ORDER BY a.stream_crossing_id, b.match_type;"
+  ) 
+)
+```
+
+We need to QA the watershed codes using the `whse_fish.wdic_waterbody_route_line_svw` layer.  This layer has now been added the 2023 QGIS shared projects for Skeena and Peace. QAed and all are correct.
+
+Finally, lets join it to the form_fiss_site so we can copy/paste it into the spreadsheet all at once.
+
+```{r wsc-join}
+
+## join watershed codes to form_fiss_site
+form_fiss_site_prep2 <- dplyr::left_join(
+  form_fiss_site_prep1 |> 
+    dplyr::mutate(site_id = as.integer(site_id)),
+  
+  wscodes |> 
+    dplyr::select(stream_crossing_id, watershed_code_50k = watershed_code_50k_parsed, watershed_group_code),
+  
+  by = c('site_id' = 'stream_crossing_id')) |> 
+  
+  dplyr::mutate(waterbody_id = paste0('00000', watershed_group_code),
+                waterbody_type = 'stream')
+```
+
+
+## Prepare the data for copy paste to spreadsheet.
+
+```{r cp-prep}
+# see the names of our form
+names(form_fiss_site_prep2)
+
+# let's get the names of the input template
+# there is lots of work to do to pull out all the information we can use so we will start with one small step at a time
+# lets just populate the location and site info pages.
+form_raw_names_site <- fpr::fpr_import_hab_con(backup = F,
+  row_empty_remove = T) |> 
+  # pull out just the site info page for now
+  pluck(4) |> 
+  # only keep the names of the columns
+  names()
+
+# location names
+form_raw_names_location <- fpr::fpr_import_hab_con(backup = F,
+  row_empty_remove = T) |> 
+  # pull out just the site info page for now
+  pluck(1) |> 
+  # only keep the names of the columns
+  names()
+
+
+
+# we don't want duplicate column names because it messes with them (renames them both) so we need to get rid of dupes
+names_dup <- intersect(form_raw_names_site, form_raw_names_location)
+
+# join the names of our two target tables together without (!) the dupes
+form_raw_names_sl <- c(form_raw_names_location,
+                       form_raw_names_site[!form_raw_names_site %in% names_dup])
+
+
+# Rename the columns to match those in the spreadsheet
+form_site_info_prep <- form_fiss_site_prep2 |> 
+  sf::st_drop_geometry() |> 
+  # alias local name and gazetted_name is not called the same in both sheets so rename
+  dplyr::rename(alias_local_name = local_name,
+                gazetted_name = gazetted_names,
+                waterbody_id_identifier = waterbody_id,
+                watershed_code_45_digit = watershed_code_50k) |> 
+  dplyr::mutate(utm_method = "GPS General",
+                reference_number = dplyr::row_number()) |> 
+  dplyr::select(mergin_user,
+                date_time_start,
+                dplyr::contains('surveyor'),
+                dplyr::any_of(form_raw_names_sl))
+
+```
+
+
+## Filter and c/p the reference and location data
+
+Filter out the location data and burn to csv for copy paste into `step_1_ref_and_loc_info`
+
+```{r cp-ref-location}
+# make the reference and location form to c.p into `step_1_ref_and_loc_info`
+form_fiss_loc <- bind_rows(
+
+  # we need the raw form or we don't have all the right columns
+  fpr::fpr_import_hab_con(backup = F,
+                          row_empty_remove = T) |> 
+    # pull out just the site info page for now
+    purrr::pluck("step_1_ref_and_loc_info") |> 
+    dplyr::slice(0) |> 
+    dplyr::mutate(dplyr::across(dplyr::everything(), as.character)),
+      
+   form_site_info_prep |> 
+    dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) |> 
+    dplyr::select(dplyr::any_of(form_raw_names_location))) |> 
+  
+  dplyr::mutate(site_number = dplyr::row_number())
+
+
+# burn to file
+form_fiss_loc |> 
+  readr::write_csv(paste0(
+    'data/inputs_extracted/form_fiss_loc_tidy',
+    '.csv'),
+    na = '')
+
+# Now copy paste the date from the csv into `step_1_ref_and_loc_info`
+```
+
+
+## Filter and c/p stream site data
+
+Filter out the stream site data and burn to csv for copy paste into `step_4_stream_site_data`
+
+```{r cp-stream-site}
+# make the stream site form to c/p into `step_4_stream_site_data`
+form_fiss_site <- bind_rows(
+
+  # we need the raw form or we don't have all the right columns
+  fpr::fpr_import_hab_con(backup = F,
+    row_empty_remove = T) |> 
+    # pull out just the site info page for now
+    purrr::pluck("step_4_stream_site_data") |> 
+    dplyr::slice(0) |> 
+    dplyr:: mutate(dplyr::across(dplyr::everything(), as.character)),
+                   
+  form_site_info_prep |> 
+    dplyr:: mutate(dplyr::across(dplyr::everything(), as.character)) |>
+    # these column names differ slightly from those in `step_1_ref_and_loc_info`, so we update them so they are included in the csv for easier c/p.
+    dplyr::rename(local_name = alias_local_name,
+                gazetted_names = gazetted_name,
+                waterbody_id = waterbody_id_identifier) |> 
+    select(dplyr::any_of(form_raw_names_site),
+           # add the time to help put the puzzle together after)
+           survey_date)
+) |> 
+  select(everything())
+
+
+# burn to file
+form_fiss_site |> 
+  readr::write_csv(paste0(
+    'data/inputs_extracted/form_fiss_site_tidy',
+    '.csv'),
+    na = '')
+
+
+# Now copy paste the date from the csv into `step_4_stream_site_data`
+
+```
+
+Next populate step 3 in fish_data_tidy.R then populate step 2 in 0100-extract-inputs.R.
+
+
