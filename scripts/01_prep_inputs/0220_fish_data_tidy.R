@@ -218,4 +218,18 @@ fish_coll_data |>
   readr::write_csv(file = path_repo_fish_data_coll, na = '')
 
 
+##### This code does not have to do with reporting
+
+# search the fish data for species captured at the specific site
+
+# Onedrive path where to store the fish data with the pit tags joined.
+path_onedrive_tags_joined <-  fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/fish/fish_data_tags_joined.csv')
+
+fish_data_complete <- readr::read_csv(file = path_onedrive_tags_joined) |>
+  janitor::clean_names()
+
+species_caught <- fish_data_complete |>
+  dplyr::filter(stringr::str_like(local_name, "%58264_ds%")) |>
+  dplyr::distinct(species) |>
+  pull(species)
 
