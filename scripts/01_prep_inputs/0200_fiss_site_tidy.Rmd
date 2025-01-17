@@ -6,9 +6,9 @@ output:
     code_folding: "hide"
 params:
   repo_owner: "NewGraphEnvironment"
-  repo_name: "fish_passage_template_reporting"
-  gis_name: "sern_peace_fwcp_2023"
-  job_name: "2024-073-sern-peace-fish-passage"
+  repo_name: "fish_passage_skeena_2024_reporting"
+  gis_name: "sern_skeena_2023"
+  job_name: "2024-072-sern-skeena-fish-passage"
 editor_options: 
   chunk_output_type: console
 ---
@@ -23,112 +23,57 @@ options(knitr.kable.NAN = '--')
 
 # Purpose of this script
 
-This scripts is used to prepare fiss site data (phase 2) for submission to the province. 
+This scripts is used to backup the `form_fiss_site_2024.gpkg` file before QA in QGIS.
 
-This script is currently being used to clean the 2024 Peace `form_fiss_site_2024.gpkg` file.
-
-
-# Set up the parameters
-
-To set up the parameter, update the `gis_name` and the `repo_name` in the YAML at the beginning of this script. 
-Then update the year in the code below.
-
-```{r params}
-
-path_form_fiss_site <- fs::path('~/Projects/gis/sern_peace_fwcp_2023/data_field/2024/form_fiss_site_2024.gpkg')
-```
-
-
-
-# Clean the data in preparation for QA in QGIS 
+As of January 2025, we are now doing all pre-QA edits in QGIS instead of R, to reduce the amount of back and forth between Q and R. Most of the changes previously made in this script have been moved to `0210_fiss_export_to_template.Rmd`. 
 
 ## Fetch and backup the data
 
-The first step is to remove by-hand the first row in `form_fiss_site_2024.gpkg` because it is just a place holder. It has `stream_name` set to `Robert Hatch`
+Update the `gis_name` and the `repo_name` in the YAML at the beginning of this script. 
 
-Then we use `fpr_sp_gpkg_backup` to import and backup the data, as well as update the UTMS. We will also write the data to a csv and Rdata file and commit for version control using git.
+Name the project directory we are pulling from and import the data. We use `fpr_sp_gpkg_backup` to import and backup the data, as well as update the UTMS. We will also write the data to a csv and Rdata file and commit for version control using git. Commit these inital backup files with a message such as "initial commit - raw 2024 data".
+
+`update_site_id = TRUE` now checks for duplicate sites.
 
 ```{r import}
+path_form_fiss_site <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024.gpkg')
 
 form_fiss_site_raw <- fpr::fpr_sp_gpkg_backup(
   path_gpkg = path_form_fiss_site,
   dir_backup = "data/backup/",
   update_utm = TRUE,
-  update_site_id = FALSE,
+  update_site_id = FALSE, ## This now also checks for duplicates
   write_back_to_path = FALSE,
+  write_to_csv = TRUE,
+  write_to_rdata = TRUE,
   return_object = TRUE,
   col_easting = "utm_easting",
-  col_northing = "utm_northing"
-) 
+  col_northing = "utm_northing")
+  
 ```
 
 
 ## Identify duplicate sites
 
 Identify duplicate sites (that are not NAs) as we don't want to input two of the same. 
-If there are duplicates go back to QGIS and clean up in `form_fiss_site_2024`. Then read import using scripts above. 
+If there are duplicates go back to QGIS and clean up in `form_fiss_site_2024`.
 
-Peace 2024 - No duplicate sites found
+Skeena 2024 - No duplicate sites found
 
 ```{r duplicates}
 dups <- form_fiss_site_raw  |> 
-  filter(!is.na(local_name)) |> 
-  group_by(local_name) |> 
-  filter(n()>1)
+  dplyr::filter(!is.na(local_name)) |> 
+  dplyr::group_by(local_name) |> 
+  dplyr::filter(n()>1)
 ```
 
 
-## Clean up the form 
+## QA in QGIS
 
-```{r clean-form}
-# clean up the form
-form_fiss_site_cleaned <- form_fiss_site_raw |> 
-  # split the local_name into the site_id and the location
-  tidyr::separate(local_name, into = c('site_id', 'location'), remove = F, extra = "merge") |> 
-  # split out the date and the time - change type of column first
-  dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start),
-                date_time_start = lubridate::floor_date(date_time_start, unit = "second"),  # Remove microseconds
-                survey_date = lubridate::date(date_time_start),
-                time = hms::as_hms(date_time_start), 
-                # Fix some vocabulary. Change "trib" to long version "Tributary" etc.
-                gazetted_names = str_replace_all(gazetted_names, 'Trib ', 'Tributary '),
-                crew_members = toupper(crew_members),
-                # fill in text columns from spreadsheet that will likely never change
-                waterbody_type = 'stream',
-                method_for_utm = 'GPS general',
-                method_for_channel_width = 'metre tape',
-                method_for_wetted_width = 'metre tape',
-                method_for_residual_pool_depth = 'metre stick',
-                method_for_bankfull_depth = 'metre stick',
-                method_for_gradient = 'clinometer',
-                method_for_temperature = 'recording meter',
-                method_for_conductivity = 'recording meter',
-                method_for_p_h = 'pH meter (general)') |> 
-  # arrange by surveyor and date/time
-  dplyr::arrange(mergin_user, date_time_start) |> 
-  dplyr::mutate(comments = paste0(comments, time)) |> 
-  # ditch the time since we don't need anymore. Time was dropped on gpkg creation due to type conflict
-  select(-time) |>
-  # rearrange the columns for easier QA in QGIS.
-  dplyr::select(
-    date_time_start,
-    local_name,
-    gazetted_names,
-    crew_members,
-    comments,
-    everything()) |> 
-  arrange(date_time_start)
+The following should be done in QGIS:
 
-```
+- remove the site used to make the form (with `stream_name` set to `Robert Hatch`)
+- back up the original assessment comments so we can redo this amalgamation of text if we need to. Use the field calculator, select generate new field, name it `assessment_comment_og`, and select `assessment_comment` in the expression box. 
+- reorder the columns for easy QA in Q
 
 
-## Burn a cleaned copy to the QGIS project for QA
-
-```{r burn-form-fiss-site}
-# Burn cleaned copy to the QGIS project
-form_fiss_site_cleaned |> 
-  sf::st_write(path_form_fiss_site, append=FALSE, delete_dsn = T)
-```
-
-Now open QGIS and re-add the `form_fiss_site_2024` layer. Check to see the form is updated with the changes made here. Copy/paste all
-`styles` from the old layer to the new layer you just added.  Lastly, you can delete the old layer and start QAing `form_fiss_site_2024.` 

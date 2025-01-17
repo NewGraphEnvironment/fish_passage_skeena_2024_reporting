@@ -45,6 +45,54 @@ form_fiss_site <- fpr::fpr_sp_gpkg_backup(
 ) 
 ```
 
+## Clean up the form 
+
+MOVED FROM 0200_fiss_site_tidy.Rmd. NEED TO UPDATE
+
+add crew_members = toupper(crew_members)) |>
+
+```{r clean-form}
+# clean up the form
+form_fiss_site_cleaned <- form_fiss_site_raw |> 
+  # split the local_name into the site_id and the location
+  tidyr::separate(local_name, into = c('site_id', 'location'), remove = F, extra = "merge") |> 
+  # split out the date and the time - change type of column first
+  dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start),
+                date_time_start = lubridate::floor_date(date_time_start, unit = "second"),  # Remove microseconds
+                survey_date = lubridate::date(date_time_start),
+                time = hms::as_hms(date_time_start), 
+                # Fix some vocabulary. Change "trib" to long version "Tributary" etc.
+                gazetted_names = str_replace_all(gazetted_names, 'Trib ', 'Tributary '),
+                crew_members = toupper(crew_members),
+                # fill in text columns from spreadsheet that will likely never change
+                waterbody_type = 'stream',
+                method_for_utm = 'GPS general',
+                method_for_channel_width = 'metre tape',
+                method_for_wetted_width = 'metre tape',
+                method_for_residual_pool_depth = 'metre stick',
+                method_for_bankfull_depth = 'metre stick',
+                method_for_gradient = 'clinometer',
+                method_for_temperature = 'recording meter',
+                method_for_conductivity = 'recording meter',
+                method_for_p_h = 'pH meter (general)') |> 
+  # arrange by surveyor and date/time
+  dplyr::arrange(mergin_user, date_time_start) |> 
+  dplyr::mutate(comments = paste0(comments, time)) |> 
+  # ditch the time since we don't need anymore. Time was dropped on gpkg creation due to type conflict
+  select(-time) |>
+  # rearrange the columns for easier QA in QGIS.
+  dplyr::select(
+    date_time_start,
+    local_name,
+    gazetted_names,
+    crew_members,
+    comments,
+    everything()) |> 
+  arrange(date_time_start)
+
+```
+
+
 
 ## Fix the timezone
 
