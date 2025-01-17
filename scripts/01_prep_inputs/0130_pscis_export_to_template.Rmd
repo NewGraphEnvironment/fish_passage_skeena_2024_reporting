@@ -103,6 +103,10 @@ Do some final cleaning and prepare the data for easy copy paste into the spreads
 - fix some vocabulary
 - add in the pscis assessment phase
 
+TO ADD:
+- change crossing type to other if subtype is ford 
+- fill in resemble channel to no if not yes. This is required when in the spreadsheet. ugh.
+
 ```{r clean-prep}
 
 ## prep for cut and paste to csvs by subsetting columns to those in spreadsheet
