@@ -574,286 +574,200 @@ hab_priority_fish_hg <- left_join(
 
 # fish summary ------------------------------------------------------------
 
-# we need to summarize all our fish sizes
-
-## fish collection data ----------------------------------------------------
-habitat_confirmations <- fpr::fpr_import_hab_con(row_empty_remove = T)
+## Leaving this code here for now but lots of this code has been updated and moved to `fish_data_tidy.R` and now does not
+## rely (as much) on the spreadsheet. Double check it is no longer needed and then delete.
 
 
-hab_fish_indiv_prep <- habitat_confirmations |>
-  purrr::pluck("step_3_individual_fish_data") |>
-  dplyr::filter(!is.na(site_number)) |>
-  select(-gazetted_names:-site_number)
-
-hab_loc <- habitat_confirmations |>
-  purrr::pluck("step_1_ref_and_loc_info") |>
-  dplyr::filter(!is.na(site_number))|>
-  mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date)))
-
-
-##add the species code
-hab_fish_codes <- fishbc::freshwaterfish |>
-  select(species_code = Code, common_name = CommonName) |>
-  tibble::add_row(species_code = 'NFC', common_name = 'No Fish Caught') |>
-  mutate(common_name = case_when(common_name == 'Cutthroat Trout' ~ 'Cutthroat Trout (General)', T ~ common_name))
-
-hab_fish_indiv_prep2 <- left_join(
-  hab_fish_indiv_prep,
-  hab_loc,
-  by = 'reference_number'
-) |> mutate(
-  species = case_when(species == 'Fish Unidentified Species' ~ 'Unidentified Species',
-           T ~ species))
-
-
-hab_fish_indiv_prep3 <- left_join(
-  hab_fish_indiv_prep2,
-  select(hab_fish_codes, common_name:species_code),
-  by = c('species' = 'common_name')
-) |>
-  dplyr::select(reference_number,
-                alias_local_name,
-                site_number,
-                sampling_method,
-                method_number,
-                haul_number_pass_number,
-                species_code,
-                length_mm,
-                weight_g) ##added method #
-
-
-##we need the size of the sites too
-
-####workflow is a bit weird because we need to input NFC sites and the size of the sites
-##or else we don't know about them in the summary.
-hab_fish_collect_prep <- habitat_confirmations |>
-  purrr::pluck("step_2_fish_coll_data") |>
-  dplyr::filter(!is.na(site_number)) |>
-  # select(-gazetted_name:-site_number) |>
-  dplyr::distinct(reference_number, method_number, haul_number_pass_number, .keep_all = T) |>
-  # distinct(reference_number, .keep_all = T) |>
-  arrange(reference_number) |>
-  mutate(across(c(date_in,date_out), janitor::excel_numeric_to_date)) |>
-  mutate(across(c(time_in,time_out), chron::times))
-# hab_fish_collect_prep_mt <- habitat_confirmations |>
+# # we need to summarize all our fish sizes
+#
+# ## fish collection data ----------------------------------------------------
+# habitat_confirmations <- fpr::fpr_import_hab_con(row_empty_remove = T)
+#
+#
+# hab_fish_indiv_prep <- habitat_confirmations |>
+#   purrr::pluck("step_3_individual_fish_data") |>
+#   dplyr::filter(!is.na(site_number)) |>
+#   select(-gazetted_names:-site_number)
+#
+# hab_loc <- habitat_confirmations |>
+#   purrr::pluck("step_1_ref_and_loc_info") |>
+#   dplyr::filter(!is.na(site_number))|>
+#   mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date)))
+#
+#
+# ##add the species code
+# hab_fish_codes <- fishbc::freshwaterfish |>
+#   select(species_code = Code, common_name = CommonName) |>
+#   tibble::add_row(species_code = 'NFC', common_name = 'No Fish Caught') |>
+#   mutate(common_name = case_when(common_name == 'Cutthroat Trout' ~ 'Cutthroat Trout (General)', T ~ common_name))
+#
+# hab_fish_indiv_prep2 <- left_join(
+#   hab_fish_indiv_prep,
+#   hab_loc,
+#   by = 'reference_number'
+# ) |> mutate(
+#   species = case_when(species == 'Fish Unidentified Species' ~ 'Unidentified Species',
+#            T ~ species))
+#
+#
+# hab_fish_indiv_prep3 <- left_join(
+#   hab_fish_indiv_prep2,
+#   select(hab_fish_codes, common_name:species_code),
+#   by = c('species' = 'common_name')
+# ) |>
+#   dplyr::select(reference_number,
+#                 alias_local_name,
+#                 site_number,
+#                 sampling_method,
+#                 method_number,
+#                 haul_number_pass_number,
+#                 species_code,
+#                 length_mm,
+#                 weight_g) ##added method #
+#
+#
+# ##we need the size of the sites too
+#
+# ####workflow is a bit weird because we need to input NFC sites and the size of the sites
+# ##or else we don't know about them in the summary.
+# hab_fish_collect_prep <- habitat_confirmations |>
 #   purrr::pluck("step_2_fish_coll_data") |>
 #   dplyr::filter(!is.na(site_number)) |>
-#   tidyr::separate(local_name, into = c('site', 'location', 'ef'), remove = F) |>
-#   mutate(site_id = paste0(site, location)) |>
-#   distinct(local_name, sampling_method, method_number, .keep_all = T) |> ##changed this to make it work as a feed for the extract-fish.R file
+#   # select(-gazetted_name:-site_number) |>
+#   dplyr::distinct(reference_number, method_number, haul_number_pass_number, .keep_all = T) |>
+#   # distinct(reference_number, .keep_all = T) |>
+#   arrange(reference_number) |>
 #   mutate(across(c(date_in,date_out), janitor::excel_numeric_to_date)) |>
 #   mutate(across(c(time_in,time_out), chron::times))
-
-##we use this to test things out
-# hab_fish_indiv <- left_join(
-#   select(hab_fish_collect_prep_mt |> filter(reference_number == 36),
-#          reference_number,
-#          local_name,
-#          site_number:model, date_in:time_out ##added date_in:time_out
-#   ),
-#   select(hab_fish_indiv_prep3 |> filter(reference_number == 36),
+# # hab_fish_collect_prep_mt <- habitat_confirmations |>
+# #   purrr::pluck("step_2_fish_coll_data") |>
+# #   dplyr::filter(!is.na(site_number)) |>
+# #   tidyr::separate(local_name, into = c('site', 'location', 'ef'), remove = F) |>
+# #   mutate(site_id = paste0(site, location)) |>
+# #   distinct(local_name, sampling_method, method_number, .keep_all = T) |> ##changed this to make it work as a feed for the extract-fish.R file
+# #   mutate(across(c(date_in,date_out), janitor::excel_numeric_to_date)) |>
+# #   mutate(across(c(time_in,time_out), chron::times))
+#
+# ##we use this to test things out
+# # hab_fish_indiv <- left_join(
+# #   select(hab_fish_collect_prep_mt |> filter(reference_number == 36),
+# #          reference_number,
+# #          local_name,
+# #          site_number:model, date_in:time_out ##added date_in:time_out
+# #   ),
+# #   select(hab_fish_indiv_prep3 |> filter(reference_number == 36),
+# #          reference_number,
+# #          sampling_method,
+# #          method_number, ##added method #
+# #          # alias_local_name,
+# #          species_code, length_mm),
+# #   by = c('reference_number', 'sampling_method', 'method_number') #added method # and haul
+# # )
+#
+# # test to see if there are any missing lengths
+# hab_fish_indiv_prep3 |>
+#   filter(is.na(length_mm))
+#
+# # join the indiv fish data to existing site info
+# hab_fish_indiv <- full_join(
+#   select(hab_fish_indiv_prep3,
 #          reference_number,
 #          sampling_method,
-#          method_number, ##added method #
-#          # alias_local_name,
-#          species_code, length_mm),
-#   by = c('reference_number', 'sampling_method', 'method_number') #added method # and haul
-# )
-
-# test to see if there are any missing lengths
-hab_fish_indiv_prep3 |>
-  filter(is.na(length_mm))
-
-# join the indiv fish data to existing site info
-hab_fish_indiv <- full_join(
-  select(hab_fish_indiv_prep3,
-         reference_number,
-         sampling_method,
-         method_number,
-         haul_number_pass_number,
-         species_code,
-         length_mm,
-         weight_g),
-  select(hab_fish_collect_prep,
-         reference_number,
-         local_name,
-         temperature_c:model,
-         date_in:time_out, ##added date_in:time_out because we did minnow traps
-         comments
-  ),
-  by = c(
-    "reference_number",
-    # 'alias_local_name' = 'local_name',
-    "sampling_method",
-    "method_number",
-    "haul_number_pass_number")
-) |>
-  mutate(species_code = as.character(species_code)) |>
-  mutate(species_code = case_when(
-    is.na(species_code) ~ 'NFC',
-    T ~ species_code)
-  ) |>
-  mutate(species_code = as.factor(species_code)) |>
-  mutate(life_stage = case_when(  ##this section comes from the histogram below - we include here so we don't need to remake the df
-    length_mm <= 65 ~ 'fry',
-    length_mm > 65 & length_mm <= 110 ~ 'parr',
-    length_mm > 110 & length_mm <= 140 ~ 'juvenile',
-    length_mm > 140 ~ 'adult',
-    T ~ NA_character_
-    )
-  # life_stage = case_when(
-  #   species_code %in% c('L', 'SU', 'LSU') ~ NA_character_,
-  #   T ~ life_stage),
-  # comments = case_when(
-  #   species_code %in% c('L', 'SU', 'LSU') & !is.na(comments) ~
-  #     paste0(comments, 'Not salmonids so no life stage specified.'),
-  #   species_code %in% c('L', 'SU', 'LSU') & is.na(comments) ~
-  #     'Not salmonids so no life stage specified.',
-  #   T ~ comments)
-  )|>
-  mutate(life_stage = fct_relevel(life_stage,
-                                  'fry',
-                                  'parr',
-                                  'juvenile',
-                                  'adult')) |>
-  tidyr::separate(local_name, into = c('site', 'location', 'ef'), remove = F) |>
-  mutate(site_id = paste0(site, '_', location))
+#          method_number,
+#          haul_number_pass_number,
+#          species_code,
+#          length_mm,
+#          weight_g),
+#   select(hab_fish_collect_prep,
+#          reference_number,
+#          local_name,
+#          temperature_c:model,
+#          date_in:time_out, ##added date_in:time_out because we did minnow traps
+#          comments
+#   ),
+#   by = c(
+#     "reference_number",
+#     # 'alias_local_name' = 'local_name',
+#     "sampling_method",
+#     "method_number",
+#     "haul_number_pass_number")
+# ) |>
+#   mutate(species_code = as.character(species_code)) |>
+#   mutate(species_code = case_when(
+#     is.na(species_code) ~ 'NFC',
+#     T ~ species_code)
+#   ) |>
+#   mutate(species_code = as.factor(species_code)) |>
+#   mutate(life_stage = case_when(  ##this section comes from the histogram below - we include here so we don't need to remake the df
+#     length_mm <= 65 ~ 'fry',
+#     length_mm > 65 & length_mm <= 110 ~ 'parr',
+#     length_mm > 110 & length_mm <= 140 ~ 'juvenile',
+#     length_mm > 140 ~ 'adult',
+#     T ~ NA_character_
+#     )
+#   # life_stage = case_when(
+#   #   species_code %in% c('L', 'SU', 'LSU') ~ NA_character_,
+#   #   T ~ life_stage),
+#   # comments = case_when(
+#   #   species_code %in% c('L', 'SU', 'LSU') & !is.na(comments) ~
+#   #     paste0(comments, 'Not salmonids so no life stage specified.'),
+#   #   species_code %in% c('L', 'SU', 'LSU') & is.na(comments) ~
+#   #     'Not salmonids so no life stage specified.',
+#   #   T ~ comments)
+#   )|>
+#   mutate(life_stage = fct_relevel(life_stage,
+#                                   'fry',
+#                                   'parr',
+#                                   'juvenile',
+#                                   'adult')) |>
+#   tidyr::separate(local_name, into = c('site', 'location', 'ef'), remove = F) |>
+#   mutate(site_id = paste0(site, '_', location))
 
 
 
-###------from duncan_fish_plots_20200210
-
-####----------fish length-----------
-# filter(species_code == "CO")
-# fish_eb <-  hab_fish_indiv |> filter(species_code != "EB")
-
-bin_1 <- floor(min(hab_fish_indiv$length_mm, na.rm = TRUE)/5)*5
-bin_n <- ceiling(max(hab_fish_indiv$length_mm, na.rm = TRUE)/5)*5
-bins <- seq(bin_1,bin_n, by = 5)
-
-plot_fish_hist <- ggplot(hab_fish_indiv |> filter(!species_code %in% c('LSU','SU','NFC')), #!species_code %in% c('LSU','SU','NFC')
-                         aes(x=length_mm
-                             # fill=alias_local_name
-                             # color = alias_local_name
-                         )) +
-  geom_histogram(breaks = bins, alpha=0.75,
-                 position="identity", size = 0.75)+
-  labs(x = "Fork Length (mm)", y = "Count (#)") +
-  facet_wrap(~species_code)+
-  # scale_color_grey() +
-  # scale_fill_grey() +
-  ggdark::dark_theme_bw(base_size = 8)+
-  # theme_bw(base_size = 8)+
-  scale_x_continuous(breaks = bins[seq(1, length(bins), by = 2)])+
-  # scale_color_manual(values=c("grey90", "grey60", "grey30", "grey0"))+
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-# geom_histogram(aes(y=..density..), breaks = bins, alpha=1,
-#                position="identity", size = 0.75)
-plot_fish_hist
-
-# ggsave(plot = plot_fish_hist, file="./fig/fish_histogram.png",
-#        h=3.4, w=5.11, units="in", dpi=300)
-
-
-####-----------summary tables for input to spreadsheet----------------------
-dir_gis <- 'sern_skeena_2023'
-year <-  "2023"
-
-hab_fish_input_prep <- hab_fish_indiv |>
-  group_by(across(-contains(c('length_mm', 'weight_g')))) |>
-  # group_by(reference_number:model, species_code, life_stage) |>
-  summarise(min = min(length_mm),
-            max = max(length_mm),
-            n = length(length_mm))
-# janitor::adorn_totals()
-
-
-##need to add the species name
-hab_fish_input_prep2 <- left_join(
-  hab_fish_input_prep,
-  select(hab_fish_codes, common_name, species_code),
-  by = 'species_code'
-) |>
-  ungroup() |>
-
-  mutate(total_number = case_when(
-    common_name == 'No Fish Caught' ~ NA_integer_,
-    T ~ n
-  )) |>
-  mutate(age = '') |>
-  select(reference_number,
-         site,
-         sampling_method:haul_number_pass_number,
-         ef_seconds:model,
-         date_in:time_out,
-         species = common_name,
-         stage = life_stage,
-         age,
-         total_number = n,
-         min,
-         max,
-         # a hack to get number of columns right
-         fish_activity = age,
-         comments) |>
-  mutate(total_number = case_when(
-    species == 'No Fish Caught' ~ NA_integer_,
-    T ~ total_number
-  )) #ths was commented out because it was changing the character types of columns
-  #janitor::adorn_totals()   ##use this to ensure you have the same number of fish in the summary as the individual fish sheet
-
-
-## Read in form_fiss to get the following fields: Temp, conductivity, turbidity, and site length.
-form_fiss_site_raw <- sf::st_read(dsn= paste0('../../gis/', dir_gis, '/data_field/2023/form_fiss_site_', year, '.gpkg')) |>
-  st_drop_geometry()
-
-
-## Read in step_4_stream_site_data to get the average wetted width which is the site width
-hab_site_dat_raw <- habitat_confirmations |>
-  purrr::pluck("step_4_stream_site_data") |>
-  dplyr::filter(!is.na(site_number))
-
-
-## Join columns together so we can add them to the fish data (hab_fish_input_prep2)
-hab_site_dat <- left_join(form_fiss_site_raw |>
-                            select(local_name, temperature_c, conductivity_m_s_cm, turbidity, site_length),
-                          hab_site_dat_raw |>
-                            select(reference_number, local_name, avg_wetted_width_m) |>
-                            mutate(avg_wetted_width_m = round(avg_wetted_width_m, digits = 2)),
-                          by = 'local_name')
-
-## Join the fish data with the site data
-hab_fish_input <- left_join(hab_fish_input_prep2,
-                            hab_site_dat,
-                            by = 'reference_number') |>
-  # Order like template
-  relocate(temperature_c, conductivity_m_s_cm, turbidity, .after = site) |>
-  relocate(local_name, .after = reference_number) |>
-  # Rename columns
-  mutate(ef_length_m = site_length,
-         ef_width_m = avg_wetted_width_m) |>
-  # Now we can remove these columns
-  select(-site_length, -avg_wetted_width_m) |>
-  # Add in make and model of ef
-  mutate(model = case_when(local_name %like% 'ef' ~ 'halltech HT2000'),
-         make = case_when(local_name %like% 'ef' ~ 'other'),
-         method_number = "1")
-
-## Burn to a csv so you can cut and paste into your fish submission
-## The following fields need to be added by hand from the fish cards: sampling_method, ef_seconds, enclosure, voltage, frequency
-hab_fish_input |>
-  readr::write_csv(file = paste0('data/inputs_extracted/hab_con_fish_summary.csv'),
-                   na = "")
-
-
-# this will be joined to the abundance estimates and the confidence intervals
-tab_fish_summary <- hab_fish_indiv |>
-  group_by(site_id,
-           ef,
-           sampling_method,
-           # haul_number_pass_number,
-           species_code) |> ##added sampling method!
-  summarise(count_fish = n()) |>
-  arrange(site_id, species_code, ef)
+# ###------from duncan_fish_plots_20200210
+#
+# ####----------fish length-----------
+# # filter(species_code == "CO")
+# # fish_eb <-  hab_fish_indiv |> filter(species_code != "EB")
+#
+# bin_1 <- floor(min(hab_fish_indiv$length_mm, na.rm = TRUE)/5)*5
+# bin_n <- ceiling(max(hab_fish_indiv$length_mm, na.rm = TRUE)/5)*5
+# bins <- seq(bin_1,bin_n, by = 5)
+#
+# plot_fish_hist <- ggplot(hab_fish_indiv |> filter(!species_code %in% c('LSU','SU','NFC')), #!species_code %in% c('LSU','SU','NFC')
+#                          aes(x=length_mm
+#                              # fill=alias_local_name
+#                              # color = alias_local_name
+#                          )) +
+#   geom_histogram(breaks = bins, alpha=0.75,
+#                  position="identity", size = 0.75)+
+#   labs(x = "Fork Length (mm)", y = "Count (#)") +
+#   facet_wrap(~species_code)+
+#   # scale_color_grey() +
+#   # scale_fill_grey() +
+#   ggdark::dark_theme_bw(base_size = 8)+
+#   # theme_bw(base_size = 8)+
+#   scale_x_continuous(breaks = bins[seq(1, length(bins), by = 2)])+
+#   # scale_color_manual(values=c("grey90", "grey60", "grey30", "grey0"))+
+#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+# # geom_histogram(aes(y=..density..), breaks = bins, alpha=1,
+# #                position="identity", size = 0.75)
+# plot_fish_hist
+#
+# # ggsave(plot = plot_fish_hist, file="./fig/fish_histogram.png",
+# #        h=3.4, w=5.11, units="in", dpi=300)
+#
+#
+# # this will be joined to the abundance estimates and the confidence intervals
+# tab_fish_summary <- hab_fish_indiv |>
+#   group_by(site_id,
+#            ef,
+#            sampling_method,
+#            # haul_number_pass_number,
+#            species_code) |> ##added sampling method!
+#   summarise(count_fish = n()) |>
+#   arrange(site_id, species_code, ef)
 
 
 ######----------------depletion estimates--------------------------
