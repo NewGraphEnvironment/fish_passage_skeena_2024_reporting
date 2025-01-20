@@ -6,7 +6,7 @@
 source("scripts/02_reporting/0165-read-sqlite.R")
 
 # `tables.R`read in the `pscis_all_sf` object
-source("scripts/tables.R")
+source('scripts/02_reporting/new_tables.R')
 
 
 ## Filter the bcfishpass data to just the phase 2 sites -------------------------------------------------
