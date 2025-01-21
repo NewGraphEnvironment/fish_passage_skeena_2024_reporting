@@ -35,11 +35,6 @@ pscis_all_prep <- pscis_list %>%
 
 
 
-# WHY DO WE NEED THIS, BECAUSE:
-# bcfishpass modelling table setup for reporting
-# the one we have in fpr is for salmon so have left the hard coded build of this further down in the script
-# xref_bcfishpass_names <- fpr::fpr_xref_crossings
-
 
 # WHY DO WE NEED THIS, BECAUSE:
 # It looked like this object is used in multiple other parts of this script.

@@ -89,12 +89,23 @@ hab_site <- purrr::reduce(
 )
 
 
+## bcfishpass modelling table setup for reporting -------------------------------------------------
+
+# WHY DO WE NEED THIS, BECAUSE:
+# We need it to cross reference the name of the columns in bcfishpass with the column names we use in the reports
+
+# bcfishpass modelling table setup for reporting
+xref_bcfishpass_names <- fpr::fpr_xref_crossings
+
+
 
 ## Build a spacial file of all the PSCIS crossings? -------------------------------------------------
 
 # WHY DO WE NEED THIS, BECAUSE:
 # The `pscis_all_sf` object is used in `0170-load-wshd_stats.R` to add the site elevations to the wshds object,
 # which is used in the memos and is also burned to a geopackage, kml, and the sqlite.
+
+## could we just read in the `form_pscis_2024.gpkg` instead?
 
 
 pscis_all_sf_prep <- pscis_all |>
