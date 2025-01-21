@@ -2,7 +2,7 @@
 
 
 ```{r set-up}
-fish_col_permit_num <- "PG23-813101"
+fish_col_permit_num <- "SM24-882238"
 
 ```
 
@@ -124,7 +124,7 @@ To obtain estimates of channel width upstream of crossing locations, where avail
 ```{r tab-fish-spawning-rearing, eval=TRUE}
 #`r if(identical(gitbook_on, FALSE)){knitr::asis_output("<br><br><br>")}`
 
-species <- c('BT','GR')
+species <- c('CH', 'CM', 'CO', 'PK', 'SK', 'ST')
 
 text_footnote <- ""
   #"Models for RB, GR and KO are under a process of development and have not yet been released.  All models parameters are preliminary and subject to collaborative development."
