@@ -195,7 +195,7 @@ sfpr_structure_size_type(pscis_reassessments)
 
 
 
-## Copy paste structure ,size, type data into spreadsheet
+## Copy paste replacement structure ,size, and type data into spreadsheet
 
 Finally, copy/paste the structure, size, type data into the appropriate spreadsheet as follows:
 

@@ -18,7 +18,7 @@ bcfishpass_spawn_rear_model <- readwritesqlite::rws_read_table("bcfishpass_spawn
 
 # Cross reference table for the `stream_crossing_id` and the `external_crossing_reference` which is the crossing id we assigned it.??
 # Empty until data submission is accepted
-# xref_pscis_my_crossing_modelled <- readwritesqlite::rws_read_table("xref_pscis_my_crossing_modelled", conn = conn)
+xref_pscis_my_crossing_modelled <- readwritesqlite::rws_read_table("xref_pscis_my_crossing_modelled", conn = conn)
 
 
 ## Do we still use this objects? Try to clean up as you go Lucy

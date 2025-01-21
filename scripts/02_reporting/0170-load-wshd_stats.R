@@ -5,8 +5,18 @@
 # 0165-read-sqlite.R` reads in the `bcfishpass` object
 source("scripts/02_reporting/0165-read-sqlite.R")
 
-# `tables.R`read in the `pscis_all_sf` object
-source('scripts/02_reporting/new_tables.R')
+# read in `form_pscis_2024` to extract the site elevations
+path_form_pscis <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_pscis_2024.gpkg')
+
+form_pscis <- fpr::fpr_sp_gpkg_backup(
+  path_gpkg = path_form_pscis,
+  dir_backup = "data/backup/",
+  update_utm = TRUE,
+  update_site_id = TRUE, ## This now also checks for duplicates
+  write_back_to_path = FALSE,
+  write_to_csv = TRUE,
+  write_to_rdata = TRUE,
+  return_object = TRUE)
 
 
 ## Filter the bcfishpass data to just the phase 2 sites -------------------------------------------------
@@ -27,8 +37,6 @@ bcfishpass_phase2 <- bcfishpass |>
     ) | modelled_crossing_id == "1800143"
   )
 
-
-#NOTE!!!! - we don't actually need everything from the tables script  the pscis_all_sf objects.
 
 ## Remove crossings on first order streams -------------------------------------------------
 # we needed to remove crossings that are first order because the fwapgr api kicks us off
@@ -139,11 +147,18 @@ wshds_raw <- fpr::fpr_sp_wshd_stats(dat = wshds_fwapgr) |>
   dplyr::arrange(stream_crossing_id)
 
 
-## Skeena 2024- not run yet because pscis data has not been accepted yet which is needed for `pscis_all_sf` object.
-## Tried to work around this but no luck and taking too much time, so just renamed `wshds <- wshds_raw` and moved on.
-# wshds <-wshds_raw
 
-# add in the elevation of the site
+## Add the site elevations -------------------------------------------------
+
+# This should eventually get done in `0130_pscis_export_to_template.Rmd`, see issue  https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/56
+# extract the site elevations
+pscis_all_sf <- form_pscis |>
+  dplyr::group_split(source) |>
+  purrr::map(sfpr_get_elev) |>
+  dplyr::bind_rows()
+
+
+# add in the site elevations to the watershed stats
 wshds <-  dplyr::left_join(
   wshds_raw |> dplyr::mutate(stream_crossing_id = as.numeric(stream_crossing_id)),
 
