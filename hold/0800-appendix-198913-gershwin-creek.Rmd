@@ -122,19 +122,38 @@ fpr::fpr_table_cv_summary_memo(site = my_site2)
 ##this is useful to get some comments for the report
 hab_site %>% filter(site == my_site & location == 'ds') %>% pull(comments)
 hab_site %>% filter(site == my_site & location == 'us') %>% pull(comments)
+hab_site %>% filter(site == my_site2 & location == 'us') %>% pull(comments)
 
 ```
 
+FOR THE FOLLOWING SECTIONS TO RUN WE NEED:
+- `habitat_confirmations_priorities.csv` build in `new_tables.R` which is used by `fpr_my_survey_dist()` and `fpr_my_priority_info()`
 
-## Stream Characteristics Downstream of `r as.character(my_site)` {.unnumbered}
+## Stream Characteristics Downstream of Crossing `r as.character(my_site)` {.unnumbered}
 
-`r fpr_my_survey_dist(loc = 'ds')`. `r fpr_my_habitat_paragraph(loc = 'ds')` The stream was noted as having good flow and containing pockets of gravel suitable for spawning `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198913-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-198913-d01))."))` Deep pools were infrequent and the morphology was step-pool cobble. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds') %>% stringr::str_to_lower()` value suitable for salmonid rearing and spawning. 
+`r fpr_my_survey_dist(loc = 'ds')`. The stream contained numerous boulders forming step pools; however, high flows at the time of assessment limited the availability of pools suitable for fish. The first pool suitable for overwintering fish, with adequately reduced flow, was located approximately 250 m downstream of the culvert. There were occasional gravels suitable for spawning and frequent large woody debris, which contributed to the formation of additional steps. `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198916-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-198916-d01))."))` `r fpr_my_habitat_paragraph(loc = 'ds')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds') %>% stringr::str_to_lower()` value suitable for salmonid rearing and spawning. 
 
 <br>
-NEED TO UPDATE
-## Stream Characteristics Upstream {.unnumbered}
 
-`r fpr_my_survey_dist(loc = 'us')` to a point where gradients increased to 20% `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198913-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-198913-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us')` There was good flow volume in the area surveyed and step-pool cascades (<1m high) created by large woody debris present throughout and pockets of gravel present suitable for spawning. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` value with moderate rearing potential for dolly varden.
+## Stream Characteristics Upstream of Crossing `r as.character(my_site)` and Downstream of Crossing `r as.character(my_site2)` {.unnumbered}
+
+`r fpr_my_survey_dist(loc = 'us')` 
+
+The stream was surveyed from the railway crossing (`r as.character(my_site)`) upstream to the Highway 16 crossing (`r as.character(my_site2)`), a distance of approximately 900 m `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198916-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-198916-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us')`. A large woody debris jam was observed approximately 250 m upstream of the railway crossing, creating a 17% gradient over a 9 m section due to a fallen tree. The stream maintained good flow through this steeper section, supported by a healthy, mature mixed riparian forest that stabilized the banks. `r fpr_my_habitat_paragraph(loc = 'us')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` value and contained occasional pockets of gravels suitable for spawning by coho salmon, Dolly Varden, and cutthroat trout.
+
+<br>
+
+## Stream Characteristics Upstream of Crossing `r as.character(my_site2)` {.unnumbered}
+
+`r fpr_my_survey_dist(sit = my_site2, loc = 'us')`. 
+
+ `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198913-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-198913-d01))."))` 
+ 
+ `r fpr_my_habitat_paragraph(sit = my_site2, loc = 'us')` 
+ 
+ The habitat was rated as `r fpr::fpr_my_priority_info(sit = my_site2, loc = 'us') %>% stringr::str_to_lower()` 
+
+The stream has frequent pools suitable for overwintering fish, with spawning gravels present despite a significant amount of fines. In the ~200 m section just upstream of the crossing, the stream maintains a low gradient and flows through agricultural fields. Large cottonwoods providing sufficient riparian cover were observed throughout the 600 m survey area. Approximately 250 m upstream of the highway crossing, a landowner-constructed bridge with two culverts is present. Two logjams, each approximately 1 m in height, were observed but remain passable for fish.
 
 <br>
 
