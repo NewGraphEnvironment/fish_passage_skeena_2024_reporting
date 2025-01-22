@@ -41,19 +41,11 @@ form_fiss_site <- fpr::fpr_sp_gpkg_backup(
 
 ## Clean up the form 
 
-MOVED FROM 0200_fiss_site_tidy.Rmd. NEED TO UPDATE
-
-add crew_members = toupper(crew_members)) |>
-
 ```{r clean-form}
 # clean up the form
 form_fiss_site_cleaned <- form_fiss_site |> 
-  # split the local_name into the site_id and the location
-  tidyr::separate_wider_delim(local_name,
-                              delim = "_",
-                              names = c('site_id', 'location', 'ef'),
-                              too_few = "align_start",
-                              cols_remove = FALSE) |> 
+  # split the local_name into the site, location, and ef
+  tidyr::separate(local_name, into = c("site", "location", "ef"), remove = FALSE) |> 
   # split out the date and the time - change type of column first
   dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start),
                 date_time_start = lubridate::floor_date(date_time_start, unit = "second"),  # Remove microseconds
@@ -118,8 +110,8 @@ and converts them back to 1:20,000 (pers. comm. Dave McEwan - Fisheries Standard
 ```{r get-wsc}
 
 ids <- form_fiss_site_prep1 |> 
-  dplyr::distinct(site_id) |> 
-  dplyr::pull(site_id)
+  dplyr::distinct(site) |> 
+  dplyr::pull(site)
 
 
 wscodes <- fpr::fpr_db_query(
@@ -225,12 +217,12 @@ Finally, lets join it to the form_fiss_site so we can copy/paste it into the spr
 ## join watershed codes to form_fiss_site
 form_fiss_site_prep2 <- dplyr::left_join(
   form_fiss_site_prep1 |> 
-    dplyr::mutate(site_id = as.integer(site_id)),
+    dplyr::mutate(site = as.integer(site)),
   
   wscodes |> 
     dplyr::select(stream_crossing_id, watershed_code_50k = watershed_code_50k_parsed, watershed_group_code),
   
-  by = c('site_id' = 'stream_crossing_id')) |> 
+  by = c('site' = 'stream_crossing_id')) |> 
   
   dplyr::mutate(waterbody_id = paste0('00000', watershed_group_code),
                 waterbody_type = 'stream')

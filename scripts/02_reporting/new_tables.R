@@ -31,21 +31,17 @@ pscis_all <- left_join(
   pscis_all_prep,
   xref_pscis_my_crossing_modelled,
   by = c('my_crossing_reference' = 'external_crossing_reference')
-) %>%
+) |>
   mutate(pscis_crossing_id = case_when(
     is.na(pscis_crossing_id) ~ as.numeric(stream_crossing_id),
     TRUE ~ pscis_crossing_id
-  )) %>%
+  )) |>
   arrange(pscis_crossing_id)
 
 
 
 
 ## Load habitat data -------------------------------------------------
-
-# build a new object from `form_fiss_site_2024`, with the geom dropped,
-# seperate alias_local_name into site, location, and ef.
-# and all the averaged values, using ngr_str_df_col_agg https://www.newgraphenvironment.com/ngr/reference/ngr_str_df_col_agg.html
 
 form_fiss_site <- fpr::fpr_sp_gpkg_backup(
   path_gpkg = path_form_fiss_site,
@@ -58,138 +54,101 @@ form_fiss_site <- fpr::fpr_sp_gpkg_backup(
   col_northing = "utm_northing")
 
 
-# Separate the local name and filter to exclude electrofishing sites.
-hab_site_raw <- form_fiss_site |>
-  sf::st_drop_geometry() |>
-  tidyr::separate_wider_delim(local_name,
-                              delim = "_",
-                              names = c('site', 'location', 'ef'),
-                              too_few = "align_start",
-                              cols_remove = FALSE) |>
-  dplyr::filter(is.na(ef))
+## Build hab_site object for fpr_my_habitat_info() -------------------------------------------------
+
+hab_site <- form_fiss_site
 
 
 
-# aggregate the numeric columns
-# as per the example in ?ngr_str_df_col_agg
-col_str_negate = "time|method|avg|average"
-col_str_to_agg <- c("channel_width", "wetted_width", "residual_pool", "gradient", "bankfull_depth")
-columns_result <- c("avg_channel_width_m", "avg_wetted_width_m", "average_residual_pool_depth_m", "average_gradient_percent", "average_bankfull_depth_m")
+# ------------ make priority spreadsheet ----------------------------------------------
 
-hab_site <- purrr::reduce(
-  .x = seq_along(col_str_to_agg),
-  .f = function(dat_acc, i) {
-    ngr::ngr_str_df_col_agg(
-      # we call the dataframe that accumulates results dat_acc
-      dat = dat_acc,
-      col_str_match = col_str_to_agg[i],
-      col_result = columns_result[i],
-      col_str_negate = col_str_negate,
-      decimal_places = 1
-    )
-  },
-  .init = hab_site_raw
-)
-
-
-
-## priorities phase 1 ------------------------------------------------------
-
-##uses habitat value to initially screen but then refines based on what are likely not barriers to most most the time
-phase1_priorities <- pscis_all %>%
-  dplyr::filter(!source %ilike% 'phase2') %>%
-  dplyr::select(aggregated_crossings_id, pscis_crossing_id, my_crossing_reference, utm_zone:northing, habitat_value, barrier_result, source) %>%
-  dplyr::mutate(priority_phase1 =  dplyr::case_when(habitat_value == 'High' & barrier_result != 'Passable' ~ 'high',
-                                     habitat_value == 'Medium' & barrier_result != 'Passable' ~ 'mod',
-                                     habitat_value == 'Low' & barrier_result != 'Passable' ~ 'low',
-                                     TRUE ~ NA_character_)) %>%
-  dplyr::mutate(priority_phase1 =  dplyr::case_when(habitat_value == 'High' & barrier_result == 'Potential' ~ 'mod',
-                                     TRUE ~ priority_phase1)) %>%
-  dplyr::mutate(priority_phase1 =  dplyr::case_when(habitat_value == 'Medium' & barrier_result == 'Potential' ~ 'low',
-                                     TRUE ~ priority_phase1)) %>%
-  # mutate(priority_phase1 = case_when(my_crossing_reference == 99999999999 ~ 'high', ##this is where we can make changes to the defaults
-  #                                    TRUE ~ priority_phase1)) %>%
-  dplyr::rename(utm_easting = easting, utm_northing = northing)
-
-
-##turn spreadsheet into list of data frames
-pscis_phase1_for_tables <- pscis_all %>%
-  dplyr::filter(source %ilike% 'phase1' |
-           source %ilike% 'reassessments' ) %>%
-  arrange(pscis_crossing_id) %>%
-  # because we have reassessments too
-  mutate(site_id = case_when(is.na(my_crossing_reference) ~ pscis_crossing_id,
-                             TRUE ~ my_crossing_reference))
-
-
-pscis_split <- pscis_phase1_for_tables  %>% #pscis_phase1_reassessments
-  # sf::st_drop_geometry() %>%
-  # mutate_if(is.numeric, as.character) %>% ##added this to try to get the outlet drop to not disapear
-  # tibble::rownames_to_column() %>%
-  dplyr::group_split(pscis_crossing_id) %>%
-  purrr::set_names(pscis_phase1_for_tables$pscis_crossing_id)
-
-##make result summary tables for each of the crossings
-tab_summary <- pscis_split %>%
-  purrr::map(fpr::fpr_table_cv_detailed)
-
-tab_summary_comments <- pscis_split %>%
-  purrr::map(fpr::fpr_table_cv_detailed_comments)
-
-##had a hickup where R cannot handle the default size of the integers we used for numbers so we had to change site names!!
-tab_photo_url <- list.files(path = paste0(getwd(), '/data/photos/'), full.names = TRUE) %>%
-  basename() %>%
-  as_tibble() %>%
-  mutate(value = as.integer(value)) %>%  ##need this to sort
-  dplyr::arrange(value)  %>%
-  mutate(photo = paste0('![](data/photos/', value, '/crossing_all.JPG)')) %>%
-  dplyr::filter(value %in% pscis_phase1_for_tables$site_id) %>%
-  left_join(., xref_pscis_my_crossing_modelled, by = c('value' = 'external_crossing_reference'))  %>%  ##we need to add the pscis id so that we can sort the same
-  mutate(stream_crossing_id = case_when(is.na(stream_crossing_id) ~ value, TRUE ~ stream_crossing_id)) %>%
-  arrange(stream_crossing_id) %>%
-  dplyr::group_split(stream_crossing_id)
-
-
-#   # purrr::set_names(nm = . %>% bind_rows() %>% arrange(value) %>% pull(stream_crossing_id)) %>%
-#   # bind_rows()
-#   # arrange(stream_crossing_id) %>%
-#   # dplyr::group_split(value)
+# # spreadsheet to build for input includes site lengths, surveyors initials, time, priority for remediation, updated fish species (if changed from my_fish_sp())
+# # thing is that we don't really have the fish info
+#
+# # grab the field form data
+# dir_gis <- 'sern_skeena_2023'
+#
+# ## Import the raw form_fiss_2023.gpkg and update the local_name with the pscis values
+# form_fiss_site_raw <- fpr::fpr_sp_gpkg_backup(
+#   path_gpkg = paste0("~/Projects/gis/", dir_gis, '/data_field/2023/form_fiss_site_2023.gpkg'),
+#   update_utm = TRUE,
+#   update_site_id = FALSE,
+#   write_back_to_path = FALSE,
+#   write_to_csv = FALSE,
+#   write_to_rdata = FALSE,
+#   return_object = TRUE,
+#   col_easting = "utm_easting",
+#   col_northing = "utm_northing"
+# ) |>
+#   # keep sites that end with us or us# only
+#   # dplyr::filter(stringr::str_detect(local_name, 'us\\d?$')) |>
+#   tidyr::separate(local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) |>
+#   sf::st_drop_geometry() |>
+#   mutate(site = as.numeric(site)) |>
+#   # make a new column for the time as is with different name then mutate to PST
+#   # we don't need the new column but will leave here for now so we can visualize and confirm the time is correct
+#   mutate(date_time_start_raw = date_time_start,
+#          date_time_start = lubridate::force_tz(date_time_start_raw, tzone = "America/Vancouver"),
+#          date_time_start = lubridate::with_tz(date_time_start, tzone = "UTC"))
+# # turn on line below and add pipe aboveto visualize and confirm the times are correct
+# # looks like site 8478 imports raw represented in PDT so is converted incorrectly. not sure why and not related
+# # to method of time conversion at all I (al) don't think though.
+# # select(local_name, date_time_start, date_time_start_raw)
+#
+# # we need to swap in the PSCIS IDs for the `site` IDs that are modelled_crossing_ids
+# form_fiss_site_raw <- left_join(
+#   form_fiss_site_raw,
+#   xref_pscis_my_crossing_modelled,
+#   by = c('site' = 'external_crossing_reference')
+# ) |>
+#   mutate(site = case_when(
+#     !is.na(stream_crossing_id) ~ stream_crossing_id,
+#     T ~ site
+#   )) |>
+#   tidyr::unite(local_name, site, location, ef, sep = "_", na.rm = TRUE)
 #
 #
-# html tables
-tabs_phase1 <- mapply(
-  fpr::fpr_table_cv_detailed_print,
-  tab_sum = tab_summary,
-  comments = tab_summary_comments,
-  photos = tab_photo_url)
-
-
-# html tables for the pdf version
-# tabs_phase1_pdf <- mapply(
-#   fpr::fpr_table_cv_detailed_print,
-#   tab_sum = tab_summary,
-#   comments = tab_summary_comments,
-#   photos = tab_photo_url,
-#   gitbook_switch = FALSE
-#   ) %>%
-#   head()
-# fpr_print_tab_summary_all_pdf <- function(tab_sum, comments, photos){
-#   kable(tab_sum, booktabs = TRUE) %>%
-#     kableExtra::kable_styling(c("condensed"), full_width = TRUE, font_size = 11) %>%
-#     kableExtra::add_footnote(label = paste0('Comments: ', comments[[1]]), notation = 'none') %>% #this grabs the comments out
-#     kableExtra::add_footnote(label = paste0('Photos: PSCIS ID ', photos[[2]],
-#                                             '. From top left clockwise: Road/Site Card, Barrel, Outlet, Downstream, Upstream, Inlet.',
-#                                             photos[[1]]), notation = 'none') %>%
-#     kableExtra::add_footnote(label = '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>', escape = FALSE, notation = 'none')
+# # Function to replace empty character and numeric values with NA
+# replace_empty_with_na <- function(x) {
+#   if(is.character(x) && length(x) == 0) return(NA_character_)
+#   if(is.numeric(x) && length(x) == 0) return(NA_real_)
+#   return(x)
 # }
-
-tabs_phase1_pdf <- mapply(
-  fpr::fpr_table_cv_detailed_print,
-  tab_sum = tab_summary,
-  comments = tab_summary_comments,
-  photos = tab_photo_url,
-  gitbook_switch = FALSE)
-
-# tabs_phase1_pdf <- mapply(fpr_print_tab_summary_all_pdf, tab_sum = tab_summary, comments = tab_summary_comments, photos = tab_photo_url)
-
-
+#
+# hab_priority_prep <- form_fiss_site_raw |>
+#   select(stream_name = gazetted_names,
+#          local_name,
+#          date_time_start) |>
+#   tidyr::separate(local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) |>
+#   dplyr::rowwise() |>
+#   # lets make the columns with functions
+#   mutate(
+#     crew_members = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = crew_members)),
+#     length_surveyed = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name,col_pull = site_length)),
+#     hab_value = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = habitat_value_rating)),
+#     priority = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = priority)),
+#     # first we grab hand bombed estimate from form so that number stands if it is present
+#     upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = us_habitat_m)),
+#     species_codes = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = species_known)),
+#     gps_waypoint_number = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = gps_waypoint_number)),
+#     comments = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = comments)),
+#     upstream_habitat_length_m_bcfishpass = list(fpr::fpr_my_bcfishpass(site = site, col_pull = st_rearing_km, round_dig = 4)),
+#     upstream_habitat_length_m_bcfishpass = 1000 * upstream_habitat_length_m_bcfishpass,
+#     species_codes_bcfishpass = list(fpr::fpr_my_bcfishpass(site = site, col_pull = observedspp_upstr)),
+#     # if the hand bombed estimate is present we use that
+#     upstream_habitat_length_m = case_when(
+#       !is.na(upstream_habitat_length_m) ~ upstream_habitat_length_m,
+#       T ~ upstream_habitat_length_m_bcfishpass
+#     ),
+#     species_codes = case_when(
+#       !is.na(species_codes) ~ species_codes,
+#       T ~ species_codes_bcfishpass
+#     ),
+#     upstream_habitat_length_m = round(upstream_habitat_length_m, 0),
+#     across(everything(), ~replace_empty_with_na(.))) |>
+#   dplyr::arrange(local_name, crew_members, date_time_start)
+#
+#
+# # burn to csv.  This has us doing all updates in Q or programatically. may be viable... we will see
+# hab_priority_prep %>%
+#   readr::write_csv('data/habitat_confirmations_priorities.csv', na = '')
