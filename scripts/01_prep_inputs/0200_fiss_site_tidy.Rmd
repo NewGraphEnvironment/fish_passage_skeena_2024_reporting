@@ -77,3 +77,22 @@ The following should be done in QGIS:
 - reorder the columns for easy QA in Q
 
 
+## If you need to load an old version of a form
+
+This is code to load an an old old version of a form and reburn to a geopackage 
+
+```{r load-from-backup}
+
+# Load the backup .Rdata file for the old version of the form
+load("/Users/lucyschick/Projects/current/temp_fiss_backup/form_fiss_site_2024.RData")
+
+form_fiss_old <- form_fiss_site_2024
+rm(form_fiss_site_2024)
+
+# Burn back to a geopackage
+form_fiss_old |> 
+  sf::st_write(path_form_fiss_site,
+               append = FALSE,
+               delete_dsn = TRUE)
+```
+
