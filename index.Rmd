@@ -27,7 +27,7 @@ params:
   repo_url: 'https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/'
   report_url: 'https://newgraphenvironment.github.io/fish_passage_skeena_2024_reporting'
   update_packages: FALSE
-  update_form_pscis: TRUE
+  update_form_pscis: FALSE
   update_gis: FALSE
   gis_project_name: "sern_skeena_2023"
 nocite: |
@@ -85,9 +85,9 @@ font_set <- 9
 
 ```{r source}
 source('scripts/packages.R')
-source('scripts/functions.R')
 source('scripts/staticimports.R')
-source('scripts/tables.R')
+source("scripts/02_reporting/0165-read-sqlite.R")
+source('scripts/02_reporting/new_tables.R')
 
 ```
 

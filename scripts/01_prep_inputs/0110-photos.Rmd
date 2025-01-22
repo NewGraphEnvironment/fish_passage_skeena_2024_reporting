@@ -146,7 +146,7 @@ fs::dir_delete("/Users/airvine/Projects/gis/sern_peace_fwcp_2023/photos")
 form_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'form_pscis.gpkg'))
 form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_pscis_2024.gpkg'))
 
-#this can be run for the ow photos once the issue with ids is resolved
+#this can be run for the ow photos
 # form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_pscis_ow_2024.gpkg'))
 
 
@@ -170,7 +170,7 @@ form_pscis_photos_raw <- fpr::fpr_sp_gpkg_backup(
 # check for duplicate sites
 form_pscis_photos_raw |>
   dplyr::filter(!is.na(site_id)) |>
-  group_by(site_id) |>
+  dplyr::group_by(site_id) |>
   dplyr::filter(n()>1) |>
   nrow()
 
@@ -188,7 +188,6 @@ form_pscis_photos_raw |>
   )
 
 # also create on onedrive
-#!didn't do this for ow skeena phtos 2024!!!
 form_pscis_photos_raw |>
   dplyr::pull(site_id) |>
   as.character() |>
@@ -199,14 +198,14 @@ form_pscis_photos_raw |>
 
 ```{r rename-qa-pscis}
 
-# NOTE - needed to add a / to the end of the dir names for now untill we update fpr::fpr_photo_rename with fs functions
+# NOTE - needed to add a / to the end of the dir names for now until we update fpr::fpr_photo_rename with fs functions
 fpr::fpr_photo_rename(
   dat = form_pscis_photos_raw,
   dir_from_stub = paste0(dir_photos_mergin_resized, "/"),
   dir_to_stub = paste0(dir_photos_mergin_raw, "/")
 )
 ##this section does not seem to be working
-qa_missing <- fpr_photo_qa_missing_all(
+qa_missing <- fpr::fpr_photo_qa_missing_all(
   dat = form_pscis_photos_raw,
   # needed to add a / to the end of the dir names for now
   dir_photos =  paste0(dir_photos_mergin_raw, "/")
@@ -218,7 +217,7 @@ qa_all <- fpr::fpr_photo_qa(
 ) |>
   data.table::rbindlist(fill = TRUE)
 
-qa <- fpr_photo_qa_df(
+qa <- fpr::fpr_photo_qa_df(
   dat = form_pscis_photos_raw,
   # needed to add a / to the end of the dir names for now
   dir_photos = paste0(dir_photos_mergin_raw, "/")
@@ -231,15 +230,36 @@ test <- fpr::fpr_photo_qa(dat = form_pscis_photos_raw) |>
 ```
 
 
+Specific to skeena 2024 - Copy the renamed photos from mergin to the site specific folders on onedrive that contain the extra photos.
+
+```{r move-photos}
+
+#these are the photos we are copying
+files_to_copy <- fs::dir_ls(dir_photos_mergin_raw, recurse = T, type = "file") %>% 
+  .[!grepl("\\.txt$", .)]   # Exclude files ending in .txt 
+
+# make the paths for where we are copying the photos to
+path_to_paste <- dir_photos_onedrive
+photos_to_paste <- stringr::str_remove(files_to_copy, "^.*photos/")
+files_to_paste <- fs::path(path_to_paste, photos_to_paste)
+
+
+# Copy files using from mergin to onedrive
+purrr::map2(files_to_copy, files_to_paste, ~ fs::file_copy(.x, .y, overwrite = TRUE))
+
+```
+
+
+
 # FISS Site - Rename the photos from the FISS cards and remove duplicates
 
-CANT USUALLY DO THIS UNTILL WE SUBMIT THE DATA AND GET THE PSCIS IDS BUT WE HAVE NO NEW SITES IN THE PEACE SO WE ALREADY HAVE THE IDS...
+CANT USUALLY DO THIS UNTILL WE SUBMIT THE DATA AND GET THE PSCIS IDS BUT WE HAVE NO NEW SITES IN THE SKEENA SO WE ALREADY HAVE THE IDS...
 
 ```{r dir-site-create-fiss}
 
 # copy the gpkg to the new location - this is just as easily done by hand. Named it weird
-form_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'form_fiss_site.gpkg'))
-form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_fiss_site_2024.gpkg'))
+form_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'form_fiss_site_newgraph.gpkg'))
+form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_fiss_site_newgraph_2024.gpkg'))
 
 fs::dir_create(fs::path_dir(form_new))
 
@@ -253,18 +273,25 @@ form_fiss_photos_raw <- fpr::fpr_sp_gpkg_backup(
   form_new,
   write_back_to_path = FALSE,
   return_object = TRUE,
+  update_site_id = F,
   col_easting = "utm_easting",
   col_northing = "utm_northing"
 ) 
 
-
+# create new columns used for naming
 form_fiss_photos <- form_fiss_photos_raw |> 
-  tidyr::separate(local_name, into = c('site', 'photo_tag_site'),
-                  extra = "merge", 
-                  fill = "right", 
-                  remove = FALSE) |> 
-  tidyr::separate(local_name, into = c('site', 'location', 'ef'), remove = FALSE) |> 
-  mutate(site_id = paste0(site, location))
+  tidyr::separate_wider_delim(local_name, 
+                              delim = "_", 
+                              names = c('site', 'location', 'ef'),
+                              too_few = "align_start",
+                              cols_remove = FALSE) |> 
+  # create the photo_tag_site
+  dplyr::mutate(photo_tag_site = stringr::str_extract(local_name, "(?<=_).*")) |> 
+  dplyr::relocate(photo_tag_site, .after = gazetted_names) |> 
+  dplyr::relocate(location:ef, .after = local_name) |>
+  # remove any whitespace because this messes up the naming later on
+  dplyr::mutate(photo_tag_site = stringr::str_trim(photo_tag_site))
+
 
 # check for duplicate sites
 form_fiss_photos |>
@@ -299,13 +326,13 @@ form_fiss_photos |>
 We don't qa with the fpr functions bc they just check for pscis photos
 ```{r rename-fiss}
 
-# NOTE - needed to add a / to the end of the dir names for now untill we update fpr::fpr_photo_rename with fs functions
+# NOTE - needed to add a / to the end of the dir names for now until we update fpr::fpr_photo_rename with fs functions
 fpr::fpr_photo_rename(
   dat = form_fiss_photos,
   # we need to pick the correct column for this dataframe
   col_directories = site,
   dir_from_stub = paste0(dir_photos_mergin_resized, "/"),
-  dir_to_stub = paste0(dir_photos_mergin_raw, "/"),
+  dir_to_stub = paste0(dir_photos_onedrive, "/"),
   col_string_add = TRUE,
   # we just made this column
   col_string_append = photo_tag_site
@@ -383,13 +410,12 @@ form_photos_raw |>
 
 ```{r rename-monitoring}
 
-# NOTE - needed to add a / to the end of the dir names for now untill we update fpr::fpr_photo_rename with fs functions
+# NOTE - needed to add a / to the end of the dir names for now until we update fpr::fpr_photo_rename with fs functions
 fpr::fpr_photo_rename(
   dat = form_photos_raw,
-  dir_from_stub = "/Users/airvine/Projects/gis/sern_peace_fwcp_2023b/photos/",
-  dir_to_stub = "/Users/airvine/Projects/gis/sern_peace_fwcp_2023b/photos/"
+  dir_from_stub = paste0(dir_photos_mergin_resized, "/"),
+  dir_to_stub = paste0(dir_photos_onedrive, "/")
 )
-
 ```
 
 
@@ -397,75 +423,110 @@ After we sort the photos that came off the camera by hand into their directories
 
 When a photo is renamed using `fpr::fpr_photo_rename` the photo renamed is not duplicated. However, we take many more photos on our phones than we upload to `Mergin` via our field forms. We subsequently transfer all of our field photos off of our phones onto company drives. Because we use the gallery to upload our photos to `Mergin` (an important procedure so we don't lose photos when `mergin` glitches) we have a lot of duplicates. We use the `fpr::fpr_photo_remove_dupes` function to remove duplicates. We also have a `min_replicates` argument that allows us to remove photos that are not duplicated at least `n` times.
 
-```{r remove-dupes}
+
+```{r photos-no-metadata}
+
+##### HACK for missing metadata issue, explained here https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/issues/4#####
+
+# These are the photos that are missing metadata and are NOT duplicated but they are being seen as duplicates. 
+photos_no_metadata <- photos_dry_run |> 
+  dplyr::filter(is.na(date_time_original))
+
+# create new folders
+path_photos_no_metadata <- fs::path("/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-072-sern-skeena-fish-passage/data/photos/photos_no_metadata")
+fs::dir_create(path_photos_no_metadata)
+
+#make the site specific folders
+sites_no_metadata <- photos_no_metadata |> 
+  dplyr::mutate(site_number = basename(dirname(source_file))) |> 
+  dplyr::distinct(site_number) |> 
+  dplyr::pull(site_number) |> 
+  purrr::map(
+    fpr::fpr_photo_folders, path = paste0(path_photos_no_metadata, "/"))
+
+
+#these are the photos we are copying
+files_to_copy <- photos_no_metadata |> 
+  dplyr::pull(source_file)
+
+# make the paths for where we are copying the photos to
+photos_to_paste <- stringr::str_remove(files_to_copy, "^.*sorted/")
+files_to_paste <- fs::path(path_photos_no_metadata, photos_to_paste)
+
+
+# Copy files using from folder `photos/sorted` to `photos/photos_no_metadata`
+purrr::map2(files_to_copy, files_to_paste, ~ fs::file_copy(.x, .y, overwrite = TRUE))
+
+# Check to see they moved successfully
+# Now remove them from the `photos/sorted` folders
+fs::file_delete(files_to_copy)
+
+
+
+# run remove dupes as usual
 
 # use fpr_photo_remove_dupes to see the duplicated photos
-photos_dry_run <- fpr::fpr_photo_remove_dupes(
-  '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/sorted')
+photos_dry_run <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"))
 
-# use fpr_photo_remove_dupes to see the triplicated photos
-photos_dry_run3 <- fpr::fpr_photo_remove_dupes(
-  '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/sorted',
+# # use fpr_photo_remove_dupes to see the triplicated photos
+photos_dry_run3 <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"),
                                                min_replicates = 3)
 
-
-# # actually run the removal of the first un-renamed photo
-# fpr::fpr_photo_remove_dupes('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/sorted',
+# # # actually run the removal of the first un-renamed photo
+# fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"),
 #                             dry_run = F)
 
 # now there should only be photos that had triplets. The un-renamed photos have been removed so there will only be duplicates of renamed photos. These should be same photos as in photos_dry_run3.
-photos_dry_run_after <- fpr::fpr_photo_remove_dupes('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/sorted')
+photos_dry_run_after <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"))
 
-# # now run the removal of the duplicated renamed photos (photos that had triplets)
-# fpr::fpr_photo_remove_dupes('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/sorted',
-#                             dry_run = F, remove_renamed = TRUE)
+# now run the removal of the duplicated renamed photos (photos that had triplets)
+fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"),
+                            dry_run = F, remove_renamed = TRUE)
 
 # Now there should be no duplicated of any kind, this object should be empty. 
-photos_dry_run_after <- fpr::fpr_photo_remove_dupes('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/sorted')
+photos_dry_run_after <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"))
                                                   
 
 # backup the dry runs to a csv so we can track which photos were removed.
 readr::write_csv(photos_dry_run, "data/inputs_extracted/photo_duplicate_rm_log.csv" )
 
+
+# DONT FORGET !!!
+# Move files back from folder `photos/photos_no_metadata` to `photos/sorted`
+purrr::map2(files_to_paste, files_to_copy, ~ fs::file_copy(.x, .y))
+
 ```
 
-The following is a special workflow to deal with this issue https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/49
-unique to the peace 2024 data.
 
-```{r site-125161-only-remove-dups}
 
-# use fpr_photo_remove_dupes to see the duplicated photos in just the 125261 folder
-photos_dry_run <- fpr::fpr_photo_remove_dupes(
-  '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/125261')
+```{r remove-dupes}
 
-# use fpr_photo_remove_dupes to see the triplicated photos in just the 125261 folder
-photos_dry_run3 <- fpr::fpr_photo_remove_dupes(
-  '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/125261',
+# # use fpr_photo_remove_dupes to see the duplicated photos
+photos_dry_run <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"))
+
+
+# # use fpr_photo_remove_dupes to see the triplicated photos
+photos_dry_run3 <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"),
                                                min_replicates = 3)
 
-# There are no triplicated photos in the 125261 folder
 
-# actually run the removal of the first un-renamed photo
-fpr::fpr_photo_remove_dupes('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/125261',
-dry_run = F)
+# # # actually run the removal of the first un-renamed photo
+# fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"),
+#                             dry_run = F)
 
-# Now there should be no duplicated of any kind in the 125261 folder, this object should be empty. 
-photos_dry_run_after <- fpr::fpr_photo_remove_dupes('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-073-sern-peace-fish-passage/data/photos/125261')
+# now there should only be photos that had triplets. The un-renamed photos have been removed so there will only be duplicates of renamed photos. These should be same photos as in photos_dry_run3.
+photos_dry_run_after <- fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted"))
 
-# Empty, sweet.
+# now run the removal of the duplicated renamed photos (photos that had triplets)
+fpr::fpr_photo_remove_dupes(paste0(dir_photos_onedrive, "/sorted",
+                            dry_run = F, remove_renamed = TRUE))
 
-# Now join the site 125261 specific dry run data to the photo_duplicate_rm_log.csv so we can track which photos were removed.
+# Now there should be no duplicated of any kind, this object should be empty. 
+photos_dry_run_after <- fpr::fpr_photo_remove_dupes(dir_photos_onedrive)
+                                                  
 
-# read `photo_duplicate_rm_log.csv` which tracks which photos were removed
-photo_duplicate_rm_log <- readr::read_csv("data/inputs_extracted/photo_duplicate_rm_log.csv")
-
-# now join the site 125261 specific dry run data to the photo_duplicate_rm_log.csv so we can see these changes
-test_photo_duplicate_rm_log <- photos_dry_run |> 
-  bind_rows(photo_duplicate_rm_log) 
-  
-# Check to see it worked. looks good, now burn over photo_duplicate_rm_log.csv
-test_photo_duplicate_rm_log |> 
-  readr::write_csv("data/inputs_extracted/photo_duplicate_rm_log.csv" )
+# backup the dry runs to a csv so we can track which photos were removed.
+readr::write_csv(photos_dry_run, "data/inputs_extracted/photo_duplicate_rm_log.csv" )
 
 ```
 

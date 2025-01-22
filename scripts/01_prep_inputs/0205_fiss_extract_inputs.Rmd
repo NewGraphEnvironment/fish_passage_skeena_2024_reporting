@@ -1,0 +1,289 @@
+---
+title: "0205_extract_inputs"
+date: "Created: 2024-06-20 | Updated: `r format(Sys.Date(), '%Y-%m-%d')`"
+output: 
+  html_document:
+    code_folding: "hide"
+params:
+  repo_owner: "NewGraphEnvironment"
+  repo_name: "fish_passage_skeena_2024_reporting"
+  gis_name: "sern_skeena_2023"
+  job_name: "2024-072-sern-skeena-fish-passage"
+editor_options: 
+  chunk_output_type: console
+---
+
+# Purpose of this script
+
+Add columns to `form_fiss_site_2024` and then burn back a geopackage. This should really burn to A NEW geopcackage so it was be re-run easily. At the moment if we re-run it things get all weird with actions being duplicated, ahhhhhhh. 
+
+```{r params}
+# path to claened form_fiss_site
+path_form_fiss_site_raw <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024.gpkg')
+
+#NEW geopcackage path for the form after we have added columns as per this script
+path_form_fiss_site_complete <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024_complete.gpkg')
+```
+
+
+
+## Backup the form after the QA
+
+```{r backup-raw}
+
+form_fiss_site <- fpr::fpr_sp_gpkg_backup(
+  path_gpkg = path_form_fiss_site_raw,
+  dir_backup = "data/backup/",
+  update_utm = TRUE,
+  update_site_id = FALSE,
+  write_back_to_path = FALSE,
+  return_object = TRUE,
+  col_easting = "utm_easting",
+  col_northing = "utm_northing"
+) 
+```
+
+## Clean up the form 
+
+```{r clean-form}
+# clean up the form
+form_fiss_site_cleaned <- form_fiss_site |> 
+  # split the local_name into the site, location, and ef
+  tidyr::separate(local_name, into = c("site", "location", "ef"), remove = FALSE) |> 
+  # split out the date and the time - change type of column first
+  dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start),
+                date_time_start = lubridate::floor_date(date_time_start, unit = "second"),  # Remove microseconds
+                survey_date = lubridate::date(date_time_start),
+                time = hms::as_hms(date_time_start), 
+                # Fix some vocabulary. Change "trib" to long version "Tributary" etc.
+                gazetted_names = str_replace_all(gazetted_names, 'Trib ', 'Tributary '),
+                crew_members = toupper(crew_members),
+                # fill in text columns from spreadsheet that will likely never change
+                waterbody_type = 'stream',
+                method_for_utm = 'GPS general',
+                method_for_channel_width = 'metre tape',
+                method_for_wetted_width = 'metre tape',
+                method_for_residual_pool_depth = 'metre stick',
+                method_for_bankfull_depth = 'metre stick',
+                method_for_gradient = 'clinometer',
+                method_for_temperature = 'recording meter',
+                method_for_conductivity = 'recording meter',
+                method_for_p_h = 'pH meter (general)') |> 
+  # arrange by surveyor and date/time
+  dplyr::arrange(mergin_user, date_time_start) |> 
+  # ditch the time since we don't need anymore. Time was dropped on gpkg creation due to type conflict
+  select(-time) |>
+  # rearrange the columns for easier QA in QGIS.
+  dplyr::select(
+    date_time_start,
+    local_name,
+    gazetted_names,
+    crew_members,
+    comments,
+    everything()) |> 
+  arrange(date_time_start)
+
+```
+
+
+
+## Fix the timezone
+
+We need to fix the times because they are in UTC and we need them in PDT. This issue is documented here https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/18
+
+```{r time-fix}
+
+form_fiss_site_prep1 <- form_fiss_site_cleaned |> 
+# make a new column for the time as is with different name then mutate to PST
+  # we don't need the new column but will leave here for now so we can visualize and confirm the time is correct
+  dplyr::mutate(date_time_start_raw = date_time_start,
+         date_time_start = lubridate::force_tz(date_time_start_raw, tzone = "America/Vancouver"),
+         date_time_start = lubridate::with_tz(date_time_start, tzone = "UTC")) |> 
+   dplyr::relocate(date_time_start_raw, .after = date_time_start)
+
+## Double check the time is correct and now remove the date_time_start_raw column
+form_fiss_site_prep1 <- form_fiss_site_prep1 |> 
+  select(-date_time_start_raw)
+```
+
+## Query database to get 1:50,000 watershed codes
+Really kind of humorous that we are getting 1:50,000 watershed codes from the database then the province turns around
+and converts them back to 1:20,000 (pers. comm. Dave McEwan - Fisheries Standards Biologist - 778 698-4010 - Dave.McEwan@gov.bc.ca).
+
+```{r get-wsc}
+
+ids <- form_fiss_site_cleaned |> 
+  dplyr::distinct(site) |> 
+  dplyr::pull(site)
+
+
+wscodes <- fpr::fpr_db_query(
+  query = glue::glue("SELECT DISTINCT ON (stream_crossing_id)
+    a.stream_crossing_id,
+    a.linear_feature_id,
+    a.watershed_group_code,
+    b.watershed_code_50k,
+    substring(b.watershed_code_50k from 1 for 3)
+    || '-' || substring(b.watershed_code_50k from 4 for 6)
+    || '-' || substring(b.watershed_code_50k from 10 for 5)
+    || '-' || substring(b.watershed_code_50k from 15 for 5)
+    || '-' || substring(b.watershed_code_50k from 20 for 4)
+    || '-' || substring(b.watershed_code_50k from 24 for 4)
+    || '-' || substring(b.watershed_code_50k from 28 for 3)
+    || '-' || substring(b.watershed_code_50k from 31 for 3)
+    || '-' || substring(b.watershed_code_50k from 34 for 3)
+    || '-' || substring(b.watershed_code_50k from 37 for 3)
+    || '-' || substring(b.watershed_code_50k from 40 for 3)
+    || '-' || substring(b.watershed_code_50k from 43 for 3) AS watershed_code_50k_parsed,
+    b.blue_line_key_20k,
+    b.watershed_key_20k,
+    b.blue_line_key_50k,
+    b.watershed_key_50k,
+    b.match_type
+    FROM bcfishpass.crossings_vw a
+    LEFT OUTER JOIN whse_basemapping.fwa_streams_20k_50k b
+    ON a.linear_feature_id = b.linear_feature_id_20k
+    WHERE a.stream_crossing_id IN ({glue::glue_collapse(glue::single_quote(ids), sep = ', ')})
+    ORDER BY a.stream_crossing_id, b.match_type;"
+  ) 
+)
+```
+
+
+```{rget-wsc-hack, eval = F}
+
+##### HACK FOR IF WE CANT USE bcfishpass.crossings_vw FROM BCFISHPASS #####
+
+# this was a work around for this issue here https://github.com/NewGraphEnvironment/fish_passage_peace_2024_reporting/issues/7. 
+
+# use the bcfishpass.crossings_vw layer form the sern_peace_fwcp_2023 GIS project
+crossings_vw <- sf::st_read(dsn = '/Users/lucyschick/Projects/gis/sern_peace_fwcp_2023/background_layers.gpkg',
+                       layer = 'bcfishpass.crossings_vw') |> 
+  sf::st_drop_geometry() |> 
+  dplyr::filter(stream_crossing_id %in% ids)
+
+
+fwa_streams <- fpr::fpr_db_query(query = glue::glue("
+  SELECT DISTINCT ON (linear_feature_id_20k)
+    linear_feature_id_20k,
+    watershed_code_50k,
+    blue_line_key_20k,
+    watershed_key_20k,
+    blue_line_key_50k,
+    watershed_key_50k,
+    match_type
+  FROM whse_basemapping.fwa_streams_20k_50k
+  WHERE linear_feature_id_20k IN ({glue::glue_collapse(glue::single_quote(crossings_vw$linear_feature_id), sep = ', ')})
+  ORDER BY linear_feature_id_20k, match_type
+"))
+
+wscodes <- crossings_vw |>
+  left_join(fwa_streams, by = c("linear_feature_id" = "linear_feature_id_20k")) |>
+  mutate(
+    watershed_code_50k_parsed = paste(
+      substring(watershed_code_50k, 1, 3),    # First 3 digits
+      substring(watershed_code_50k, 4, 9),   # Next 6 digits
+      substring(watershed_code_50k, 10, 14), # Next 5 digits
+      substring(watershed_code_50k, 15, 19), # Next 5 digits
+      substring(watershed_code_50k, 20, 24), # Next 5 digits
+      substring(watershed_code_50k, 25, 29), # Next 5 digits
+      substring(watershed_code_50k, 30, 34), # Next 5 digits
+      substring(watershed_code_50k, 35, 39), # Next 5 digits
+      substring(watershed_code_50k, 40, 44), # Next 5 digits
+      substring(watershed_code_50k, 45, 49), # Next 5 digits
+      sep = "-"
+    )
+  ) |>
+  select(
+    stream_crossing_id,
+    linear_feature_id,
+    watershed_group_code,
+    watershed_code_50k,
+    watershed_code_50k_parsed,
+    blue_line_key_20k,
+    watershed_key_20k,
+    blue_line_key_50k,
+    watershed_key_50k,
+    match_type
+  )
+
+##### END HACK #####
+```
+
+
+We need to QA the watershed codes using the `whse_fish.wdic_waterbody_route_line_svw` layer.  This layer has now been added the 2023 QGIS shared projects for Skeena and Peace. QAed and all are correct.
+
+Finally, lets join it to the form_fiss_site so we can copy/paste it into the spreadsheet all at once.
+
+```{r wsc-join}
+
+## join watershed codes to form_fiss_site
+form_fiss_site_prep2 <- dplyr::left_join(
+  form_fiss_site_cleaned |> 
+    dplyr::mutate(site = as.integer(site)),
+  
+  wscodes |> 
+    dplyr::select(stream_crossing_id, watershed_code_50k = watershed_code_50k_parsed, watershed_group_code),
+  
+  by = c('site' = 'stream_crossing_id')) |> 
+  
+  dplyr::mutate(waterbody_id = paste0('00000', watershed_group_code),
+                waterbody_type = 'stream')
+```
+
+
+
+## Calculate the average of the numeric columns
+
+```{r calculate-averages}
+
+# aggregate the numeric columns
+# as per the example in ?ngr_str_df_col_agg
+col_str_negate = "time|method|avg|average"
+col_str_to_agg <- c("channel_width", "wetted_width", "residual_pool", "gradient", "bankfull_depth")
+columns_result <- c("avg_channel_width_m", "avg_wetted_width_m", "average_residual_pool_depth_m", "average_gradient_percent", "average_bankfull_depth_m")
+
+form_fiss_site_prep3 <- purrr::reduce(
+  .x = seq_along(col_str_to_agg),
+  .f = function(dat_acc, i) {
+    ngr::ngr_str_df_col_agg(
+      # we call the dataframe that accumulates results dat_acc
+      dat = dat_acc,
+      col_str_match = col_str_to_agg[i],
+      col_result = columns_result[i],
+      col_str_negate = col_str_negate,
+      decimal_places = 1
+    )
+  },
+  .init = form_fiss_site_prep2
+)
+```
+
+
+## Burn back to the geopackage
+Burn back to geopackage so all the new columns/data are also in the form
+
+```{r fiss-burn-gpkg}
+form_fiss_site_prep3 |> 
+  sf::st_write(dsn = path_form_fiss_site_complete,
+               append = FALSE,
+               delete_dsn = TRUE)
+
+```
+
+
+## Backup the new complete form 
+
+```{r backup-complete}
+
+fpr::fpr_sp_gpkg_backup(
+  path_gpkg = path_form_fiss_site_complete,
+  dir_backup = "data/backup/",
+  update_utm = TRUE,
+  update_site_id = FALSE,
+  write_back_to_path = FALSE,
+  return_object = TRUE,
+  col_easting = "utm_easting",
+  col_northing = "utm_northing"
+) 
+```

@@ -1,0 +1,294 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+  markdown: 
+    wrap: 72
+---
+
+```{r setup-198913, eval = F}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
+source('scripts/packages.R')
+source('scripts/tables.R')
+source('scripts/functions.R')
+```
+
+```{r  load-data-198913}
+my_site <- 198916
+my_site2 <- 198913
+
+```
+
+`r fpr::fpr_appendix_title()`
+
+## Site Location {.unnumbered}
+
+PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`. This stream flows from an unnamed lake, first southwest and then northwest, before entering the Skeena River approximately 12.5 km southwest of the town of New Hazelton. PSCIS crossing `r as.character(my_site)` is located `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)` km upstream of the confluence of `r fpr::fpr_my_pscis_info()` and the Skeena River, on the CN Railway. Approximately 950 m upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. Both crossings are within the Kispiox River watershed group.
+
+<br>
+
+
+## Background {.unnumbered}
+
+`r fpr::fpr_my_pscis_info()` is a
+`r fpr::fpr_my_bcfishpass() %>% english::ordinal()` order stream with an
+upstream watershed area of approximately
+`r fpr::fpr_my_wshd()`km^2^. The watershed ranges in elevation from
+a maximum of `r fpr::fpr_my_wshd(col = 'elev_max')`m to
+`r fpr::fpr_my_wshd(col = 'elev_site')`m near the lower crossing (Table
+\@ref(tab:tab-wshd-198916)). 
+
+<br>
+
+In 2023, crossings `r as.character(my_site)` and `r as.character(my_site2)` were assessed with fish passage assessments [@irvine_schick2023SkeenaWatershed]. These sites were prioritized for follow-up with habitat confirmation assessments due to the presence of high-value habitat observed upstream and fish documented immediately downstream of the Highway 16 crossing at the time of assessment [@irvine_schick2023SkeenaWatershed]. Upstream of the upper crossing `r as.character(my_site2)`, `r fpr::fpr_my_fish_sp()` have been documented in the past [@norris2024smnorrisbcfishobs; @moe2024KnownBC]. 
+
+<!-- Note about this site being "Skeena fisheries commission site with recommendation for installation of baffles" in 2023 assessment comments. Looked but haven't found more info about this, would be nice to include a bit more. -->
+
+
+<br>
+
+```{r tab-wshd-198916, eval = T}
+fpr::fpr_table_wshd_sum(site_id = my_site) %>% 
+  fpr::fpr_kable(caption_text = paste0('Summary of derived upstream watershed statistics for PSCIS crossing ', my_site, '.'),
+           footnote_text = 'Elev P60 = Elevation at which 60% of the watershed area is above',
+           scroll = F)
+
+```
+
+<br>
+
+
+Habitat modelling outputs from `bcfishpass` indicated 1.7 km of coho rearing habitat upstream of crossing `r as.character(my_site2)` on Highway 16 (gradients <5.5% for coho).
+
+<!-- How can there be 1.7km of coho rearing (less than 5.5 %) but no steelhead rearing (less than 8.5 %). If there is 1.7km less than 5.5 % than there should also be 1.7km less than 8.5 km as well...  -->
+
+Outputs are presented in Table
+\@ref(tab:tab-culvert-bcfp-198916). A map of the watershed is provided in
+map attachment
+[`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "kisp", archive_date = "2022-09-06")`).
+
+<br>
+
+```{r tab-culvert-bcfp-198916, eval = T}
+fpr::fpr_table_bcfp(scroll = gitbook_on) 
+```
+
+<br>
+
+```{r tab-culvert-bcfp-198913, eval = T}
+fpr::fpr_table_bcfp(scroll = gitbook_on, site = my_site2) 
+```
+
+<br>
+
+
+## Stream Characteristics at Crossings `r as.character(my_site)` and `r as.character(my_site2)`  {.unnumbered}
+
+At the time of the 2024 assessment, PSCIS crossing `r as.character(my_site)` was
+un-embedded, non-backwatered and ranked as a
+`r fpr::fpr_my_pscis_info(col_pull = barrier_result) %>% stringr::str_to_lower()` to upstream fish passage according to the provincial protocol
+[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-198916)). Constructed in the 1920s, this crossing is a concrete box culvert approximately 100 m in length, located beneath the CN railway with approximately 30–40 m of fill above it. It features a moderate 0.45 m outlet drop that adult fish could likely overcome but is presumed to act as a barrier to juvenile fish. The culvert's relatively steep 6% slope, minimal flow depths, and swift currents further impede fish passage. Installing baffles within the culvert would likely improve fish passage conditions.
+
+<br>
+
+At the time of the survey, PSCIS crossing  `r as.character(my_site2)` was un-embedded, non-backwatered and ranked as a
+`r fpr::fpr_my_pscis_info(col_pull = barrier_result) %>% stringr::str_to_lower()` to upstream fish passage according to the provincial protocol
+[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-198913)). Located on Highway 16, this crossing had a 0.35 m outlet drop and a significant 0.85 m deep outlet pool, suggesting the culvert is undersized for the stream.
+
+<br>
+
+At both crossings, the water temperature was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'temperature_c')`$^\circ$C,
+pH was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'p_h')` and
+conductivity was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'conductivity_m_s_cm')`uS/cm.
+
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output("\\pagebreak")}`
+
+<br>
+
+```{r tab-culvert-198916, eval = T}
+fpr::fpr_table_cv_summary_memo()
+
+```
+
+<br>
+
+```{r tab-culvert-198913, eval = T}
+fpr::fpr_table_cv_summary_memo(site = my_site2)
+
+```
+
+
+```{r eval=F}
+##this is useful to get some comments for the report
+hab_site %>% filter(site == my_site & location == 'ds') %>% pull(comments)
+hab_site %>% filter(site == my_site & location == 'us') %>% pull(comments)
+hab_site %>% filter(site == my_site2 & location == 'us') %>% pull(comments)
+
+```
+
+FOR THE FOLLOWING SECTIONS TO RUN WE NEED:
+- `habitat_confirmations_priorities.csv` build in `new_tables.R` which is used by `fpr_my_survey_dist()` and `fpr_my_priority_info()`
+
+## Stream Characteristics Downstream of Crossing `r as.character(my_site)` {.unnumbered}
+
+`r fpr_my_survey_dist(loc = 'ds')`. The stream contained numerous boulders forming step pools; however, high flows at the time of assessment limited the availability of pools suitable for fish. The first pool suitable for overwintering fish, with adequately reduced flow, was located approximately 250 m downstream of the culvert. There were occasional gravels suitable for spawning and frequent large woody debris, which contributed to the formation of additional steps. `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198916-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-198916-d01))."))` `r fpr_my_habitat_paragraph(loc = 'ds')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds') %>% stringr::str_to_lower()` value suitable for salmonid rearing and spawning. 
+
+<br>
+
+## Stream Characteristics Upstream of Crossing `r as.character(my_site)` and Downstream of Crossing `r as.character(my_site2)` {.unnumbered}
+
+`r fpr_my_survey_dist(loc = 'us')` 
+
+The stream was surveyed from the railway crossing (`r as.character(my_site)`) upstream to the Highway 16 crossing (`r as.character(my_site2)`), a distance of approximately 900 m `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198916-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-198916-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us')`. A large woody debris jam was observed approximately 250 m upstream of the railway crossing, creating a 17% gradient over a 9 m section due to a fallen tree. The stream maintained good flow through this steeper section, supported by a healthy, mature mixed riparian forest that stabilized the banks. `r fpr_my_habitat_paragraph(loc = 'us')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` value and contained occasional pockets of gravels suitable for spawning by coho salmon, Dolly Varden, and cutthroat trout.
+
+<br>
+
+## Stream Characteristics Upstream of Crossing `r as.character(my_site2)` {.unnumbered}
+
+`r fpr_my_survey_dist(sit = my_site2, loc = 'us')`. 
+
+ `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198913-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-198913-d01))."))` 
+ 
+ `r fpr_my_habitat_paragraph(sit = my_site2, loc = 'us')` 
+ 
+ The habitat was rated as `r fpr::fpr_my_priority_info(sit = my_site2, loc = 'us') %>% stringr::str_to_lower()` 
+
+The stream has frequent pools suitable for overwintering fish, with spawning gravels present despite a significant amount of fines. In the ~200 m section just upstream of the crossing, the stream maintains a low gradient and flows through agricultural fields. Large cottonwoods providing sufficient riparian cover were observed throughout the 600 m survey area. Approximately 250 m upstream of the highway crossing, a landowner-constructed bridge with two culverts is present. Two logjams, each approximately 1 m in height, were observed but remain passable for fish.
+
+<br>
+
+NEED TO UPDATE
+## Fish Sampling {.unnumbered}
+
+Electrofishing was conducted at two sites below and two sites above the crossing with results summarised in Tables \@ref(tab:tab-fish-site-198913) - \@ref(tab:tab-fish-dens-198913) and Figure
+\@ref(fig:plot-fish-box-198913). A total of `r tab_fish_summary %>% filter(site_id == paste0(my_site, '_ds')) %>% group_by(site_id) %>% janitor::adorn_totals() %>% filter(site_id == 'Total') %>% pull(count_fish)` dolly varden were captured downstream, and `r tab_fish_summary %>% filter(site_id == paste0(my_site, '_us')) %>% group_by(site_id) %>% janitor::adorn_totals() %>% filter(site_id == 'Total') %>% pull(count_fish)` dolly varden were captured upstream. Multiple fish captured had deteriorating purple gill plates and unusual round black spots `r if(gitbook_on){knitr::asis_output("(Figures \\@ref(fig:photo-198913-03) - \\@ref(fig:photo-198913-04)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-198913-d02))."))` All fish captured with a fork length greater than 60mm were tagged with Passive Integrated Transponders (PIT tags) with data stored [here](`r paste0(params$repo_url, "blob/main/data/2023/habitat_confirmations.xls")`).
+
+
+<br>
+
+NEED TO UPDATE
+## Structure Remediation and Cost Estimate {.unnumbered}
+
+Should restoration/maintenance activities proceed, replacement of PSCIS crossing `r as.character(my_site)` with a bridge (`r fpr::fpr_my_pscis_info(col_pull = recommended_diameter_or_span_meters)`m span) is recommended. At the time of reporting in 2024, the cost of the work is estimated at \$`r format(fpr::fpr_my_cost_estimate(), big.mark = ',')`.
+
+
+After discussions with BC Timber Sales (BCTS), they are exploring the feasibility of replacing this culvert and securing funding for the costs, as they are interested in land further down the Kerry Lake FSR. However, Sinclair indicated that recovering replacement costs through the appraisal system () stumpage rebates) is not feasible.
+
+<br>
+
+NEED TO UPDATE
+## Conclusion {.unnumbered}
+
+PSCIS crossing `r as.character(my_site)` is located on a steeper, colder water stream providing medium value habitat for dolly varden in the areas surveyed. Habitat modelling and ground measurements of gradient upstream of the `r fpr_my_pscis_info(col_pull = road_name)` were slightly above the selected threshold for high intrinsic potential for steelhead rearing (>8.5%) with averaged values at 10%.  As these relatively steep gradients drain a relatively high elevation watershed it may be most suitable for dolly varden. The site was rated as a `r fpr::fpr_my_priority_info(col_pull = priority) %>% stringr::str_to_lower()` 
+priority for replacement containing `r fpr::fpr_my_priority_info() %>% stringr::str_to_lower()` value for salmonid rearing and spawning. As noted earlier, multiple fish captured had deteriorating purple gill plates and unusual round black spots potentially indicating some sort of natural or anthropogenic contaminants draining into the watershed. 
+
+
+`r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
+
+<br>
+
+```{r tab-habitat-summary-198913}
+tab_hab_summary %>% 
+  filter(Site  == my_site) %>% 
+  # select(-Site) %>% 
+  fpr::fpr_kable(caption_text = paste0('Summary of habitat details for PSCIS crossing ', my_site, '.'),
+                 scroll = F) 
+
+```
+
+<br>
+
+```{r tab-fish-site-198913, eval=T}
+fpr_table_fish_site()
+
+```
+
+<br>
+
+```{r tab-fish-dens-198913, eval=T}
+fpr_table_fish_density()
+
+```
+
+`r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
+
+```{r plot-fish-box-198913, fig.cap= my_caption, eval=T}
+my_caption <- paste0('Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing ', my_site, '.')
+
+fpr_plot_fish_box() 
+
+```
+
+<br>
+
+```{r photo-198913-01-prep, eval=T}
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = 'ds_typical_1_')
+
+my_caption1 = paste0('Typical habitat downstream of PSCIS crossing ', my_site, '.')
+
+
+```
+
+```{r photo-198913-01, fig.cap= my_caption1, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo1)
+```
+
+<br>
+
+```{r photo-198913-02-prep, eval=T}
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = 'us_typical_1')
+
+my_caption2 = paste0('Typical habitat upstream of PSCIS crossing ', my_site, '.')
+
+
+```
+
+```{r photo-198913-02, fig.cap= my_caption2, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo2)
+```
+
+```{r photo-198913-d01, fig.cap = my_caption, fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=identical(gitbook_on, FALSE)}
+
+my_caption <- paste0('Left: ', my_caption1, ' Right: ', my_caption2)
+
+knitr::include_graphics(my_photo1)
+knitr::include_graphics("fig/pixel.png")
+knitr::include_graphics(my_photo2)
+```
+
+<br>
+
+```{r photo-198913-03-prep}
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = 'fish1')
+
+my_caption1 = paste0('Dolly varden with deteriorating purple gill plates and unusual black spots captured downstream of crossing ', my_site, '.')
+```
+
+```{r photo-198913-03, fig.cap= my_caption1, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo1)
+```
+
+<br>
+
+```{r photo-198913-04-prep}
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = 'f1_gills_')
+
+my_caption2 = paste0('Dolly varden with deteriorating purple gill plates and unusual black spots captured upstream of crossing ', my_site, '.')
+
+```
+
+```{r photo-198913-04, fig.cap=my_caption2, out.width=photo_width}
+knitr::include_graphics(my_photo2)
+
+
+```
+
+```{r photo-198913-d02, fig.cap = my_caption, fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=identical(gitbook_on, FALSE)}
+
+my_caption <- paste0('Left: ', my_caption1, ' Right: ', my_caption2)
+
+knitr::include_graphics(my_photo1)
+knitr::include_graphics("fig/pixel.png")
+knitr::include_graphics(my_photo2)
+```
+

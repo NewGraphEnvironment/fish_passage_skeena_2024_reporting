@@ -1,0 +1,205 @@
+---
+title: "0130_pscis_export_to_template"
+date: "Created: 2024-06-20 | Updated: `r format(Sys.Date(), '%Y-%m-%d')`"
+output: 
+  html_document:
+    code_folding: "hide"
+params:
+  repo_owner: "NewGraphEnvironment"
+  repo_name: "fish_passage_skeena_2024_reporting"
+editor_options: 
+  chunk_output_type: console
+---
+
+# Purpose of this script
+
+This scripts is used to export pscis data to a csv for cut and paste into PSCIS submission spreadsheet.
+
+
+## Fetch and backup the data
+
+Name the project directory we are pulling from and import the cleaned form from Q after review and finalization.
+
+We use `fpr_sp_gpkg_backup` to import and backup the data, as well as update the UTMS. We will also write the data to a csv and Rdata file and commit for version control using git. Commit these backup files with a message such as "backups after QA - 2024 data".
+
+
+```{r import}
+path_form_pscis <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_pscis_2024.gpkg')
+
+# read in cleaned form from Q after review and finalization
+# backup to csv and rdata
+pscis_export_raw <- fpr::fpr_sp_gpkg_backup(
+  path_gpkg = path_form_pscis,
+  update_utm = TRUE,
+  update_site_id = TRUE, ## This now also checks for duplicates
+  write_back_to_path = FALSE,
+  write_to_csv = TRUE,
+  write_to_rdata = TRUE,
+  return_object = TRUE)
+```
+
+
+## Fix times
+For skeena 2024 this is not an issue. Sweet. 
+
+Fix time zone issue, documented here https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/18
+
+This is not always applicable and we will hopefully have a permanent fix soon.
+
+```{r time-fix, eval F}
+
+## Fix time zone, issue here https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/18
+ pscis_export_time_fix <- pscis_export_raw |>
+ dplyr::mutate(date_time_start_raw = date_time_start,
+               date_time_start = lubridate::force_tz(date_time_start_raw, tzone = "America/Vancouver"),
+               date_time_start = lubridate::with_tz(date_time_start, tzone = "UTC"))
+
+
+### IF RUN, must update code below with pscis_export_raw_clean2
+
+```
+
+## Fix max culvert length and fill depth
+
+We need to check for sites that have a culvert length (`length_or_width_meters`) over 99.9 or a fill depth (`fill_depth_meters`) over 9.9, because 
+anything over this will cause errors in submission sheet. If over the maximums, we will change them to 99.9 and 9.9,
+respectively, and will append a note to the assessment comments.
+
+```{r max-cul-leng-fill-dpt}
+
+# check for sites that have a culvert length (`length_or_width_meters`) over 99.9 or a fill depth (`fill_depth_meters`) over 9.9
+max_cul_leng_fill_dpt <- pscis_export_raw |>
+  dplyr::filter(length_or_width_meters > 99.9 | fill_depth_meters > 9.9) |> 
+  dplyr::select(date_time_start:crew_members, length_or_width_meters,fill_depth_meters)
+
+# Now we will change them to 99.9 and 9.9, respectively, and will append a note to the assessment comments.
+pscis_export_prep1 <- pscis_export_raw |>
+  dplyr::mutate(
+    assessment_comment = dplyr::case_when(
+      length_or_width_meters > 99.9 ~ paste0(assessment_comment, 'Culvert length ', length_or_width_meters, ' m but changed to 99.9 m to meet submission requirements.'),
+      TRUE ~ assessment_comment
+    ),
+    length_or_width_meters = dplyr::case_when(
+      length_or_width_meters > 99.9 ~ 99.9,
+      TRUE ~ length_or_width_meters
+    ),
+    assessment_comment = dplyr::case_when(
+      fill_depth_meters > 9.9 ~ paste0(assessment_comment, 'Fill depth ', fill_depth_meters, ' m but changed to 9.9 m to meet submission requirements.'),
+      TRUE ~ assessment_comment
+    ),
+    fill_depth_meters = dplyr::case_when(
+      fill_depth_meters > 9.9 ~ 9.9,
+      TRUE ~ fill_depth_meters
+    )
+  )
+
+```
+
+
+## Clean and prep
+
+Do some final cleaning and prepare the data for easy copy paste into the spreadsheets.
+- append MoTi ids to the comments
+- fix some vocabulary
+- add in the pscis assessment phase
+
+TO ADD:
+- change crossing type to other if subtype is ford 
+- fill in resemble channel to no if not yes. This is required when in the spreadsheet. ugh.
+
+```{r clean-prep}
+
+## prep for cut and paste to csvs by subsetting columns to those in spreadsheet
+pscis_export <- pscis_export_prep1 |>
+  dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start, tz = "America/Vancouver"),
+                date = lubridate::date(date_time_start)) |> 
+  # append MoTi ids to comments, differentiate between highway major structure, and add time to end
+  dplyr::mutate(assessment_comment = dplyr::case_when(
+    moti_chris_culvert_id > 1000000 ~ paste0(assessment_comment, ' MoTi chris_culvert_id: ', moti_chris_culvert_id),
+    moti_chris_culvert_id < 1000000 ~ paste0(assessment_comment, ' MoTi chris_hwy_structure_road_id: ', moti_chris_culvert_id),
+    TRUE ~ assessment_comment)) |>
+  dplyr::mutate(assessment_comment = dplyr::case_when(moti_chris_culvert_id2 > 1000000 ~ paste0(assessment_comment, ', ', moti_chris_culvert_id2), TRUE ~ assessment_comment)) |>
+  dplyr::mutate(assessment_comment = dplyr::case_when(moti_chris_culvert_id3 > 1000000 ~ paste0(assessment_comment, ', ', moti_chris_culvert_id3), TRUE ~ assessment_comment)) |>
+  # add in pscis phase
+  ## DOUBLE CHECK IF THERE ARE ANY SITES THAT ARE PHASE 1 AND 2S!!! FIRST TIME HAB CON SITES
+  dplyr::mutate(pscis_phase = case_when(
+    assess_type_phase1 == "Yes" ~ "phase 1",
+    assess_type_phase2 == "Yes" ~ "phase 2",
+    assess_type_reassessment == "Yes" ~ "reassessment"),
+    # Fix the vocabulary
+    stream_name = stringr::str_replace_all(stream_name, 'Trib ', 'Tributary '),
+    road_name = stringr::str_replace_all(road_name, 'Hwy ', 'Highway '),
+    crew_members = toupper(crew_members)) |>
+  # only select columns from the template object, as well as site_id, pscis_phase, and date_time_start
+  dplyr::select(
+    dplyr::any_of(names(fpr::fpr_xref_template_pscis())),
+    site_id,
+    date_time_start,
+    pscis_phase
+  ) |>
+  # remove scoring columns, as these can't be copied and pasted anyways because of macros
+  dplyr::select(-stream_width_ratio:-barrier_result) |>
+  sf::st_drop_geometry() |>
+  # arrange by phase so easy to copy/paste into correct spreadsheet
+  dplyr::arrange(pscis_phase,
+                 crossing_type,
+                 continuous_embeddedment_yes_no,
+                 backwatered_yes_no,
+                 crew_members,
+                 date_time_start)
+
+```
+
+## Burn to csv
+
+Now burn to a csv in the the `imports_extracted` directory. This is data we import to the project but they are extracted from other places.
+
+```{r pscis-burn-csv}
+dir.create("data/inputs_extracted")
+
+pscis_export %>%
+  readr::write_csv('data/inputs_extracted/pscis_export_submission.csv', na='')
+
+```
+
+
+## Copy paste pscis data into spreadsheet
+
+The spreadsheet can be downloaded here https://www2.gov.bc.ca/gov/content/environment/plants-animals-ecosystems/fish/aquatic-habitat-management/fish-passage/fish-passage-technical/assessment-projects. Duplicate 3 times and rename according to below.
+
+Now copy/paste the following data from `pscis_export_submission.csv` into the corresponding spreadsheets:
+- phase 1 data into `pscis_phase1.xlsm`
+- phase 2 data into `pscis_phase2.xlsm`
+- reassessment data in `pscis_reassessments.xlsm`
+
+
+
+## Structure, size, type
+
+After the data has been copy/pasted from `pscis_export_submission.csv` into the appropriate pscis spreadsheet, we can 
+calculate the recommended replacement structure, type, and size using `sfpr_structure_size_type`.
+
+```{r str-size-type}
+# `fpr_import_pscis_all` reads and backups all pscis spreadsheets but you only need to run `sfpr_structure_size_type` for the
+# assessment phases you have.
+pscis_list <- fpr::fpr_import_pscis_all()
+pscis_phase1 <- pscis_list %>% purrr::pluck('pscis_phase1')
+pscis_phase2 <- pscis_list %>% purrr::pluck('pscis_phase2')
+pscis_reassessments <- pscis_list %>% purrr::pluck('pscis_reassessments')
+
+# `sfpr_structure_size_type` burns the structure, type, and size to a csv called `str_type_{your_assessment_phase}.csv`
+sfpr_structure_size_type(pscis_phase1)
+sfpr_structure_size_type(pscis_phase2)
+sfpr_structure_size_type(pscis_reassessments)
+```
+
+
+
+## Copy paste replacement structure ,size, and type data into spreadsheet
+
+Finally, copy/paste the structure, size, type data into the appropriate spreadsheet as follows:
+
+- from `str_type_pscis1.csv` into `pscis_phase1.xlsm`
+- from `str_type_pscis2.csv` into `pscis_phase2.xlsm`
+- from `str_type_pscis_reassessments.csv` into `pscis_reassessments.xlsm`
+

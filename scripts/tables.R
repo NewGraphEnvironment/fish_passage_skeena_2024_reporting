@@ -1,16 +1,18 @@
 # set some project parameters
-repo_name <- 'fish_passage_peace_2023_reporting'
+repo_name <- 'fish_passage_skeena_2024_reporting'
 
 
-# # import data and build tables we for reporting
-# pscis_list <- fpr::fpr_import_pscis_all()
-# pscis_phase1 <- pscis_list %>% pluck('pscis_phase1')
-# pscis_phase2 <- pscis_list %>% pluck('pscis_phase2') %>%
-#   arrange(pscis_crossing_id)
-# pscis_reassessments <- pscis_list %>% pluck('pscis_reassessments')
-# pscis_all_prep <- pscis_list %>%
-#   bind_rows()
-#
+# import data and build tables we for reporting
+pscis_list <- fpr::fpr_import_pscis_all()
+pscis_phase1 <- pscis_list %>% pluck('pscis_phase1')
+pscis_phase2 <- pscis_list %>% pluck('pscis_phase2') %>%
+  arrange(pscis_crossing_id)
+pscis_reassessments <- pscis_list %>% pluck('pscis_reassessments')
+pscis_all_prep <- pscis_list %>%
+  bind_rows()
+
+
+# WHY DO WE NEED THIS, BECAUSE:
 # # load form to sqlite - need to load the params from `index.Rmd` ------------------------
 # # reload the pscis form if the param in `index.Rmd` yml is set to TRUE
 # if (params$update_form_pscis) {
@@ -31,87 +33,27 @@ repo_name <- 'fish_passage_peace_2023_reporting'
 #   rm(form_pscis_raw)
 # }
 
-# import data from sqlite -------------------------------------------------
-##this is our new db made from 0282-extract-bcfishpass2-crossing-corrections.R and 0290
-conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
 
-readwritesqlite::rws_list_tables(conn)
-# bcfishpass <- readwritesqlite::rws_read_table("bcfishpass", conn = conn)
-# # bcfishpass_archive <- readwritesqlite::rws_read_table("bcfishpass_archive_2022-03-02-1403", conn = conn)
-# bcfishpass_column_comments <- readwritesqlite::rws_read_table("bcfishpass_column_comments", conn = conn)
-# # pscis_historic_phase1 <- readwritesqlite::rws_read_table("pscis_historic_phase1", conn = conn)
-# # pscis_historic_phase2 <- readwritesqlite::rws_read_table("pscis_historic_phase2", conn = conn)
-bcfishpass_spawn_rear_model <- readwritesqlite::rws_read_table("bcfishpass_spawn_rear_model", conn = conn)
-# rd_class_surface_prep <- readwritesqlite::rws_read_table("rd_class_surface", conn = conn)
-# xref_pscis_my_crossing_modelled <- readwritesqlite::rws_read_table("xref_pscis_my_crossing_modelled", conn = conn)
-# wshds <- readwritesqlite::rws_read_table("wshds", conn = conn) |>
-#   # remove any negative values
-#   mutate(across(contains('elev'), ~ replace(., . < 0, NA))) |>
-#   # but... we don't really need elev_min anyway b/c we have elevation site
-#   select(-elev_min)
-#   # mutate(aspect = as.character(aspect))
-# pscis_assessment_svw <- readwritesqlite::rws_read_table("pscis_assessment_svw", conn = conn)
-# photo_metadata <- readwritesqlite::rws_read_table("photo_metadata", conn = conn)
-# form_pscis_raw <- readwritesqlite::rws_read_table("form_pscis_raw", conn = conn) |>
-#   sf::st_drop_geometry()
 
-readwritesqlite::rws_disconnect(conn)
 
-# bcfishpass modelling table setup for reporting
-# the one we have in fpr is for salmon so have left the hard coded build of this further down in the script
-# xref_bcfishpass_names <- fpr::fpr_xref_crossings
+# WHY DO WE NEED THIS, BECAUSE:
+# It looked like this object is used in multiple other parts of this script.
+# Take note of how it is used as we continue purging this script
 
 # this doesn't work till our data loads to pscis
-#
-# pscis_all <- left_join(
-#   pscis_all_prep,
-#   xref_pscis_my_crossing_modelled,
-#   by = c('my_crossing_reference' = 'external_crossing_reference')
-# ) %>%
-#   mutate(pscis_crossing_id = case_when(
-#     is.na(pscis_crossing_id) ~ as.numeric(stream_crossing_id),
-#     TRUE ~ pscis_crossing_id
-#   )) %>%
-#   arrange(pscis_crossing_id)
-#
-# pscis_all_sf_prep <- pscis_all %>%
-#   # tibble::rowid_to_column(var = 'id_split') %>%
-#
-#
-#   # mutate(utm_zone = case_when(
-#   #   pscis_crossing_id == 6539 ~ 11, TRUE ~ utm_zone)) %>%
-#
-#
-#
-#   dplyr::group_split(utm_zone) %>%
-#   purrr::map(
-#     ~ sf::st_as_sf(.x, coords = c("easting", "northing"),
-#                             crs = 26900 + unique(.x$utm_zone), remove = FALSE)
-#     ) %>%
-#   # convert to match the bcfishpass format
-#   purrr::map(
-#     sf::st_transform, crs = 3005) %>%
-#   dplyr::bind_rows()
-#
-#
-#
-# # looks like the api maxes out at 220 queries and we have 223.  As a work around lets make a function then split by source
-# tfpr_get_elev <- function(dat){
-#   poisspatial::ps_elevation_google(dat,
-#                                    # renamed the GOOG_API_KEY to poisson default of "GOOGLE_MAPS_ELEVATION_API_KEY"
-#                                    # key = Sys.getenv('GOOG_API_KEY'),
-#                                    Z = 'elev') %>%
-#     mutate(elev = round(elev, 0))
-# }
-#
-# pscis_all_sf <- pscis_all_sf_prep %>%
-#   dplyr::group_split(source) %>%
-#   purrr::map(tfpr_get_elev) %>%
-#   dplyr::bind_rows()
-#
-#
-# rm(pscis_all_sf_prep)
-#
+pscis_all <- left_join(
+  pscis_all_prep,
+  xref_pscis_my_crossing_modelled,
+  by = c('my_crossing_reference' = 'external_crossing_reference')
+) %>%
+  mutate(pscis_crossing_id = case_when(
+    is.na(pscis_crossing_id) ~ as.numeric(stream_crossing_id),
+    TRUE ~ pscis_crossing_id
+  )) %>%
+  arrange(pscis_crossing_id)
+
+
+
 # ##this is not working or needed yet
 # # bcfishpass_rd <- bcfishpass %>%
 # #   select(pscis_crossing_id = stream_crossing_id, my_crossing_reference, crossing_id, distance, road_name_full,
@@ -142,6 +84,8 @@ readwritesqlite::rws_disconnect(conn)
 # #   # dplyr::filter(distance < 100)
 # #  HACK bottom hashout for now!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #
+
+
 # # priorities phase 1 ------------------------------------------------------
 # ##uses habitat value to initially screen but then refines based on what are likely not barriers to most most the time
 # phase1_priorities <- pscis_all %>%
@@ -240,6 +184,9 @@ readwritesqlite::rws_disconnect(conn)
 #
 # # tabs_phase1_pdf <- mapply(fpr_print_tab_summary_all_pdf, tab_sum = tab_summary, comments = tab_summary_comments, photos = tab_photo_url)
 #
+
+
+
 # ####-------------- habitat and fish data------------------
 # habitat_confirmations <- fpr_import_hab_con(col_filter_na = TRUE, row_empty_remove = TRUE)
 #
@@ -264,7 +211,7 @@ readwritesqlite::rws_disconnect(conn)
 #   tidyr::separate(alias_local_name, into = c('site', 'location'), remove = FALSE) %>%
 #   mutate(site = as.numeric(site)) %>%
 #   dplyr::filter(!alias_local_name %like% '_ef') ##get rid of the ef sites
-#
+
 # hab_fish_collect_map_prep <- habitat_confirmations %>%
 #   purrr::pluck("step_2_fish_coll_data") %>%
 #   dplyr::filter(!is.na(site_number)) %>%
@@ -358,6 +305,9 @@ readwritesqlite::rws_disconnect(conn)
 # )
 #
 #
+
+
+
 # ## fish densities ----------------------------------------------------------
 # hab_fish_indiv_prep <- habitat_confirmations %>%
 #   purrr::pluck("step_3_individual_fish_data") %>%
@@ -542,6 +492,10 @@ readwritesqlite::rws_disconnect(conn)
 #   tidyr::separate(local_name, into = c('site', 'location', 'ef'), remove = FALSE)
 #
 #
+
+
+
+
 # ### depletion estimates -----------------------------------------------------
 #
 # # only run depletion estimates when there are site/species events with more than 1 pass and all passes have fish.
@@ -580,6 +534,10 @@ readwritesqlite::rws_disconnect(conn)
 # #  did not show a significant slope so this is crap.
 #
 #
+
+
+
+
 # ### density results -----------------------------------------------------------
 # # need to summarize just the sites
 # tab_fish_sites_sum <- left_join(
@@ -629,6 +587,10 @@ readwritesqlite::rws_disconnect(conn)
 #                               TRUE ~ 'Downstream'),
 #          life_stage = factor(life_stage, levels = c('fry', 'parr', 'juvenile', 'adult')))
 #
+
+
+
+
 # # priorities phase 2--------------------------------------------------------------
 # #load priorities
 # habitat_confirmations_priorities <- readr::read_csv(
@@ -664,6 +626,9 @@ readwritesqlite::rws_disconnect(conn)
 #   select(-location)
 #
 #
+
+
+
 # # bcfishpass modelling table setup for reporting --------------------------
 #
 # ##### HACK - Thinking we can just do this instead??
