@@ -43,7 +43,7 @@ pscis_all <- left_join(
 
 ## Load habitat data -------------------------------------------------
 
-form_fiss_site <- fpr::fpr_sp_gpkg_backup(
+form_fiss_site_raw <- fpr::fpr_sp_gpkg_backup(
   path_gpkg = path_form_fiss_site,
   dir_backup = "data/backup/",
   update_utm = TRUE,
@@ -109,44 +109,49 @@ hab_site <- form_fiss_site
 #
 #
 # # Function to replace empty character and numeric values with NA
-# replace_empty_with_na <- function(x) {
-#   if(is.character(x) && length(x) == 0) return(NA_character_)
-#   if(is.numeric(x) && length(x) == 0) return(NA_real_)
-#   return(x)
-# }
-#
-# hab_priority_prep <- form_fiss_site_raw |>
-#   select(stream_name = gazetted_names,
-#          local_name,
-#          date_time_start) |>
-#   tidyr::separate(local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) |>
-#   dplyr::rowwise() |>
-#   # lets make the columns with functions
-#   mutate(
-#     crew_members = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = crew_members)),
-#     length_surveyed = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name,col_pull = site_length)),
-#     hab_value = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = habitat_value_rating)),
-#     priority = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = priority)),
-#     # first we grab hand bombed estimate from form so that number stands if it is present
-#     upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = us_habitat_m)),
-#     species_codes = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = species_known)),
-#     gps_waypoint_number = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = gps_waypoint_number)),
-#     comments = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = comments)),
-#     upstream_habitat_length_m_bcfishpass = list(fpr::fpr_my_bcfishpass(site = site, col_pull = st_rearing_km, round_dig = 4)),
-#     upstream_habitat_length_m_bcfishpass = 1000 * upstream_habitat_length_m_bcfishpass,
-#     species_codes_bcfishpass = list(fpr::fpr_my_bcfishpass(site = site, col_pull = observedspp_upstr)),
-#     # if the hand bombed estimate is present we use that
-#     upstream_habitat_length_m = case_when(
-#       !is.na(upstream_habitat_length_m) ~ upstream_habitat_length_m,
-#       T ~ upstream_habitat_length_m_bcfishpass
-#     ),
-#     species_codes = case_when(
-#       !is.na(species_codes) ~ species_codes,
-#       T ~ species_codes_bcfishpass
-#     ),
-#     upstream_habitat_length_m = round(upstream_habitat_length_m, 0),
-#     across(everything(), ~replace_empty_with_na(.))) |>
-#   dplyr::arrange(local_name, crew_members, date_time_start)
+replace_empty_with_na <- function(x) {
+  if(is.character(x) && length(x) == 0) return(NA_character_)
+  if(is.numeric(x) && length(x) == 0) return(NA_real_)
+  return(x)
+}
+
+hab_priority_prep <- form_fiss_site_raw |>
+  select(stream_name = gazetted_names,
+         local_name,
+         date_time_start) |>
+  tidyr::separate(local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) |>
+  dplyr::rowwise() |>
+  # lets make the columns with functions
+  mutate(
+    crew_members = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = crew_members)),
+    # length_surveyed = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name,col_pull = site_length)),
+    hab_value = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = habitat_value_rating)),
+    # need this column
+    priority = NA_character_,
+    # priority = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = priority)),
+    # first we grab hand bombed estimate from form so that number stands if it is present
+    # upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = us_habitat_m)),
+    # species_codes = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = species_known)),
+    # gps_waypoint_number = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = gps_waypoint_number)),
+    comments = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = comments)),
+    upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(site = site, col_pull = st_rearing_km, round_dig = 4)),
+    # upstream_habitat_length_m = round(1000 * upstream_habitat_length_m, 1),
+    species_codes = list(fpr::fpr_my_bcfishpass(site = site, col_pull = observedspp_upstr)),
+    # if the hand bombed estimate is present we use that
+    # upstream_habitat_length_m = case_when(
+    #   !is.na(upstream_habitat_length_m) ~ upstream_habitat_length_m,
+    #   T ~ upstream_habitat_length_m_bcfishpass
+    # ),
+    # species_codes = case_when(
+    #   !is.na(species_known) ~ species_known,
+    #   T ~ species_codes
+    # ),
+
+    across(everything(), ~replace_empty_with_na(.))) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(upstream_habitat_length_m = round(upstream_habitat_length_m)) |>
+  dplyr::arrange(local_name, crew_members, date_time_start) |>
+  sf::st_drop_geometry()
 #
 #
 # # burn to csv.  This has us doing all updates in Q or programatically. may be viable... we will see
