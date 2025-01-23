@@ -9,8 +9,7 @@ editor_options:
 ```{r setup-198913, eval = F}
 knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
 source('scripts/packages.R')
-source('scripts/tables.R')
-source('scripts/functions.R')
+source('scripts/02_reporting/new_tables.R')
 ```
 
 ```{r  load-data-198913}
