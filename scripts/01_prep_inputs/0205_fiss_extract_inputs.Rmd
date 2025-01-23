@@ -18,11 +18,11 @@ editor_options:
 Add columns to `form_fiss_site_2024` and then burn back a geopackage. This should really burn to A NEW geopcackage so it was be re-run easily. At the moment if we re-run it things get all weird with actions being duplicated, ahhhhhhh. 
 
 ```{r params}
-# path to claened form_fiss_site
-path_form_fiss_site_raw <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024.gpkg')
+# path to raw form_fiss_site after QA
+path_form_fiss_site_raw <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024_raw.gpkg')
 
 #NEW geopcackage path for the form after we have added columns as per this script
-path_form_fiss_site_complete <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024_complete.gpkg')
+path_form_fiss_site <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024.gpkg')
 ```
 
 
@@ -51,7 +51,7 @@ form_fiss_site_cleaned <- form_fiss_site |>
   # split the local_name into the site, location, and ef
   tidyr::separate(local_name, into = c("site", "location", "ef"), remove = FALSE) |> 
   # split out the date and the time - change type of column first
-  dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start),
+  dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start, tz = "America/Vancouver"),
                 date_time_start = lubridate::floor_date(date_time_start, unit = "second"),  # Remove microseconds
                 survey_date = lubridate::date(date_time_start),
                 time = hms::as_hms(date_time_start), 
@@ -265,7 +265,7 @@ Burn back to geopackage so all the new columns/data are also in the form
 
 ```{r fiss-burn-gpkg}
 form_fiss_site_prep3 |> 
-  sf::st_write(dsn = path_form_fiss_site_complete,
+  sf::st_write(dsn = path_form_fiss_site,
                append = FALSE,
                delete_dsn = TRUE)
 
@@ -277,7 +277,7 @@ form_fiss_site_prep3 |>
 ```{r backup-complete}
 
 fpr::fpr_sp_gpkg_backup(
-  path_gpkg = path_form_fiss_site_complete,
+  path_gpkg = path_form_fiss_site,
   dir_backup = "data/backup/",
   update_utm = TRUE,
   update_site_id = FALSE,
