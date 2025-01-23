@@ -9,140 +9,12 @@ source('scripts/packages.R')
 
 
 pscis_list <- fpr_import_pscis_all()
-pscis_phase1 <- pscis_list %>% pluck('pscis_phase1')
-pscis_phase2 <- pscis_list %>% pluck('pscis_phase2')
-pscis_reassessments <- pscis_list %>% pluck('pscis_reassessments')
+pscis_phase1 <- pscis_list|> pluck('pscis_phase1')
+pscis_phase2 <- pscis_list|> pluck('pscis_phase2')
+pscis_reassessments <- pscis_list|> pluck('pscis_reassessments')
 pscis_all <- bind_rows(pscis_list)
 # n_distinct(pscis_all$aggregated_crossings_id)
 
-# test for dupicate sites in every input
-ls <- pscis_all %>%
-  dplyr::group_split(source) %>%
-  purrr::set_names(nm = unique(pscis_all$source))
-
-dups <- ls %>%
-  purrr::map(janitor::get_dupes, aggregated_crossings_id)
-
-dat <- pscis_all %>%
-  sf::st_as_sf(coords = c("easting", "northing"),
-               crs = 26909, remove = F) %>% ##don't forget to put it in the right crs buds
-  sf::st_transform(crs = 3005) ##get the crs same as the layers we want to hit up
-
-
-##get the utm info from the database
-conn <- DBI::dbConnect(
-  RPostgres::Postgres(),
-  dbname = Sys.getenv('PG_DB_SHARE'),
-  host = Sys.getenv('PG_HOST_SHARE'),
-  port = Sys.getenv('PG_PORT_SHARE'),
-  user = Sys.getenv('PG_USER_SHARE'),
-  password = Sys.getenv('PG_PASS_SHARE')
-)
-#
-# ##listthe schemas in the database
-# dbGetQuery(conn,
-#            "SELECT schema_name
-#            FROM information_schema.schemata")
-# #
-# #
-# # # ##list tables in a schema
-dbGetQuery(conn,
-           "SELECT table_name
-           FROM information_schema.tables
-           WHERE table_schema='bcfishpass'")
-# # # # #
-# # # # # ##list column names in a table
-dbGetQuery(conn,
-           "SELECT column_name,data_type
-           FROM information_schema.columns
-           WHERE table_name='streams'")
-
-
-
-
-# UTMs Phase 1--------------------------------------------------------------------
-
-
-
-##pull out the details for the crossings that match the modelled ids in our dat
-##derive coordinates useing sf
-##burn csvs for each of the input files so we can copy and paste back in
-
-##isolate the id's that we want info for
-id <- dat %>%
-  # filter(is.na(easting)) %>%
-  pull(my_crossing_reference)
-
-# ##this is for phase 1
-sql <- glue::glue_sql("SELECT x.*, ST_X(ST_TRANSFORM(x.geom, 26909)) as utm_easting_derived, ST_Y(ST_TRANSFORM(x.geom, 26909)) as utm_northing_derived FROM bcfishpass.crossings x WHERE x.modelled_crossing_id IN ({id*})",
-                      .con = conn)
-
-
-query <- DBI::dbSendQuery(conn, sql)
-df <- DBI::dbFetch(query)
-dbClearResult(query)
-
-id_joined <- left_join(
-  dat %>% select(rowid, pscis_crossing_id, my_crossing_reference, source, easting, northing),
-  df %>% select(modelled_crossing_id, utm_easting_derived, utm_northing_derived),
-  by = c('my_crossing_reference' = 'modelled_crossing_id')
-) %>%
-  mutate(utm_easting = case_when(!is.na(easting) ~ easting,
-         T ~ utm_easting_derived),
-         utm_northing = case_when(!is.na(northing) ~ northing,
-         T ~ utm_northing_derived)
-  ) %>%
-  select(-utm_easting_derived, -utm_northing_derived)
-
-
-
-
-
-id <- dat %>%
-  # filter(is.na(easting)) %>%
-  pull(pscis_crossing_id)
-
-
-##we need to tweak it a bit for the phase 2
-##we are using the pscis model combined layer from way back but will work for now
-sql <- glue::glue_sql("SELECT x.*, ST_X(ST_TRANSFORM(x.geom, 26909)) as utm_easting_derived, ST_Y(ST_TRANSFORM(x.geom, 26909)) as utm_northing_derived FROM bcfishpass.crossings x WHERE x.stream_crossing_id IN ({id*})",
-                      .con = conn)
-
-query <- DBI::dbSendQuery(conn, sql)
-df2 <- DBI::dbFetch(query)
-dbClearResult(query)
-
-id_joined2 <- left_join(
-  id_joined,
-  df2 %>% select(stream_crossing_id, utm_easting_derived, utm_northing_derived),
-  by = c('pscis_crossing_id' = 'stream_crossing_id')
-) %>%
-  mutate(utm_easting = case_when(!is.na(utm_easting) ~ utm_easting,
-                                 T ~ utm_easting_derived),
-         utm_northing = case_when(!is.na(utm_northing) ~ utm_northing,
-                                  T ~ utm_northing_derived)
-  )%>%
-  select(-utm_easting_derived, -utm_northing_derived)
-
-
-##burn------------------------------------------------------------
-##now export csvs for each of the sources
-id_joined %>%
-  filter(source %like% 'phase1') %>%
-  write_csv("data/inputs_extracted/temp/utms_modelled_phase1.csv")
-
-
-id_joined2 %>%
-  filter(source %like% 'phase2')  %>%
-  write_csv("data/inputs_extracted/temp/utms_modelled_phase2.csv")
-
-id_joined2 %>%
-  filter(source %like% 'reassessments') %>%
-  write_csv("data/inputs_extracted/temp/utms_modelled_reassessments.csv")
-
-
-##always disconnect from the database
-dbDisconnect(conn = conn)
 
 
 # Road Tenure -------------------------------------------------------------
@@ -188,7 +60,7 @@ dat_joined <- left_join(
   select(pscis_all_sf, misc_point_id, pscis_crossing_id, my_crossing_reference, source), ##traded pscis_crossing_id for my_crossing_reference
   dat_info,
   by = "misc_point_id"
-) %>%
+)|>
   mutate(downstream_route_measure = as.integer(downstream_route_measure))
 
 
@@ -235,9 +107,9 @@ rm(dat_info, dat_joined, res)
 
 ##we already did this but can do it again I guess.  you cut and paste the result into kable then back
 ##into here using addin for datapasta
-# tab_rd_tenure_xref <- unique(dat_joined2$client_name) %>%
-#   as_tibble() %>%
-#   purrr::set_names(nm = 'client_name') %>%
+# tab_rd_tenure_xref <- unique(dat_joined2$client_name)|>
+#   as_tibble()|>
+#   purrr::set_names(nm = 'client_name')|>
 #   mutate(client_name_abb = NA)
 
 tab_rd_tenure_xref <- tibble::tribble(
@@ -259,7 +131,7 @@ dat_joined3 <- left_join(
 )
 
 ##make a dat to make it easier to see so we can summarize the road info we might want to use
-dat_joined4 <- dat_joined3 %>%
+dat_joined4 <- dat_joined3|>
   mutate(admin_area_abbreviation = case_when(
     is.na(admin_area_abbreviation) & (road_class %ilike% 'arterial' | road_class %ilike% 'local') ~ 'MoTi',
     T ~ admin_area_abbreviation),
@@ -267,16 +139,16 @@ dat_joined4 <- dat_joined3 %>%
     my_road_tenure =
       case_when(!is.na(client_name_abb) ~ paste0(client_name_abb, ' ', forest_file_id),
                 !is.na(road_class) ~ paste0(admin_area_abbreviation, ' ', stringr::str_to_title(road_class)),
-                !is.na(owner_name) ~ owner_name)) %>%
+                !is.na(owner_name) ~ owner_name))|>
   mutate(my_road_tenure =
            case_when(distance > 100 ~ 'Unknown',  ##we need to get rid of the info for the ones that are far away
-                     T ~ my_road_tenure)) %>%
-  rename(geom_modelled_crossing = geom) %>%
+                     T ~ my_road_tenure))|>
+  rename(geom_modelled_crossing = geom)|>
   mutate(
     my_road_tenure =stringr::str_trim(my_road_tenure),
     aggregated_crossings_id = case_when(!is.na(pscis_crossing_id) ~ pscis_crossing_id,
                                         my_crossing_reference > 200000000 ~ my_crossing_reference,
-                                        T ~ my_crossing_reference + 1000000000)) %>%
+                                        T ~ my_crossing_reference + 1000000000))|>
   sf::st_drop_geometry()
 
 ##we cannot use base R to add a column named 'source' so we choose a different name
@@ -287,9 +159,9 @@ dat_joined4$source_wkb <- col_new
 ##build tables to populate the pscis spreadsheets
 pscis1_rd_tenure <- left_join(
   select(pscis_phase1, rowid, my_crossing_reference, road_tenure),
-  dat_joined4 %>% filter(source_wkb %ilike% 'phase1') %>% select(my_crossing_reference, my_road_tenure),
+  dat_joined4|> filter(source_wkb %ilike% 'phase1')|> select(my_crossing_reference, my_road_tenure),
   by = 'my_crossing_reference'
-) %>%
+)|>
   # for some reason there is a duplicate. not messing withi it
   distinct(rowid, .keep_all = T)
 
@@ -297,7 +169,7 @@ pscis1_rd_tenure <- left_join(
 
 
 ##burn it all to a file we can input to pscis submission spreadsheet
-pscis1_rd_tenure %>%
+pscis1_rd_tenure|>
   readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/rd_tenure_pscis1.csv'),
                    na = '')
 
@@ -305,7 +177,7 @@ pscis1_rd_tenure %>%
 
 pscis_reassessments_rd_tenure <- left_join(
   select(pscis_reassessments, rowid, pscis_crossing_id, road_tenure),
-  dat_joined4 %>% filter(source_wkb %ilike% 'reassess') %>% select(pscis_crossing_id, my_road_tenure),
+  dat_joined4|> filter(source_wkb %ilike% 'reassess')|> select(pscis_crossing_id, my_road_tenure),
   by = 'pscis_crossing_id'
 )
 
@@ -313,92 +185,114 @@ pscis_reassessments_rd_tenure <- left_join(
 ## burn --------------------------------------------------------------------
 
 ##burn it all to a file we can input to pscis submission spreadsheet
-pscis_reassessments_rd_tenure %>%
+pscis_reassessments_rd_tenure|>
   readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/rd_tenure_reassessments.csv'),
                    na = '')
 ##we need to qa which are our modelled crossings at least for our phase 2 crossings
 
 pscis2_rd_tenure <- left_join(
   select(pscis_phase2, rowid, aggregated_crossings_id, pscis_crossing_id, my_crossing_reference, road_tenure),
-  dat_joined4 %>% filter(source_wkb %ilike% 'phase2') %>% select(aggregated_crossings_id, my_road_tenure),
+  dat_joined4|> filter(source_wkb %ilike% 'phase2')|> select(aggregated_crossings_id, my_road_tenure),
   by = 'aggregated_crossings_id'
 )
 
 
 ##burn it all to a file we can input to pscis submission spreadsheet
-pscis2_rd_tenure %>%
+pscis2_rd_tenure|>
   readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/rd_tenure_pscis2.csv'),
                    na = '')
 
 
 
-# structure-size-type -----------------------------------------------------
-
-lfpr_structure_size_type(pscis_all)
-
 # build priority spreadsheet ----------------------------------------------
 
 # spreadsheet to build for input includes site lengths, surveyors initials, time, priority for remediation, updated fish species (if changed from my_fish_sp())
-# thing is that we don't really have the fish info
 
-hab_con <- fpr_import_hab_con(backup = F, row_empty_remove = T)
-hab_priority_prep1 <- hab_con %>%
-  purrr::pluck("step_1_ref_and_loc_info") %>%
-  dplyr::filter(!is.na(alias_local_name)) %>%
-  mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date))) %>%
-  select(reference_number:alias_local_name, survey_date) %>%
-  tidyr::separate(alias_local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) %>%
-  mutate(time_start = NA_character_,
-         # can grab times from form_fiss_site_tidy csv
-         surveyors = NA_character_,
-         length_surveyed = NA_character_,
-         hab_value = NA_character_, #get from pscis sheets later.  Too much of a pain to join now due to multiple ids
-         priority = NA_character_,
-         upstream_habitat_length_m = NA_character_,
-         species_codes = NA_character_ #get from bcfishpass later
-  )
 
-# grab the comments
-hab_priority_prep <- left_join(
+# Function to replace empty character and numeric values with NA
+replace_empty_with_na <- function(x) {
+  if(is.character(x) && length(x) == 0) return(NA_character_)
+  if(is.numeric(x) && length(x) == 0) return(NA_real_)
+  return(x)
+}
 
-  hab_priority_prep1,
 
-  hab_con %>%
-    purrr::pluck("step_4_stream_site_data") %>%
-    select(reference_number, comments),
-  by = 'reference_number'
-) %>%
-  filter(!comments %ilike% 'feature_record_only') #we don't need to bin for these but we left them for now
+hab_priority_prep <- form_fiss_site_raw |>
+  dplyr::select(stream_name = gazetted_names,
+                local_name,
+                date_time_start) |>
+  tidyr::separate(local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) |>
+  dplyr::rowwise() |>
+  # lets make the columns with functions
+  dplyr::mutate(
+    crew_members = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = crew_members)),
+    length_surveyed = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name,col_pull = site_length)),
+    hab_value = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = habitat_value_rating)),
+    # `priority` is not currently in the 2024 `form_fiss_site` formso for now we will pull it from form_pscis
+    priority = list(fpr::fpr_my_bcfishpass(dat = form_pscis, site = site, col_filter = site_id, col_pull = my_priority)),
+    ## first we grab hand bombed estimate from form so that number stands if it is present
+    # `us_habitat_m` and `species_known` are not currently in the 2024 `form_fiss_site` form but it will be added to the 2025 form
+    # us_habitat_m = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = us_habitat_m)),
+    # species_known = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = species_known)),
+    comments = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = comments)),
+    upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(site = site, col_pull = st_rearing_km, round_dig = 4)),
+    # `upstream_habitat_length_m` is currently in km due to `st_rearing_km` being in kms.
+    upstream_habitat_length_m = list(round((upstream_habitat_length_m * 1000), digits = 0)),
+    species_codes = list(fpr::fpr_my_bcfishpass(site = site, col_pull = observedspp_upstr)),
+    # if the hand bombed estimate is present we use that
+    # upstream_habitat_length_m = case_when(
+    #   !is.na(us_habitat_m) ~ us_habitat_m,
+    #   T ~ upstream_habitat_length_m
+    # ),
+    # species_codes = case_when(
+    #   !is.na(species_known) ~ species_known,
+    #   T ~ species_codes
+    # ),
 
-# grab the fish species
+    dplyr::across(everything(), ~replace_empty_with_na(.))) |>
+  dplyr::ungroup() |>
+  dplyr::filter(is.na(ef)) |>
+  dplyr::arrange(local_name, crew_members, date_time_start) |>
+  sf::st_drop_geometry()
 
-# burn to csv to use as your template.  For safety use a different name then rename manually
-hab_priority_prep %>%
-  readr::write_csv('data/habitat_confirmations_priorities_raw.csv', na = '')
+
+# burn to csv
+hab_priority_prep|>
+  readr::write_csv("data/habitat_confirmations_priorities.csv", na = '')
+
+
 
 # extract rd cost multiplier ----------------------------------------------
 
 # rebuild using bcfishpass object from the tables.R script.
 # see older repos if we need to go back to a system that can run these before we have pscis IDs simplifying for now on
-rd_class_surface <- bcfishpass %>%
-  select(stream_crossing_id, transport_line_structured_name_1:dam_operating_status) %>%
-  filter(stream_crossing_id %in% (
-    pscis_all %>% pull(pscis_crossing_id))
-  ) %>%
-  dplyr::mutate(my_road_class = ften_file_type_description) %>%
+rd_class_surface <- bcfishpass |>
+  dplyr::select(stream_crossing_id, transport_line_structured_name_1:dam_operating_status) |>
+  dplyr::filter(
+    stringr::str_detect(
+      stream_crossing_id,
+      paste0(
+        pscis_all |>
+          dplyr::filter(!is.na(pscis_crossing_id)) |>
+          dplyr::pull(pscis_crossing_id),
+        collapse = "|"
+      )
+    )
+  )|>
+  dplyr::mutate(my_road_class = ften_file_type_description)|>
   dplyr::mutate(my_road_class = case_when(is.na(my_road_class) & !is.na(transport_line_type_description) ~
                                             transport_line_type_description,
-                                          T ~ my_road_class)) %>%
+                                          T ~ my_road_class))|>
 
   dplyr::mutate(my_road_class = case_when(is.na(my_road_class) & !is.na(rail_owner_name) ~
                                             'rail',
-                                          T ~ my_road_class)) %>%
+                                          T ~ my_road_class))|>
   dplyr::mutate(my_road_surface = case_when(is.na(transport_line_surface_description) & !is.na(ften_file_type_description) ~
                                               'loose',
-                                            T ~ transport_line_surface_description)) %>%
+                                            T ~ transport_line_surface_description))|>
   dplyr::mutate(my_road_surface = case_when(is.na(my_road_surface) & !is.na(rail_owner_name) ~
                                               'rail',
-                                            T ~ my_road_surface)) %>%
+                                            T ~ my_road_surface))|>
   mutate(my_road_class = stringr::str_replace_all(my_road_class, 'Forest Service Road', 'fsr'),
          my_road_class = stringr::str_replace_all(my_road_class, 'Road ', ''),
          my_road_class = stringr::str_replace_all(my_road_class, 'Special Use Permit, ', 'Permit-Special-'),
@@ -406,42 +300,44 @@ rd_class_surface <- bcfishpass %>%
            stringr::str_detect(my_road_class, 'driveway') ~ 'driveway',
            T ~ my_road_class),
          my_road_class = stringr::word(my_road_class, 1),
-         my_road_class = stringr::str_to_lower(my_road_class)) %>%
+         my_road_class = stringr::str_to_lower(my_road_class))|>
   filter(stream_crossing_id %in% (
-    pscis_all %>% pull(pscis_crossing_id))
+    pscis_all|> pull(pscis_crossing_id))
   )
 
 
 
 
-conn <- rws_connect("data/bcfishpass.sqlite")
-rws_list_tables(conn)
-rws_write(rd_class_surface, exists = F, delete = T,
+conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
+readwritesqlite::rws_list_tables(conn)
+readwritesqlite::rws_write(rd_class_surface, exists = F, delete = T,
           conn = conn, x_name = "rd_class_surface")
+readwritesqlite::rws_disconnect(conn)
+
 
 ####----tab cost multipliers for road surface-----
 # moving this to a csv to simplify setup. We just alter the csv when we need more categories and want to change the price
 # csv located in 'data/inputs_raw/tab_cost_rd_mult.csv'
 
-# rd_cost_mult <- pscis_rd %>%
-#   select(my_road_class, my_road_surface) %>%
-#   # mutate(road_surface_mult = NA_real_, road_class_mult = NA_real_) %>%
+# rd_cost_mult <- pscis_rd|>
+#   select(my_road_class, my_road_surface)|>
+#   # mutate(road_surface_mult = NA_real_, road_class_mult = NA_real_)|>
 #   mutate(road_class_mult = case_when(my_road_class == 'local' ~ 4,
 #                                      my_road_class == 'collector' ~ 4,
 #                                      my_road_class == 'arterial' ~ 15,
 #                                      my_road_class == 'highway' ~ 15,
 #                                      my_road_class == 'rail' ~ 15,
-#                                      T ~ 1))  %>%
+#                                      T ~ 1)) |>
 #   mutate(road_surface_mult = case_when(my_road_surface == 'loose' |
 #                                          my_road_surface == 'rough' ~
 #                                          1,
-#                                        T ~ 2)) %>%
-#   # mutate(road_type_mult = road_class_mult * road_surface_mult) %>%
+#                                        T ~ 2))|>
+#   # mutate(road_type_mult = road_class_mult * road_surface_mult)|>
 #   mutate(cost_m_1000s_bridge = road_surface_mult * road_class_mult * 20,  #changed from 12.5 due to inflation
-#          cost_embed_cv = road_surface_mult * road_class_mult * 40) %>%
-#   # mutate(cost_1000s_for_10m_bridge = 10 * cost_m_1000s_bridge) %>%
-#   distinct( .keep_all = T) %>%
-#   tidyr::drop_na() %>%
+#          cost_embed_cv = road_surface_mult * road_class_mult * 40)|>
+#   # mutate(cost_1000s_for_10m_bridge = 10 * cost_m_1000s_bridge)|>
+#   distinct( .keep_all = T)|>
+#   tidyr::drop_na()|>
 #   arrange(cost_m_1000s_bridge, my_road_class)
 #
 # rws_write(rd_cost_mult, exists = F, delete = TRUE,
@@ -453,27 +349,27 @@ rws_disconnect(conn)
 ## xref_hab_site_corrected----------------------
 habitat_confirmations <- fpr_import_hab_con()
 
-hab_loc <- habitat_confirmations %>%
-  purrr::pluck("step_1_ref_and_loc_info") %>%
+hab_loc <- habitat_confirmations|>
+  purrr::pluck("step_1_ref_and_loc_info")|>
   dplyr::filter(!is.na(site_number))%>%
-  mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date))) %>%
-  tidyr::separate(alias_local_name, into = c('site', 'location', 'fish'), remove = F) %>%
-  select(site:fish) %>%
+  mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date)))|>
+  tidyr::separate(alias_local_name, into = c('site', 'location', 'fish'), remove = F)|>
+  select(site:fish)|>
   mutate(site = as.numeric(site))
 
 xref_hab_site_corrected <- left_join(
   hab_loc,
   xref_pscis_my_crossing_modelled,
   by = c('site' = 'external_crossing_reference')
-) %>%
+)|>
   mutate(stream_crossing_id = as.numeric(stream_crossing_id),
          stream_crossing_id = case_when(
            is.na(stream_crossing_id) ~ site,
            T ~ stream_crossing_id
-         )) %>%
-  mutate(site_corrected = paste(stream_crossing_id, location, fish, sep = '_')) %>%
-  mutate(site_corrected = stringr::str_replace_all(site_corrected, '_NA', '')) %>%
-  tibble::rownames_to_column() %>%
+         ))|>
+  mutate(site_corrected = paste(stream_crossing_id, location, fish, sep = '_'))|>
+  mutate(site_corrected = stringr::str_replace_all(site_corrected, '_NA', ''))|>
+  tibble::rownames_to_column()|>
   readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/xref_hab_site_corrected.csv'), na = '')
 
 
@@ -494,7 +390,7 @@ xref_phase2_corrected <- left_join(
   mutate(pscis_crossing_id = case_when(
     is.na(pscis_crossing_id) ~ stream_crossing_id,
     T ~ as.integer(pscis_crossing_id)
-  )) %>%
+  ))|>
   dplyr::filter(str_detect(source, 'phase2'))  |>
   readr::write_csv(file = '/data/inputs_extracted/xref_phase2_corrected.csv', na = '')
 
@@ -506,36 +402,6 @@ xref_phase2_corrected <- left_join(
 # rws_disconnect(conn)
 
 
-# UTMs Phase 2--------------------------------------------------------------------
-# get just the us sites that aren't ef sites
-
-get_this <- bcdata::bcdc_tidy_resources('pscis-assessments') %>%
-  filter(bcdata_available == T)  |>
-  pull(package_id)
-
-dat <- bcdata::bcdc_get_data(get_this) |>
-  janitor::clean_names()
-
-
-habitat_confirmations <- fpr::fpr_import_hab_con()
-
-utms_hab_prep1 <- habitat_confirmations |>
-  purrr::pluck("step_1_ref_and_loc_info") |>
-  dplyr::filter(!is.na(site_number))|>
-  tidyr::separate(alias_local_name, into = c('site', 'location', 'ef'), remove = F)
-
-utms <- dat |>
-  filter(stream_crossing_id %in% (utms_hab_prep1 |> distinct(site) |> pull(site))) |>
-  select(stream_crossing_id, utm_zone:utm_northing) |>
-  mutate(alias_local_name = paste0(stream_crossing_id, '_us')) |>
-  sf::st_drop_geometry()
-
-utms_hab <- left_join(
-  utms_hab_prep1 |> select(-utm_zone:-utm_northing),
-  utms,
-  by = 'alias_local_name'
-) |>
-  readr::write_csv('data/inputs_extracted/utms_hab.csv', na = '')
 
 
 # Fish species and hab gain estimates for phase 2 sites ------------------------
@@ -857,20 +723,20 @@ hab_con <- readr::read_csv(file = "./data/habitat_confirmations_priorities.csv")
 
 
 wp_joined <- left_join(
-  hab_con %>% separate(crew_members, into = c('source', 'others')),
-  wp %>% select(name_old, source, easting, northing),
+  hab_con|> separate(crew_members, into = c('source', 'others')),
+  wp|> select(name_old, source, easting, northing),
   by = c('waypoint' = 'name_old', 'source')
 )
 
 # bring in the locations and insert utms where we don't have them already
 hab_loc_utm <- left_join(
-  fpr_import_hab_con(backup = F, col_filter_na = T) %>%
+  fpr_import_hab_con(backup = F, col_filter_na = T)|>
   purrr::pluck("step_1_ref_and_loc_info"),
 
-  wp_joined %>% select(alias_local_name, easting, northing),
+  wp_joined|> select(alias_local_name, easting, northing),
 
   by = 'alias_local_name'
-) %>%
+)|>
   mutate(
     utm_easting = case_when(
     is.na(utm_easting) ~ easting,
