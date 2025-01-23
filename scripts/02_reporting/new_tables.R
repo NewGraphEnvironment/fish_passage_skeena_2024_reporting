@@ -129,18 +129,17 @@ hab_priority_prep <- form_fiss_site_raw |>
     # need this column
     priority = NA_character_,
     # priority = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = priority)),
-    # first we grab hand bombed estimate from form so that number stands if it is present
-    # upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = us_habitat_m)),
-    # species_codes = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = species_known)),
+    ## first we grab hand bombed estimate from form so that number stands if it is present
+    # us_habitat_m = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = us_habitat_m)),
+    # species_known = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = species_known)),
     # gps_waypoint_number = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = gps_waypoint_number)),
     comments = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = comments)),
     upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(site = site, col_pull = st_rearing_km, round_dig = 4)),
-    # upstream_habitat_length_m = round(1000 * upstream_habitat_length_m, 1),
     species_codes = list(fpr::fpr_my_bcfishpass(site = site, col_pull = observedspp_upstr)),
     # if the hand bombed estimate is present we use that
     # upstream_habitat_length_m = case_when(
-    #   !is.na(upstream_habitat_length_m) ~ upstream_habitat_length_m,
-    #   T ~ upstream_habitat_length_m_bcfishpass
+    #   !is.na(us_habitat_m) ~ us_habitat_m,
+    #   T ~ upstream_habitat_length_m
     # ),
     # species_codes = case_when(
     #   !is.na(species_known) ~ species_known,
