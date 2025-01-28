@@ -197,35 +197,58 @@ Replacement of the upstream Highway 16 crossing (`r as.character(my_site2)`) is 
 
 <br>
 
-```{r tab-habitat-summary-198913, eval = F}
-tab_hab_summary %>% 
-  filter(Site  == my_site) %>% 
-  # select(-Site) %>% 
-  fpr::fpr_kable(caption_text = paste0('Summary of habitat details for PSCIS crossing ', my_site, '.'),
+```{r tab-habitat-summary-198916, eval = T}
+tab_hab_summary |>
+  dplyr::filter(Site %in% c(my_site, my_site2)) |> 
+  fpr::fpr_kable(caption_text = paste0("Summary of habitat details for PSCIS crossings ", my_site, " and ", my_site2, "."),
                  scroll = F) 
 
 ```
 
+
 <br>
 
-```{r tab-fish-site-198913, eval=F}
+```{r tab-fish-site-198916, eval=T}
 fpr_table_fish_site()
 
 ```
 
 <br>
 
-```{r tab-fish-dens-198913, eval=F}
+```{r tab-fish-site-198913, eval=T}
+fpr_table_fish_site(sit = my_site2)
+
+```
+
+<br>
+
+```{r tab-fish-dens-198916, eval=T}
 fpr_table_fish_density()
+
+```
+
+<br>
+
+```{r tab-fish-dens-198913, eval=T}
+fpr_table_fish_density(sit = my_site2)
 
 ```
 
 `r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
 
-```{r plot-fish-box-198913, fig.cap= my_caption, eval=F}
+```{r plot-fish-box-198916, fig.cap= my_caption, eval=T}
 my_caption <- paste0('Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing ', my_site, '.')
 
 fpr_plot_fish_box() 
+
+```
+
+<br>
+
+```{r plot-fish-box-198913, fig.cap= my_caption, eval=T}
+my_caption <- paste0('Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing ', my_site2, '.')
+
+fpr_plot_fish_box(sit = my_site2) 
 
 ```
 

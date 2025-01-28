@@ -64,7 +64,7 @@ pscis_all <- left_join(
 
 ## Load habitat data -------------------------------------------------
 
-form_fiss_site_raw <- fpr::fpr_sp_gpkg_backup(
+form_fiss_site <- fpr::fpr_sp_gpkg_backup(
   path_gpkg = path_form_fiss_site,
   dir_backup = "data/backup/",
   update_utm = TRUE,
@@ -74,7 +74,8 @@ form_fiss_site_raw <- fpr::fpr_sp_gpkg_backup(
   write_to_csv = FALSE,
   write_to_rdata = FALSE,
   col_easting = "utm_easting",
-  col_northing = "utm_northing")
+  col_northing = "utm_northing") |>
+  sf::st_drop_geometry()
 
 
 
@@ -86,16 +87,45 @@ fish_data_complete <- readr::read_csv(file = path_onedrive_tags_joined) |>
   dplyr::filter(project_name == project)
 
 
-## Build hab_site object for fpr_my_habitat_info() -------------------------------------------------
-
-hab_site <- form_fiss_site_raw
-
-
-
 # Bcfishpass modelling table setup for reporting --------------------------
 
 xref_bcfishpass_names <- fpr::fpr_xref_crossings
 
+
+
+## Habitat Summaries -------------------------------------------------
+
+# Build hab_site object for fpr_my_habitat_info()
+hab_site <- form_fiss_site
+
+
+#Build tab_hab_summary object for tables
+
+tab_hab_summary <- form_fiss_site |>
+  dplyr::filter(is.na(ef)) |>
+  dplyr::select(local_name,
+           site,
+           location,
+           avg_channel_width_m,
+           avg_wetted_width_m,
+           average_residual_pool_depth_m,
+           average_gradient_percent,
+           total_cover,
+           site_length,
+           habitat_value_rating) |>
+  dplyr::mutate(location = dplyr::case_when(location == "us" ~ stringr::str_replace_all(location, 'us', 'Upstream'),
+    TRUE ~ stringr::str_replace_all(location, 'ds', 'Downstream')
+    )) |>
+  dplyr::arrange(site, location) |>
+  dplyr::select(Site = site,
+         Location = location,
+         `Length Surveyed (m)` = site_length,
+         `Average Channel Width (m)` = avg_channel_width_m,
+         `Average Wetted Width (m)` = avg_wetted_width_m,
+         `Average Pool Depth (m)` = average_residual_pool_depth_m,
+         `Average Gradient (%)` = average_gradient_percent,
+         `Total Cover` = total_cover,
+         `Habitat Value` = habitat_value_rating)
 
 
 # Read priority spreadsheet ----------------------------------------------
@@ -108,9 +138,11 @@ habitat_confirmations_priorities <- readr::read_csv(
 
 
 
-## Make objects to display fish data ----------------------------------------------
-
+## Fish sampling results condensed ----------------------------------------------
+# tab_fish_summary
 tab_fish_summary <- fish_data_complete |>
+  # exclude visual observations
+  dplyr::filter(sampling_method == "electrofishing") |>
   tidyr::separate(local_name, into = c("site_id", "location", "ef")) |>
   dplyr::mutate(site_id = paste0(site_id, "_", location)) |>
   dplyr::group_by(site_id,
@@ -122,4 +154,73 @@ tab_fish_summary <- fish_data_complete |>
 
 
 
+# Fish sampling site summary ------------------------------
+# `tab_fish_sites_sum` object for `fpr_table_fish_site()`
+tab_fish_sites_sum <- dplyr::left_join(fish_data_complete |>
+                                         dplyr::group_by(local_name) |>
+                                         dplyr::mutate(pass_total = max(pass_number)) |>
+                                         dplyr::select(local_name, pass_total, enclosure),
+                                       form_fiss_site |>
+                                         dplyr::filter(!is.na(ef)) |>
+                                         dplyr::select(local_name, site_length, avg_wetted_width_m),
+                                       by = "local_name"
 
+  ) |>
+  dplyr::distinct(local_name, .keep_all = TRUE) |>
+  dplyr::rename(ef_length_m = site_length, ef_width_m = avg_wetted_width_m) |>
+  dplyr::mutate(area_m2 = round(ef_length_m * ef_width_m,1)) |>
+  dplyr::select(site = local_name, passes = pass_total, ef_length_m, ef_width_m, area_m2, enclosure)
+
+
+
+## Fish sampling density results ------------------------------
+# `fish_abund` object for `fpr_table_fish_density()` and `fpr_plot_fish_box()`
+fish_abund <- dplyr::left_join(
+  fish_data_complete |>
+    # exclude visual observations
+    dplyr::filter(sampling_method == "electrofishing") |>
+    # Add life_stage and pass_total
+    dplyr::mutate(
+      life_stage = case_when(
+        length <= 65 ~ 'fry',
+        length > 65 & length <= 110 ~ 'parr',
+        length > 110 & length <= 140 ~ 'juvenile',
+        length > 140 ~ 'adult',
+        TRUE ~ NA_character_
+      ),
+      life_stage = case_when(
+        stringr::str_like(species, '%sculpin%') ~ NA_character_,
+        TRUE ~ life_stage
+      ),
+      # Add pass_total here
+      pass_total = max(pass_number)
+    ) |>
+    # Group and summarize
+    dplyr::group_by(local_name, species, life_stage, pass_number,pass_total) |>
+    dplyr::summarise(
+      catch = n(),
+      .groups = "drop" # Ensures the grouping is removed after summarizing
+    ) |>
+    # Add nfc_pass
+    dplyr::mutate(
+      catch = case_when(species == 'NFC' ~ 0L, TRUE ~ catch),
+      nfc_pass = case_when(
+        species != 'NFC' & pass_number == pass_total ~ FALSE,
+        TRUE ~ TRUE
+      ),
+      nfc_pass = case_when(
+        species == 'NFC' ~ TRUE,
+        TRUE ~ nfc_pass
+      )),
+
+  form_fiss_site |>
+    dplyr::filter(!is.na(ef)) |>
+    dplyr::select(local_name, site, location, site_length, avg_wetted_width_m),
+
+  by = "local_name"
+  ) |>
+
+  dplyr::rename(ef_length_m = site_length, ef_width_m = avg_wetted_width_m, species_code = species) |>
+  dplyr::mutate(area_m2 = round(ef_length_m * ef_width_m,1),
+                density_100m2 = round(catch/area_m2 * 100,1)) |>
+  dplyr::select(local_name, site, location, species_code, life_stage, catch, density_100m2, nfc_pass)

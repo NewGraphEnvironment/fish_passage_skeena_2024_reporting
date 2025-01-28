@@ -50,6 +50,7 @@ form_fiss_site <- fpr::fpr_sp_gpkg_backup(
 form_fiss_site_cleaned <- form_fiss_site |> 
   # split the local_name into the site, location, and ef
   tidyr::separate(local_name, into = c("site", "location", "ef"), remove = FALSE) |> 
+  dplyr::mutate(local_name = stringr::str_trim(local_name)) |> 
   # split out the date and the time - change type of column first
   dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start, tz = "America/Vancouver"),
                 date_time_start = lubridate::floor_date(date_time_start, unit = "second"),  # Remove microseconds
