@@ -5,6 +5,12 @@ preview_chapter('0100-intro.Rmd')
 ##go to the index.Rmd and change gitbook_on <- TRUE
 #################################################################################################
 
+# move over the photos from shared drive to repo and update metadata so that the photos are included in the report interactive map
+rmarkdown::render('scripts/02_reporting/photos_import.Rmd', output_dir = "scripts/02_reporting/docs")
+source('scripts/02_reporting/0180-photos-extract-metadata.R')
+
+
+
 # add/update the NEWS.md to the book as an appendix and build the gitbook
 {
   # update util file functions from staticeimports
