@@ -20,6 +20,9 @@ bcfishpass_spawn_rear_model <- readwritesqlite::rws_read_table("bcfishpass_spawn
 # Empty until data submission is accepted
 xref_pscis_my_crossing_modelled <- readwritesqlite::rws_read_table("xref_pscis_my_crossing_modelled", conn = conn)
 
+# Table containing rd cost multiplier
+rd_class_surface <- readwritesqlite::rws_read_table("rd_class_surface", conn = conn)
+
 
 ## Do we still use this objects? Try to clean up as you go Lucy
 # form_pscis_raw <- readwritesqlite::rws_read_table("form_pscis_raw", conn = conn) |>
