@@ -249,6 +249,28 @@ purrr::map2(files_to_copy, files_to_paste, ~ fs::file_copy(.x, .y, overwrite = T
 
 ```
 
+# Build photo amalgamation for each site
+
+```{r amalg}
+form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_pscis_2024.gpkg'))
+
+# get a list of sites to burn
+sites_l <- fpr::fpr_sp_gpkg_backup(
+  form_new,
+  update_site_id = TRUE,
+  write_to_rdata = FALSE,
+  write_to_csv = FALSE,
+  write_back_to_path = FALSE,
+  return_object = TRUE
+) |> 
+  dplyr::distinct(site_id) |>
+  dplyr::arrange(site_id) |>
+  dplyr::pull(site_id)
+
+# burn the amalgamated photos to onedrive
+sites_l |>
+  purrr::map(fpr::fpr_photo_amalg_cv, dir_photos = paste0(dir_photos_onedrive, "/"))
+```
 
 
 # FISS Site - Rename the photos from the FISS cards and remove duplicates
