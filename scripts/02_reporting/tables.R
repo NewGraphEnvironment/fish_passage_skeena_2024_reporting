@@ -160,18 +160,20 @@ tab_fish_summary <- fish_data_complete |>
 tab_fish_sites_sum <- dplyr::left_join(fish_data_complete |>
                                          dplyr::group_by(local_name) |>
                                          dplyr::mutate(pass_total = max(pass_number)) |>
+                                         dplyr::ungroup() |>
                                          dplyr::select(local_name, pass_total, enclosure),
                                        form_fiss_site |>
                                          dplyr::filter(!is.na(ef)) |>
-                                         dplyr::select(local_name, site_length, avg_wetted_width_m),
+                                         dplyr::select(local_name, gazetted_names, site_length, avg_wetted_width_m) |>
+                                         dplyr::mutate(gazetted_names = stringr::str_trim(gazetted_names),
+                                                        gazetted_names = stringr::str_to_title(gazetted_names)) ,
                                        by = "local_name"
 
   ) |>
   dplyr::distinct(local_name, .keep_all = TRUE) |>
   dplyr::rename(ef_length_m = site_length, ef_width_m = avg_wetted_width_m) |>
   dplyr::mutate(area_m2 = round(ef_length_m * ef_width_m,1)) |>
-  dplyr::select(site = local_name, passes = pass_total, ef_length_m, ef_width_m, area_m2, enclosure)
-
+  dplyr::select(site = local_name, stream = gazetted_names, passes = pass_total, ef_length_m, ef_width_m, area_m2, enclosure)
 
 
 ## Fish sampling density results ------------------------------
@@ -266,7 +268,7 @@ tab_cost_est_prep <-  dplyr::left_join(
     is.na(pscis_crossing_id) ~ as.integer(stream_crossing_id),
     TRUE ~ pscis_crossing_id
   )) |>
-  dplyr::select(-stream_crossing_id, -geom)
+  dplyr::select(-stream_crossing_id)
 
 
 # Phase 1 Cost Estimates
@@ -339,6 +341,38 @@ tab_cost_est_phase1 <- dplyr::left_join(
     `Cost Benefit (m2 / $K)` = cost_area_gross)
 
 
+
+
+## Phase 2 overview table ------------------------------------------
+
+tab_overview_prep1 <- form_pscis|>
+  dplyr::filter(assess_type_phase2 == "Yes") |>
+  dplyr::select(pscis_crossing_id, stream_name, road_name, road_tenure, easting, northing, utm_zone, habitat_value)
+
+tab_overview_prep2 <- habitat_confirmations_priorities|>
+  dplyr::filter(location == 'us')|>
+  dplyr::select(site, species_codes, upstream_habitat_length_m, priority, comments)|>
+  dplyr::mutate(upstream_habitat_length_km = round(upstream_habitat_length_m/1000,1))
+
+tab_overview <- dplyr::left_join(
+  tab_overview_prep1,
+  tab_overview_prep2,
+  by = c('pscis_crossing_id' = 'site')
+)|>
+  dplyr::mutate(utm = paste0(round(easting,0), ' ', round(northing,0)))|>
+  dplyr::select(`PSCIS ID` = pscis_crossing_id,
+         Stream = stream_name,
+         Road = road_name,
+         Tenure = road_tenure,
+         `UTM` = utm,
+         `UTM zone` = utm_zone,
+         `Fish Species` = species_codes,
+         `Habitat Gain (km)` = upstream_habitat_length_km,
+         `Habitat Value` = habitat_value,
+         Priority = priority,
+         Comments = comments )
+
+rm(tab_overview_prep1, tab_overview_prep2)
 
 
 

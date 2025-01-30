@@ -310,6 +310,7 @@ rd_class_surface <- bcfishpass |>
 
 conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
 readwritesqlite::rws_list_tables(conn)
+readwritesqlite::rws_drop_table("rd_class_surface", conn = conn)
 readwritesqlite::rws_write(rd_class_surface, exists = F, delete = T,
           conn = conn, x_name = "rd_class_surface")
 readwritesqlite::rws_disconnect(conn)
@@ -346,97 +347,97 @@ readwritesqlite::rws_disconnect(conn)
 rws_disconnect(conn)
 
 
-## xref_hab_site_corrected----------------------
-habitat_confirmations <- fpr_import_hab_con()
-
-hab_loc <- habitat_confirmations|>
-  purrr::pluck("step_1_ref_and_loc_info")|>
-  dplyr::filter(!is.na(site_number))%>%
-  mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date)))|>
-  tidyr::separate(alias_local_name, into = c('site', 'location', 'fish'), remove = F)|>
-  select(site:fish)|>
-  mutate(site = as.numeric(site))
-
-xref_hab_site_corrected <- left_join(
-  hab_loc,
-  xref_pscis_my_crossing_modelled,
-  by = c('site' = 'external_crossing_reference')
-)|>
-  mutate(stream_crossing_id = as.numeric(stream_crossing_id),
-         stream_crossing_id = case_when(
-           is.na(stream_crossing_id) ~ site,
-           T ~ stream_crossing_id
-         ))|>
-  mutate(site_corrected = paste(stream_crossing_id, location, fish, sep = '_'))|>
-  mutate(site_corrected = stringr::str_replace_all(site_corrected, '_NA', ''))|>
-  tibble::rownames_to_column()|>
-  readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/xref_hab_site_corrected.csv'), na = '')
-
-
-# rws_list_tables(conn)
-# rws_drop_table("xref_hab_site_corrected", conn = conn) ##now drop the table so you can replace it
-# rws_write(hab_site_corrected, exists = F, delete = TRUE,
-#           conn = conn, x_name = "xref_hab_site_corrected")
-
-## xref_phase2_corrected------------------------------------
-# once we have our data loaded this gives us a xref dataframe to pull in pscis ids and join to our  spreadsheet imports
-pscis_all <- bind_rows(pscis_list)
-
-xref_phase2_corrected <- left_join(
-  pscis_all,
-  xref_pscis_my_crossing_modelled,
-  by = c('my_crossing_reference' = 'external_crossing_reference')
-) |>
-  mutate(pscis_crossing_id = case_when(
-    is.na(pscis_crossing_id) ~ stream_crossing_id,
-    T ~ as.integer(pscis_crossing_id)
-  ))|>
-  dplyr::filter(str_detect(source, 'phase2'))  |>
-  readr::write_csv(file = '/data/inputs_extracted/xref_phase2_corrected.csv', na = '')
-
-# rws_list_tables(conn)
-# rws_drop_table("xref_phase2_corrected", conn = conn) ##now drop the table so you can replace it
-# rws_write(xref_pscis_my_crossing_phase2, exists = F, delete = TRUE,
-#           conn = conn, x_name = "xref_phase2_corrected")
-# rws_list_tables(conn)
-# rws_disconnect(conn)
-
-
-
-
-# Fish species and hab gain estimates for phase 2 sites ------------------------
-
-habitat_con_pri <- read_csv('data/habitat_confirmations_priorities.csv')
-
-hab_priority_fish_hg <- left_join(
-  habitat_con_pri |> select(reference_number, alias_local_name, site, location, ef),
-  bcfishpass |> select(stream_crossing_id, observedspp_upstr, st_rearing_km),
-  by = c('site' = 'stream_crossing_id')
-) |>
-  mutate(observedspp_upstr = gsub("[{}]", "", observedspp_upstr)) |>
-  mutate(observedspp_upstr = case_when(
-    alias_local_name %like% '_ds' |
-      # ends in a number
-      alias_local_name %like% '\\d$' ~ NA_character_,
-    T ~ observedspp_upstr),
-    st_rearing_km = case_when(
-      alias_local_name %like% 'ds' |
-        # ends in a number
-        alias_local_name %like% '\\d$' ~ NA_real_,
-      T ~ st_rearing_km)) |>
-  rename(species_codes = observedspp_upstr) |>
-  mutate(
-    upstream_habitat_length_m = st_rearing_km * 1000,
-    species_codes = stringr::str_replace_all(species_codes, c('CCT,|SST,|SP,'), ''),
-    species_codes = case_when(
-      site == 198090 ~ NA_character_,
-      T ~ species_codes
-    )
-  ) |>
-  readr::write_csv('data/inputs_extracted/hab_priority_fish_hg.csv', na = '')
-
-
-
+# # xref_hab_site_corrected----------------------
+# habitat_confirmations <- fpr_import_hab_con()
+#
+# hab_loc <- habitat_confirmations|>
+#   purrr::pluck("step_1_ref_and_loc_info")|>
+#   dplyr::filter(!is.na(site_number))%>%
+#   mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date)))|>
+#   tidyr::separate(alias_local_name, into = c('site', 'location', 'fish'), remove = F)|>
+#   select(site:fish)|>
+#   mutate(site = as.numeric(site))
+#
+# xref_hab_site_corrected <- left_join(
+#   hab_loc,
+#   xref_pscis_my_crossing_modelled,
+#   by = c('site' = 'external_crossing_reference')
+# )|>
+#   mutate(stream_crossing_id = as.numeric(stream_crossing_id),
+#          stream_crossing_id = case_when(
+#            is.na(stream_crossing_id) ~ site,
+#            T ~ stream_crossing_id
+#          ))|>
+#   mutate(site_corrected = paste(stream_crossing_id, location, fish, sep = '_'))|>
+#   mutate(site_corrected = stringr::str_replace_all(site_corrected, '_NA', ''))|>
+#   tibble::rownames_to_column()|>
+#   readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/xref_hab_site_corrected.csv'), na = '')
+#
+#
+# # rws_list_tables(conn)
+# # rws_drop_table("xref_hab_site_corrected", conn = conn) ##now drop the table so you can replace it
+# # rws_write(hab_site_corrected, exists = F, delete = TRUE,
+# #           conn = conn, x_name = "xref_hab_site_corrected")
+#
+# # xref_phase2_corrected------------------------------------
+# # once we have our data loaded this gives us a xref dataframe to pull in pscis ids and join to our  spreadsheet imports
+# pscis_all <- bind_rows(pscis_list)
+#
+# xref_phase2_corrected <- left_join(
+#   pscis_all,
+#   xref_pscis_my_crossing_modelled,
+#   by = c('my_crossing_reference' = 'external_crossing_reference')
+# ) |>
+#   mutate(pscis_crossing_id = case_when(
+#     is.na(pscis_crossing_id) ~ stream_crossing_id,
+#     T ~ as.integer(pscis_crossing_id)
+#   ))|>
+#   dplyr::filter(str_detect(source, 'phase2'))  |>
+#   readr::write_csv(file = '/data/inputs_extracted/xref_phase2_corrected.csv', na = '')
+#
+# # rws_list_tables(conn)
+# # rws_drop_table("xref_phase2_corrected", conn = conn) ##now drop the table so you can replace it
+# # rws_write(xref_pscis_my_crossing_phase2, exists = F, delete = TRUE,
+# #           conn = conn, x_name = "xref_phase2_corrected")
+# # rws_list_tables(conn)
+# # rws_disconnect(conn)
+#
+#
+#
+#
+# # Fish species and hab gain estimates for phase 2 sites ------------------------
+#
+# habitat_con_pri <- read_csv('data/habitat_confirmations_priorities.csv')
+#
+# hab_priority_fish_hg <- left_join(
+#   habitat_con_pri |> select(reference_number, alias_local_name, site, location, ef),
+#   bcfishpass |> select(stream_crossing_id, observedspp_upstr, st_rearing_km),
+#   by = c('site' = 'stream_crossing_id')
+# ) |>
+#   mutate(observedspp_upstr = gsub("[{}]", "", observedspp_upstr)) |>
+#   mutate(observedspp_upstr = case_when(
+#     alias_local_name %like% '_ds' |
+#       # ends in a number
+#       alias_local_name %like% '\\d$' ~ NA_character_,
+#     T ~ observedspp_upstr),
+#     st_rearing_km = case_when(
+#       alias_local_name %like% 'ds' |
+#         # ends in a number
+#         alias_local_name %like% '\\d$' ~ NA_real_,
+#       T ~ st_rearing_km)) |>
+#   rename(species_codes = observedspp_upstr) |>
+#   mutate(
+#     upstream_habitat_length_m = st_rearing_km * 1000,
+#     species_codes = stringr::str_replace_all(species_codes, c('CCT,|SST,|SP,'), ''),
+#     species_codes = case_when(
+#       site == 198090 ~ NA_character_,
+#       T ~ species_codes
+#     )
+#   ) |>
+#   readr::write_csv('data/inputs_extracted/hab_priority_fish_hg.csv', na = '')
+#
+#
+#
 
 # fish summary ------------------------------------------------------------
 

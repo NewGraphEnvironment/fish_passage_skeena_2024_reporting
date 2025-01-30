@@ -13,7 +13,7 @@ source('scripts/02_reporting/0180-photos-extract-metadata.R')
 
 # add/update the NEWS.md to the book as an appendix and build the gitbook
 {
-  # update util file functions from staticeimports
+  # update util file functions from staticimports
   staticimports::import()
   source('scripts/staticimports.R')
   my_news_to_appendix()
@@ -29,7 +29,7 @@ source('scripts/02_reporting/0180-photos-extract-metadata.R')
 #
 #   source('scripts/functions.R')
 #   news_to_appendix()
-#
+#Z
 #   # These files are included in the gitbook version already so we move them out of the build
 #   files_to_move <- list.files(pattern = ".Rmd$") %>%
 #     stringr::str_subset(., '2200|2300|2400', negate = F) #move the attachments out
