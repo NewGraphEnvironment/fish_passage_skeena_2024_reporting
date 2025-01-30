@@ -72,7 +72,7 @@ Habitat modelling outputs from bcfishpass indicated 4.4 km of coho rearing habit
 Bcfishpass modelling outputs are presented in Tables
 \@ref(tab:tab-culvert-bcfp-198916) - \@ref(tab:tab-culvert-bcfp-198913). A map of the watershed is provided in
 map attachment
-[`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "bulk", archive_date = "2022-09-06")`).
+[`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "kisp", archive_date = "2022-09-06")`).
 
 <br>
 

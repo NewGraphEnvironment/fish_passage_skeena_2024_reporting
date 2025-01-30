@@ -23,7 +23,7 @@ my_site2 <- 198935
 
 ## Site Location {.unnumbered}
 
-PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`, approximately 22 km southwest of Houston, BC. `r fpr::fpr_my_pscis_info()` flows into Knapper Creek, which joins the Morrice River approximalety 2 km downstream. PSCIS crossing `r as.character(my_site)` is located 1.3 km upstream of the confluence of the subject tributary and Knapper Creek, on spur `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`. Approximately 350 m upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. Both crossings are within the Morrice River watershed group.
+PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`, approximately 22 km southwest of Houston, BC. `r fpr::fpr_my_pscis_info()` flows into Knapper Creek, which joins the Morice River approximalety 2 km downstream. PSCIS crossing `r as.character(my_site)` is located 1.3 km upstream of the confluence of the subject tributary and Knapper Creek, on spur `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`. Approximately 350 m upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. Both crossings are within the Morice River watershed group.
 
 <br>
 
