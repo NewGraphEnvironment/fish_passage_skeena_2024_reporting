@@ -941,169 +941,129 @@ pscis_all <- left_join(
 #
 # rm(tab_overview_prep1, tab_overview_prep2)
 #
-# ####---------habitat summary--------------------------------
-#
-# tab_hab_summary <- left_join(
-#   hab_site %>%
-#     select(alias_local_name,
-#            site,
-#            location,
-#            avg_channel_width_m,
-#            avg_wetted_width_m,
-#            average_residual_pool_depth_m,
-#            average_gradient_percent,
-#            total_cover),
-#
-#   habitat_confirmations_priorities %>%
-#     select(local_name,
-#            # site,
-#            # location,
-#            length_surveyed,
-#            hab_value),
-#
-#   by = c('alias_local_name' = 'local_name') #c('site', 'location')
-# ) %>%
-#   # mutate(location = case_when(
-#   #   location %ilike% 'us' ~ 'Upstream',
-#   #   TRUE ~ 'Downstream'
-#   # )) %>%
-#   mutate(location = case_when(
-#     location %ilike% 'us' ~ stringr::str_replace_all(location, 'us', 'Upstream'),
-#     TRUE ~ stringr::str_replace_all(location, 'ds', 'Downstream')
-#     )) %>%
-#   arrange(site, location) %>%
-#   select(Site = site,
-#          Location = location,
-#          `Length Surveyed (m)` = length_surveyed,
-#          `Channel Width (m)` = avg_channel_width_m,
-#          `Wetted Width (m)` = avg_wetted_width_m,
-#          `Pool Depth (m)` = average_residual_pool_depth_m,
-#          `Gradient (%)` = average_gradient_percent,
-#          `Total Cover` = total_cover,
-#          `Habitat Value` = hab_value)
 #
 #
-# # cost estimates ----------------------------------------------------------
+# cost estimates ----------------------------------------------------------
+
+## phase1 --------------------
+#make the cost estimates
+
+
+# # need to add the crossing fix, filter for our sites and customize for the waterfall sites
+rd_class_surface <-  left_join(
+
+  pscis_all %>%
+    select(
+      pscis_crossing_id,
+      my_crossing_reference,
+      aggregated_crossings_id,
+      stream_name,
+      road_name,
+      downstream_channel_width_meters,
+      barrier_result,
+      fill_depth_meters,
+      crossing_fix,
+      habitat_value,
+      recommended_diameter_or_span_meters,
+      source),
+
+  rd_class_surface_prep,
+
+  by = c('pscis_crossing_id' = 'stream_crossing_id')
+)
+#   # here are the custom changes
 #
-# ## phase1 --------------------
-# #make the cost estimates
-#
-#
-# # # need to add the crossing fix, filter for our sites and customize for the waterfall sites
-# rd_class_surface <-  left_join(
-#
-#   pscis_all %>%
-#     select(
-#       pscis_crossing_id,
-#       my_crossing_reference,
-#       aggregated_crossings_id,
-#       stream_name,
-#       road_name,
-#       downstream_channel_width_meters,
-#       barrier_result,
-#       fill_depth_meters,
-#       crossing_fix,
-#       habitat_value,
-#       recommended_diameter_or_span_meters,
-#       source),
-#
-#   rd_class_surface_prep,
-#
-#   by = c('pscis_crossing_id' = 'stream_crossing_id')
-# )
-# #   # here are the custom changes
-# #
-#
-# tab_cost_est_prep <- left_join(
-#   rd_class_surface,
-#   sfpr_xref_road_cost() |> select(my_road_class, my_road_surface, cost_m_1000s_bridge, cost_embed_cv),
-#   by = c('my_road_class','my_road_surface')
-# )
-#
-# tab_cost_est_prep2 <- left_join(
-#   tab_cost_est_prep,
-#   select(fpr_xref_fix, crossing_fix, crossing_fix_code),
-#   by = c('crossing_fix')
-# ) %>%
-#   mutate(cost_est_1000s = case_when(
-#     crossing_fix_code == 'SS-CBS' ~ cost_embed_cv,
-#     crossing_fix_code == 'OBS' ~ cost_m_1000s_bridge * recommended_diameter_or_span_meters)
-#   ) %>%
-#   mutate(cost_est_1000s = round(cost_est_1000s, 0))
-#
-#
-#
-# ##add in the model data.  This is a good reason for the data to be input first so that we can use the net distance!!
-# tab_cost_est_prep3 <- left_join(
-#   tab_cost_est_prep2,
-#   bcfishpass %>%
-#     select(stream_crossing_id,
-#            st_network_km,
-#            st_belowupstrbarriers_network_km) %>%
-#     mutate(stream_crossing_id = as.numeric(stream_crossing_id)),
-#   by = c('pscis_crossing_id' = 'stream_crossing_id')
-# ) %>%
-#   mutate(cost_net = round(st_belowupstrbarriers_network_km * 1000/cost_est_1000s, 1),
-#          cost_gross = round(st_network_km * 1000/cost_est_1000s, 1),
-#          cost_area_net = round((st_belowupstrbarriers_network_km * 1000 * downstream_channel_width_meters * 0.5)/cost_est_1000s, 1), ##this is a triangle area!
-#          cost_area_gross = round((st_network_km * 1000 * downstream_channel_width_meters * 0.5)/cost_est_1000s, 1)) ##this is a triangle area!
-#
-#
-# # # ##add the xref stream_crossing_id
-# tab_cost_est_prep4 <- left_join(
-#   tab_cost_est_prep3,
-#   xref_pscis_my_crossing_modelled,
-#   by = c('my_crossing_reference' = 'external_crossing_reference')
-# ) %>%
-#   mutate(stream_crossing_id = case_when(
-#     is.na(stream_crossing_id) ~ as.integer(pscis_crossing_id),
-#     TRUE ~ stream_crossing_id
-#   ))
-#
-# ##add the priority info
-# tab_cost_est_phase1_prep <- left_join(
-#   phase1_priorities %>% select(pscis_crossing_id,
-#                                priority_phase1),
-#   tab_cost_est_prep4,
-#   by = 'pscis_crossing_id'
-# ) %>%
-#   arrange(pscis_crossing_id) %>%
-#   select(pscis_crossing_id,
-#          my_crossing_reference,
-#          my_crossing_reference,
-#          stream_name,
-#          road_name,
-#          barrier_result,
-#          habitat_value,
-#          downstream_channel_width_meters,
-#          priority_phase1,
-#          crossing_fix_code,
-#          cost_est_1000s,
-#          st_network_km,
-#          cost_gross, cost_area_gross, source) %>%
-#   dplyr::filter(barrier_result != 'Unknown' & barrier_result != 'Passable')
-#
-# # too_far_away <- tab_cost_est %>% dplyr::filter(distance > 100) %>% ##after review all crossing match!!!!! Baren rail is the hwy but that is fine. added source, distance, crossing_id above
-# #   dplyr::filter(source %like% 'phase2')
-#
-# tab_cost_est_phase1 <- tab_cost_est_phase1_prep %>%
-#   rename(
-#     `PSCIS ID` = pscis_crossing_id,
-#     `External ID` = my_crossing_reference,
-#     Priority = priority_phase1,
-#     Stream = stream_name,
-#     Road = road_name,
-#     Result = barrier_result,
-#     `Habitat value` = habitat_value,
-#     `Stream Width (m)` = downstream_channel_width_meters,
-#     Fix = crossing_fix_code,
-#     `Cost Est ( $K)` =  cost_est_1000s,
-#     `Habitat Upstream (km)` = st_network_km,
-#     `Cost Benefit (m / $K)` = cost_gross,
-#     `Cost Benefit (m2 / $K)` = cost_area_gross) %>%
-#   dplyr::filter(!source %like% 'phase2') %>%
-#   select(-source)
-#
+
+tab_cost_est_prep <- left_join(
+  rd_class_surface,
+  sfpr_xref_road_cost() |> select(my_road_class, my_road_surface, cost_m_1000s_bridge, cost_embed_cv),
+  by = c('my_road_class','my_road_surface')
+)
+
+tab_cost_est_prep2 <- left_join(
+  tab_cost_est_prep,
+  select(fpr_xref_fix, crossing_fix, crossing_fix_code),
+  by = c('crossing_fix')
+) %>%
+  mutate(cost_est_1000s = case_when(
+    crossing_fix_code == 'SS-CBS' ~ cost_embed_cv,
+    crossing_fix_code == 'OBS' ~ cost_m_1000s_bridge * recommended_diameter_or_span_meters)
+  ) %>%
+  mutate(cost_est_1000s = round(cost_est_1000s, 0))
+
+
+
+##add in the model data.  This is a good reason for the data to be input first so that we can use the net distance!!
+tab_cost_est_prep3 <- left_join(
+  tab_cost_est_prep2,
+  bcfishpass %>%
+    select(stream_crossing_id,
+           st_network_km,
+           st_belowupstrbarriers_network_km) %>%
+    mutate(stream_crossing_id = as.numeric(stream_crossing_id)),
+  by = c('pscis_crossing_id' = 'stream_crossing_id')
+) %>%
+  mutate(cost_net = round(st_belowupstrbarriers_network_km * 1000/cost_est_1000s, 1),
+         cost_gross = round(st_network_km * 1000/cost_est_1000s, 1),
+         cost_area_net = round((st_belowupstrbarriers_network_km * 1000 * downstream_channel_width_meters * 0.5)/cost_est_1000s, 1), ##this is a triangle area!
+         cost_area_gross = round((st_network_km * 1000 * downstream_channel_width_meters * 0.5)/cost_est_1000s, 1)) ##this is a triangle area!
+
+
+# # ##add the xref stream_crossing_id
+tab_cost_est_prep4 <- left_join(
+  tab_cost_est_prep3,
+  xref_pscis_my_crossing_modelled,
+  by = c('my_crossing_reference' = 'external_crossing_reference')
+) %>%
+  mutate(stream_crossing_id = case_when(
+    is.na(stream_crossing_id) ~ as.integer(pscis_crossing_id),
+    TRUE ~ stream_crossing_id
+  ))
+
+##add the priority info
+tab_cost_est_phase1_prep <- left_join(
+  phase1_priorities %>% select(pscis_crossing_id,
+                               priority_phase1),
+  tab_cost_est_prep4,
+  by = 'pscis_crossing_id'
+) %>%
+  arrange(pscis_crossing_id) %>%
+  select(pscis_crossing_id,
+         my_crossing_reference,
+         my_crossing_reference,
+         stream_name,
+         road_name,
+         barrier_result,
+         habitat_value,
+         downstream_channel_width_meters,
+         priority_phase1,
+         crossing_fix_code,
+         cost_est_1000s,
+         st_network_km,
+         cost_gross, cost_area_gross, source) %>%
+  dplyr::filter(barrier_result != 'Unknown' & barrier_result != 'Passable')
+
+# too_far_away <- tab_cost_est %>% dplyr::filter(distance > 100) %>% ##after review all crossing match!!!!! Baren rail is the hwy but that is fine. added source, distance, crossing_id above
+#   dplyr::filter(source %like% 'phase2')
+
+tab_cost_est_phase1 <- tab_cost_est_phase1_prep %>%
+  rename(
+    `PSCIS ID` = pscis_crossing_id,
+    `External ID` = my_crossing_reference,
+    Priority = priority_phase1,
+    Stream = stream_name,
+    Road = road_name,
+    Result = barrier_result,
+    `Habitat value` = habitat_value,
+    `Stream Width (m)` = downstream_channel_width_meters,
+    Fix = crossing_fix_code,
+    `Cost Est ( $K)` =  cost_est_1000s,
+    `Habitat Upstream (km)` = st_network_km,
+    `Cost Benefit (m / $K)` = cost_gross,
+    `Cost Benefit (m2 / $K)` = cost_area_gross) %>%
+  dplyr::filter(!source %like% 'phase2') %>%
+  select(-source)
+
 # ## phase2 --------------------
 # tab_cost_est_prep4 <- left_join(
 #   tab_cost_est_prep3,

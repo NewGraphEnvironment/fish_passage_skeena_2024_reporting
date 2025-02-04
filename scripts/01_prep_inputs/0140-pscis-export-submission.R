@@ -88,7 +88,7 @@ photo_sort_tracking <- path_to_photos |>
 ##burn to csv
 fs::dir_create("data/photos")
 photo_sort_tracking |>
-  readr::write_csv(file = 'data/photos/photo_sort_tracking_phase1.csv')
+  readr::write_csv(file = 'data/backup/photo_sort_tracking_phase1.csv')
 
 ## change path name so we can paste to folders
 filestopaste_list <- filestocopy_list |>

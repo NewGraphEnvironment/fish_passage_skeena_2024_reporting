@@ -1,0 +1,67 @@
+---
+title: "photos import"
+date: "Created: 2024-05-17 | Updated: `r format(Sys.Date(), '%Y-%m-%d')`"
+output: 
+  html_document:
+    code_folding: "hide"
+params:
+  repo_owner: "NewGraphEnvironment"
+  repo_name: "fish_passage_skeena_2024_reporting"
+  file_in: 'scripts/02_reporting/photos_import.Rmd'
+  file_out: 'photos_import.html'
+---
+
+```{r setup, eval= TRUE}
+knitr::opts_chunk$set(echo=TRUE, message=FALSE, warning=FALSE, dpi=60, out.width = "100%", eval = FALSE)
+options(scipen=999)
+options(knitr.kable.NA = '--') #'--'
+options(knitr.kable.NAN = '--')
+
+```
+
+```{r paths, eval=TRUE}
+
+dir_server_photos <- fs::path_expand("~/Library/CloudStorage/OneDrive-Personal/Projects/2024-072-sern-skeena-fish-passage/data/photos/")
+
+dir_repo_photos <- fs::path_expand("~/Projects/repo/fish_passage_skeena_2024_reporting/data/photos/")
+```
+
+This is a simple script to bulk import all photos tagged with `_k_` or `crossings_all`  from a shared server to the local repo directory. Idea here is that all collaborators on raw project (who have access to the shared server) can add photos to the shared server and alter
+photos on the shared server (ie. organize, rename) and then update the repo. 
+
+<br>
+
+Naming conventions to allow `git` to track photos are included in the project `.gitignore` (ex. `_k_` included or photo
+is named `crossing_all.JPG`).
+
+<br>
+
+This script keeps things very simple by first deleting all the photos locally, and then copying only the photos tagged with `_k_` or `crossings_all` from the shared server to the local repo.
+
+```{r copy, eval=TRUE}
+
+# delete the mother photos directory
+fs::dir_delete(dir_repo_photos)
+
+# create the new mother photos directory
+fs::dir_create(dir_repo_photos)
+
+# These are the photos we are copying
+photos_to_copy <- fs::dir_ls(dir_server_photos, recurse = TRUE, type = "file") %>% 
+  .[stringr::str_detect(., "_k_|crossing_all")]
+
+# Make the paths for where we are copying the photos to
+files_to_paste <- stringr::str_remove(photos_to_copy, paste0("^", dir_server_photos, "/"))
+photos_to_paste <- fs::path(dir_repo_photos, files_to_paste)
+
+# Create directories for the new file paths
+dirs_to_create <- files_to_paste |>
+  fs::path_dir() |>
+  unique()
+fs::dir_create(fs::path(paste0(dir_repo_photos, "/", dirs_to_create)))
+
+
+# Copy photos from the shared server to the local repo
+purrr::map2(photos_to_copy, photos_to_paste, ~ fs::file_copy(.x, .y, overwrite = TRUE))
+```
+

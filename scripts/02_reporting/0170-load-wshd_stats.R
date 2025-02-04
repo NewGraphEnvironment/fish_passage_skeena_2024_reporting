@@ -2,31 +2,15 @@
 
 # Load required objects -------------------------------------------------
 
-# 0165-read-sqlite.R` reads in the `bcfishpass` object
+# `0165-read-sqlite.R` reads in the `bcfishpass` object
 source("scripts/02_reporting/0165-read-sqlite.R")
 
-# read in `form_pscis_2024` to extract the site elevations
-path_form_pscis <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_pscis_2024.gpkg')
+# `tables.R` reads in the `form_pscis_2024` object
+source('scripts/02_reporting/tables.R')
 
-form_pscis <- fpr::fpr_sp_gpkg_backup(
-  path_gpkg = path_form_pscis,
-  dir_backup = "data/backup/",
-  update_utm = TRUE,
-  update_site_id = TRUE, ## This now also checks for duplicates
-  write_back_to_path = FALSE,
-  write_to_csv = TRUE,
-  write_to_rdata = TRUE,
-  return_object = TRUE)
 
 
 ## Filter the bcfishpass data to just the phase 2 sites -------------------------------------------------
-
-# Skeena 2024 issue:
-# crossing 58264 is located on Simpson creek, which is incorrectly mapped in BC FWA, therefore the crossing is not tied to a modelled crossing.
-# The correct modelled crossing is tied to PSCIS crossing 58258, which is on a super small trib.
-# I think we need to force the linkage of PSCIS crossing 58264 to modelled crossing 1800143, using bcdfishpass csvs.
-# For now, I will just filter `bcfishpass_phase2` to include modelled crossing 1800143.
-
 bcfishpass_phase2 <- bcfishpass |>
   dplyr::filter(
     stringr::str_detect(
@@ -34,8 +18,7 @@ bcfishpass_phase2 <- bcfishpass |>
       paste0(pscis_phase2 |>
                pull(pscis_crossing_id),
              collapse = "|")
-    ) | modelled_crossing_id == "1800143"
-  )
+    ))
 
 
 ## Remove crossings on first order streams -------------------------------------------------
