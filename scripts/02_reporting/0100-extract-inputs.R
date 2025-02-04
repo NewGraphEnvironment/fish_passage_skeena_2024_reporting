@@ -1,21 +1,3 @@
-# source('scripts/functions.R')
-source('scripts/private_info.R')
-source('scripts/packages.R')
-
-
-##make a dataframe to pull info from the db
-##we should probably break each row out and determine the crs by the utm_zone attribute
-##lets do both phases at once to create a file for feeding back to bcfishpass
-
-
-pscis_list <- fpr_import_pscis_all()
-pscis_phase1 <- pscis_list|> pluck('pscis_phase1')
-pscis_phase2 <- pscis_list|> pluck('pscis_phase2')
-pscis_reassessments <- pscis_list|> pluck('pscis_reassessments')
-pscis_all <- bind_rows(pscis_list)
-# n_distinct(pscis_all$aggregated_crossings_id)
-
-
 
 # Road Tenure -------------------------------------------------------------
 
@@ -293,18 +275,14 @@ rd_class_surface <- bcfishpass |>
   dplyr::mutate(my_road_surface = case_when(is.na(my_road_surface) & !is.na(rail_owner_name) ~
                                               'rail',
                                             T ~ my_road_surface))|>
-  mutate(my_road_class = stringr::str_replace_all(my_road_class, 'Forest Service Road', 'fsr'),
+  dplyr::mutate(my_road_class = stringr::str_replace_all(my_road_class, 'Forest Service Road', 'fsr'),
          my_road_class = stringr::str_replace_all(my_road_class, 'Road ', ''),
          my_road_class = stringr::str_replace_all(my_road_class, 'Special Use Permit, ', 'Permit-Special-'),
-         my_road_class = case_when(
-           stringr::str_detect(my_road_class, 'driveway') ~ 'driveway',
+         my_road_class = dplyr::case_when(
+           stringr::str_detect(my_road_class, '%driveway%') ~ 'driveway',
            T ~ my_road_class),
          my_road_class = stringr::word(my_road_class, 1),
-         my_road_class = stringr::str_to_lower(my_road_class))|>
-  filter(stream_crossing_id %in% (
-    pscis_all|> pull(pscis_crossing_id))
-  )
-
+         my_road_class = stringr::str_to_lower(my_road_class))
 
 
 

@@ -1,6 +1,6 @@
 ## new tables.R
 
-## Params -------------------------------------------------
+# Parameters -------------------------------------------------
 
 # path to form_pscis_2024
 path_form_pscis <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_pscis_2024.gpkg')
@@ -13,6 +13,9 @@ path_onedrive_tags_joined <-  fs::path('/Users/lucyschick/Library/CloudStorage/O
 
 # specify which project data we want. for this case `2024-073-sern-peace-fish-passage`
 project = "2024-072-sern-skeena-fish-passage"
+
+
+# Load data -------------------------------------------------
 
 ## Load PSCIS data -------------------------------------------------
 
@@ -94,13 +97,13 @@ xref_bcfishpass_names <- fpr::fpr_xref_crossings
 
 
 
-## Habitat Summaries -------------------------------------------------
+# Habitat Summaries -------------------------------------------------
 
-# Build hab_site object for fpr_my_habitat_info()
+## Build hab_site object for fpr_my_habitat_info() ------------------
 hab_site <- form_fiss_site
 
 
-#Build tab_hab_summary object for tables
+## Build tab_hab_summary object for tables --------------------------
 
 tab_hab_summary <- form_fiss_site |>
   dplyr::filter(is.na(ef)) |>
@@ -129,8 +132,9 @@ tab_hab_summary <- form_fiss_site |>
          `Habitat Value` = habitat_value_rating)
 
 
-# Read priority spreadsheet ----------------------------------------------
+# Priority spreadsheet ----------------------------------------------
 
+#Read priority spreadsheet
 # spreadsheet that includes site lengths, surveyors initials, time, priority for remediation, updated fish species (if changed from my_fish_sp())
 
 # read in the object
@@ -138,6 +142,8 @@ habitat_confirmations_priorities <- readr::read_csv(
   file = "data/habitat_confirmations_priorities.csv")
 
 
+
+# Fish sampling ----------------------------------------------
 
 ## Fish sampling results condensed ----------------------------------------------
 # tab_fish_summary
@@ -155,7 +161,7 @@ tab_fish_summary <- fish_data_complete |>
 
 
 
-# Fish sampling site summary ------------------------------
+## Fish sampling site summary ------------------------------
 # `tab_fish_sites_sum` object for `fpr_table_fish_site()`
 tab_fish_sites_sum <- dplyr::left_join(fish_data_complete |>
                                          dplyr::group_by(local_name) |>
@@ -231,7 +237,9 @@ fish_abund <- dplyr::left_join(
 
 
 
-## Cost Estimates ------------------------------
+# Cost Estimates ------------------------------
+
+## Phase 1  ------------------------------
 
 # join the road class and surface from `rd_class_surface` pulled from `bcfishpass` to the crossings
 tab_cost_est_prep <-  dplyr::left_join(
@@ -275,24 +283,26 @@ tab_cost_est_prep <-  dplyr::left_join(
 tab_cost_est_phase1 <- dplyr::left_join(
   # join the bridge costs and embedment costs
   tab_cost_est_prep |>
-    # UNTIL PSCIS DATA IS IN, just do reassessments
-    dplyr::filter(source == "pscis_reassessments.xlsm"),
+    dplyr::filter(!source == "pscis_phase2.xlsm"),
   sfpr_xref_road_cost() |>
     dplyr::select(my_road_class, my_road_surface, cost_m_1000s_bridge, cost_embed_cv),
   by = c('my_road_class','my_road_surface')
 ) |>
+
+  # join the crossing fix codes
   dplyr::left_join(
-    # join the crossing fix codes
     dplyr::select(fpr_xref_fix, crossing_fix, crossing_fix_code),
 
     by = c('crossing_fix')
 ) |>
+
   # calculate the cost estimates per 1000 square feet?
   dplyr::mutate(cost_est_1000s = dplyr::case_when(
     crossing_fix_code == 'SS-CBS' ~ cost_embed_cv,
     crossing_fix_code == 'OBS' ~ cost_m_1000s_bridge * recommended_diameter_or_span_meters)
   ) |>
   dplyr::mutate(cost_est_1000s = round(cost_est_1000s, 0)) |>
+
   # add in the upstream modelling data so we can estimate potential habitat gain
   dplyr::left_join(bcfishpass |>
                      dplyr::select(stream_crossing_id,
@@ -306,6 +316,7 @@ tab_cost_est_phase1 <- dplyr::left_join(
          cost_gross = round(st_network_km * 1000/cost_est_1000s, 1),
          cost_area_net = round((st_belowupstrbarriers_network_km * 1000 * downstream_channel_width_meters * 0.5)/cost_est_1000s, 1), ##this is a triangle area!
          cost_area_gross = round((st_network_km * 1000 * downstream_channel_width_meters * 0.5)/cost_est_1000s, 1)) |>   ##this is a triangle area!
+
   # add in the priority from form_pscis
   dplyr::left_join(form_pscis |>
                      dplyr::select(pscis_crossing_id, my_priority),
@@ -343,7 +354,9 @@ tab_cost_est_phase1 <- dplyr::left_join(
 
 
 
-## Phase 2 overview table ------------------------------------------
+# Phase 2 overview table ------------------------------------------
+
+# Overview of habitat confirmation sites used in the results section
 
 tab_overview_prep1 <- form_pscis|>
   dplyr::filter(assess_type_phase2 == "Yes") |>

@@ -224,7 +224,7 @@ The "Barrier" and "Potential Barrier" rankings used in this project followed @fi
 
  tab_cost_est_phase1 |>
   select(`PSCIS ID`:`Cost Est ( $K)`) |> 
-   fpr::fpr_kable(caption_text = 'Upstream habitat estimates and cost benefit analysis for Phase 1 assessments conducted on sites not yet inventoried in PSCIS, and Reassessments. Steelhead network model (total length stream network <20% gradient).',
+   fpr::fpr_kable(caption_text = 'Upstream habitat estimates and cost benefit analysis for Phase 1 assessments. Steelhead network model (total length stream network <20% gradient).',
                   scroll = gitbook_on)
 ```
 
