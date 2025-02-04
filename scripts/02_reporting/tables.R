@@ -9,7 +9,7 @@ path_form_pscis <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/for
 path_form_fiss_site <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024.gpkg')
 
 # Onedrive path to the fish data with the pit tags joined.
-path_onedrive_tags_joined <-  fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/fish/fish_data_tags_joined.csv')
+path_fish_tags_joined <-  fs::path_expand('~/Projects/repo/fish_passage_skeena_2024_reporting/data/fish_data_tags_joined.csv')
 
 # specify which project data we want. for this case `2024-073-sern-peace-fish-passage`
 project = "2024-072-sern-skeena-fish-passage"
@@ -40,28 +40,24 @@ form_pscis <- fpr::fpr_sp_gpkg_backup(
 pscis_list <- fpr::fpr_import_pscis_all()
 pscis_phase1 <- pscis_list |> pluck('pscis_phase1')
 pscis_phase2 <- pscis_list |> pluck('pscis_phase2') |>
-  arrange(pscis_crossing_id)
+  dplyr::arrange(pscis_crossing_id)
 pscis_reassessments <- pscis_list |> pluck('pscis_reassessments')
 pscis_all_prep <- pscis_list |>
   bind_rows()
 
 
 
-# WHY DO WE NEED THIS, BECAUSE:
-# It looks like this object is used in multiple other parts of this script.
-# Take note of how it is used as we continue purging this script
-
-# this doesn't work till our data loads to pscis
-pscis_all <- left_join(
+# Used in many other parts of the script
+pscis_all <- dplyr::left_join(
   pscis_all_prep,
   xref_pscis_my_crossing_modelled,
   by = c('my_crossing_reference' = 'external_crossing_reference')
 ) |>
-  mutate(pscis_crossing_id = case_when(
+  dplyr::mutate(pscis_crossing_id = dplyr::case_when(
     is.na(pscis_crossing_id) ~ as.numeric(stream_crossing_id),
     TRUE ~ pscis_crossing_id
   )) |>
-  arrange(pscis_crossing_id)
+  dplyr::arrange(pscis_crossing_id)
 
 
 
@@ -85,7 +81,7 @@ form_fiss_site <- fpr::fpr_sp_gpkg_backup(
 
 ## Load fish data -------------------------------------------------
 
-fish_data_complete <- readr::read_csv(file = path_onedrive_tags_joined) |>
+fish_data_complete <- readr::read_csv(file = path_fish_tags_joined) |>
   janitor::clean_names() |>
   #filter for skeena 2024
   dplyr::filter(project_name == project)
@@ -132,14 +128,102 @@ tab_hab_summary <- form_fiss_site |>
          `Habitat Value` = habitat_value_rating)
 
 
-# Priority spreadsheet ----------------------------------------------
 
-#Read priority spreadsheet
+# Phase 1 Appendix ----------------------------------------------
+
+## make result summary tables for each of the crossings, used to display phase 1 data in the appendix
+
+## turn spreadsheet into list of data frames
+pscis_phase1_for_tables <- pscis_all |>
+  dplyr::filter(!source == "pscis_phase2.xlsm") |>
+  dplyr::arrange(pscis_crossing_id)
+
+pscis_split <- pscis_phase1_for_tables  |>
+  dplyr::group_split(pscis_crossing_id) |>
+  purrr::set_names(pscis_phase1_for_tables$pscis_crossing_id)
+
+
+##make result summary tables for each of the crossings
+tab_summary <- pscis_split |>
+  purrr::map(fpr::fpr_table_cv_detailed)
+
+tab_summary_comments <- pscis_split |>
+  purrr::map(fpr::fpr_table_cv_detailed_comments)
+
+
+tab_photo_url <- fs::dir_ls(path = "data/photos/", recurse = FALSE) |>
+  basename() |>
+  tibble::as_tibble() |>
+  ## for skeena 2024 - remove folder buck_falls
+  dplyr::filter(!value == "buck_falls") |>
+  dplyr::mutate(value = as.integer(value)) |>  # Convert filenames to integers for sorting
+  dplyr::arrange(value) |>
+  dplyr::mutate(photo = paste0("![](data/photos/", value, "/crossing_all.JPG)")) |>
+  dplyr::filter(value %in% pscis_phase1_for_tables$site_id) |>
+  dplyr::left_join(xref_pscis_my_crossing_modelled,
+                   by = c("value" = "external_crossing_reference")) |>
+  dplyr::mutate(stream_crossing_id = dplyr::case_when(
+    is.na(stream_crossing_id) ~ value,
+    TRUE ~ stream_crossing_id
+  )) |>
+  dplyr::arrange(stream_crossing_id) |>
+  dplyr::group_split(stream_crossing_id)
+
+
+# used to build tables for PDF version of the report
+tabs_phase1_pdf <- mapply(
+  fpr::fpr_table_cv_detailed_print,
+  tab_sum = tab_summary,
+  comments = tab_summary_comments,
+  photos = tab_photo_url,
+  gitbook_switch = FALSE)
+
+
+rm(pscis_phase1_for_tables,pscis_split)
+
+
+# Phase 2 Priority spreadsheet ----------------------------------------------
+
+# Read priority spreadsheet
 # spreadsheet that includes site lengths, surveyors initials, time, priority for remediation, updated fish species (if changed from my_fish_sp())
 
 # read in the object
 habitat_confirmations_priorities <- readr::read_csv(
   file = "data/habitat_confirmations_priorities.csv")
+
+
+# Phase 2 overview table ------------------------------------------
+
+# Overview of habitat confirmation sites used in the results section
+
+tab_overview_prep1 <- form_pscis|>
+  dplyr::filter(assess_type_phase2 == "Yes") |>
+  dplyr::select(pscis_crossing_id, stream_name, road_name, road_tenure, easting, northing, utm_zone, habitat_value)
+
+tab_overview_prep2 <- habitat_confirmations_priorities|>
+  dplyr::filter(location == 'us')|>
+  dplyr::select(site, species_codes, upstream_habitat_length_m, priority, comments)|>
+  dplyr::mutate(upstream_habitat_length_km = round(upstream_habitat_length_m/1000,1))
+
+tab_overview <- dplyr::left_join(
+  tab_overview_prep1,
+  tab_overview_prep2,
+  by = c('pscis_crossing_id' = 'site')
+)|>
+  dplyr::mutate(utm = paste0(round(easting,0), ' ', round(northing,0)))|>
+  dplyr::select(`PSCIS ID` = pscis_crossing_id,
+                Stream = stream_name,
+                Road = road_name,
+                Tenure = road_tenure,
+                `UTM` = utm,
+                `UTM zone` = utm_zone,
+                `Fish Species` = species_codes,
+                `Habitat Gain (km)` = upstream_habitat_length_km,
+                `Habitat Value` = habitat_value,
+                Priority = priority,
+                Comments = comments )
+
+rm(tab_overview_prep1, tab_overview_prep2)
 
 
 
@@ -352,40 +436,5 @@ tab_cost_est_phase1 <- dplyr::left_join(
     `Cost Benefit (m2 / $K)` = cost_area_gross)
 
 
-
-
-# Phase 2 overview table ------------------------------------------
-
-# Overview of habitat confirmation sites used in the results section
-
-tab_overview_prep1 <- form_pscis|>
-  dplyr::filter(assess_type_phase2 == "Yes") |>
-  dplyr::select(pscis_crossing_id, stream_name, road_name, road_tenure, easting, northing, utm_zone, habitat_value)
-
-tab_overview_prep2 <- habitat_confirmations_priorities|>
-  dplyr::filter(location == 'us')|>
-  dplyr::select(site, species_codes, upstream_habitat_length_m, priority, comments)|>
-  dplyr::mutate(upstream_habitat_length_km = round(upstream_habitat_length_m/1000,1))
-
-tab_overview <- dplyr::left_join(
-  tab_overview_prep1,
-  tab_overview_prep2,
-  by = c('pscis_crossing_id' = 'site')
-)|>
-  dplyr::mutate(utm = paste0(round(easting,0), ' ', round(northing,0)))|>
-  dplyr::select(`PSCIS ID` = pscis_crossing_id,
-         Stream = stream_name,
-         Road = road_name,
-         Tenure = road_tenure,
-         `UTM` = utm,
-         `UTM zone` = utm_zone,
-         `Fish Species` = species_codes,
-         `Habitat Gain (km)` = upstream_habitat_length_km,
-         `Habitat Value` = habitat_value,
-         Priority = priority,
-         Comments = comments )
-
-rm(tab_overview_prep1, tab_overview_prep2)
-
-
+rm(tab_cost_est_prep)
 
