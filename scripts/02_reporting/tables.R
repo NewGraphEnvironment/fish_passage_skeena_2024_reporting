@@ -31,8 +31,7 @@ form_pscis <- fpr::fpr_sp_gpkg_backup(
   write_back_to_path = FALSE,
   write_to_csv = FALSE,
   write_to_rdata = FALSE,
-  return_object = TRUE) |>
-  sf::st_drop_geometry()
+  return_object = TRUE)
 
 
 
