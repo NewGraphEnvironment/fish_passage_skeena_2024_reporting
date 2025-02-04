@@ -19,7 +19,7 @@ my_site2 <- 58264
 
 ```
 
-`r fpr::fpr_appendix_title()`
+`r fpr::fpr_appendix_title(site2 = my_site2)`
 
 <!-- - during 2024 assessment we connected with local adjacent landowners -->
 

@@ -251,8 +251,8 @@ table_phase2_overview <- function(dat, caption_text = '', font = font_set, scrol
     kableExtra::kable_styling(c("condensed"),
                               full_width = T,
                               font_size = font) |>
-    kableExtra::column_spec(column = c(9), width_min = '1.5in') |>
-    kableExtra::column_spec(column = c(5), width_max = '1in')
+    kableExtra::column_spec(column = c(11), width_min = '3in') |>
+    kableExtra::column_spec(column = c(1:10), width_max = '1.2in')
 
   if(identical(scroll,TRUE)){
     dat2 <- dat2 |>

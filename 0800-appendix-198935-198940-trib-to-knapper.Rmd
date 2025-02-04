@@ -18,7 +18,7 @@ my_site2 <- 198935
 
 ```
 
-`r fpr::fpr_appendix_title()`
+`r fpr::fpr_appendix_title(site2 = my_site2)`
 
 
 ## Site Location {.unnumbered}
