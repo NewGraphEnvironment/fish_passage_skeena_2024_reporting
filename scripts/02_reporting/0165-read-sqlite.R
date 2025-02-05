@@ -23,10 +23,14 @@ xref_pscis_my_crossing_modelled <- readwritesqlite::rws_read_table("xref_pscis_m
 # Table containing rd cost multiplier
 rd_class_surface <- readwritesqlite::rws_read_table("rd_class_surface", conn = conn)
 
+# Table containing photo metadata. Used in the iteractive map
+photo_metadata <- readwritesqlite::rws_read_table("photo_metadata", conn = conn)
 
-## Do we still use this objects? Try to clean up as you go Lucy
-# form_pscis_raw <- readwritesqlite::rws_read_table("form_pscis_raw", conn = conn) |>
-#   sf::st_drop_geometry()
+#Read in the form_pscis
+form_pscis <- readwritesqlite::rws_read_table("form_pscis", conn = conn)
+
+#Read in the form_fiss_site
+form_fiss_site <- readwritesqlite::rws_read_table("form_fiss_site", conn = conn)
 
 
 # You must run `0170-load-wshd_stats.R` at before this

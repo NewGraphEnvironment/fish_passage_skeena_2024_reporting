@@ -203,3 +203,47 @@ Finally, copy/paste the structure, size, type data into the appropriate spreadsh
 - from `str_type_pscis2.csv` into `pscis_phase2.xlsm`
 - from `str_type_pscis_reassessments.csv` into `pscis_reassessments.xlsm`
 
+
+
+## Add PSCIS Ids
+
+putting this hear for now but evenually is should go in a wrangle file
+
+Add the pscis Ids once they are in the system and burn back to geopackage
+```{r add_pscis_ids}
+
+# Add pscis Ids
+form_pscis_ids <- dplyr::left_join(pscis_export_raw,
+                         xref_pscis_my_crossing_modelled,
+  by = c('my_crossing_reference' = 'external_crossing_reference')) |>
+  
+  dplyr::mutate(pscis_crossing_id = dplyr::case_when(
+    is.na(pscis_crossing_id) ~ as.numeric(stream_crossing_id),
+    TRUE ~ pscis_crossing_id
+  )) |> 
+  dplyr::select(-stream_crossing_id)
+
+
+# Burn to geopackage
+form_pscis_ids |> 
+  sf::st_write(dsn = path_form_pscis,
+               append = FALSE,
+               delete_dsn = TRUE)
+
+
+#Then backup
+fpr::fpr_sp_gpkg_backup(
+  path_gpkg = path_form_pscis,
+  update_utm = FALSE,
+  update_site_id = FALSE, ## This now also checks for duplicates
+  write_back_to_path = FALSE,
+  write_to_csv = TRUE,
+  write_to_rdata = TRUE,
+  return_object = FALSE)
+
+
+```
+
+
+
+

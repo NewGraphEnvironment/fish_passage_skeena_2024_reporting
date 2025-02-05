@@ -29,7 +29,7 @@ source('scripts/02_reporting/0180-photos-extract-metadata.R')
 #
 #   source('scripts/functions.R')
 #   news_to_appendix()
-#Z
+#
 #   # These files are included in the gitbook version already so we move them out of the build
 #   files_to_move <- list.files(pattern = ".Rmd$") %>%
 #     stringr::str_subset(., '2200|2300|2400', negate = F) #move the attachments out
@@ -55,26 +55,25 @@ source('scripts/02_reporting/0180-photos-extract-metadata.R')
 
 
 # define the _bookfile_name from _bookdown.yml
-filename_html <- 'fish_passage_template'
+filename_html <- 'fish_passage_skeena_2024'
 
 {
 
   ## move large appendices to hold for pdf build
-  ## not required for template
-  # file.rename('0600-appendix.Rmd', 'hold/0600-appendix.Rmd')
+  file.rename('0600-appendix.Rmd', 'hold/0600-appendix.Rmd')
 
   ##   then make our printable pdf
   rmarkdown::render_site(output_format = 'pagedown::html_paged',
                          encoding = 'UTF-8')
 
   ## move large appendices back to main directory
-  # file.rename('hold/0600-appendix.Rmd', '0600-appendix.Rmd')
+  file.rename('hold/0600-appendix.Rmd', '0600-appendix.Rmd')
 
   # print to pdf
   pagedown::chrome_print(
     paste0(filename_html, '.html'),
     output = paste0('docs/', filename_html, '.pdf'),
-    timeout = 180
+    timeout = 360
   )
 
   # reduce the size

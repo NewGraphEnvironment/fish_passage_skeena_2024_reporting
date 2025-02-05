@@ -49,7 +49,7 @@ below:
 ### Issue Tracking
 "Issues" logged on the online github platform are effective ways to track tasks, enhancements, and bugs related to project components.
 They can be referenced with the scripts, text and actions used to address them by linking documentation to the issues with text comments
-or programatically through `git` commit messages.  Issues for this project are kept [here](paste0('https://github.com/NewGraphEnvironment/',params$job_name,'/issues')).
+or programatically through `git` commit messages.  Issues for this project are kept [here](`r paste0(params$repo_url,'issues')`).
 
 ### Mapping
 
@@ -115,11 +115,8 @@ To obtain estimates of channel width upstream of crossing locations, where avail
 <!-- Project specific fish species in this paragraph. -->
 `bcfishpass` and associated tools have been designed to be flexible in analysis, accepting user defined gradient, channel width and stream discharge categories [@moeStreamInventorySample].  Although currently in draft form, and subject to development revisions, gradient and channel width thresholds for habitat with the highest intrinsic value for a number of fish species in the Parsnip River watershed group have been specified and applied to model habitat upstream of stream crossing locations with the highest potential intrinsic value (Table \@ref(tab:tab-fish-spawning-rearing)). Definitions of modelling outputs for bull trout are presented in Table \@ref(tab:tab-bcfp-def).  Modelling of habitat for Arctic grayling, in the Peace region are planned for 2024-2025 with the work leveraging multiple other initiatives underway by SERNbc and others throughout British Columbia including work related to Arctic grayling habitat use and preference conducted by UNBC and others [@hagen_stamford2023ParsnipArctic; @bottoms_etal2023Criticalhabitats.
 
-
-
 <br>
 
-<!-- Turn on once tables.R has been run  -->
 <!-- Project specific fish species in this code, must customize to repo -->
 ```{r tab-fish-spawning-rearing, eval=TRUE}
 #`r if(identical(gitbook_on, FALSE)){knitr::asis_output("<br><br><br>")}`
@@ -131,11 +128,11 @@ text_footnote <- ""
 
 
 bcfishpass_spawn_rear_model |> 
-  filter(species_code %in% species) |>
-  mutate(Species = fishbc::fbc_common_name(species_code),
+  dplyr::filter(species_code %in% species) |>
+  dplyr::mutate(Species = fishbc::fbc_common_name(species_code),
          spawn_gradient_max = round(spawn_gradient_max * 100 ,1),
          rear_gradient_max = round(rear_gradient_max * 100 ,1)) |>
-  select(Species,
+  dplyr::select(Species,
          `Spawning Gradient  Max (%)`= spawn_gradient_max,
          `Spawning Width Min (m)` = spawn_channel_width_min,
          `Rearing Width Min (m)` = rear_channel_width_min,
@@ -163,13 +160,11 @@ bcfishpass_spawn_rear_model |>
 
 <!-- This table has not been included in the most recent reports (skeena and peace 2023). Maybe because we now use 8.5% for ST rearing habitat, which is not what is referenced in this table (they said 7.5) -->
 ```{r tab-fish-spawning-rearing-references, eval = TRUE}
-# bcfishpass_spawn_rear_model_references <- readr::read_csv(file = 'data/width_modelling/model_spawning_rearing_habitat.csv')
 bcfishpass_spawn_rear_model_references <- readr::read_csv(file = 'data/inputs_raw/bcfishpass_spawn_rear_model_ref.csv')
-  # select(species_code, contains('ref'), -contains(c('multiplier','mad')))
 
 bcfishpass_spawn_rear_model_references |>
-  mutate(Species = fishbc::fbc_common_name(species_code)) |>
-  select(Species,
+  dplyr::mutate(Species = fishbc::fbc_common_name(species_code)) |>
+  dplyr::select(Species,
          `Spawning Gradient  Max (%)`= spawn_gradient_max,
          `Spawning Width Min (m)` = spawn_channel_width_min,
          # `Spawning Width Max (m)` = spawn_channel_width_max_ref,
@@ -183,28 +178,27 @@ bcfishpass_spawn_rear_model_references |>
   t() |>
   as_tibble(rownames = "row_names") |>
   janitor::row_to_names(row_number = 1) |>
-  rename(Variable = Species) |>
+  dplyr::rename(Variable = Species) |>
   fpr::fpr_kable(caption_text = 'References considered for stream gradient and channel width thresholds used to model potentially highest value fish habitat. Preliminary and subject to revisions.',
-                 # footnote_text = 'The maximum gradient for steelhead rearing has been adjusted to 8.5% based on professional judgment, although references indicate 7.49%',
+                 footnote_text = 'The maximum gradient for steelhead rearing has been adjusted to 8.5% based on professional judgment, although references indicate 7.49%',
                  scroll = F)
 ```
 
-
 <br>
 
-<!-- Turn on once tables.R has been run  -->
 ```{r tab-bcfp-def, eval = TRUE}
 fpr::fpr_xref_crossings |>
-  filter(id_side == 1) |>
-  arrange(id_join) |>
-  select(Attribute = report, Definition = column_comment) |>
+  dplyr::filter(id_side == 1) |>
+  dplyr::arrange(id_join) |>
+  dplyr::select(Attribute = report, Definition = column_comment) |>
   fpr::fpr_kable(caption_text = 'bcfishpass outputs and associated definitions',
                  footnote_text = 'Bull trout model uses a gradient threshold of maximum 25% to determine if access if likely possible',
                  scroll = gitbook_on)
 ```
 
+<br>
 
-```{r tablethreshaverage, eval= F}
+```{r tablethreshaverage, eval= T}
 #to quantify upstream habitat potentially available for salmonids and facilitate stream line symbology based on stream morphology.
 
 # while high gradient sections typically  present  upstream  migration  barriers  and  less  available  habitat.  Additionally, the size of the stream (indicated by channel width) is an important determinant for habitat suitability for different species as well as specific life stages of those species. 
@@ -218,18 +212,17 @@ table_thresh_average <- tibble::tibble(`Gradient` = c('0 - 5%', '5 - 15%', '15 -
                                        `Channel Type` = c('Riffle and cascade pool', 'Step pool', 'Step pool - very steep', 'Non fish habitat'))
 
 table_thresh_average |> 
-    fpr::fpr_kable(caption_text = 'Stream gradient categories (threshold and average) and associated channel type.')
+    fpr::fpr_kable(caption_text = 'Stream gradient categories (threshold and average) and associated channel type.', scroll = F)
 
 ```
 
+<br>
 
 ## Fish Passage Assessments
 
 In the field, crossings prioritized for follow-up were first assessed for fish passage following the procedures outlined in “Field Assessment for Determining Fish Passage Status of Closed Bottomed Structures” [@fish_passage_assessments]. The reader is referred to [@fish_passage_assessments] for detailed methodology.  Crossings surveyed included closed bottom structures (CBS), open bottom structures (OBS) and crossings considered “other” (i.e. fords).  Photos were taken at surveyed crossings and when possible included images of the road, crossing inlet, crossing outlet, crossing barrel, channel downstream and channel upstream of the crossing and any other relevant features.  The following information was recorded for all surveyed crossings: date of inspection, crossing reference, crew member initials, Universal Transverse Mercator (UTM) coordinates, stream name, road name and kilometer, road tenure information, crossing type, crossing subtype, culvert diameter or span for OBS, culvert length or width for OBS.  A more detailed “full assessment” was completed for all closed bottom structures and included the following parameters: presence/absence of continuous culvert embedment (yes/no), average depth of embedment, whether or not the culvert bed resembled the native stream bed, presence of and percentage backwatering, road fill depth, outlet drop, outlet pool depth, inlet drop, culvert slope, average downstream channel width, stream slope, presence/absence of beaver activity, presence/absence of fish at time of survey, type of valley fill, and a habitat value rating.  Habitat value ratings were based on channel morphology, flow characteristics (perennial, intermittent, ephemeral), fish migration patterns, the presence/absence of deep pools, un-embedded boulders, substrate, woody debris, undercut banks, aquatic vegetation and overhanging riparian vegetation (Table \@ref(tab:tab-hab-value)).
 
 <br>
-
-
 
 ```{r tab-hab-value}
 fpr_table_habvalue |>
@@ -242,17 +235,16 @@ fpr_table_habvalue |>
 `r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
 
 
-
-Fish passage potential was determined for each stream crossing identified as a closed bottom structure as per @fish_passage_assessments.  The combined scores from five criteria: depth and degree to which the structure is embedded, outlet drop, stream width ratio, culvert slope, and culvert length were used to screen whether each culvert was a likely barrier to some fish species and life stages (Table \@ref(tab:tab-barrier-scoring), Table \@ref(tab:tab-barrier-result)). These criteria were developed based on data obtained from various studies and reflect an estimation for the passage of a juvenile salmon or small resident rainbow trout [@clarkinNationalInventoryAssessment2005 ;@bellFisheriesHandbookEngineering1991; @thompsonAssessingFishPassage2013]. For crossings determined to be potential barriers or barriers based on the data, a culvert fix and recommended diameter/span was proposed. 
+Fish passage potential was determined for each stream crossing identified as a closed bottom structure as per @fish_passage_assessments.  The combined scores from five criteria: depth and degree to which the structure is embedded, outlet drop, stream width ratio, culvert slope, and culvert length were used to screen whether each culvert was a likely barrier to some fish species and life stages (Tables \@ref(tab:tab-barrier-scoring) - \@ref(tab:tab-barrier-result)). These criteria were developed based on data obtained from various studies and reflect an estimation for the passage of a juvenile salmon or small resident rainbow trout [@clarkinNationalInventoryAssessment2005 ;@bellFisheriesHandbookEngineering1991; @thompsonAssessingFishPassage2013]. For crossings determined to be potential barriers or barriers based on the data, a culvert fix and recommended diameter/span was proposed. 
 
 <br>
 
 ```{r tab-barrier-scoring, eval=T}
 tab <- as_tibble(t(fpr_table_barrier_scoring)) |>
-  mutate(V4 = names(fpr_table_barrier_scoring)) |>
-  select(V4, everything()) |>
+  dplyr::mutate(V4 = names(fpr_table_barrier_scoring)) |>
+  dplyr::select(V4, everything()) |>
   janitor::row_to_names(1) |>  ##turn the table sideways
-  mutate(Risk = case_when(Risk == 'Value' ~ '  Value',
+  dplyr::mutate(Risk = case_when(Risk == 'Value' ~ '  Value',
                           T ~ Risk))
 
 tab |>
@@ -261,7 +253,6 @@ tab |>
 ```
 
 <br>
-
 
 ```{r tab-barrier-result}
 fpr_table_barrier_result |>
@@ -272,8 +263,11 @@ fpr_table_barrier_result |>
 
 <br>
 
-<!-- Project specific fish species in this paragraph. -->
-Habitat gain indexes are the quantity of modelled habitat upstream of the subject crossing and represents an estimate of habitat gained with remediation of fish passage at the crossing.  For this project, a gradient threshold between accessible and non-accessible habitat was set at 25% (for a minimimum length of 100m) and intended to represent the maximum gradient of which the strongest swimmers of anadromous species (bull trout) are likely to be able to migrate upstream.  This is the amount of habitat upstream of each crossing less than 25% gradient before a falls of height >5m - as recorded in @ProvincialObstaclesFish or documented in other `bcfishpass` online documentation. For Phase 2 - habitat confirmation sites, conservative estimates of the linear quantity of habitat to be potentially gained by fish passage restoration, bull trout rearing maximum gradient threshold (10.5%) was used. To generate estimates for area of habitat upstream (m^2^), the estimated linear length was multiplied by half the downstream channel width measured (overall triangular channel shape) as part of the fish passage assessment protocol. Although these estimates are not generally conservative, have low accuracy and do not account for upstream stream crossing structures they allow a rough idea of the best candidates for follow up.
+The habitat gain index is the quantity of modelled habitat upstream of the subject crossing and represents an estimate of habitat gained with remediation of fish passage at the crossing. For this project, a gradient threshold between accessible and non-accessible habitat was set at 20% (for a minimimum length of 100m) intended to represent the maximum gradient of which the strongest swimmers of anadromous species (steelhead) are likely to be able to migrate upstream.
+
+<br>
+
+For reporting of Phase 1 - fish passage assessments within the body of this report (Table \@ref(tab:tab-barrier-scoring)), a "total" value of habitat <20% output from `bcfishpass` was used to estimate the amount of habitat upstream of each crossing less than 20% gradient before a falls of height >5m - as recorded in @ProvincialObstaclesFish or documented in other `bcfishpass` online documentation. For Phase 2 - habitat confirmation sites, conservative estimates of the linear quantity of habitat to be potentially gained by fish passage restoration, steelhead rearing maximum gradient threshold (8.5%) was used.  To generate estimates for area of habitat upstream (m^2^), the estimated linear length was multiplied by half the downstream channel width measured (overall triangular channel shape) as part of the fish passage assessment protocol. Although these estimates are not generally conservative, have low accuracy and do not account for upstream stream crossing structures they allow a rough idea of the best candidates for follow up.
 
 <br>
 
@@ -289,22 +283,22 @@ Potential options to remediate fish passage were selected from @fish_passage_ass
  <br>
 
 ### Cost Estimates
-Cost estimates for structure replacement with bridges and embedded culverts were generated based on the channel width, slope of the culvert, depth of fill, road class and road surface type. Road details were sourced from @flnrordForestTenureRoad2020 and @flnrordDigitalRoadAtlas2020 through `bcfishpass`. Interviews with Phil MacDonald, Engineering Specialist FLNR - Kootenay, Steve Page, Area Engineer - FLNR - Northern Engineering Group and Matt Hawkins - MoTi - Design Supervisor for Highway Design and Survey - Nelson were utilized to helped refine estimates which have since been adjusted for inflation and based on past experience.
+Cost estimates for structure replacement with bridges and embedded culverts were generated based on the channel width, slope of the culvert, depth of fill, road class and road surface type. Road details were sourced from @flnrordForestTenureRoad2020 and @flnrordDigitalRoadAtlas2020 through `bcfishpass`. Interviews with Phil MacDonald, Engineering Specialist FLNR - Kootenay, Steve Page, Area Engineer - FLNR - Northern Engineering Group and Matt Hawkins - MoTi - Design Supervisor for Highway Design and Survey - Nelson were utilized to help refine estimates which have since been adjusted for inflation in 2020 and based on past experience.
 
 <br>
 
-Base costs for installation of bridges on forest service roads and permit roads with surfaces specified in provincial GIS road layers as rough and loose was estimated at \$25000/linear m and assumed that the road could be closed during construction and a minimum bridge span of 15m. For streams with channel widths <2m, embedded culverts were reported as an effective solution with total installation costs estimated at $50k/crossing (pers. comm. Phil MacDonald, Steve Page then adjusted for inflation). For larger streams (>6m), estimated span width increased proportionally to the size of the stream.  For crossings with large amounts of fill (>3m), the replacement bridge span was increased by an additional 3m for each 1m of fill >3m to account for cutslopes to the stream at a 1.5:1 ratio. To account for road type, a multiplier table was generated to estimate incremental cost increases with costs estimated for structure replacement on paved surfaces, railways and arterial/highways costing up to 20 times more than forest service roads due to expenses associate with design/engineering requirements, traffic control and paving.  The cost multiplier table (Table \@ref(tab:tab-cost-mult)) should be considered very approximate with refinement recommended for future projects.
+Base costs for installation of bridges on forest service roads and permit roads with surfaces specified in provincial GIS road layers as rough and loose was estimated at \$30000/linear m and assumed that the road could be closed during construction and a minimum bridge span of 15m. For streams with channel widths <2m, embedded culverts were reported as an effective solution with total installation costs estimated at $100k/crossing (pers. comm. Phil MacDonald, Steve Page then adjusted for inflation in 2020). For larger streams (>6m), estimated span width increased proportionally to the size of the stream.  For crossings with large amounts of fill (>3m), the replacement bridge span was increased by an additional 3m for each 1m of fill >3m to account for cutslopes to the stream at a 1.5:1 ratio. To account for road type, a multiplier table was generated to estimate incremental cost increases with costs estimated for structure replacement on paved surfaces, railways and arterial/highways costing up to 15 times more than forest service roads due to expenses associate with design/engineering requirements, traffic control and paving.  The cost multiplier table (Table \@ref(tab:tab-cost-mult)) should be considered very approximate with refinement recommended for future projects.
 
 
 `r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
 
-<!-- Turn on once tables.R has been run  -->
+
 ```{r tab-cost-mult, eval = TRUE}
 
 sfpr_xref_road_cost() |>
-  mutate(cost_m_1000s_bridge = formatC(cost_m_1000s_bridge * 15000, format="d", big.mark=",")) |>
-  mutate(cost_embed_cv = formatC(cost_embed_cv * 1000, format="d", big.mark=",")) |>
-  rename(
+  dplyr::mutate(cost_m_1000s_bridge = formatC(cost_m_1000s_bridge * 15000, format="d", big.mark=",")) |>
+  dplyr::mutate(cost_embed_cv = formatC(cost_embed_cv * 1000, format="d", big.mark=",")) |>
+  dplyr::rename(
     Class = my_road_class,
     Surface = my_road_surface,
     `Class Multiplier` = road_class_mult,
@@ -313,8 +307,8 @@ sfpr_xref_road_cost() |>
     `Streambed Simulation $` = cost_embed_cv
   ) |>
   dplyr::filter(!is.na(Class)) |>
-  mutate(Class =case_when(
-    Class == 'fsr' ~ str_to_upper(Class),
+  dplyr::mutate(Class = dplyr::case_when(
+    Class == 'fsr' ~ stringr::str_to_upper(Class),
     TRUE ~ stringr::str_to_title(Class)),
     Surface = stringr::str_to_title(Surface)
   ) |> 
@@ -388,9 +382,9 @@ community access, cost, constructability, fish bearing status and environmental 
 xref_moti_climate_names <- sfpr_xref_moti_climate_names()
 
 xref_moti_climate_names  %>%
-  slice(7:nrow(.)) |>
-  select(spdsht, report) |>
-  rename(Parameter = spdsht, Description = report) |>
+  dplyr::slice(7:nrow(.)) |>
+  dplyr::select(spdsht, report) |>
+  dplyr::rename(Parameter = spdsht, Description = report) |>
   fpr::fpr_kable(caption_text = 'Climate change data collected at MoTi culvert sites', scroll = gitbook_on)
 
 ```

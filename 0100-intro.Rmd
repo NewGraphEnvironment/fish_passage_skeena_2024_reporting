@@ -17,23 +17,24 @@ interconnected, with our overall well-being dependent on the health of our envir
 
 <br>
 
-Although the main purpose of this report is to document 2023 field work data and results, it also builds on reporting 
-from field activities conducted from 2020 to 2022. In addition to the numerous assessments at sites undocumented in past
-years of the project, field activities were also conducted at 10 sites where habitat confirmations
-were previously documented as per the report links below. The reports for these sites were edited and updated with 2023 data.
+Although the main purpose of this report is to document 2024 field work data and results, it also builds on reporting 
+from field activities conducted from 2020 to 2023. In addition to the numerous assessments at sites undocumented in past
+years of the project, field activities were also conducted 3 sites where habitat confirmations
+were previously documented as per the report links below. The reports for these sites were edited and updated with 2024 data.
 
 - [Bulkley River and Morice River Watershed Groups Fish Passage Restoration Planning (2020)](https://newgraphenvironment.github.io/fish_passage_bulkley_2020_reporting/)
 - [Bulkley River and Morice River Watershed Groups Fish Passage Restoration Planning 2021](https://newgraphenvironment.github.io/fish_passage_skeena_2021_reporting/)
 - [Bulkley River Watershed Fish Passage Restoration Planning 2022](https://newgraphenvironment.github.io/fish_passage_bulkley_2022_reporting/)
 - [Skeena Watershed Fish Passage Restoration Planning 2022](https://newgraphenvironment.github.io/fish_passage_skeena_2022_reporting/)
+- [Skeena Watershed Fish Passage Restoration Planning 2023](https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting/)
 
 
 <br>
 
 Please note that at the time of reporting, this document was a living document changing over time.  Version numbers are
-logged for each release with modifications, enhancements and other changes tracked with the "Changlog" section.
+logged for each release with modifications, enhancements and other changes tracked with the [changelog section](#changelog).
 Additionally, issues and planned enhancements are tracked
-[here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/issues).
+[here](`r paste0(params$repo_url,'issues')`).
 
 <br>
 

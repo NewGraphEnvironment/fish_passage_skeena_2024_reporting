@@ -137,7 +137,7 @@ wshds_raw <- fpr::fpr_sp_wshd_stats(dat = wshds_fwapgr) |>
 # extract the site elevations
 pscis_all_sf <- form_pscis |>
   dplyr::group_split(source) |>
-  purrr::map(sfpr_get_elev) |>
+  purrr::map(sngr_get_elev) |>
   dplyr::bind_rows()
 
 
@@ -163,6 +163,20 @@ wshds |>
                layer = 'hab_wshds',
                delete_layer = T,
                append = F) ##might want to f the append....
+
+
+
+## Add to the repo -------------------------------------------------
+path_repo_wshds <- fs::path_expand("~/Projects/repo/fish_passage_skeena_2024_reporting/data/fishpass_mapping/fishpass_mapping.gpkg")
+stub_repo_wshds <- fs::path_expand("~/Projects/repo/fish_passage_skeena_2024_reporting/data/fishpass_mapping")
+
+fs::dir_create(stub_repo_wshds)
+
+wshds |>
+  sf::st_write(dsn = path_repo_wshds,
+               layer = 'hab_wshds',
+               delete_layer = T,
+               append = F)
 
 
 

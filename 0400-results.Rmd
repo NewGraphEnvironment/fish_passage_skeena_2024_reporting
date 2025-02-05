@@ -4,60 +4,54 @@
 
 <br>
 
-```{r map-interactive, fig.cap='Map of fish passage and habitat confirmation results', eval=F}
-# Once run, change back to eval=gitbook_on
+```{r map-interactive, fig.cap='Map of fish passage and habitat confirmation results', eval=gitbook_on}
 
 ##make colors for the priorities
 pal <- 
-   colorFactor(palette = c("red", "yellow", "grey", "black"), 
-               levels = c("high", "moderate", "low", "no fix"))
+   leaflet::colorFactor(palette = c("red", "yellow", "grey", "black"), 
+               levels = c("High", "Moderate", "Low", "No Fix"))
 
 pal_phase1 <- 
-   colorFactor(palette = c("red", "yellow", "grey", "black"), 
-               levels = c("high", "moderate", "low", NA))
+   leaflet::colorFactor(palette = c("red", "yellow", "grey", "black"), 
+               levels = c("High", "Moderate", "Low", NA))
 
-# tab_map_phase2 <- tab_map |> filter(source %like% 'phase2')
-#https://stackoverflow.com/questions/61026700/bring-a-group-of-markers-to-front-in-leaflet
-# marker_options <- markerOptions(  
-#   zIndexOffset = 1000)
-tracks <- sf::read_sf("./data/habitat_confirmation_tracks.gpx", layer = "tracks")
+# Track still needs to be clipped - https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/60
+# tracks <- sf::read_sf("./data/habitat_confirmation_tracks.gpx", layer = "tracks")
 
 
-wshd_study_areas <- sf::read_sf('data/fishpass_mapping/wshd_study_areas.geojson')
-  # st_transform(crs = 4326)
+wshds <- sf::read_sf('data/fishpass_mapping/fishpass_mapping.gpkg', layer = 'hab_wshds')
 
   
-map <- leaflet(height=500, width=780) |>
-  addTiles()  |> 
+map <- leaflet::leaflet(height=500, width=780) |>
+  leaflet::addTiles()  |> 
   # leafem::addMouseCoordinates(proj4 = 26911) |> ##can't seem to get it to render utms yet
-  # addProviderTiles(providers$"Esri.DeLorme") |> 
-  addProviderTiles("Esri.WorldTopoMap", group = "Topo") |>
-  addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") |> 
-  addPolygons(data = wshd_study_areas, color = "#F29A6E", weight = 1, smoothFactor = 0.5,
-              opacity = 1.0, fillOpacity = 0,
-              fillColor = "#F29A6E", label = wshd_study_areas$watershed_group_name) |>
-  addPolygons(data = wshds, color = "#0859C6", weight = 1, smoothFactor = 0.5,
+  # leaflet::addProviderTiles(providers$"Esri.DeLorme") |> 
+  leaflet::addProviderTiles("Esri.WorldTopoMap", group = "Topo") |>
+  leaflet::addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") |> 
+  # leaflet::addPolygons(data = wshd_study_areas, color = "#F29A6E", weight = 1, smoothFactor = 0.5,
+  #             opacity = 1.0, fillOpacity = 0,
+  #             fillColor = "#F29A6E", label = wshd_study_areas$watershed_group_name) |>
+  leaflet::addPolygons(data = wshds, color = "#0859C6", weight = 1, smoothFactor = 0.5,
               opacity = 1.0, fillOpacity = 0.25,
               fillColor = "#00DBFF",
               label = wshds$stream_crossing_id,
-              popup = leafpop::popupTable(x = select(wshds |> st_set_geometry(NULL),
+              popup = leafpop::popupTable(x = dplyr::select(wshds |> sf::st_set_geometry(NULL),
                                                      Site = stream_crossing_id,
                                                      elev_site:area_km),
                                           feature.id = F,
                                           row.numbers = F),
               group = "Phase 2") |> 
-  addLegend(
+  leaflet::addLegend(
     position = "topright",
     colors = c("red", "yellow", "grey", "black"),
     labels = c("High", "Moderate", "Low", 'No fix'), opacity = 1,
     title = "Fish Passage Priorities") |> 
   
-addCircleMarkers(data=tab_map |>
-                   filter(source %like% 'phase1' | source %like% 'pscis_reassessments'),
-                 label = tab_map |> filter(source %like% 'phase1' | source %like% 'pscis_reassessments') |> pull(pscis_crossing_id),
-                 # label = tab_map$pscis_crossing_id,
-                 labelOptions = labelOptions(noHide = F, textOnly = TRUE),
-                 popup = leafpop::popupTable(x = select((tab_map |> st_set_geometry(NULL) |> filter(source %like% 'phase1' | source %like% 'pscis_reassessments')),
+leaflet::addCircleMarkers(data=dplyr::filter(tab_map_phase_1, stringr::str_detect(source, 'phase1') | stringr::str_detect(source, 'pscis_reassessments')),
+                 label = dplyr::filter(tab_map_phase_1, stringr::str_detect(source, 'phase1') | stringr::str_detect(source, 'pscis_reassessments')) |> dplyr::pull(pscis_crossing_id),
+                 # label = tab_map_phase_1$pscis_crossing_id,
+                 labelOptions = leaflet::labelOptions(noHide = F, textOnly = TRUE),
+                 popup = leafpop::popupTable(x = dplyr::select((tab_map_phase_1 |> sf::st_set_geometry(NULL) |> dplyr::filter(stringr::str_detect(source, 'phase1') | stringr::str_detect(source, 'pscis_reassessments'))),
                                                         Site = pscis_crossing_id, Priority = priority_phase1, Stream = stream_name, Road = road_name, `Habitat value`= habitat_value, `Barrier Result` = barrier_result, `Culvert data` = data_link, `Culvert photos` = photo_link, `Model data` = model_link),
                                              feature.id = F,
                                              row.numbers = F),
@@ -69,23 +63,23 @@ addCircleMarkers(data=tab_map |>
                  weight = 2,
                  opacity = 1.0,
                  group = "Phase 1") |> 
-  addPolylines(data=tracks,
-               opacity=0.75, color = '#e216c4',
-               fillOpacity = 0.75, weight=5, group = "Phase 2") |>
+  # leaflet::addPolylines(data=tracks,
+  #              opacity=0.75, color = '#e216c4',
+  #              fillOpacity = 0.75, weight=5, group = "Phase 2") |>
 
-addAwesomeMarkers(
+leaflet::addAwesomeMarkers(
     lng = as.numeric(photo_metadata$gps_longitude),
     lat = as.numeric(photo_metadata$gps_latitude),
     popup = leafpop::popupImage(photo_metadata$url, src = "remote"),
-    clusterOptions = markerClusterOptions(),
+    clusterOptions = leaflet::markerClusterOptions(),
     group = "Phase 2") |>
 
-  #commented out this section for now until tab_hab_map object is built from cost estimate table
-  addCircleMarkers(
-    data=tab_hab_map,
-    label = tab_hab_map$pscis_crossing_id,
-    labelOptions = labelOptions(noHide = T, textOnly = TRUE),
-    popup = leafpop::popupTable(x = select((tab_hab_map |> st_drop_geometry()),
+
+  leaflet::addCircleMarkers(
+    data=tab_map_phase_2,
+    label = tab_map_phase_2$pscis_crossing_id,
+    labelOptions = leaflet::labelOptions(noHide = T, textOnly = TRUE),
+    popup = leafpop::popupTable(x = dplyr::select((tab_map_phase_2 |> sf::st_drop_geometry()),
                                            Site = pscis_crossing_id,
                                            Priority = priority,
                                            Stream = stream_name,
@@ -107,17 +101,17 @@ addAwesomeMarkers(
     group = "Phase 2"
     ) |>
 
-  addLayersControl(
+  leaflet::addLayersControl(
     baseGroups = c(
       "Esri.DeLorme",
       "ESRI Aerial"),
     overlayGroups = c("Phase 1", "Phase 2"),
-    options = layersControlOptions(collapsed = F)) |>
+    options = leaflet::layersControlOptions(collapsed = F)) |>
   leaflet.extras::addFullscreenControl() |>
-  addMiniMap(tiles = providers$"Esri.NatGeoWorldMap",
+  leaflet::addMiniMap(tiles = leaflet::providers$"Esri.NatGeoWorldMap",
              zoomLevelOffset = -6, width = 100, height = 100)
 
-map 
+map
 
 
 
@@ -251,8 +245,8 @@ table_phase2_overview <- function(dat, caption_text = '', font = font_set, scrol
     kableExtra::kable_styling(c("condensed"),
                               full_width = T,
                               font_size = font) |>
-    kableExtra::column_spec(column = c(9), width_min = '1.5in') |>
-    kableExtra::column_spec(column = c(5), width_max = '1in')
+    kableExtra::column_spec(column = c(11), width_min = '4in') |>
+    kableExtra::column_spec(column = c(1:10), width_max = '1in')
 
   if(identical(scroll,TRUE)){
     dat2 <- dat2 |>
@@ -465,6 +459,8 @@ Water quality measurements recorded at the site indicated a conductivity of 269 
 <br>
 
 Pink salmon have been noted as spawning in the first reach of Buck Creek, with coho spawners noted to Reach 3, and chinook spawners to Reach 5 where the subject tributary enters the mainstem (NCFDC 1998).
+
+<br>
 
 ```{r photo-buck-01-prep, eval=T}
 my_site = "buck_falls"
