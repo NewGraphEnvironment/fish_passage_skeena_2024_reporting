@@ -30,7 +30,7 @@ form_pscis <- fpr::fpr_sp_gpkg_backup(
   path_gpkg = path_form_pscis,
   dir_backup = "data/backup/",
   update_utm = TRUE,
-  update_site_id = TRUE, ## This now also checks for duplicates
+  update_site_id = FALSE, ## This now also checks for duplicates
   write_back_to_path = FALSE,
   write_to_csv = FALSE,
   write_to_rdata = FALSE,
@@ -346,7 +346,10 @@ tab_cost_est_prep <- dplyr::left_join(
   rd_class_surface |>
     dplyr::select(stream_crossing_id, my_road_class, my_road_surface),
   by = c('pscis_crossing_id' = 'stream_crossing_id')
-)
+)|>
+  ## Unique to Skeena 2024 - two phase 2 sites (58245 and 58245) are missing `my_road_class` and `my_road_surface`, so lets add then by hand so we get a cost estimate.
+  dplyr::mutate(my_road_class = dplyr::case_when(pscis_crossing_id == "58245" ~ "collector", TRUE ~ my_road_class),
+                my_road_surface = dplyr::case_when(pscis_crossing_id == "58245" ~ "paved", TRUE ~ my_road_surface))
 
 # Step 2: Add `pscis_crossing_id` from `xref_pscis_my_crossing_modelled`
 tab_cost_est_prep1 <- dplyr::left_join(
@@ -509,19 +512,6 @@ tab_cost_est_prep9 <- tab_cost_est_prep8 |>
 # Step 4: Prepare the Phase 2 cost estimates for the table
 tab_cost_est_phase2 <- tab_cost_est_prep9 |>
   dplyr::arrange(pscis_crossing_id) |>
-  dplyr::rename(
-    `PSCIS ID` = pscis_crossing_id,
-    Stream = stream_name,
-    Road = road_name,
-    Result = barrier_result,
-    `Habitat value` = habitat_value,
-    `Stream Width (m)` = avg_channel_width_m,
-    Fix = crossing_fix_code,
-    `Cost Est (in $K)` = cost_est_1000s,
-    `Habitat Upstream (m)` = upstream_habitat_length_m,
-    `Cost Benefit (m / $K)` = cost_net,
-    `Cost Benefit (m2 / $K)` = cost_area_net
-  ) |>
   dplyr::select(-source)
 
 # Clean up unnecessary objects
@@ -539,16 +529,63 @@ rm(tab_cost_est_prep,
 
 # Map Tables --------------------------------------------------------------
 
+## Phase 1 --------------------------------------------------------------
+
+tab_map_phase_1_prep <- dplyr::left_join(form_pscis |>
+                                           dplyr::select(-c(barrier_result, source)),
+                                         pscis_all |>
+                                   dplyr::select(pscis_crossing_id, barrier_result, source),
+                                 by = c('pscis_crossing_id')) |>
+  dplyr::select(pscis_crossing_id,
+                my_crossing_reference,
+                utm_zone,
+                utm_easting = easting,
+                utm_northing = northing,
+                stream_name,
+                road_name,
+                site_id,
+                priority_phase1 = my_priority,
+                habitat_value,
+                barrier_result,
+                source) |>
+  # we must transform the data to latitude/longitude (CRS 4326)
+  sf::st_transform(4326)
+
+
+
+
+tab_map_phase_1 <- tab_map_phase_1_prep |>
+  dplyr::mutate(priority_phase1 = dplyr::case_when(priority_phase1 == 'mod' ~ 'moderate',
+                                     TRUE ~ priority_phase1),
+                priority_phase1 = stringr::str_to_title(priority_phase1)) |>
+  dplyr::mutate(data_link = paste0('<a href =', 'sum/cv/', pscis_crossing_id, '.html ', 'target="_blank">Culvert Data</a>')) |>
+  dplyr::mutate(photo_link = dplyr::case_when(is.na(my_crossing_reference) ~ paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', repo_name, '/main/data/photos/', pscis_crossing_id, '/crossing_all.JPG ',
+                                                                                    'target="_blank">Culvert Photos</a>'),
+                                              TRUE ~ paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', repo_name, '/main/data/photos/', my_crossing_reference, '/crossing_all.JPG ',
+                                                            'target="_blank">Culvert Photos</a>'))) |>
+  dplyr::mutate(model_link = paste0('<a href =', 'sum/bcfp/', pscis_crossing_id, '.html ', 'target="_blank">Model Data</a>')) |>
+  dplyr::distinct(site_id, .keep_all = TRUE) #just for now
+
+
+
 ## Phase 2 --------------------------------------------------------------
+
 #please note that the photos are only in those files because they are referenced in other parts of the document
-tab_hab_map <- dplyr::left_join(
+tab_map_phase_2 <- dplyr::left_join(
   tab_cost_est_prep9,
   form_fiss_site |>
     dplyr::filter(is.na(ef) & location == "us") |>
-    dplyr::select(site, utm_easting, utm_northing, comments),
+    dplyr::select(site, utm_zone, easting = utm_easting, northing = utm_northing, comments),
   by = c('pscis_crossing_id' = 'site')
 ) |>
-  dplyr::mutate(pscis_crossing_id = as.character(pscis_crossing_id)) |>
+  # we must transform the data to latitude/longitude (CRS 4326)
+  fpr::fpr_sp_assign_sf_from_utm() |>
+  sf::st_transform(4326) |>
+  # We don't have a priority ranking for the hab con sites at the moment so just just add the priority from the phase 1 assessments.
+  dplyr::left_join(tab_map_phase_1 |>
+                     sf::st_drop_geometry() |>
+                     dplyr::select(pscis_crossing_id, priority = priority_phase1),
+                   by = 'pscis_crossing_id') |>
 
   # Update the data link to point to the new location in docs
   dplyr::mutate(
@@ -558,11 +595,6 @@ tab_hab_map <- dplyr::left_join(
       '.html ', 'target="_blank">Culvert Data</a>'
     )
   ) |>
-  dplyr::mutate(new_data_link = ngr::ngr_str_link_url(url_base = paste0("sum/cv/", pscis_crossing_id, ".html"),
-                                                      anchor_text = "Culvert Data")) |>
-
-
-# Update the model link to point to the new model data location
   dplyr::mutate(
     model_link = paste0(
       '<a href =',
@@ -570,7 +602,6 @@ tab_hab_map <- dplyr::left_join(
       '.html ', 'target="_blank">Model Data</a>'
     )
   ) |>
-  # Update the photo link to point to the new photo storage location
   dplyr::mutate(
     photo_link = paste0(
       '<a href =',
@@ -579,24 +610,3 @@ tab_hab_map <- dplyr::left_join(
       'target="_blank">Culvert Photos</a>'
     )
   )
-
-
-## Phase 1 --------------------------------------------------------------
-
-tab_map_prep <- dplyr::left_join(pscis_all,
-                                 form_pscis |>
-                                   dplyr::select(pscis_crossing_id, priority_phase1 = my_priority),
-                                 by = 'pscis_crossing_id') |>
-  dplyr::select(pscis_crossing_id, my_crossing_reference, utm_zone:road_name,site_id, priority_phase1,habitat_value,barrier_result, source)
-
-
-
-tab_map <- tab_map_prep |>
-  mutate(priority_phase1 = case_when(priority_phase1 == 'mod' ~ 'moderate',
-                                     TRUE ~ priority_phase1)) %>%
-  mutate(data_link = paste0('<a href =', 'sum/cv/', pscis_crossing_id, '.html ', 'target="_blank">Culvert Data</a>')) %>%
-  mutate(photo_link = paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', repo_name, '/main/data/photos/', my_crossing_reference, '/crossing_all.JPG ',
-                             'target="_blank">Culvert Photos</a>')) %>%
-  mutate(model_link = paste0('<a href =', 'sum/bcfp/', pscis_crossing_id, '.html ', 'target="_blank">Model Data</a>')) %>%
-  dplyr::distinct(site_id, .keep_all = TRUE) #just for now
-
