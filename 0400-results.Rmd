@@ -245,8 +245,8 @@ table_phase2_overview <- function(dat, caption_text = '', font = font_set, scrol
     kableExtra::kable_styling(c("condensed"),
                               full_width = T,
                               font_size = font) |>
-    kableExtra::column_spec(column = c(11), width_min = '3in') |>
-    kableExtra::column_spec(column = c(1:10), width_max = '1.2in')
+    kableExtra::column_spec(column = c(11), width_min = '4in') |>
+    kableExtra::column_spec(column = c(1:10), width_max = '1in')
 
   if(identical(scroll,TRUE)){
     dat2 <- dat2 |>
@@ -459,6 +459,8 @@ Water quality measurements recorded at the site indicated a conductivity of 269 
 <br>
 
 Pink salmon have been noted as spawning in the first reach of Buck Creek, with coho spawners noted to Reach 3, and chinook spawners to Reach 5 where the subject tributary enters the mainstem (NCFDC 1998).
+
+<br>
 
 ```{r photo-buck-01-prep, eval=T}
 my_site = "buck_falls"

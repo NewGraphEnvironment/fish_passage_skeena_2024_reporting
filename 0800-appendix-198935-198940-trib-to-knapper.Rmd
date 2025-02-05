@@ -104,7 +104,7 @@ fpr::fpr_table_cv_summary_memo()
 <br>
 
 ```{r tab-culvert-198935, eval = T}
-fpr::fpr_table_cv_summary_memo(site = my_site2)
+fpr::fpr_table_cv_summary_memo(site = my_site2, site_photo_id = my_site2)
 
 ```
 

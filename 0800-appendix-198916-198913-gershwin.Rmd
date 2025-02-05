@@ -45,11 +45,11 @@ In 2023, crossings `r as.character(my_site)` and `r as.character(my_site2)` were
 
 <br>
 
-During the 2024 survey, two additional crossings were assessed. Approximately 1.3 km upstream of the Highway 16 crossing (`r as.character(my_site2)`) on `r fpr::fpr_my_pscis_info()`, a crossing was assessed on Comeau Road (modelled_crossing_id = 8300088). At this location, the stream had no visible channel and was determined to be unlikely to provide fish habitat.
+During the 2024 survey, two additional crossings were assessed. Approximately 1.3 km upstream of the Highway 16 crossing (`r as.character(my_site2)`) on `r fpr::fpr_my_pscis_info()`, a crossing was assessed on Comeau Road (PSCIS crossing 203123). At this location, the stream had no visible channel and was determined to be unlikely to provide fish habitat.
 
 <br>
 
-Approximately 680 m upstream of the railway crossing, a small tributary flows into `r fpr::fpr_my_pscis_info()` from the north. In 2023, PSCIS crossing 198907 was assessed where this tributary intersects Braucher Road. At this location, the stream had moderate flow downstream with a well-defined channel, while the upstream channel was heavily overgrown and led to a wetland. In 2024, a second crossing on this tributary was assessed approximately 900 m further upstream on Comeau Road (modelled_crossing_id = 8300015). Downstream of this crossing, the stream was described as a very small drainage.
+Approximately 680 m upstream of the railway crossing, a small tributary flows into `r fpr::fpr_my_pscis_info()` from the north. In 2023, PSCIS crossing 198907 was assessed where this tributary intersects Braucher Road. At this location, the stream had moderate flow downstream with a well-defined channel, while the upstream channel was heavily overgrown and led to a wetland. In 2024, a second crossing on this tributary was assessed approximately 900 m further upstream on Comeau Road (PSCIS crossing 203124). Downstream of this crossing, the stream was described as a very small drainage.
 
 <br>
 
@@ -63,7 +63,7 @@ fpr::fpr_table_wshd_sum(site_id = my_site) %>%
 
 <br>
 
-Habitat modelling outputs from bcfishpass indicated 4.4 km of coho rearing habitat upstream of the railway crossing (`r as.character(my_site)`) and 1.7 km upstream of the Highway 16 crossing (`r as.character(my_site2)`) (gradients <5.5% for coho). However, the estimate for the railway crossing includes the tributary, which is unlikely to provide much habitat beyond the wetlands located 350 m upstream, just past PSCIS crossing 198907. Additionally, based on the assessment of the crossing approximately 1.3 km upstream of the Highway 16 crossing (`r as.character(my_site2)`), where the stream had no visible channel, a more conservative estimate of coho rearing habitat upstream of the Highway 16 crossing likely 1.3 km, while upstream of the railway crossing, it is approximately 2.3 km.
+Habitat modelling outputs from bcfishpass indicated 4.4 km of coho rearing habitat upstream of the railway crossing (`r as.character(my_site)`) and 1.7 km upstream of the Highway 16 crossing (`r as.character(my_site2)`) (gradients <5.5% for coho). However, the estimate for the railway crossing includes the tributary, which is unlikely to provide much habitat beyond the wetlands located 350 m upstream, just past PSCIS crossing 198907. Additionally, based on the assessment of the PSCIS crossing 203123 approximately 1.3 km upstream of the Highway 16 crossing (`r as.character(my_site2)`), where the stream had no visible channel, a more conservative estimate of coho rearing habitat upstream of the Highway 16 crossing likely 1.3 km, while upstream of the railway crossing, it is approximately 2.3 km.
 
 <br>
 
@@ -120,7 +120,7 @@ fpr::fpr_table_cv_summary_memo()
 <br>
 
 ```{r tab-culvert-198913, eval = T}
-fpr::fpr_table_cv_summary_memo(site = my_site2)
+fpr::fpr_table_cv_summary_memo(site = my_site2, site_photo_id = my_site2)
 
 ```
 
