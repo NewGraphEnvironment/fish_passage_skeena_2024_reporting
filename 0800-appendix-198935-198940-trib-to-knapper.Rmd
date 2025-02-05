@@ -151,22 +151,13 @@ Electrofishing was conducted upstream and downstream of crossing (`r as.characte
 
 ## Structure Remediation and Cost Estimate {.unnumbered}
 
-Should restoration/maintenance activities proceed, replacement of the Gold Creek FSR crossing (`r as.character(my_site2)`) with a bridge (`r fpr::fpr_my_pscis_info(site = my_site2, col_pull = recommended_diameter_or_span_meters)` m span) is recommended. At the time of reporting in 2025, the cost of the work is estimated at \$ COMMENTED OUT BELOW.
+Should restoration/maintenance activities proceed, replacement of the Gold Creek FSR crossing (`r as.character(my_site2)`) with a bridge (`r fpr::fpr_my_pscis_info(site = my_site2, col_pull = recommended_diameter_or_span_meters)` m span) is recommended. At the time of reporting in 2025, the cost of the work is estimated at \$ `r format(fpr::fpr_my_cost_estimate(), big.mark = ',')`.
 
 <br>
 
-At the time of assessment, the downstream crossing on road/spur HM7504 was unlikely a barrier to fish passage, and restoration efforts should prioritize the upstream crossing on Gold Creek FSR. However, should restoration activities proceed at crossing `r as.character(my_site)`, replacement with a bridge spanning `r fpr::fpr_my_pscis_info(site = my_site, col_pull = recommended_diameter_or_span_meters)` m is recommended. At the time of reporting in 2025, the estimated cost for the replacement is \$ COMMENTED OUT BELOW.
+At the time of assessment, the downstream crossing on road/spur HM7504 was unlikely a barrier to fish passage, and restoration efforts should prioritize the upstream crossing on Gold Creek FSR. However, should restoration activities proceed at crossing `r as.character(my_site)`, replacement with a bridge spanning `r fpr::fpr_my_pscis_info(site = my_site, col_pull = recommended_diameter_or_span_meters)` m is recommended. At the time of reporting in 2025, the estimated cost for the replacement is \$ `r format(fpr::fpr_my_cost_estimate(site = my_site2), big.mark = ',')`.
 
 <br>
-
-```{r, eval = F}
-# FOR THE FOLLOWING SECTIONS TO RUN WE NEED:
-`tab_cost_est_phase2` build in `tables.R` which is used by `fpr_my_cost_estimate()`
-
-`r format(fpr::fpr_my_cost_estimate(), big.mark = ',')`
-`r format(fpr::fpr_my_cost_estimate(site = my_site2), big.mark = ',')`
-```
-
 
 
 ## Conclusion {.unnumbered}

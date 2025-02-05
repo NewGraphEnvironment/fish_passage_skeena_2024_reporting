@@ -182,21 +182,13 @@ Electrofishing was conducted at one site approximately 360 m downstream of Niels
 
 ## Structure Remediation and Cost Estimate {.unnumbered}
 
-Should restoration/maintenance activities proceed, replacement of the Nielson Road crossing (`r as.character(my_site2)`) with a bridge (`r fpr::fpr_my_pscis_info(site = my_site2, col_pull = recommended_diameter_or_span_meters)` m span) is recommended. The significant 1 m outlet drop at this crossing, combined with the presence of salmonids in the system, makes it a top priority for remediation. At the time of reporting in 2025, the cost of the work is estimated at \$ COMMENTED OUT BELOW.
+Should restoration/maintenance activities proceed, replacement of the Nielson Road crossing (`r as.character(my_site2)`) with a bridge (`r fpr::fpr_my_pscis_info(site = my_site2, col_pull = recommended_diameter_or_span_meters)` m span) is recommended. The significant 1 m outlet drop at this crossing, combined with the presence of salmonids in the system, makes it a top priority for remediation. At the time of reporting in 2025, the cost of the work is estimated at \$`r format(fpr::fpr_my_cost_estimate(), big.mark = ',')`.
 
 <br>
 
-At the time of assessment, the downstream crossing on Lake Kathlyn Road was unlikely a barrier to fish passage. However, should restoration activities proceed, replacement with a bridge spanning `r fpr::fpr_my_pscis_info(site = my_site, col_pull = recommended_diameter_or_span_meters)` m is recommended. At the time of reporting in 2025, the estimated cost for the replacement is \$ COMMENTED OUT BELOW.
+At the time of assessment, the downstream crossing on Lake Kathlyn Road was unlikely a barrier to fish passage. However, should restoration activities proceed, replacement with a bridge spanning `r fpr::fpr_my_pscis_info(site = my_site, col_pull = recommended_diameter_or_span_meters)` m is recommended. At the time of reporting in 2025, the estimated cost for the replacement is \$ `r format(fpr::fpr_my_cost_estimate(site = my_site2), big.mark = ',')`.
 
 <br>
-
-```{r, eval = F}
-# FOR THE FOLLOWING SECTIONS TO RUN WE NEED:
-`tab_cost_est_phase2` build in `tables.R` which is used by `fpr_my_cost_estimate()`
-
-`r format(fpr::fpr_my_cost_estimate(), big.mark = ',')`
-`r format(fpr::fpr_my_cost_estimate(site = my_site2), big.mark = ',')`
-```
 
 
 
