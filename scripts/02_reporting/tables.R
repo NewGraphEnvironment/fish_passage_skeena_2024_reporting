@@ -18,25 +18,70 @@ project = "2024-072-sern-skeena-fish-passage"
 repo_name <- "fish_passage_skeena_2024_reporting"
 
 
+
 # Load data -------------------------------------------------
 
-## Load PSCIS data -------------------------------------------------
+## Reload form_pscis -------------------------------------------------
 
-# What we should be doing here is just reading in form_pscis_2024.gpkg which should have site elevations, barrier scores,
-# and replacement structure, size, type, see issue: https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/56
+# form_pscis gets read in from `02_reporting/0165-read-sqlite.R`
 
-# read in form_pscis
-form_pscis <- fpr::fpr_sp_gpkg_backup(
-  path_gpkg = path_form_pscis,
-  dir_backup = "data/backup/",
-  update_utm = TRUE,
-  update_site_id = FALSE, ## This now also checks for duplicates
-  write_back_to_path = FALSE,
-  write_to_csv = FALSE,
-  write_to_rdata = FALSE,
-  return_object = TRUE)
+# If update_form_pscis = TRUE then load form_pscis to sqlite - need to load the params from `index.Rmd`
+if (params$update_form_pscis) {
+  form_pscis <- fpr::fpr_sp_gpkg_backup(
+    path_gpkg = path_form_pscis,
+    dir_backup = "data/backup/",
+    update_utm = TRUE,
+    update_site_id = FALSE, ## This now also checks for duplicates
+    write_back_to_path = FALSE,
+    write_to_csv = FALSE,
+    write_to_rdata = FALSE,
+    return_object = TRUE)
 
 
+  conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
+  # won't run on first build if the table doesn't exist
+  readwritesqlite::rws_drop_table("form_pscis_raw", conn = conn)
+  readwritesqlite::rws_write(form_pscis, exists = F, delete = TRUE,
+                             conn = conn, x_name = "form_pscis")
+  readwritesqlite::rws_disconnect(conn)
+  # remove the object to avoid issues if something breaks
+  rm(form_pscis)
+}
+
+
+## Reload form_fiss_site -------------------------------------------------
+
+# form_fiss_site data gets read in from `02_reporting/0165-read-sqlite.R`
+
+# If update_form_fiss_site = TRUE then load form_fiss_site to sqlite - need to load the params from `index.Rmd`
+if (params$update_form_fiss_site) {
+  form_fiss_site <- fpr::fpr_sp_gpkg_backup(
+    path_gpkg = path_form_fiss_site,
+    dir_backup = "data/backup/",
+    update_utm = TRUE,
+    update_site_id = FALSE,
+    write_back_to_path = FALSE,
+    return_object = TRUE,
+    write_to_csv = FALSE,
+    write_to_rdata = FALSE,
+    col_easting = "utm_easting",
+    col_northing = "utm_northing") |>
+    sf::st_drop_geometry()
+
+
+  conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
+  # won't run on first build if the table doesn't exist
+  readwritesqlite::rws_drop_table("form_fiss_site", conn = conn)
+  readwritesqlite::rws_write(form_fiss_site, exists = F, delete = TRUE,
+                             conn = conn, x_name = "form_fiss_site")
+  readwritesqlite::rws_disconnect(conn)
+  # remove the object to avoid issues if something breaks
+  rm(form_fiss_site)
+}
+
+
+
+## Load PSCIS spreadsheets -------------------------------------------------
 
 # For now, import data and build tables we for reporting
 pscis_list <- fpr::fpr_import_pscis_all()
@@ -60,25 +105,6 @@ pscis_all <- dplyr::left_join(
     TRUE ~ pscis_crossing_id
   )) |>
   dplyr::arrange(pscis_crossing_id)
-
-
-
-
-## Load habitat data -------------------------------------------------
-
-form_fiss_site <- fpr::fpr_sp_gpkg_backup(
-  path_gpkg = path_form_fiss_site,
-  dir_backup = "data/backup/",
-  update_utm = TRUE,
-  update_site_id = FALSE,
-  write_back_to_path = FALSE,
-  return_object = TRUE,
-  write_to_csv = FALSE,
-  write_to_rdata = FALSE,
-  col_easting = "utm_easting",
-  col_northing = "utm_northing") |>
-  sf::st_drop_geometry()
-
 
 
 ## Load fish data -------------------------------------------------
@@ -411,9 +437,11 @@ tab_cost_est_prep5 <- dplyr::left_join(
 
 # Step 7: Add the priority from `form_pscis`
 tab_cost_est_prep6 <- dplyr::left_join(
-  tab_cost_est_prep5,
+  tab_cost_est_prep5 |>
+    # only for skeena 2024 where the road names are not capitalized in the spreadsheet because I forgot:/
+    dplyr::select(-road_name),
   form_pscis |>
-    dplyr::select(pscis_crossing_id, my_priority),
+    dplyr::select(pscis_crossing_id, my_priority, road_name),
   by = 'pscis_crossing_id'
 ) |>
   dplyr::arrange(pscis_crossing_id) |>

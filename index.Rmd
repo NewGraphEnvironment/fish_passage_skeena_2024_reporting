@@ -28,6 +28,7 @@ params:
   report_url: 'https://newgraphenvironment.github.io/fish_passage_skeena_2024_reporting'
   update_packages: FALSE
   update_form_pscis: FALSE
+  update_form_fiss_site: FALSE
   update_gis: FALSE
   gis_project_name: "sern_skeena_2023"
 nocite: |
