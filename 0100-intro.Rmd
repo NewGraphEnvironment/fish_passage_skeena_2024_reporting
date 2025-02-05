@@ -34,7 +34,7 @@ were previously documented as per the report links below. The reports for these 
 Please note that at the time of reporting, this document was a living document changing over time.  Version numbers are
 logged for each release with modifications, enhancements and other changes tracked with the [changelog section](#changelog).
 Additionally, issues and planned enhancements are tracked
-[here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/issues).
+[here](`r paste0(params$repo_url,'issues')`).
 
 <br>
 

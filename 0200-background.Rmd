@@ -26,6 +26,8 @@ Gitxsan means "People of the River Mist". The Gitxsan Laxyip (traditional territ
 
 ```
 
+<br>
+
 ## Tsimshian
 The Kitsumkalum community, part of the Tsimshian Nation, maintains a rich cultural heritage rooted in ancient traditions and values. Their society, governed by Tsimshian Law (ayaawx), emphasizes strong connections through marriages, adoptions, and resource sharing with other Tsimshian tribes. The community upholds its cultural and spiritual practices, including fishing, harvesting, and land stewardship, despite the impacts of colonization [@kitsumkalumbandOurCulture].
 
@@ -38,6 +40,7 @@ Kitsumkalum's social structure is based on matrilineal kinship, with significant
 
 The Kitsumkalum River salmon populations have been an important part of their culture and economy [@gottesfeld_rabnett2007SkeenaFish]. 
 
+<br>
 
 ## Bulkley River
 
@@ -67,6 +70,8 @@ knitr::include_graphics("fig/pixel.png")
 knitr::include_graphics("fig/hydrograph_08EE003.png")
 ```
 
+<br>
+
 ## Morice River
 
 The Morice River watershed drains 4,379km^2^ of Coast Mountains and Interior Plateau in a generally south-eastern direction. The Morice River is an 8th order stream that flows approximatley 80km from Morice Lake to the confluence with the upper Bulkley River just north of Houston. Major tributaries include the Nanika River, the Atna River, Gosnell Creek and the Thautil River. There area numerous large lakes situated on the south side of the watershed including Morice Lake, McBride Lake, Stepp Lake, Nanika Lake, Kid Price Lake, Owen Lake and others. There is one active hydrometric station on the mainstem of the Morice River near the outlet of Morice Lake and one historic station that was located at the mouth of the river near Houston that gathered data in 1971 only [@canada2024NationalWater]. An estimate of mean annual discharge for the one year of data available for the Morice near it's confluence with the Bulkley River is `r round(fasstr::calc_longterm_mean(station_number = "08ED003")$LTMAD,0)` m^3^/s. Mean annual discharge is estimated at `r round(fasstr::calc_longterm_mean(station_number = "08ED002")$LTMAD,0)` m^3^/s at station 08ED002 located near the outlet of Morice Lake. Flow patterns are typical of high elevation watersheds influenced by coastal weather patterns which receive large amounts of winter precipitation as snow in the winter and large precipitation events in the fall. This leads to peak levels of discharge during snowmelt, typically from May to July with isolated high flows related to rain and rain on snow events common in the fall (Figure \@ref(fig:hydrology-plot2)).
@@ -87,6 +92,8 @@ knitr::include_graphics("fig/pixel.png")
 knitr::include_graphics("fig/hydrograph_08ED002.png")
 ```
 
+<br>
+
 ## Zymoetz River 
 
 The Zymoetz River (known locally as the Copper River) watershed is an eighth order stream that drains an area of 3026km^2^ in a generally westerly direction. It is considered a major tributary of the Skeena River, as it contributes approximately 10% of the flow. The headwater lakes are located approximately 20km southwest of Smithers, and they include Aldrich, Dennis and McDonell Lakes. The upper and lower portions of the watershed are accessed via logging roads off of Highway 16 from Smithers and Terrace, respectively. Access to the middle watershed is difficult due to road wash out. The Zymoetz River flows roughly 120km, starting just west of Hudson Bay mountain near Smithers and ending at the confluence of the Skeena River, approximately 8km north-east of Terrace. Elevations in the watershed range from 120m at the confluence, to 2740m in the Howson Range. The Duthie mine operated on the south-west slope of Hudson Bay Mountain during the 1930's and 1950's, and reports have documented contaminated streams and lakes in the surrounding area [@gottesfeld_etal2002ConservingSkeena]. The lower end of the Zymoetz watershed has seen a significant reduction in riparian habitat due to fires, forest development practices, pipe line and road construction [@gottesfeld_etal2002ConservingSkeena]. Snowmelt plays a big role in controlling the stream hydrology, with a mean annual discharge estimated at `r round(fasstr::calc_longterm_mean(station_number = "08EF005")$LTMAD,0)` m^3^/s at station 08EF005 located near Smithers. Peak discharge happens in May to early June, which is typical of a high elevation watershed like this (Figure \@ref(fig:hydrology-plot3)).
@@ -100,6 +107,8 @@ sfpr_create_hydrograph("08EF005")
 ```{r hydrology-plot3, fig.cap = 'Zymoetz River Above O.k. Creek (Station #08EF005 - Lat 54.49363 Lon -128.32466). Available mean daily discharge data from 1963 to 2021.', fig.show="hold", eval=T}
 knitr::include_graphics("fig/hydrograph_08EF005.png")
 ```
+
+<br>
 
 ### Kispiox River 
 
@@ -115,6 +124,7 @@ sfpr_create_hydrograph("08EB004")
 knitr::include_graphics("fig/hydrograph_08EB004.png")
 ```
 
+<br>
 
 ## Kitsumkalum River
 
@@ -129,6 +139,8 @@ The Kitsumkalum River watershed has been highly impacted by logging. Many of the
 
 There has been a significant amount of work done to enhance salmon populations within the watershed. The SkeenaWild Conservation Trust is conducting riparian restoration surveys on several tributaries to the Kitsumkalum River, including Willow Creek, Spring Creek, Lean-To Creek, and Deep Creek [@healthywatershedsinitiative2021RiparianRestoration]. The Deep Creek Hatchery, operated by the Terrace Salmonid Enhancement Society, has been supporting Kitsumkalum River chinook populations since 1984 [@gottesfeld_rabnett2007SkeenaFish]. Additionally, there is a small groundwater facility for the incubation and rearing coho and chum, run by the Kitsumkalum First Nation [@gottesfeld_rabnett2007SkeenaFish]. In 2000 The Clear Creek Eastern Side Channel was constructed to enhance juvenile rearing habitat and adult spawning habitat for coho salmon on Clear Creek, a tributary to the Kitsumkalum River, however the site has not been maintained and beaver activity has obstructed fish accessibility to much of the channel [@elmer2021Initialassessment]. 
 
+<br>
+
 ```{r, eval=FALSE}
 sfpr_create_hydrograph("08EG019")
 ```
@@ -137,11 +149,13 @@ sfpr_create_hydrograph("08EG019")
 knitr::include_graphics("fig/hydrograph_08EG019.png")
 ```
 
+<br>
 
 ## Fisheries
 
 In 2004, @ibmbusinessconsultingservices2006ValuationWild estimated the value of Skeena Fisheries at an annual average of \$110 million dollars. The Bulkley-Morice watershed is an integral part of the salmon production in the Skeena drainage and supports an internationally renown steelhead, chinook and coho sport fishery [@tamblyn2005PlanConserve].
 
+<br>
 
 ### Bulkley River
 
@@ -165,6 +179,7 @@ A detailed field assessment and write up regarding the upper Bulkley falls was c
 
 @wilson_rabnett2007FishPassage reported that approximately 11.3 km downstream of the Bulkley Lake outlet and just upstream of Watson Creek, the upper Bulkley falls is an approximately 4m high narrow rock sill that crosses the Neexdzii Kwah, producing a steep cascade section. This obstacle to fish passage is recorded as an almost complete barrier to fish passage for salmon during low water flows. @wilson_rabnett2007FishPassage also reported that coho have not been observed beyond the falls since 1972. 
 
+<br>
 
 ```{r fig-dfo-sad-tr1, fig.cap = "Fisheries and Oceans Canada stock assessment data for the Bulkley River - Upper.  Data is filtered to only include records with total return to river data.", eval= FALSE}
 
@@ -180,11 +195,13 @@ dfo_sad_raw %>%
 
 ```
 
-
+<br>
 
 ### Morice River
 
 Detailed reviews of Morice River watershed fisheries can be found in @bustard_schell2002ConservingMorice, @gottesfeld_etal2002ConservingSkeena, @schell2003BriefOverview, @gottesfeld_rabnett2007SkeenaFish, and @ilmb2007MoriceLand with a comprehensive review of water quality by @oliver2018Analysiswater Overall, the Morice watershed contains high fisheries values as a major producer of chinook, pink, sockeye, coho and steelhead.
+
+<br>
 
 ### Zymoetz River
 
@@ -194,22 +211,26 @@ Within the Zymoetz Watershed, there are many areas with high fishery values. Ste
 
 Traditional First Nations use of the upper Zymoetz River watershed by the Gitxsan and Wet'suwet'en people differed between community sites, residences, and fish houses, and was large and diverse. From the upper to lower Zymoetz River and to the Skeena River, a significant ancient grease trail connected, with a branch track forking through Limonite Creek and flowing down the Telkwa River. The fishery used a weir at the mouth of McDonell Lake and spears at Six Mile Flats, near Dennis Lake. There is no information on native fisheries on the lower Zymoetz River. The Zymoetz is considered to be one of the top ten steelhead rivers in BC [@gottesfeld_etal2002ConservingSkeena].
 
-
+<br>
 
 ### Kispiox River
 
 Kispiox River salmon are a important food source and cultural symbol for the Gitxsan people with sockeye and coho historically the two most significant species. Gitangwalk and Lax Didax, two significant villages that were both abandoned in the early 1900s, were situated on the Kispiox in such a way as to block the sockeye and coho salmon's upstream migration to the Upper Kispiox River spawning grounds providing opportunities to gather and preserve a significant amount of high-quality food over relatively short time periods [@gottesfeld_etal2002ConservingSkeena]. The 100 km of mainstem and 300km of tributary streams in the Kispiox River Watershed are considering high value fish habitat supporting migration, spawning and rearing for many fish species. The Kispiox fisheries supports both recreational and commercial fishing while also enhancing the ecology, nutrient regime, and structural diversity of the drainage. Since 1992, sockeye and coho escapements from the Kispiox Watershed have been documented by the Gitxsan Watershed Authorities as they creates strong cultural, economic, and symbolic ties for the local communities [@gottesfeld_etal2002ConservingSkeena].
 
+<br>
 
 ### Kitsumkalum River
 
 The Kitsumkalum River is an important waterway for all species of salmon. It is one of the three main chinook producing rivers in the Skeena watershed and supports all five species of pacific salmon, steelhead, and other resident trout and char species [@mcelhanney2022KitsumkalumRiver]. Most notably, the Kitsumkalum River has consistently produced the largest-bodied chinook in the Skeena Watershed, as well as on most of the Pacific coast [@gottesfeld_rabnett2007SkeenaFish]. The watershed supports strong recreational coho, steelhead, and chinook fishing. Kitsumkalum salmon also play an important role in the culture and economy of the Kitsumkalum Band [@gottesfeld_rabnett2007SkeenaFish].   
+
+<br>
 
 ### Salmon Stock Assessment Data
 
 Fisheries and Oceans Canada stock assessment data was accessed via the [NuSEDS-New Salmon Escapement Database System](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6)
 through the [Open Government Portal](https://open.canada.ca/en). A brief memo on the data extraction process is available [here](http://htmlpreview.github.io/?https://github.com/NewGraphEnvironment/restoration_wedzin_kwa_2024/blob/main/memos/dfo_stock_assess.html).
 
+<br>
 
 ```{r stock-assess-dat-all, results="asis", echo=FALSE, eval= FALSE}
 
@@ -350,6 +371,8 @@ fiss_sum_width <- readr::read_csv(file = 'data/inputs_extracted/fiss_sum_width.c
 # A summary of historical westslope cutthrout trout observations in the Elk River watershed group by average gradient category of associated stream segment is provided in Figure \@ref(fig:fish-wct-bar). Of `r wct_elkr_grad %>% dplyr::filter(gradient_id == 3) %>% pull(total)` observations, `r wct_elkr_grad %>% dplyr::filter(gradient_id == 3) %>% pull(Percent) + wct_elkr_grad %>% dplyr::filter(gradient_id == 5) %>% pull(Percent) + wct_elkr_grad %>% dplyr::filter(gradient_id == 8) %>% pull(Percent)`% were within stream segments with average gradients ranging from 0 - 8%.  A total of `r wct_elkr_grad %>% dplyr::filter(gradient_id == 3) %>% pull(Percent)`% of historic observations were within stream segments with gradients between 0 - 3%, `r wct_elkr_grad %>% dplyr::filter(gradient_id == 5) %>% pull(Percent)`% were within stream segments with gradients ranging from 3 - 5% and `r wct_elkr_grad %>% dplyr::filter(gradient_id == 5) %>% pull(Percent)`% were within stream segments with gradients between 5 - 8% [@data_fish_obs; @norris2020bcfishobs]. 
 
 ```
+
+<br>
 
 ```{r fish-plot-grad, out.width = photo_width, fig.cap= 'Summary of historic salmonid observations vs. stream gradient category for the Bulkley River watershed group.', eval=T}
 ##bar graph
