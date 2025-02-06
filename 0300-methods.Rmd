@@ -51,7 +51,7 @@ below:
 They can be referenced with the scripts, text and actions used to address them by linking documentation to the issues with text comments
 or programatically through `git` commit messages.  Issues for this project are kept [here](`r paste0(params$repo_url,'issues')`).
 
-### Mapping
+## Mapping
 
 <!-- Project specific -->
 <!-- Maps incorporating the sa'ba (bull trout) spawning and rearing habitat model for the Parsnip River, Carp Lake and -->
@@ -73,7 +73,7 @@ the user points to a postgresql database populated via `bcfishpass` outputs.
 
 
 
-#### Habitat Modelling
+### Habitat Modelling
 
 Through this initiative, other SERNbc led initiatives [@irvine2021BulkleyRiver; @irvine2022BulkleyRiver], multi-decade
 direction from the Provincial Fish Passage Remediation Program and connectivity restoration planning conducted by

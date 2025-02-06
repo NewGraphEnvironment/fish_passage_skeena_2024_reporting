@@ -26,7 +26,7 @@ my_site2 <- 58264
 
 ## Site Location {.unnumbered}
 
-PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`, approximately 3 km northwest of Smithers, BC. The stream is incorrectly mapped in the BC Freshwater Atlas, and is located south of the mapped channel. Simpson Creek flows into Kathlyn Creek, which joins the Bulkley River approximalety 4 km downstream. PSCIS crossing `r as.character(my_site)` is located 70 m upstream of the confluence of `r fpr::fpr_my_pscis_info()` and Kathlyn Creek, on `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`. Approximately 1.4 km upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. Both crossings are within the Bulkley River watershed group.
+PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`, approximately 3km northwest of Smithers, BC. The stream is incorrectly mapped in the BC Freshwater Atlas, and is located south of the mapped channel. Simpson Creek flows into Kathlyn Creek, which joins the Bulkley River approximalety 4km downstream. PSCIS crossing `r as.character(my_site)` is located 70m upstream of the confluence of `r fpr::fpr_my_pscis_info()` and Kathlyn Creek, on `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`. Approximately 1.4km upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. Both crossings are within the Bulkley River watershed group.
 
 <br>
 
@@ -46,11 +46,11 @@ In 2012, PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)
 
 <br>
 
-Historically, Simpson Creek has been a spawning location for coho salmon. Since 1986, coho have been transplanted into the Kathlyn Creek system from the Toboggan Creek Hatchery [@gottesfeld_rabnett2007SkeenaFish]. Kathlyn Creek also supports a small population of pink salmon, and steelhead are known to inhabit Kathlyn Lake and spawn upstream of the Chicken Creek confluence, which would include areas near the Simpson Creek confluence [@gottesfeld_rabnett2007SkeenaFish]. Upstream of the crossing on Nielson Road (`r as.character(my_site2)`), coho salmon and other salmonids have been documented in the past, along with cutthroat trout, rainbow trout, steelhead, mountain whitefish, and Dolly Varden [@norris2024smnorrisbcfishobs; @moe2024KnownBC]. Approximately 360 m downstream of Nielson Road, the adjacent landowner has observed recent steelhead and coho spawning and historically chinook spawning. 
+Historically, Simpson Creek has been a spawning location for coho salmon. Since 1986, coho have been transplanted into the Kathlyn Creek system from the Toboggan Creek Hatchery [@gottesfeld_rabnett2007SkeenaFish]. Kathlyn Creek also supports a small population of pink salmon, and steelhead are known to inhabit Kathlyn Lake and spawn upstream of the Chicken Creek confluence, which would include areas near the Simpson Creek confluence [@gottesfeld_rabnett2007SkeenaFish]. Adjacent to the crossing on Nielson Road (`r as.character(my_site2)`), coho salmon and other salmonids have been documented in the past, along with cutthroat trout, rainbow trout, steelhead, mountain whitefish, and Dolly Varden [@norris2024smnorrisbcfishobs; @moe2024KnownBC]. Approximately 360 m downstream of Nielson Road, the adjacent landowner has observed recent steelhead and coho spawning and historically chinook spawning. 
 
 <br>
 
-According to the a nearby landowner, the crossing on Nielson Road (`r as.character(my_site2)`) was originally a bridge but was replaced with the current culvert during an emergency flood event in the 1990s. Upstream of the crossing on Nielson Road, a trail runs parallel to the stream for 400 m up to the power line, offering an excellent opportunity for community engagement. By connecting people to the land, the trail can foster stewardship and advocacy for the stream, which may lead to future restoration efforts.
+According to the a nearby landowner, the crossing on Nielson Road (`r as.character(my_site2)`) was originally a bridge but was replaced with the current culvert during an emergency flood event in the 1990s. Upstream of the crossing on Nielson Road, a trail runs parallel to the stream for 400m up to the power line, offering an excellent opportunity for community engagement. By connecting people to the land, the trail can foster stewardship and advocacy for the stream, which may lead to future restoration efforts.
 
 <br>
 
@@ -64,11 +64,11 @@ fpr::fpr_table_wshd_sum(site_id = my_site) |>
 
 <br>
 
-Habitat modelling outputs from `bcfishpass` indicated 1.6 km of steelhead and 1.4 km of coho rearing habitat upstream of crossing `r as.character(my_site)` on `r fpr_my_pscis_info(col_pull = road_name, site = my_site)` (gradients <8.5% for steelhead and <5.5% for coho). Upstream of the crossing on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`, only 100 m of habitat is modelled for steelhead and coho rearing due to a steeper stream gradient exceeding 8.5%.
+Habitat modelling outputs from `bcfishpass` indicated 1.6km of steelhead and 1.4km of coho rearing habitat upstream of crossing `r as.character(my_site)` on `r fpr_my_pscis_info(col_pull = road_name, site = my_site)` (gradients <8.5% for steelhead and <5.5% for coho). Upstream of the crossing on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`, only 100m of habitat is modelled for steelhead and coho rearing due to a steeper stream gradient exceeding 8.5%.
 
 
-Outputs are presented in Tables
-\@ref(tab:tab-culvert-bcfp-58245) - \@ref(tab:tab-culvert-bcfp-58264). A map of the watershed is provided in
+Outputs are presented in Table
+\@ref(tab:tab-culvert-bcfp-58245)). A map of the watershed is provided in
 map attachment
 [`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "bulk", archive_date = "2022-09-06")`).
 
@@ -76,12 +76,6 @@ map attachment
 
 ```{r tab-culvert-bcfp-58245, eval = T}
 fpr::fpr_table_bcfp(scroll = gitbook_on) 
-```
-
-<br>
-
-```{r tab-culvert-bcfp-58264, eval = T}
-fpr::fpr_table_bcfp(scroll = gitbook_on, site = my_site2)
 ```
 
 <br>
@@ -144,7 +138,7 @@ hab_site |>filter(site == my_site2 & location == 'us') |>pull(comments)
 
 ## Stream Characteristics Upstream of Crossing `r as.character(my_site)` and Downstream of Crossing `r as.character(my_site2)` {.unnumbered}
 
-The stream was surveyed from `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)` (crossing `r as.character(my_site2)`) downstream to `r fpr_my_pscis_info(col_pull = road_name, site = my_site)` (crossing `r as.character(my_site)`), a distance of approximately 1.4 km `r if(gitbook_on){knitr::asis_output("(Figures \\@ref(fig:photo-58245-02) - \\@ref(fig:photo-58264-01)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-58245-d01)- \\@ref(fig:photo-58264-d01))."))` Downstream of Nielsen Road for approximately 300 m, the stream had steep gradients (5–6%) with straight riffle-cascade sections and confined, channelized, dyke-like banks. Beyond this section, and continuing to the railway crossing, the gradient decreased (2–3%), transitioning into high-quality habitat characterized by abundant gravels, deep pools up to 90 cm, large woody debris, and diverse cover. In this section of stream, the adjacent landowner reported recent steelhead and coho spawning, as well as historical chinook spawning. `r fpr_my_habitat_paragraph(sit = my_site2, loc = 'ds')` The habitat was rated as `r fpr::fpr_my_priority_info(sit = my_site2, loc = 'ds') |>stringr::str_to_lower()` value for salmonid spawning and rearing. 
+The stream was surveyed from `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)` (crossing `r as.character(my_site2)`) downstream to `r fpr_my_pscis_info(col_pull = road_name, site = my_site)` (crossing `r as.character(my_site)`), a distance of approximately 1.4km `r if(gitbook_on){knitr::asis_output("(Figures \\@ref(fig:photo-58245-02) - \\@ref(fig:photo-58264-01)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-58245-d01)- \\@ref(fig:photo-58264-d01))."))` Downstream of Nielsen Road for approximately 300 m, the stream had steep gradients (5–6%) with straight riffle-cascade sections and confined, channelized, dyke-like banks. Beyond this section, and continuing to the railway crossing, the gradient decreased (2–3%), transitioning into high-quality habitat characterized by abundant gravels, deep pools up to 90 cm, large woody debris, and diverse cover. In this section of stream, the adjacent landowner reported recent steelhead and coho spawning, as well as historical chinook spawning. `r fpr_my_habitat_paragraph(sit = my_site2, loc = 'ds')` The habitat was rated as `r fpr::fpr_my_priority_info(sit = my_site2, loc = 'ds') |>stringr::str_to_lower()` value for salmonid spawning and rearing. 
 
 <br>
 

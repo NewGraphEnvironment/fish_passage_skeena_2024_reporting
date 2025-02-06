@@ -1,5 +1,113 @@
 # Results and Discussion
 
+## Five Year Summary
+
+Summary of fish passage assessment procedures conducted in the Skeena River Watershed since 2020, through SERNbc.
+
+```{r ld-db}
+conn = fpr::fpr_db_conn()
+
+sites_all <- fpr::fpr_db_query(
+  query = "SELECT * FROM working.fp_sites_tracking"
+)
+
+DBI::dbDisconnect(conn)
+```
+
+```{r summarize-sites}
+
+# unique(sites_all$watershed_group_name)
+# 
+# # here is a list of SERN wtershed groups
+wsg_skeena <- c("Bulkley River",
+              "Zymoetz River",
+              "Kispiox River",
+              "Kalum River",
+              "Morice River"
+              )
+
+wsg_code_skeena <- c(
+  'BULK','KISP','KLUM','MORR','ZYMO',
+  'BABL', 'BABR', 'LKEL', 'LSKE', 'MSKE', 'SUST'
+)
+
+# wsg_peace <- c(
+#               "Parsnip River",
+#               "Carp Lake",
+#               "Crooked River"
+#               )
+
+# more straight forward is new graph only watersheds
+# wsg_ng <- "Elk River"
+
+# here is a summary with Elk watershed group removed
+sites_all_summary <- sites_all |> 
+  # make a flag column for uav flights
+  dplyr::mutate(
+    uav = dplyr::case_when(
+      !is.na(link_uav1) ~ "yes",
+      T ~ NA_character_
+    )) |> 
+  # remove the elk counts
+  dplyr::filter(watershed_group %in% wsg_skeena) |>
+  dplyr::group_by(watershed_group) |> 
+  dplyr::summarise(
+    dplyr::across(assessment:fish_sampling, ~ sum(!is.na(.x))),
+    uav = sum(!is.na(uav))
+  ) |> 
+  sf::st_drop_geometry() |> 
+  # make pretty names
+  dplyr::rename_with(~ stringr::str_replace_all(., "_", " ") |> 
+                       stringr::str_to_title()) |> 
+  # annoying special case
+  dplyr::rename(
+    `Drone Imagery` = Uav) |> 
+  janitor::adorn_totals()
+```
+
+```{r tab-sites-sum-cap, results="asis"}
+my_caption = "Summary of fish passage assessment procedures conducted in the Skeena through SERNbc since 2020."
+my_tab_caption()
+```
+
+```{r tab-sites-sum}
+sites_all_summary |> 
+  my_dt_table(
+    page_length = 20,
+    cols_freeze_left = 0
+              )
+```
+
+<br>
+
+
+```{r tab-sites-cap, results="asis"}
+my_caption = "Details of fish passage assessment procedures conducted in the Skeena through SERNbc since 2020."
+my_tab_caption()
+```
+
+```{r tab-sites-all}
+sites_all |>
+  sf::st_drop_geometry() |>
+  dplyr::relocate(watershed_group, .after = my_crossing_reference) |> 
+  dplyr::select(-idx) |>
+  # make pretty names
+  dplyr::rename_with(~ . |>
+                       stringr::str_replace_all("_", " ") |>
+                       stringr::str_replace_all("repo", "Report") |>
+                       stringr::str_replace_all("uav", "Drone") |>
+                       stringr::str_to_title()) |> 
+  # dplyr::arrange(desc(stream_crossing_id)) |> 
+  
+  my_dt_table(
+    cols_freeze_left = 1,
+    escape = FALSE
+  )
+```
+
+
+## 2024 Summary
+
 `r if(gitbook_on){knitr::asis_output("Results of Phase 1 and Phase 2 assessments are summarized in Figure \\@ref(fig:map-interactive) with additional details provided in sections below.")}`
 
 <br>
@@ -396,6 +504,9 @@ plot_fish_box_all
 ```
 
 ## Phase 3 - Design
+
+All sites with a design for remediation of fish passage can be found in Table 
+
 At the time of reporting, designs for remediation of fish passage had been completed for the following sites listed by watershed group:
 
 
@@ -556,113 +667,4 @@ knitr::include_graphics(my_photo2)
 <!-- - Dale Creek - PSCIS 198215 - Kispiox Westside Road. Electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked as part of effectiveness monitoring at the site. Results are presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). -->
 
 <!-- - Sterritt creek - 198225 - Babine Slide FSR.  Revisited with the intention to conduct fish sampling however, before sampling was conducted surveyors observed a 2 - 3m high near vertical cascade flowing over bedrock into the small culvert outlet pool immediately below the FSR. It was decided to not proceed with electrofishing as replacement of the culvert with a bridge would not facilitate upstream fish migration. Results are presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). -->
-
-
-
-
-
-## Five Year Summary
-
-Summary of fish passage assessment procedures conducted in the Skeena through SERNbc since 2020.
-
-```{r ld-db}
-conn = fpr::fpr_db_conn()
-
-sites_all <- fpr::fpr_db_query(
-  query = "SELECT * FROM working.fp_sites_tracking"
-)
-
-DBI::dbDisconnect(conn)
-```
-
-```{r summarize-sites}
-
-# unique(sites_all$watershed_group_name)
-# 
-# # here is a list of SERN wtershed groups
-wsg_skeena <- c("Bulkley River",
-              "Zymoetz River",
-              "Kispiox River",
-              "Kalum River",
-              "Morice River"
-              )
-
-wsg_code_skeena <- c(
-  'BULK','KISP','KLUM','MORR','ZYMO',
-  'BABL', 'BABR', 'LKEL', 'LSKE', 'MSKE', 'SUST'
-)
-
-# wsg_peace <- c(
-#               "Parsnip River",
-#               "Carp Lake",
-#               "Crooked River"
-#               )
-
-# more straight forward is new graph only watersheds
-# wsg_ng <- "Elk River"
-
-# here is a summary with Elk watershed group removed
-sites_all_summary <- sites_all |> 
-  # make a flag column for uav flights
-  dplyr::mutate(
-    uav = dplyr::case_when(
-      !is.na(link_uav1) ~ "yes",
-      T ~ NA_character_
-    )) |> 
-  # remove the elk counts
-  dplyr::filter(watershed_group %in% wsg_skeena) |>
-  dplyr::group_by(watershed_group) |> 
-  dplyr::summarise(
-    dplyr::across(assessment:fish_sampling, ~ sum(!is.na(.x))),
-    uav = sum(!is.na(uav))
-  ) |> 
-  sf::st_drop_geometry() |> 
-  # make pretty names
-  dplyr::rename_with(~ stringr::str_replace_all(., "_", " ") |> 
-                       stringr::str_to_title()) |> 
-  # annoying special case
-  dplyr::rename(
-    `Drone Imagery` = Uav) |> 
-  janitor::adorn_totals()
-```
-
-```{r tab-sites-sum-cap, results="asis"}
-my_caption = "Summary of fish passage assessment procedures conducted in the Skeena through SERNbc since 2020."
-my_tab_caption()
-```
-
-```{r tab-sites-sum}
-sites_all_summary |> 
-  my_dt_table(
-    page_length = 20,
-    cols_freeze_left = 0
-              )
-```
-
-<br>
-
-
-```{r tab-sites-cap, results="asis"}
-my_caption = "Details of fish passage assessment procedures conducted in the Skeena through SERNbc since 2020."
-my_tab_caption()
-```
-
-```{r tab-sites-all}
-sites_all |>
-  sf::st_drop_geometry() |>
-  dplyr::relocate(watershed_group, .after = my_crossing_reference) |> 
-  dplyr::select(-idx) |>
-  # make pretty names
-  dplyr::rename_with(~ . |>
-                       stringr::str_replace_all("_", " ") |>
-                       stringr::str_replace_all("repo", "Report") |>
-                       stringr::str_replace_all("uav", "Drone") |>
-                       stringr::str_to_title()) |> 
-  # dplyr::arrange(desc(stream_crossing_id)) |> 
-  
-  my_dt_table(
-    cols_freeze_left = 1,
-    escape = FALSE
-  )
-```
 
