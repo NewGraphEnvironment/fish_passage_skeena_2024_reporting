@@ -23,7 +23,7 @@ my_site2 <- 198935
 
 ## Site Location {.unnumbered}
 
-PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`, approximately 22 km southwest of Houston, BC. `r fpr::fpr_my_pscis_info()` flows into Knapper Creek, which joins the Morice River approximalety 2 km downstream. PSCIS crossing `r as.character(my_site)` is located 1.3 km upstream of the confluence of the subject tributary and Knapper Creek, on spur `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`. Approximately 350 m upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. Both crossings are within the Morice River watershed group.
+PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`, approximately 22km southwest of Houston, BC. `r fpr::fpr_my_pscis_info()` flows into Knapper Creek, which joins the Morice River approximalety 2km downstream. PSCIS crossing `r as.character(my_site)` is located 1.3km upstream of the confluence of the subject tributary and Knapper Creek, on spur `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`. Approximately 350 m upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. Both crossings are within the Morice River watershed group.
 
 <br>
 
@@ -53,11 +53,11 @@ fpr::fpr_table_wshd_sum(site_id = my_site) |>
 
 <br>
 
-Habitat modelling outputs from `bcfishpass` indicated 1.2 km of steelhead and 1 km of coho rearing habitat upstream of crossing `r as.character(my_site)` on spur `r fpr_my_pscis_info(col_pull = road_name, site = my_site)` (gradients <8.5% for steelhead and <5.5% for coho). Upstream of the crossing on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`, there is 0.9 km of steelhead and 1.9 km of coho rearing habitat modelled. 
+<!-- Habitat modelling outputs from `bcfishpass` indicated 1.2km of steelhead and 1km of coho rearing habitat upstream of crossing `r as.character(my_site)` on spur `r fpr_my_pscis_info(col_pull = road_name, site = my_site)` (gradients <8.5% for steelhead and <5.5% for coho). Upstream of the crossing on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`, there is 0.9km of steelhead and 1.9km of coho rearing habitat modelled.  -->
 
 
-Outputs are presented in Tables
-\@ref(tab:tab-culvert-bcfp-198940) - \@ref(tab:tab-culvert-bcfp-198935). A map of the watershed is provided in
+Outputs are presented in Table
+\@ref(tab:tab-culvert-bcfp-198940)). A map of the watershed is provided in
 map attachment
 [`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "morr", archive_date = "2022-09-06")`).
 
@@ -65,12 +65,6 @@ map attachment
 
 ```{r tab-culvert-bcfp-198940, eval = T}
 fpr::fpr_table_bcfp(scroll = gitbook_on) 
-```
-
-<br>
-
-```{r tab-culvert-bcfp-198935, eval = T}
-fpr::fpr_table_bcfp(sit = my_site2, scroll = gitbook_on) 
 ```
 
 <br>
@@ -162,7 +156,7 @@ At the time of assessment, the downstream crossing on road/spur HM7504 was unlik
 
 ## Conclusion {.unnumbered}
 
-`r fpr::fpr_my_pscis_info()` contains moderate-value rearing and spawning habitat for coho, rainbow trout, Dolly Varden, and cutthroat trout. Electrofishing at the time of assessment confirmed the presence of rainbow trout, cutthroat trout, cutthroat/rainbow trout hybrids, and Dolly Varden. Habitat modelling identified 1.2 km of steelhead rearing habitat upstream of crossing `r as.character(my_site)`, with approximately 300 m less upstream of `r as.character(my_site2)`. There is suspected interconnection between wetlands in this watershed and adjacent watersheds, suggesting the current modelling may under-represent the watershed's size.
+`r fpr::fpr_my_pscis_info()` contains moderate-value rearing and spawning habitat for coho, rainbow trout, Dolly Varden, and cutthroat trout. Electrofishing at the time of assessment confirmed the presence of rainbow trout, cutthroat trout, cutthroat/rainbow trout hybrids, and Dolly Varden. Habitat modelling identified 1.2km of steelhead rearing habitat upstream of crossing `r as.character(my_site)`, with approximately 300m less upstream of `r as.character(my_site2)`. There is suspected interconnection between wetlands in this watershed and adjacent watersheds, suggesting the current modelling may under-represent the watershed's size.
 
 Should restoration activities proceed, efforts should focus on PSCIS crossing` r as.character(my_site2)` on Gold Creek FSR, which had a small outlet drop and a deep outlet pool. PSCIS crossing `r as.character(my_site)` on Road/Spur HM7504 was backwatered and not presumed to be a barrier to fish passage. Both crossings were noted as undersized for the stream.
 
