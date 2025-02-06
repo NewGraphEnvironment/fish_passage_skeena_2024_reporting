@@ -71,17 +71,20 @@ my_news_to_appendix <- function(
 }
 
 #https://stackoverflow.com/questions/49819892/cross-referencing-dtdatatable-in-bookdown
-my_tab_caption <- function(caption_text = my_caption) {
+my_tab_caption <- function(caption_text = my_caption, tip_header = TRUE) {
   # requires results="asis" in chunk header and only works in rmarkdown and not quarto
+
+  tip <- " <b>NOTE: To view all columns in the table - please click on one of the sort arrows within column headers before scrolling to the right.</b>"
+
   cat(
     "<table>",
     paste0(
       "<caption>",
       "(#tab:",
-      # this is the chunk name!!
       knitr::opts_current$get()$label,
       ")",
       caption_text,
+      if (tip_header) tip,
       "</caption>"
     ),
     "</table>",
@@ -193,30 +196,16 @@ sfpr_create_hydrograph <- function(
 }
 
 #' Determine replacement structure type and size based on measured field metrics.
-#' @param dat [data.frame] PSCIS data
-#' @param fill_depth_max [numeric] Max amount of fill above the closed bottom structure - after which it is assumed that a large amount
-#' of resloping of banks is likely required. Above this depth of fill there are increases in the span required
-#' in replacement structures which is determined based on the `fill_depth_mult`.  Default is 3m.
-#' @param span_standard [numeric] Standard minimum bridge span used when a clear span is required. Default is 15m based on past experience.
-#' @param span_grace [numeric] Percentage (in decimal format) of width that a bridge span should be beyond the channel width.
-#' Defaults to 0.5 (ex. 5m of grace consisting of 2.5m on either side for a 10m wide stream). This is a massively
-#' simplified way of estimating some level of high flow event intended to just give a span ballpark for rough cost estimates.
-#' @param fill_depth_min_ss_large [numeric] Minimum amount of fill depth above which a streambed simulation is preferred if channel width
-#' is above the chn_wdth_max_ss_large and below or equal to the chn_wdth_max_ss_large. Default is 4.5m.
-#' @param fill_depth_mult [numeric] Amount of span (m) to add for every 1m of fill deeper than `fill_depth_max`. Default is 3
-#' because construction usually involves 1.5:1 slope on either side of the stream resulting in 3m more span required for each metre in depth.
-#' @param chn_wdth_max_ss [numeric] Maximimum channel width where a streambed simulation is feasible because above this size the
-#' substrate placed in the pipe has been known to blow out over time. Defaults to 4m so that a 6m pipe can be installed
-#' (assuming span_grace is set to 0.5).
-#' @param template [logical] Whether or not this function is used in conjunction with data read in from provincial
-#' PSCIS template.  Default is FALSE.  If TRUE -column data populated by [fpr_import_pscis_all()] is used to generate filenames
-#' for outputs that are burned to csv.
+#' @param dat PSCIS data
+#' @param fill_dpth standard fill depth, default is 3m.
+#' @param brdg_wdth standard bridge width, default is 15m.
+#' @param chn_wdth_max maximum channel width where the bridge should start to be more than brdg_wdth, default is brdg_wdth - 5m.
+#' @param fill_dpth_mult for every 1 m deeper than 3m, we need a 1.5:1 slope so there is 3m more bridge required
 #'
 #' @importFrom dplyr mutate filter select case_when
 #' @importFrom plyr round_any
 #' @importFrom readr write_csv
-#' @importFrom chk chk_numeric chk_not_null chk_data
-#' @importFrom fs dir_create
+#' @importFrom chk chk_numeric
 #'
 #' @export
 #'
@@ -226,73 +215,57 @@ sfpr_create_hydrograph <- function(
 #'
 sfpr_structure_size_type <- function(
     dat = NULL,
-    fill_depth_max = 3,
-    fill_dpth_min_ss = 5,
-    span_standard = 15,
-    span_grace = 0.2,
-    fill_depth_mult = 3,
-    chn_wdth_max_ss_small = 2,
-    chn_wdth_max_ss_large = 4.5,
+    fill_dpth = 3,
+    brdg_wdth = 15,
+    chn_wdth_max = brdg_wdth - 5,
+    fill_dpth_mult = 3) {
 
-    template = FALSE) {
+  if (is.null(dat))
+    stop('please provide "dat" (dataframe) object')
+  if (!is.data.frame(dat))
+    stop('"dat" must inherit from a data.frame')
 
-  chk::chk_not_null(dat)
-  chk::chk_data(dat)
-  chk::chk_numeric(fill_depth_max)
-  chk::chk_numeric(span_standard)
-  chk::chk_numeric(span_grace)
-  chk::chk_numeric(fill_depth_mult)
-  chk::chk_numeric(chn_wdth_max_ss)
+  chk::chk_numeric(fill_dpth)
+  chk::chk_numeric(brdg_wdth)
+  chk::chk_numeric(chn_wdth_max)
+  chk::chk_numeric(fill_dpth_mult)
 
 
-  #above this stream width we need have a larger bridge than the standard
-  chn_wdth_max <- span_standard - span_standard * span_grace
-
-  dat_cbs_to_span <- dat |>
-    dplyr::filter(
-      crossing_type == "Closed Bottom Structure"
-      & (barrier_result == 'Barrier' | barrier_result == 'Potential')
-  )
-
-
-
-  str_type <- dat |>
-    dplyr::mutate(fill_depth_over = fill_depth_meters - fill_depth_max,
-                  crossing_fix = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
-                                                  & downstream_channel_width_meters >= chn_wdth_max_ss ~ 'Replace with New Open Bottom Structure',
-                                                  barrier_result == 'Passable' | barrier_result == 'Unknown' ~ NA_character_
-                                                  # ,
-                                                  # T ~ 'Replace Structure with Streambed Simulation CBS'
-                                                  ),
-                  recommended_diameter_or_span_meters = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
-                                                & downstream_channel_width_meters >= chn_wdth_max_ss_large ~ span_standard,
+  str_type <- dat %>%
+    dplyr::select(rowid, aggregated_crossings_id, pscis_crossing_id, my_crossing_reference, source, barrier_result,
+                  downstream_channel_width_meters, fill_depth_meters) %>%
+    dplyr::mutate(fill_dpth_over = fill_depth_meters - fill_dpth_mult) %>%
+    dplyr::mutate(crossing_fix = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
+                                                  & downstream_channel_width_meters >= 2 ~ 'Replace with New Open Bottom Structure',
+                                                  barrier_result == 'Passable' | barrier_result == 'Unknown' ~ NA_character_,
+                                                  T ~ 'Replace Structure with Streambed Simulation CBS'))  %>%
+    dplyr::mutate(span_input = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
+                                                & downstream_channel_width_meters >= 2 ~ brdg_wdth,
                                                 barrier_result == 'Passable' | barrier_result == 'Unknown' ~ NA_real_,
-                                                T ~ 3),
-                  recommended_diameter_or_span_meters = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
-                                                & fill_depth_over > 0 & !stringr::str_like(crossing_fix, 'Simulation') ~
-                                                  (span_standard + fill_depth_mult * fill_depth_over),  ##1m more fill = 3 m more bridge
-                                                T ~ recommended_diameter_or_span_meters),
-                  recommended_diameter_or_span_meters = dplyr::case_when(recommended_diameter_or_span_meters < (downstream_channel_width_meters + span_grace)  ##span not need be extended if already 4m bigger than channel width
-                                                  & downstream_channel_width_meters > chn_wdth_max ~
-                                                  (downstream_channel_width_meters - chn_wdth_max) + recommended_diameter_or_span_meters,  ##for every m bigger than a 5 m channel add that much to each side in terms of span
-                                                T ~ recommended_diameter_or_span_meters),
-                  #
-                  crossing_fix = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
-                                                  & downstream_channel_width_meters > chn_wdth_max_ss_small
-                                                   & downstream_channel_width_meters <= chn_wdth_max_ss &
-                                                    fill_depth_meters > fill_dpth_min_ss ~ 'Replace Structure with Streambed Simulation CBS',
+                                                T ~ 3))  %>%
+    dplyr::mutate(span_input = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
+                                                & fill_dpth_over > 0 & !stringr::str_like(crossing_fix, 'Simulation') ~
+                                                  (brdg_wdth + fill_dpth_mult * fill_dpth_over),  ##1m more fill = 3 m more bridge
+                                                T ~ span_input)) %>%
+    dplyr::mutate(span_input = dplyr::case_when(span_input < (downstream_channel_width_meters + 4) & ##span not need be extended if already 4m bigger than channel width
+                                                  downstream_channel_width_meters > chn_wdth_max ~
+                                                  (downstream_channel_width_meters - chn_wdth_max) + span_input,  ##for every m bigger than a 5 m channel add that much to each side in terms of span
+                                                T ~ span_input)) %>%
+    ##let's add an option that if the stream is under 3.5m wide and under more than 5m of fill we do a streambed simulation with a 4.5m embedded multiplate like 4607464 on Flathead fsr
+    dplyr::mutate(crossing_fix = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
+                                                  & downstream_channel_width_meters > 2 &
+                                                    downstream_channel_width_meters <= 3.5 &
+                                                    fill_depth_meters > 5 ~ 'Replace Structure with Streambed Simulation CBS',
                                                   T ~ crossing_fix),
-                  recommended_diameter_or_span_meters = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
-                                                & downstream_channel_width_meters > chn_wdth_max_ss_small
-                                                  & downstream_channel_width_meters <= chn_wdth_max_ss &
-                                                  fill_depth_meters > fill_dpth_min_ss ~ chn_wdth_max_ss + chn_wdth_max_ss(chn_wdth_mult),
-                                                T ~ recommended_diameter_or_span_meters),
-                  recommended_diameter_or_span_meters = round(recommended_diameter_or_span_meters)
-                  )
+                  span_input = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
+                                                & downstream_channel_width_meters > 2 &
+                                                  downstream_channel_width_meters <= 3.5 &
+                                                  fill_depth_meters > 5 ~ 4.5,
+                                                T ~ span_input)) %>%
+    dplyr::mutate(span_input = plyr::round_any(span_input, 0.5))
 
 
   ## Extract the pscis phase so we can use it in the file name
-  if(template){
   pscis_phase <- str_type |>
     dplyr::summarise(phase = dplyr::case_when(
       unique(source) == "pscis_phase1.xlsm" ~ "pscis1",
@@ -301,18 +274,10 @@ sfpr_structure_size_type <- function(
     dplyr::pull(phase)
 
 
-  # Ensure output directory exists
-  fs::dir_create("data/inputs_extracted")
-
   ## then burn to a csvs so we can copy and paste into spreadsheet
   str_type |>
-    dplyr::select(rowid, aggregated_crossings_id, pscis_crossing_id, my_crossing_reference, source, barrier_result,
-                  downstream_channel_width_meters, fill_depth_meters) |>
     readr::write_csv(file = paste0('data/inputs_extracted/str_type_', pscis_phase, '.csv'),
                      na = '')
-  }
-
-  return(str_type)
 
 }
 
@@ -348,6 +313,22 @@ sfpr_xref_moti_climate_names <- function(){
   )
 }
 
+sfpr_xref_rd_tenure_names <- function(){
+  tibble::tribble( ~client_name, ~client_name_abb,
+                   "DISTRICT MANAGER NADINA (DND)",       "FLNR DND",
+                   "CANADIAN FOREST PRODUCTS LTD.",         "Canfor",
+                   "SOLID GROUND CONTRACTING LTD",    "Solid Ground",
+                   "CHINOOK COMFOR LIMITED",        "Chinook Comfor",
+                   "Wetzinkwa Community Forest Corporation", "Wetzinkwa Community Forest",
+                   "West Fraser Mills Ltd.", "West Fraser",
+                   "Timber Sales Manager", "BCTS",
+                   "DISTRICT MANAGER SKEENA STIKINE (DSS)", "MoF",
+                   "DISTRICT MANAGER PRINCE GEORGE", "MoF",
+                   "Winton Global Lumber Ltd.", "Winton"
+
+)
+}
+
 # maintain up to date and complete road cost multiplier object
 sfpr_xref_road_cost <- function(){
   tibble::tribble(
@@ -355,18 +336,28 @@ sfpr_xref_road_cost <- function(){
            "fsr",          "rough",               1L,                 1L,                  30L,           100L,
            "fsr",          "loose",               1L,                 1L,                  30L,           100L,
       "resource",          "loose",               1L,                 1L,                  30L,           100L,
+      "resource",          "rough",               1L,                 1L,                  30L,           100L,
         "permit",        "unknown",               1L,                 1L,                  30L,           100L,
         "permit",          "loose",               1L,                 1L,                  30L,           100L,
+        "permit",          "rough",               1L,                 1L,                  30L,           100L,
   "unclassified",          "loose",               1L,                 1L,                  30L,           100L,
   "unclassified",          "rough",               1L,                 1L,                  30L,           100L,
   "unclassified",          "paved",               1L,                 2L,                  50L,           150L,
   "unclassified",        "unknown",               1L,                 2L,                  50L,           150L,
          "local",          "loose",               4L,                 1L,                 100L,           200L,
          "local",          "paved",               4L,                 2L,                 200L,           400L,
+     "collector",          "paved",               4L,                 2L,                 200L,           400L,
       "arterial",          "paved",              15L,                 2L,                 750L,          1500L,
        "highway",          "paved",              15L,                 2L,                 750L,          1500L,
           "rail",           "rail",              15L,                 2L,                 750L,          1500L
   )
+}
+
+sngr_get_elev <- function(dat){
+  poisspatial::ps_elevation_google(dat,
+                                   key = Sys.getenv('GOOG_API_KEY'),
+                                   Z = 'elev') |>
+    mutate(elev = round(elev, 0))
 }
 
 str_replace <- function(text, pattern, replacement) {
