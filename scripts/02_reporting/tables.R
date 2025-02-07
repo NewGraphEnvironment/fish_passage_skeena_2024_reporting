@@ -40,7 +40,7 @@ if (params$update_form_pscis) {
 
   conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
   # won't run on first build if the table doesn't exist
-  readwritesqlite::rws_drop_table("form_pscis_raw", conn = conn)
+  readwritesqlite::rws_drop_table("form_pscis", conn = conn)
   readwritesqlite::rws_write(form_pscis, exists = F, delete = TRUE,
                              conn = conn, x_name = "form_pscis")
   readwritesqlite::rws_disconnect(conn)
@@ -469,12 +469,11 @@ tab_cost_est_phase1 <- tab_cost_est_prep6 |>
     Priority = my_priority,
     Stream = stream_name,
     Road = road_name,
-    Result = barrier_result,
+    `Barrier Result` = barrier_result,
     `Habitat value` = habitat_value,
-    `Stream Width (m)` = downstream_channel_width_meters,
-    Fix = crossing_fix_code,
-    `Cost Est ( $K)` = cost_est_1000s,
     `Habitat Upstream (km)` = st_network_km,
+     Fix = crossing_fix_code,
+    `Cost Est ( $K)` = cost_est_1000s,
     `Cost Benefit (m / $K)` = cost_gross,
     `Cost Benefit (m2 / $K)` = cost_area_gross
   ) |>

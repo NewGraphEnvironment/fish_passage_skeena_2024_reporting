@@ -126,9 +126,6 @@ pal_phase1 <-
 # Track still needs to be clipped - https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/60
 # tracks <- sf::read_sf("./data/habitat_confirmation_tracks.gpx", layer = "tracks")
 
-
-wshds <- sf::read_sf('data/fishpass_mapping/fishpass_mapping.gpkg', layer = 'hab_wshds')
-
   
 map <- leaflet::leaflet(height=500, width=780) |>
   leaflet::addTiles()  |> 
@@ -299,7 +296,7 @@ Field assessments were conducted between `r format(min(pscis_phase1$date), forma
 
 <br>
 
-Of the `r pscis_all |> filter(source != 'pscis_phase2.xlsm') |> nrow()` sites where fish passage assessments were completed, `r pscis_phase1 |> nrow()` were not yet inventoried in the PSCIS system.  This included `r pscis_phase1 |> filter(barrier_result == 'Passable') |> nrow()` crossings considered "passable", `r pscis_phase1 |> filter(barrier_result == 'Potential') |> nrow() |> english::as.english()` crossings considered a "potential" barrier, and `r pscis_phase1 |> filter(barrier_result == 'Barrier') |> nrow()` crossings considered "barriers" according to threshold values based on culvert embedment, outlet drop, slope, diameter (relative to channel size) and length [@fish_passage_assessments].
+Of the `r pscis_all |> filter(source != 'pscis_phase2.xlsm') |> nrow()` sites where fish passage assessments were completed, `r pscis_phase1 |> nrow()` were not yet inventoried in the PSCIS system.  This included `r pscis_phase1 |> filter(barrier_result == 'Passable') |> nrow()` crossings considered "passable", `r pscis_phase1 |> filter(barrier_result == 'Potential') |> nrow() |> english::as.english()` crossings considered a "potential" barrier, and `r pscis_phase1 |> filter(barrier_result == 'Barrier') |> nrow()` crossings were considered "barriers" according to threshold values based on culvert embedment, outlet drop, slope, diameter (relative to channel size) and length [@fish_passage_assessments].
 
 <!-- Additionally, although all were considered fully passable, `r pscis_phase1 |> filter(barrier_result == 'Unknown') |> nrow() |> english::as.english()` crossings assessed were fords and ranked as "unknown" according to the provincial protocol.  -->
 
@@ -326,7 +323,7 @@ The "Barrier" and "Potential Barrier" rankings used in this project followed @fi
 
  tab_cost_est_phase1 |>
   select(`PSCIS ID`:`Cost Est ( $K)`) |> 
-   fpr::fpr_kable(caption_text = 'Upstream habitat estimates and cost benefit analysis for Phase 1 assessments. Steelhead network model (total length stream network <20% gradient).',
+   fpr::fpr_kable(caption_text = 'Upstream habitat estimates and cost benefit analysis for Phase 1 assessments ranked as a "barrier" or "potential" barrier. Steelhead network model (total length stream network <20% gradient).',
                   scroll = gitbook_on)
 ```
 

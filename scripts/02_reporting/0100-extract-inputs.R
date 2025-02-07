@@ -1,190 +1,190 @@
 
 # Road Tenure -------------------------------------------------------------
-
-pscis_all_sf <- dat
-
-##get the road info from the database
-conn <- fpr::fpr_db_conn()
-
-# add a unique id - we could just use the reference number
-pscis_all_sf$misc_point_id <- seq.int(nrow(pscis_all_sf))
-
-# dbSendQuery(conn, paste0("CREATE SCHEMA IF NOT EXISTS ", "test_hack",";"))
-# load to database
-sf::st_write(obj = pscis_all_sf, dsn = conn, Id(schema= "ali", table = "misc"))
-
-
-
-# sf doesn't automagically create a spatial index or a primary key
-res <- dbSendQuery(conn, "CREATE INDEX ON ali.misc USING GIST (geometry)")
-dbClearResult(res)
-res <- dbSendQuery(conn, "ALTER TABLE ali.misc ADD PRIMARY KEY (misc_point_id)")
-dbClearResult(res)
-
-dat_info <- dbGetQuery(conn, "SELECT
-  a.misc_point_id,
-  b.*,
-  ST_Distance(ST_Transform(a.geometry,3005), b.geom) AS distance
-FROM
-  ali.misc AS a
-CROSS JOIN LATERAL
-  (SELECT *
-   FROM fish_passage.modelled_crossings_closed_bottom
-   ORDER BY
-     a.geometry <-> geom
-   LIMIT 1) AS b")
-
-
-##swapped out fish_passage.modelled_crossings_closed_bottom for bcfishpass.barriers_anthropogenic
-
-##join the modelling data to our pscis submission info
-dat_joined <- left_join(
-  select(pscis_all_sf, misc_point_id, pscis_crossing_id, my_crossing_reference, source), ##traded pscis_crossing_id for my_crossing_reference
-  dat_info,
-  by = "misc_point_id"
-)|>
-  mutate(downstream_route_measure = as.integer(downstream_route_measure))
-
-
-dbDisconnect(conn = conn)
-
-
-##we also need to know if the culverts are within a municipality so we should check
-##get the road info from our database
-conn <- fpr::fpr_db_conn()
-
-# load to database
-sf::st_write(obj = pscis_all_sf, dsn = conn, Id(schema= "working", table = "misc"))
-
-dat_info <- dbGetQuery(conn,
-                       "
-
-                                  SELECT a.misc_point_id, b.admin_area_abbreviation, c.map_tile_display_name
-                                  FROM working.misc a
-                                  INNER JOIN
-                                  whse_basemapping.dbm_mof_50k_grid c
-                                  ON ST_Intersects(c.geom, ST_Transform(a.geometry,3005))
-                                  LEFT OUTER JOIN
-                                  whse_legal_admin_boundaries.abms_municipalities_sp b
-                                  ON ST_Intersects(b.geom, ST_Transform(a.geometry,3005))
-                       ")
-
-dbDisconnect(conn = conn)
-
-##add the municipality info
-dat_joined2 <- left_join(
-  dat_joined,
-  dat_info,
-  by = "misc_point_id"
-)
-
-# ##clean up the workspace
-rm(dat_info, dat_joined, res)
 #
-
-##this no longer works because we were using the fish_passage.modelled_crossings_closed_bottom and now we don't have the rd info
-##make a tibble of the client names so you can summarize in the report
-##we do not need to repeat this step but this is how we make a dat to paste into a kable in rmarkdown then paste tibble as a rstudio addin so we can
-##populate the client_name_abb...
-
-##we already did this but can do it again I guess.  you cut and paste the result into kable then back
-##into here using addin for datapasta
-# tab_rd_tenure_xref <- unique(dat_joined2$client_name)|>
-#   as_tibble()|>
-#   purrr::set_names(nm = 'client_name')|>
-#   mutate(client_name_abb = NA)
-
-tab_rd_tenure_xref <- tibble::tribble(
-                                           ~client_name, ~client_name_abb,
-                                                     NA,               NA,
-                        "DISTRICT MANAGER NADINA (DND)",       "FLNR DND",
-                        "CANADIAN FOREST PRODUCTS LTD.",         "Canfor",
-                               "WEST FRASER MILLS LTD.",    "West Fraser",
-                                       "CHARLES PRIEST", "Charles Priest",
-                         "SOLID GROUND CONTRACTING LTD",   "Solid Ground",
-                               "CHINOOK COMFOR LIMITED", "Chinook Comfor"
-                        )
-
-##add that to your dat file for later
-dat_joined3 <- left_join(
-  dat_joined2,
-  tab_rd_tenure_xref,
-  by = 'client_name'
-)
-
-##make a dat to make it easier to see so we can summarize the road info we might want to use
-dat_joined4 <- dat_joined3|>
-  mutate(admin_area_abbreviation = case_when(
-    is.na(admin_area_abbreviation) & (road_class %ilike% 'arterial' | road_class %ilike% 'local') ~ 'MoTi',
-    T ~ admin_area_abbreviation),
-    admin_area_abbreviation = replace_na(admin_area_abbreviation, ''),
-    my_road_tenure =
-      case_when(!is.na(client_name_abb) ~ paste0(client_name_abb, ' ', forest_file_id),
-                !is.na(road_class) ~ paste0(admin_area_abbreviation, ' ', stringr::str_to_title(road_class)),
-                !is.na(owner_name) ~ owner_name))|>
-  mutate(my_road_tenure =
-           case_when(distance > 100 ~ 'Unknown',  ##we need to get rid of the info for the ones that are far away
-                     T ~ my_road_tenure))|>
-  rename(geom_modelled_crossing = geom)|>
-  mutate(
-    my_road_tenure =stringr::str_trim(my_road_tenure),
-    aggregated_crossings_id = case_when(!is.na(pscis_crossing_id) ~ pscis_crossing_id,
-                                        my_crossing_reference > 200000000 ~ my_crossing_reference,
-                                        T ~ my_crossing_reference + 1000000000))|>
-  sf::st_drop_geometry()
-
-##we cannot use base R to add a column named 'source' so we choose a different name
-col_new <- pscis_all_sf$source
-dat_joined4$source_wkb <- col_new
-
-
-##build tables to populate the pscis spreadsheets
-pscis1_rd_tenure <- left_join(
-  select(pscis_phase1, rowid, my_crossing_reference, road_tenure),
-  dat_joined4|> filter(source_wkb %ilike% 'phase1')|> select(my_crossing_reference, my_road_tenure),
-  by = 'my_crossing_reference'
-)|>
-  # for some reason there is a duplicate. not messing withi it
-  distinct(rowid, .keep_all = T)
-
-
-
-
-##burn it all to a file we can input to pscis submission spreadsheet
-pscis1_rd_tenure|>
-  readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/rd_tenure_pscis1.csv'),
-                   na = '')
-
-
-
-pscis_reassessments_rd_tenure <- left_join(
-  select(pscis_reassessments, rowid, pscis_crossing_id, road_tenure),
-  dat_joined4|> filter(source_wkb %ilike% 'reassess')|> select(pscis_crossing_id, my_road_tenure),
-  by = 'pscis_crossing_id'
-)
-
-
-## burn --------------------------------------------------------------------
-
-##burn it all to a file we can input to pscis submission spreadsheet
-pscis_reassessments_rd_tenure|>
-  readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/rd_tenure_reassessments.csv'),
-                   na = '')
-##we need to qa which are our modelled crossings at least for our phase 2 crossings
-
-pscis2_rd_tenure <- left_join(
-  select(pscis_phase2, rowid, aggregated_crossings_id, pscis_crossing_id, my_crossing_reference, road_tenure),
-  dat_joined4|> filter(source_wkb %ilike% 'phase2')|> select(aggregated_crossings_id, my_road_tenure),
-  by = 'aggregated_crossings_id'
-)
-
-
-##burn it all to a file we can input to pscis submission spreadsheet
-pscis2_rd_tenure|>
-  readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/rd_tenure_pscis2.csv'),
-                   na = '')
-
-
+# pscis_all_sf <- dat
+#
+# ##get the road info from the database
+# conn <- fpr::fpr_db_conn()
+#
+# # add a unique id - we could just use the reference number
+# pscis_all_sf$misc_point_id <- seq.int(nrow(pscis_all_sf))
+#
+# # dbSendQuery(conn, paste0("CREATE SCHEMA IF NOT EXISTS ", "test_hack",";"))
+# # load to database
+# sf::st_write(obj = pscis_all_sf, dsn = conn, Id(schema= "ali", table = "misc"))
+#
+#
+#
+# # sf doesn't automagically create a spatial index or a primary key
+# res <- dbSendQuery(conn, "CREATE INDEX ON ali.misc USING GIST (geometry)")
+# dbClearResult(res)
+# res <- dbSendQuery(conn, "ALTER TABLE ali.misc ADD PRIMARY KEY (misc_point_id)")
+# dbClearResult(res)
+#
+# dat_info <- dbGetQuery(conn, "SELECT
+#   a.misc_point_id,
+#   b.*,
+#   ST_Distance(ST_Transform(a.geometry,3005), b.geom) AS distance
+# FROM
+#   ali.misc AS a
+# CROSS JOIN LATERAL
+#   (SELECT *
+#    FROM fish_passage.modelled_crossings_closed_bottom
+#    ORDER BY
+#      a.geometry <-> geom
+#    LIMIT 1) AS b")
+#
+#
+# ##swapped out fish_passage.modelled_crossings_closed_bottom for bcfishpass.barriers_anthropogenic
+#
+# ##join the modelling data to our pscis submission info
+# dat_joined <- left_join(
+#   select(pscis_all_sf, misc_point_id, pscis_crossing_id, my_crossing_reference, source), ##traded pscis_crossing_id for my_crossing_reference
+#   dat_info,
+#   by = "misc_point_id"
+# )|>
+#   mutate(downstream_route_measure = as.integer(downstream_route_measure))
+#
+#
+# dbDisconnect(conn = conn)
+#
+#
+# ##we also need to know if the culverts are within a municipality so we should check
+# ##get the road info from our database
+# conn <- fpr::fpr_db_conn()
+#
+# # load to database
+# sf::st_write(obj = pscis_all_sf, dsn = conn, Id(schema= "working", table = "misc"))
+#
+# dat_info <- dbGetQuery(conn,
+#                        "
+#
+#                                   SELECT a.misc_point_id, b.admin_area_abbreviation, c.map_tile_display_name
+#                                   FROM working.misc a
+#                                   INNER JOIN
+#                                   whse_basemapping.dbm_mof_50k_grid c
+#                                   ON ST_Intersects(c.geom, ST_Transform(a.geometry,3005))
+#                                   LEFT OUTER JOIN
+#                                   whse_legal_admin_boundaries.abms_municipalities_sp b
+#                                   ON ST_Intersects(b.geom, ST_Transform(a.geometry,3005))
+#                        ")
+#
+# dbDisconnect(conn = conn)
+#
+# ##add the municipality info
+# dat_joined2 <- left_join(
+#   dat_joined,
+#   dat_info,
+#   by = "misc_point_id"
+# )
+#
+# # ##clean up the workspace
+# rm(dat_info, dat_joined, res)
+# #
+#
+# ##this no longer works because we were using the fish_passage.modelled_crossings_closed_bottom and now we don't have the rd info
+# ##make a tibble of the client names so you can summarize in the report
+# ##we do not need to repeat this step but this is how we make a dat to paste into a kable in rmarkdown then paste tibble as a rstudio addin so we can
+# ##populate the client_name_abb...
+#
+# ##we already did this but can do it again I guess.  you cut and paste the result into kable then back
+# ##into here using addin for datapasta
+# # tab_rd_tenure_xref <- unique(dat_joined2$client_name)|>
+# #   as_tibble()|>
+# #   purrr::set_names(nm = 'client_name')|>
+# #   mutate(client_name_abb = NA)
+#
+# tab_rd_tenure_xref <- tibble::tribble(
+#                                            ~client_name, ~client_name_abb,
+#                                                      NA,               NA,
+#                         "DISTRICT MANAGER NADINA (DND)",       "FLNR DND",
+#                         "CANADIAN FOREST PRODUCTS LTD.",         "Canfor",
+#                                "WEST FRASER MILLS LTD.",    "West Fraser",
+#                                        "CHARLES PRIEST", "Charles Priest",
+#                          "SOLID GROUND CONTRACTING LTD",   "Solid Ground",
+#                                "CHINOOK COMFOR LIMITED", "Chinook Comfor"
+#                         )
+#
+# ##add that to your dat file for later
+# dat_joined3 <- left_join(
+#   dat_joined2,
+#   tab_rd_tenure_xref,
+#   by = 'client_name'
+# )
+#
+# ##make a dat to make it easier to see so we can summarize the road info we might want to use
+# dat_joined4 <- dat_joined3|>
+#   mutate(admin_area_abbreviation = case_when(
+#     is.na(admin_area_abbreviation) & (road_class %ilike% 'arterial' | road_class %ilike% 'local') ~ 'MoTi',
+#     T ~ admin_area_abbreviation),
+#     admin_area_abbreviation = replace_na(admin_area_abbreviation, ''),
+#     my_road_tenure =
+#       case_when(!is.na(client_name_abb) ~ paste0(client_name_abb, ' ', forest_file_id),
+#                 !is.na(road_class) ~ paste0(admin_area_abbreviation, ' ', stringr::str_to_title(road_class)),
+#                 !is.na(owner_name) ~ owner_name))|>
+#   mutate(my_road_tenure =
+#            case_when(distance > 100 ~ 'Unknown',  ##we need to get rid of the info for the ones that are far away
+#                      T ~ my_road_tenure))|>
+#   rename(geom_modelled_crossing = geom)|>
+#   mutate(
+#     my_road_tenure =stringr::str_trim(my_road_tenure),
+#     aggregated_crossings_id = case_when(!is.na(pscis_crossing_id) ~ pscis_crossing_id,
+#                                         my_crossing_reference > 200000000 ~ my_crossing_reference,
+#                                         T ~ my_crossing_reference + 1000000000))|>
+#   sf::st_drop_geometry()
+#
+# ##we cannot use base R to add a column named 'source' so we choose a different name
+# col_new <- pscis_all_sf$source
+# dat_joined4$source_wkb <- col_new
+#
+#
+# ##build tables to populate the pscis spreadsheets
+# pscis1_rd_tenure <- left_join(
+#   select(pscis_phase1, rowid, my_crossing_reference, road_tenure),
+#   dat_joined4|> filter(source_wkb %ilike% 'phase1')|> select(my_crossing_reference, my_road_tenure),
+#   by = 'my_crossing_reference'
+# )|>
+#   # for some reason there is a duplicate. not messing withi it
+#   distinct(rowid, .keep_all = T)
+#
+#
+#
+#
+# ##burn it all to a file we can input to pscis submission spreadsheet
+# pscis1_rd_tenure|>
+#   readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/rd_tenure_pscis1.csv'),
+#                    na = '')
+#
+#
+#
+# pscis_reassessments_rd_tenure <- left_join(
+#   select(pscis_reassessments, rowid, pscis_crossing_id, road_tenure),
+#   dat_joined4|> filter(source_wkb %ilike% 'reassess')|> select(pscis_crossing_id, my_road_tenure),
+#   by = 'pscis_crossing_id'
+# )
+#
+#
+# ## burn --------------------------------------------------------------------
+#
+# ##burn it all to a file we can input to pscis submission spreadsheet
+# pscis_reassessments_rd_tenure|>
+#   readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/rd_tenure_reassessments.csv'),
+#                    na = '')
+# ##we need to qa which are our modelled crossings at least for our phase 2 crossings
+#
+# pscis2_rd_tenure <- left_join(
+#   select(pscis_phase2, rowid, aggregated_crossings_id, pscis_crossing_id, my_crossing_reference, road_tenure),
+#   dat_joined4|> filter(source_wkb %ilike% 'phase2')|> select(aggregated_crossings_id, my_road_tenure),
+#   by = 'aggregated_crossings_id'
+# )
+#
+#
+# ##burn it all to a file we can input to pscis submission spreadsheet
+# pscis2_rd_tenure|>
+#   readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/rd_tenure_pscis2.csv'),
+#                    na = '')
+#
+#
 
 # build priority spreadsheet ----------------------------------------------
 
@@ -198,8 +198,8 @@ replace_empty_with_na <- function(x) {
   return(x)
 }
 
-
-hab_priority_prep <- form_fiss_site_raw |>
+## used st_rearing_km for Skeena 2024
+hab_priority_prep <- form_fiss_site |>
   dplyr::select(stream_name = gazetted_names,
                 local_name,
                 date_time_start) |>
@@ -207,16 +207,16 @@ hab_priority_prep <- form_fiss_site_raw |>
   dplyr::rowwise() |>
   # lets make the columns with functions
   dplyr::mutate(
-    crew_members = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = crew_members)),
-    length_surveyed = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name,col_pull = site_length)),
-    hab_value = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = habitat_value_rating)),
+    crew_members = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name, col_pull = crew_members)),
+    length_surveyed = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name,col_pull = site_length)),
+    hab_value = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name, col_pull = habitat_value_rating)),
     # `priority` is not currently in the 2024 `form_fiss_site` formso for now we will pull it from form_pscis
     priority = list(fpr::fpr_my_bcfishpass(dat = form_pscis, site = site, col_filter = site_id, col_pull = my_priority)),
     ## first we grab hand bombed estimate from form so that number stands if it is present
     # `us_habitat_m` and `species_known` are not currently in the 2024 `form_fiss_site` form but it will be added to the 2025 form
-    # us_habitat_m = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = us_habitat_m)),
-    # species_known = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = species_known)),
-    comments = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = comments)),
+    # us_habitat_m = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name, col_pull = us_habitat_m)),
+    # species_known = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name, col_pull = species_known)),
+    comments = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name, col_pull = comments)),
     upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(site = site, col_pull = st_rearing_km, round_dig = 4)),
     # `upstream_habitat_length_m` is currently in km due to `st_rearing_km` being in kms.
     upstream_habitat_length_m = list(round((upstream_habitat_length_m * 1000), digits = 0)),
