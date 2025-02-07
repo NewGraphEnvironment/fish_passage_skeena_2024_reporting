@@ -1,3 +1,32 @@
+```{r caption_model-sp, eval = T}
+
+# Dynamically make the table captions depending on the species used for modelling.
+
+
+#Make the caption for the network model
+
+# Hard coding these for now, not ideal but will do. 
+bt_network_gradient <- "25"
+st_network_gradient <- "20"
+
+sp_network_caption <- dplyr::case_when(params$model_species == "bt" ~ paste0(model_species_name," network model used for habitat estimates (total length of stream network <",
+                                                                             bt_network_gradient, "% gradient)."),
+                                       params$model_species == "st" ~ paste0(model_species_name," network model used for habitat estimates (total length of stream network <",
+                                                                             st_network_gradient, "% gradient)."))
+
+#Make the caption for the rearing model 
+
+#pull out the max rearing gradient
+rear_gradient <- bcfishpass_spawn_rear_model |> 
+  dplyr::filter(species_code == stringr::str_to_upper(params$model_species)) |> 
+  dplyr::mutate(rear_gradient_max = round((rear_gradient_max*100), 1)) |> 
+  dplyr::pull(rear_gradient_max)
+
+sp_rearing_caption <- paste0(model_species_name," rearing model used for habitat estimates (total length of stream network <", rear_gradient, "% gradient).")
+```
+
+
+
 # Results and Discussion
 
 `r if(gitbook_on){knitr::asis_output("Results of Phase 1 and Phase 2 assessments are summarized in Figure \\@ref(fig:map-interactive) with additional details provided in sections below.")}`
@@ -392,8 +421,6 @@ Reassessments were completed at `r pscis_reassessments |> nrow()` sites where PS
 <br>
 
 A summary of crossings assessed, a rough cost estimate for remediation and a priority ranking for follow up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")} else knitr::asis_output("[Attachment 2](https://www.newgraphenvironment.com/fish_passage_skeena_2024_reporting/appendix---phase-1-fish-passage-assessment-data-and-photos.html")`.
-
-
 <br>
 
 The "Barrier" and "Potential Barrier" rankings used in this project followed @fish_passage_assessments and represent an assessment of passability for juvenile salmon or small resident rainbow trout under any flow conditions that may occur throughout the year [@clarkinNationalInventoryAssessment2005; @bellFisheriesHandbookEngineering1991; @thompsonAssessingFishPassage2013]. As noted in @bourne_etal2011Barriersfish, with a detailed review of different criteria in @kemp_ohanley2010Proceduresevaluating, passability of barriers can be quantified in many different ways. Fish physiology (i.e. species, length, swim speeds) can make defining passability complex but with important implications for evaluating connectivity and prioritizing remediation candidates [@bourne_etal2011Barriersfish; @shaw_etal2016Importancepartial; @mahlum_etal2014EvaluatingBarrier; @kemp_ohanley2010Proceduresevaluating].  @washingtondepartmentoffishwildlife2009FishPassage present criteria for assigning passability scores to culverts that have already been assessed as barriers in coarser level assessments. These passability scores provide additional information to feed into decision making processes related to the prioritization of remediation site candidates and have potential for application in British Columbia.  
@@ -408,8 +435,9 @@ The "Barrier" and "Potential Barrier" rankings used in this project followed @fi
 
  tab_cost_est_phase1 |>
   select(`PSCIS ID`:`Cost Est ( $K)`) |> 
-   fpr::fpr_kable(caption_text = 'Upstream habitat estimates and cost benefit analysis for Phase 1 assessments ranked as a "barrier" or "potential" barrier. Steelhead network model (total length stream network <20% gradient).',
+   fpr::fpr_kable(caption_text = paste0("Upstream habitat estimates and cost benefit analysis for Phase 1 assessments ranked as a 'barrier' or 'potential' barrier. ", sp_network_caption),
                   scroll = gitbook_on)
+ 
 ```
 
 <br>
@@ -446,7 +474,7 @@ table_phase2_overview <- function(dat, caption_text = '', font = font_set, scrol
 }
 
 tab_overview |> 
-  table_phase2_overview(caption_text = 'Overview of habitat confirmation sites. Steelhead rearing model used for habitat estimates (total length of stream segments <8.5% gradient)', 
+  table_phase2_overview(caption_text = paste0("Overview of habitat confirmation sites. ", sp_rearing_caption), 
                         scroll = gitbook_on)
 
 ```
@@ -465,7 +493,7 @@ fpr::fpr_table_cv_summary(dat = pscis_phase2)  |>
 
 ```{r cost-est-phase-2, eval=T}
 tab_cost_est_phase2 |>
-  fpr::fpr_kable(caption_text = 'Cost benefit analysis for Phase 2 assessments. Steelhead rearing model used (total length of stream segments <7.5% gradient)',
+  fpr::fpr_kable(caption_text = paste0("Cost benefit analysis for Phase 2 assessments. ", sp_rearing_caption),
                  scroll = gitbook_on)
 
 ```

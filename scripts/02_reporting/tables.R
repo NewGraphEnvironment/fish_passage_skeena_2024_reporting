@@ -459,11 +459,11 @@ tab_cost_est_prep6 <- dplyr::left_join(
     road_name,
     barrier_result,
     habitat_value,
+    sp_network_km,
     downstream_channel_width_meters,
     my_priority,
     crossing_fix_code,
     cost_est_1000s,
-    sp_network_km,
     cost_gross, cost_area_gross, source
   ) |>
   dplyr::filter(barrier_result != 'Unknown' & barrier_result != 'Passable')
