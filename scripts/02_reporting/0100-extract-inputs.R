@@ -198,42 +198,49 @@ replace_empty_with_na <- function(x) {
   return(x)
 }
 
-## used st_rearing_km for Skeena 2024
+# specify in index.Rmd YAML which species you want to use for the modelling
+# For Skeena we use steelhead
+# For Peace we use bull trout
+
+# Convert the species-specific rearing column to a symbol upfront
+model_species_rearing_km <- rlang::sym(paste0(params$model_species, "_rearing_km"))
+
 hab_priority_prep <- form_fiss_site |>
-  dplyr::select(stream_name = gazetted_names,
-                local_name,
-                date_time_start) |>
+  dplyr::select(
+    stream_name = gazetted_names,
+    local_name,
+    date_time_start
+  ) |>
   tidyr::separate(local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) |>
   dplyr::rowwise() |>
-  # lets make the columns with functions
   dplyr::mutate(
     crew_members = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name, col_pull = crew_members)),
-    length_surveyed = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name,col_pull = site_length)),
+    length_surveyed = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name, col_pull = site_length)),
     hab_value = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name, col_pull = habitat_value_rating)),
-    # `priority` is not currently in the 2024 `form_fiss_site` formso for now we will pull it from form_pscis
-    priority = list(fpr::fpr_my_bcfishpass(dat = form_pscis, site = site, col_filter = site_id, col_pull = my_priority)),
-    ## first we grab hand bombed estimate from form so that number stands if it is present
-    # `us_habitat_m` and `species_known` are not currently in the 2024 `form_fiss_site` form but it will be added to the 2025 form
-    # us_habitat_m = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name, col_pull = us_habitat_m)),
-    # species_known = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name, col_pull = species_known)),
-    comments = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name, col_pull = comments)),
-    upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(site = site, col_pull = st_rearing_km, round_dig = 4)),
-    # `upstream_habitat_length_m` is currently in km due to `st_rearing_km` being in kms.
-    upstream_habitat_length_m = list(round((upstream_habitat_length_m * 1000), digits = 0)),
-    species_codes = list(fpr::fpr_my_bcfishpass(site = site, col_pull = observedspp_upstr)),
-    # if the hand bombed estimate is present we use that
-    # upstream_habitat_length_m = case_when(
-    #   !is.na(us_habitat_m) ~ us_habitat_m,
-    #   T ~ upstream_habitat_length_m
-    # ),
-    # species_codes = case_when(
-    #   !is.na(species_known) ~ species_known,
-    #   T ~ species_codes
-    # ),
 
-    dplyr::across(everything(), ~replace_empty_with_na(.))) |>
+    # Priority pulled from form_pscis
+    priority = list(fpr::fpr_my_bcfishpass(dat = form_pscis, site = site, col_filter = site_id, col_pull = my_priority)),
+
+    # Comments field
+    comments = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site, site = local_name, col_filter = local_name, col_pull = comments)),
+
+    # Unquoting only for the dynamic species-specific column
+    upstream_habitat_length_m = list(
+      fpr::fpr_my_bcfishpass(site = site, col_pull = !!model_species_rearing_km, round_dig = 4)
+    ),
+    upstream_habitat_length_m = list(round((upstream_habitat_length_m * 1000), digits = 0)),
+
+    # Static column, no unquoting needed
+    species_codes = list(fpr::fpr_my_bcfishpass(site = site, col_pull = observedspp_upstr)),
+
+    # Replace empty values with NA
+    dplyr::across(everything(), ~replace_empty_with_na(.))
+  ) |>
   dplyr::ungroup() |>
   dplyr::filter(is.na(ef)) |>
+  dplyr::mutate(priority = dplyr::case_when(priority == "mod" ~ "moderate", TRUE ~ priority)) |>
+  dplyr::mutate(priority = stringr::str_to_title(priority)) |>
+  dplyr::mutate(hab_value = stringr::str_to_title(hab_value)) |>
   dplyr::arrange(local_name, crew_members, date_time_start) |>
   sf::st_drop_geometry()
 

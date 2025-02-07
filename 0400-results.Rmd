@@ -378,8 +378,8 @@ fpr::fpr_table_cv_summary(dat = pscis_phase2)  |>
 `r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
 
 
-```{r cost-est-phase-2, eval=F}
-tab_cost_est_phase2_report |>
+```{r cost-est-phase-2, eval=T}
+tab_cost_est_phase2 |>
   fpr::fpr_kable(caption_text = 'Cost benefit analysis for Phase 2 assessments. Steelhead rearing model used (total length of stream segments <7.5% gradient)',
                  scroll = gitbook_on)
 

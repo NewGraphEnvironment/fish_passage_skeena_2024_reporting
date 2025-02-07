@@ -225,6 +225,7 @@ habitat_confirmations_priorities <- readr::read_csv(
 # Overview of habitat confirmation sites used in the results section
 
 tab_overview_prep1 <- form_pscis|>
+  sf::st_drop_geometry() |>
   dplyr::filter(assess_type_phase2 == "Yes") |>
   dplyr::select(pscis_crossing_id, stream_name, road_name, road_tenure, easting, northing, utm_zone, habitat_value)
 
@@ -420,20 +421,26 @@ tab_cost_est_prep4 <- tab_cost_est_prep3 |>
 
 # Now prepare phase 1 cost estimates.
 
+sp_network_km <- rlang::sym(paste0(params$model_species, "_network_km"))
+sp_belowupstrbarriers_network_km <- rlang::sym(paste0(params$model_species, "_belowupstrbarriers_network_km"))
+
+
 # Step 6: Add upstream modelling data to estimate potential habitat gain
 tab_cost_est_prep5 <- dplyr::left_join(
   tab_cost_est_prep4,
   bcfishpass |>
-    dplyr::select(stream_crossing_id, st_network_km, st_belowupstrbarriers_network_km) |>
+    dplyr::select(stream_crossing_id, !!sp_network_km, !!sp_belowupstrbarriers_network_km) |>
     dplyr::mutate(stream_crossing_id = as.numeric(stream_crossing_id)),
   by = c('pscis_crossing_id' = 'stream_crossing_id')
 ) |>
   dplyr::mutate(
-    cost_net = round(st_belowupstrbarriers_network_km * 1000 / cost_est_1000s, 1),
-    cost_gross = round(st_network_km * 1000 / cost_est_1000s, 1),
-    cost_area_net = round((st_belowupstrbarriers_network_km * 1000 * downstream_channel_width_meters * 0.5) / cost_est_1000s, 1), ## this is a triangle area!
-    cost_area_gross = round((st_network_km * 1000 * downstream_channel_width_meters * 0.5) / cost_est_1000s, 1) ## this is a triangle area!
+    cost_net = round(!!sp_belowupstrbarriers_network_km * 1000 / cost_est_1000s, 1),
+    cost_gross = round(!!sp_network_km * 1000 / cost_est_1000s, 1),
+    cost_area_net = round((!!sp_belowupstrbarriers_network_km * 1000 * downstream_channel_width_meters * 0.5) / cost_est_1000s, 1),
+    cost_area_gross = round((!!sp_network_km * 1000 * downstream_channel_width_meters * 0.5) / cost_est_1000s, 1),
+    st_network_km = round(!!sp_network_km, 1)
   )
+
 
 # Step 7: Add the priority from `form_pscis`
 tab_cost_est_prep6 <- dplyr::left_join(
@@ -456,7 +463,7 @@ tab_cost_est_prep6 <- dplyr::left_join(
     my_priority,
     crossing_fix_code,
     cost_est_1000s,
-    st_network_km,
+    sp_network_km,
     cost_gross, cost_area_gross, source
   ) |>
   dplyr::filter(barrier_result != 'Unknown' & barrier_result != 'Passable')
@@ -471,8 +478,9 @@ tab_cost_est_phase1 <- tab_cost_est_prep6 |>
     Road = road_name,
     `Barrier Result` = barrier_result,
     `Habitat value` = habitat_value,
-    `Habitat Upstream (km)` = st_network_km,
-     Fix = crossing_fix_code,
+    `Habitat Upstream (km)` = sp_network_km,
+    `Stream Width (m)` = downstream_channel_width_meters,
+    Fix = crossing_fix_code,
     `Cost Est ( $K)` = cost_est_1000s,
     `Cost Benefit (m / $K)` = cost_gross,
     `Cost Benefit (m2 / $K)` = cost_area_gross
@@ -533,13 +541,25 @@ tab_cost_est_prep9 <- tab_cost_est_prep8 |>
     cost_net,
     cost_area_net,
     source
-  ) |>
-  dplyr::mutate(upstream_habitat_length_m = round(upstream_habitat_length_m, 0))
+  )
 
 # Step 4: Prepare the Phase 2 cost estimates for the table
 tab_cost_est_phase2 <- tab_cost_est_prep9 |>
   dplyr::arrange(pscis_crossing_id) |>
-  dplyr::select(-source)
+  dplyr::select(-source) |>
+  dplyr::rename(
+    `PSCIS ID` = pscis_crossing_id,
+    Stream = stream_name,
+    Road = road_name,
+    `Barrier Result` = barrier_result,
+    `Habitat value` = habitat_value,
+    `Habitat Upstream (m)` = upstream_habitat_length_m,
+    `Stream Width (m)` = avg_channel_width_m,
+    Fix = crossing_fix_code,
+    `Cost Est ( $K)` = cost_est_1000s,
+    `Cost Benefit (m / $K)` = cost_net,
+    `Cost Benefit (m2 / $K)` = cost_area_net
+  )
 
 # Clean up unnecessary objects
 rm(tab_cost_est_prep,
