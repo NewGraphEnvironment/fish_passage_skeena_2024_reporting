@@ -23,6 +23,13 @@ rear_gradient <- bcfishpass_spawn_rear_model |>
   dplyr::pull(rear_gradient_max)
 
 sp_rearing_caption <- paste0(model_species_name," rearing model used for habitat estimates (total length of stream network <", rear_gradient, "% gradient).")
+
+
+#pull out the max spawning gradient as well, used in the caption for plot-model-all
+spawn_gradient <- bcfishpass_spawn_rear_model |> 
+  dplyr::filter(species_code == stringr::str_to_upper(params$model_species)) |> 
+  dplyr::mutate(spawn_gradient_max = round((spawn_gradient_max*100), 1)) |> 
+  dplyr::pull(spawn_gradient_max)
 ```
 
 
@@ -525,11 +532,18 @@ fpr::fpr_table_wshd_sum() |>
 
 <br>
 
-```{r plot-model-all, fig.cap='Summary of potential habitat upstream of habitat confirmation assessment sites estimated based on modelled channel width and upstream channel length.', eval=T}
+```{r plot-model-all-cap}
+
+my_caption = 'Summary of potential rearing and spawning habitat upstream of habitat confirmation assessment sites. See Table \\@ref(tab:tab-fish-spawning-rearing) for modelling thresholds.'
+
+```
+
+
+```{r plot-model-all, fig.cap= my_caption, eval=T}
 
 
 bcfp_xref_plot <- xref_bcfishpass_names |> 
-  filter(!is.na(id_join) &
+  dplyr::filter(!is.na(id_join) &
          !stringr::str_detect(bcfishpass, 'below') &
          !stringr::str_detect(bcfishpass, 'all') &
          !stringr::str_detect(bcfishpass, '_ha') &
@@ -546,9 +560,17 @@ bcfishpass_phase2_plot_prep <- bcfishpass |>
   dplyr::filter(value > 0.0 &
                 !is.na(value)) |> 
   dplyr::mutate(
-    name = stringr::str_replace_all(name, '_rearing', ' rearing'),
-    name = stringr::str_replace_all(name, '_spawning', ' spawning')
+    # name = dplyr::case_when(stringr::str_detect(name, '_rearing') ~ paste0(model_species_name, " rearing km"),
+    #                         TRUE ~ name),
+    # name = dplyr::case_when(stringr::str_detect(name, '_spawning') ~ paste0(model_species_name, " spawning km"),
+    #                         TRUE ~ name),
+    # Use when more than one modelling species 
+   name = stringr::str_replace_all(name, '_rearing', ' rearing'),
+   name = stringr::str_replace_all(name, '_spawning', ' spawning')
   )
+
+    
+
   
   
   
@@ -599,7 +621,11 @@ tab_fish_sites_sum |>
 
 plot_fish_box_all <- fish_abund |> 
   dplyr::filter(
-    !species_code %in% c('MW', 'SU', 'NFC', 'CT', 'LSU')
+    !species_code %in% c('Mountain Whitefish', 
+                         'Sucker (General)',
+                         'NFC',
+                         'Longnose Sucker',
+                         'Sculpin (General)')
   ) |> 
   ggplot2::ggplot(ggplot2::aes(x = location, y = density_100m2)) +
   ggplot2::geom_boxplot() +
