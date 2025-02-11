@@ -149,6 +149,7 @@ map
 Fish passage assessment procedures conducted through SERNbc in the Skeena River Watershed since 2020 are amalgamated  
 `r if(identical(gitbook_on, FALSE)){knitr::asis_output("online within the Results and Discussion section of the report found  [here](https://newgraphenvironment.github.io/fish_passage_skeena_2024_reporting/)")}else{knitr::asis_output("in Tables \\@ref(tab:tab-sites-sum-cap) - \\@ref(tab:tab-sites-cap).")}`
 
+<br>
 
 ```{r ld-db}
 conn = fpr::fpr_db_conn()
@@ -257,6 +258,8 @@ sites_all |>
 In addition to numerous layers documenting fieldwork activities since 2020, a summary of background information spatial layers and tables loaded to the collaborative GIS project (`r params$gis_project_name`) at the
 time of writing (`r format(lubridate::now(), "%Y-%m-%d")`) are included 
 `r if(identical(gitbook_on, FALSE)){knitr::asis_output("online [here](https://newgraphenvironment.github.io/fish_passage_skeena_2024_reporting/)")}else{knitr::asis_output("in Table \\@ref(tab:tab-rfp-tracking).")}`
+
+<br>
 
 ```{r rfp-metadata, eval = params$update_gis}
 # grab the metadata
@@ -406,7 +409,7 @@ knitr::include_graphics(my_photo2)
 
 ## Phase 1 - Fish Passage Assessemnts
 
-Field assessments were conducted between `r format(min(pscis_phase1$date), format="%B %d, %Y")` and `r format(max(pscis_phase1$date), format="%B %d, %Y")` by Allan Irvine, R.P.Bio. and Lucy Schick, B.Sc., Tieasha Pierre, Vern Joseph, Jesse Olson, and Jessica Doyon. A total of `r pscis_all |> filter(source != 'pscis_phase2.xlsm') |> nrow()` Fish Passage Assessments were completed, including `r n_distinct(pscis_phase1$my_crossing_reference)` Phase 1 assessments and `r pscis_reassessments |> nrow()` reassessments. In 2024, field efforts prioritized revisiting previously assessed sites for monitoring rather than evaluating new Fish Passage Assessment locations. As this was the fifth year of the study, a substantial number of sites had already been assessed, allowing the focus to shift toward monitoring and informing restoration activities at key locations.
+Field assessments were conducted between `r format(min(pscis_all$date), format="%B %d, %Y")` and `r format(max(pscis_all$date), format="%B %d, %Y")` by Allan Irvine, R.P.Bio. and Lucy Schick, B.Sc., Tieasha Pierre, Vern Joseph, Jesse Olson, and Jessica Doyon. A total of `r pscis_all |> filter(source != 'pscis_phase2.xlsm') |> nrow()` Fish Passage Assessments were completed, including `r n_distinct(pscis_phase1$my_crossing_reference)` Phase 1 assessments and `r pscis_reassessments |> nrow()` reassessments. In 2024, field efforts prioritized revisiting previously assessed sites for monitoring rather than evaluating new Fish Passage Assessment locations. As this was the fifth year of the study, a substantial number of sites had already been assessed, allowing the focus to shift toward monitoring and informing restoration activities at key locations.
 
 <br>
 
@@ -463,7 +466,7 @@ table_phase2_overview <- function(dat, caption_text = '', font = font_set, scrol
     kableExtra::kable_styling(c("condensed"),
                               full_width = T,
                               font_size = font) |>
-    kableExtra::column_spec(column = c(11), width_min = '4in') |>
+    kableExtra::column_spec(column = c(11), width_min = '1.5in') |>
     kableExtra::column_spec(column = c(1:10), width_max = '1in')
 
   if(identical(scroll,TRUE)){
@@ -563,14 +566,14 @@ bcfishpass_phase2_plot_prep |>
 
 ### Fish Sampling
 
-
 Fish sampling was conducted at `r tab_fish_sites_sum |> n_distinct()` sites within `r tab_fish_sites_sum |> distinct(stream) |> nrow()` streams, with a total of `r tab_fish_summary |> dplyr::pull(count_fish) |> sum(na.rm = TRUE)` fish captured. Fork length, weight, and species were documented for each fish.
 
+<br>
 
+Fork length data was used to delineate salmonids based on life stages: fry (0 to 65mm), parr (>65 to 110mm), juvenile (>110mm to 140mm) and adult (>140mm) by visually assessing the histograms presented in Figure \@ref(fig:fish-histogram).  A summary of sites assessed are included in Table \@ref(tab:tab-fish-site-summary) and raw data is provided in [Attachment 3](https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/blob/main/data/fish_data_tags_joined.csv). A summary of density results for all life stages combined of select species is also presented in Figure \@ref(fig:plot-fish-all). 
 
-Fork length data was used to delineate salmonids based on life stages: fry (0 to 65mm), parr (>65 to 110mm), juvenile (>110mm to 140mm) and adult (>140mm) by visually assessing the histograms presented in Figure \@ref(fig:fish-histogram).  A summary of sites assessed are included in Table \@ref(tab:tab-fish-site-summary) and raw data is provided in [Attachment 3](https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/blob/main/data/habitat_confirmations.xls). A summary of density results for all life stages combined of select species is also presented in Figure \@ref(fig:plot-fish-all). 
+<br>
 
-<!-- DRAFT NEEDS WORK TO BE MORE CLEAR  -->
 Results are presented in greater detail within individual habitat confirmation site appendices, and for sandstone Creek [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). 
 
 <br>
@@ -592,7 +595,7 @@ tab_fish_sites_sum |>
 
 <br>
 
-```{r plot-fish-all, fig.cap='Boxplots of densities (fish/100m2) of fish captured by electrofishing during habitat confirmation assessments.', eval=T}
+```{r plot-fish-all, fig.cap='Boxplots of densities (fish/100m2) of fish captured downstream (ds) and upstream (us) by electrofishing during habitat confirmation assessments.', eval=T}
 
 plot_fish_box_all <- fish_abund |> 
   dplyr::filter(
@@ -684,7 +687,7 @@ Electrofishing was conducted at Sandstone Creek to build on previous data. Salmo
 
 <br>
 
-Following replacement of Taman Creek (PSCIS crossing 197967) on Highway 16, effectiveness monnitoring was conducted in 2024.  Background can be reviewed [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting) with results of the monitoring presented in a report appendix.
+Following replacement of Taman Creek (PSCIS crossing 197967) on Highway 16, effectiveness monitoring was conducted in 2024.  Background can be reviewed [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting) with results of the monitoring presented in a report appendix.
 
 
 
