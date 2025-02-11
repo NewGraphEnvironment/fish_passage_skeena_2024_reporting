@@ -51,8 +51,6 @@ if (params$update_form_pscis) {
   readwritesqlite::rws_write(form_pscis, exists = F, delete = TRUE,
                              conn = conn, x_name = "form_pscis")
   readwritesqlite::rws_disconnect(conn)
-  # remove the object to avoid issues if something breaks
-  rm(form_pscis)
 }
 
 
@@ -82,8 +80,6 @@ if (params$update_form_fiss_site) {
   readwritesqlite::rws_write(form_fiss_site, exists = F, delete = TRUE,
                              conn = conn, x_name = "form_fiss_site")
   readwritesqlite::rws_disconnect(conn)
-  # remove the object to avoid issues if something breaks
-  rm(form_fiss_site)
 }
 
 
