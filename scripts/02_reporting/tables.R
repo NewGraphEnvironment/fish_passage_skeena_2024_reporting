@@ -547,22 +547,10 @@ tab_cost_est_prep9 <- tab_cost_est_prep8 |>
   )
 
 # Step 4: Prepare the Phase 2 cost estimates for the table
+# Don't rename the columns here because the function `fpr_my_cost_estimate` relies on the column cost_est_1000ss
 tab_cost_est_phase2 <- tab_cost_est_prep9 |>
   dplyr::arrange(pscis_crossing_id) |>
-  dplyr::select(-source) |>
-  dplyr::rename(
-    `PSCIS ID` = pscis_crossing_id,
-    Stream = stream_name,
-    Road = road_name,
-    `Barrier Result` = barrier_result,
-    `Habitat value` = habitat_value,
-    `Habitat Upstream (m)` = upstream_habitat_length_m,
-    `Stream Width (m)` = avg_channel_width_m,
-    Fix = crossing_fix_code,
-    `Cost Est ( $K)` = cost_est_1000s,
-    `Cost Benefit (m / $K)` = cost_net,
-    `Cost Benefit (m2 / $K)` = cost_area_net
-  )
+  dplyr::select(-source)
 
 # Clean up unnecessary objects
 rm(tab_cost_est_prep,

@@ -503,8 +503,21 @@ fpr::fpr_table_cv_summary(dat = pscis_phase2)  |>
 
 ```{r cost-est-phase-2, eval=T}
 tab_cost_est_phase2 |>
+    dplyr::rename(
+    `PSCIS ID` = pscis_crossing_id,
+    Stream = stream_name,
+    Road = road_name,
+    `Barrier Result` = barrier_result,
+    `Habitat value` = habitat_value,
+    `Habitat Upstream (m)` = upstream_habitat_length_m,
+    `Stream Width (m)` = avg_channel_width_m,
+    Fix = crossing_fix_code,
+    `Cost Est ( $K)` = cost_est_1000s,
+    `Cost Benefit (m / $K)` = cost_net,
+    `Cost Benefit (m2 / $K)` = cost_area_net
+  ) |> 
   fpr::fpr_kable(caption_text = paste0("Cost benefit analysis for Phase 2 assessments. ", sp_rearing_caption),
-                 scroll = gitbook_on)
+                 scroll = F)
 
 ```
 
