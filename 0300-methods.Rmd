@@ -170,12 +170,12 @@ bcfishpass_spawn_rear_model_references |>
 <br>
 
 ```{r tab-bcfp-def, eval = TRUE}
-fpr::fpr_xref_crossings |>
+xref_bcfishpass_names |>
   dplyr::filter(id_side == 1) |>
   dplyr::arrange(id_join) |>
   dplyr::select(Attribute = report, Definition = column_comment) |>
   fpr::fpr_kable(caption_text = 'bcfishpass outputs and associated definitions',
-                 footnote_text = 'Bull trout model uses a gradient threshold of maximum 25% to determine if access if likely possible',
+                 footnote_text = paste0(model_species_name, " uses a maximum gradient threshold of ", bt_network_gradient, "% to determine whether access is likely possible"),
                  scroll = gitbook_on)
 ```
 

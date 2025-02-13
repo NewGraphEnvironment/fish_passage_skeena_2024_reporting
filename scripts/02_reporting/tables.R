@@ -17,12 +17,46 @@ project = "2024-072-sern-skeena-fish-passage"
 # specify the repo
 repo_name <- "fish_passage_skeena_2024_reporting"
 
-# This is used in the table captions
+
+
+# Generate dynamic captions -------------------------------------------------
+
+# Dynamically make the table captions depending on the species used for modelling.
+# These captions are used in the methods and results sections
+
 # specify in index.Rmd YAML which species you want to use for the modelling
 # For Skeena we use steelhead
 # For Peace we use bull trout
 model_species_name <- dplyr::case_when(params$model_species == "bt" ~ "Bull trout",
                                        params$model_species == "st" ~ "Steelhead")
+
+# Network/access model caption
+
+# Hard coding these for now, not ideal but will do.
+bt_network_gradient <- "25"
+st_network_gradient <- "20"
+
+sp_network_caption <- dplyr::case_when(params$model_species == "bt" ~ paste0(model_species_name," network model used for habitat estimates (total length of stream network <",
+                                                                             bt_network_gradient, "% gradient)."),
+                                       params$model_species == "st" ~ paste0(model_species_name," network model used for habitat estimates (total length of stream network <",
+                                                                             st_network_gradient, "% gradient)."))
+
+#Rearing model caption
+
+#pull out the max rearing gradient
+rear_gradient <- bcfishpass_spawn_rear_model |>
+  dplyr::filter(species_code == stringr::str_to_upper(params$model_species)) |>
+  dplyr::mutate(rear_gradient_max = round((rear_gradient_max*100), 1)) |>
+  dplyr::pull(rear_gradient_max)
+
+sp_rearing_caption <- paste0(model_species_name," rearing model used for habitat estimates (total length of stream network <", rear_gradient, "% gradient).")
+
+
+#pull out the max spawning gradient as well, used in the caption for plot-model-all
+spawn_gradient <- bcfishpass_spawn_rear_model |>
+  dplyr::filter(species_code == stringr::str_to_upper(params$model_species)) |>
+  dplyr::mutate(spawn_gradient_max = round((spawn_gradient_max*100), 1)) |>
+  dplyr::pull(spawn_gradient_max)
 
 
 
