@@ -165,21 +165,6 @@ wshds |>
                append = F) ##might want to f the append....
 
 
-
-## Add to the repo -------------------------------------------------
-path_repo_wshds <- fs::path_expand("~/Projects/repo/fish_passage_skeena_2024_reporting/data/fishpass_mapping/fishpass_mapping.gpkg")
-stub_repo_wshds <- fs::path_expand("~/Projects/repo/fish_passage_skeena_2024_reporting/data/fishpass_mapping")
-
-fs::dir_create(stub_repo_wshds)
-
-wshds |>
-  sf::st_write(dsn = path_repo_wshds,
-               layer = 'hab_wshds',
-               delete_layer = T,
-               append = F)
-
-
-
 ## Burn to a kml -------------------------------------------------
 #burn to kml as well so we can see elevations
 sf::st_write(wshds |>
