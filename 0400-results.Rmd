@@ -120,7 +120,7 @@ map
 ## Site Assessment Data Since 2020
 
 Fish passage assessment procedures conducted through SERNbc in the Skeena River Watershed since 2020 are amalgamated  
-`r if(identical(gitbook_on, FALSE)){knitr::asis_output("online within the Results and Discussion section of the report found  [here](https://newgraphenvironment.github.io/fish_passage_skeena_2024_reporting/)")}else{knitr::asis_output("in Tables \\@ref(tab:tab-sites-sum-cap) - \\@ref(tab:tab-sites-cap).")}`
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Tables \\@ref(tab:tab-sites-sum-cap) - \\@ref(tab:tab-sites-cap).")}`
 
 <br>
 
@@ -230,7 +230,7 @@ sites_all |>
 
 In addition to numerous layers documenting fieldwork activities since 2020, a summary of background information spatial layers and tables loaded to the collaborative GIS project (`r params$gis_project_name`) at the
 time of writing (`r format(lubridate::now(), "%Y-%m-%d")`) are included 
-`r if(identical(gitbook_on, FALSE)){knitr::asis_output("online [here](https://newgraphenvironment.github.io/fish_passage_skeena_2024_reporting/)")}else{knitr::asis_output("in Table \\@ref(tab:tab-rfp-tracking).")}`
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-rfp-tracking).")}`.
 
 <br>
 
@@ -396,7 +396,8 @@ Reassessments were completed at `r pscis_reassessments |> nrow()` sites where PS
 
 <br>
 
-A summary of crossings assessed, a rough cost estimate for remediation and a priority ranking for follow up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")} else knitr::asis_output("[Attachment 2](https://www.newgraphenvironment.com/fish_passage_skeena_2024_reporting/appendix---phase-1-fish-passage-assessment-data-and-photos.html")`.
+A summary of crossings assessed, a rough cost estimate for remediation, and a priority ranking for follow-up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")} else knitr::asis_output(ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "appendix---phase-1-fish-passage-assessment-data-and-photos.html", anchor_text = "Attachment 1"))`.
+
 <br>
 
 The "Barrier" and "Potential Barrier" rankings used in this project followed @fish_passage_assessments and represent an assessment of passability for juvenile salmon or small resident rainbow trout under any flow conditions that may occur throughout the year [@clarkinNationalInventoryAssessment2005; @bellFisheriesHandbookEngineering1991; @thompsonAssessingFishPassage2013]. As noted in @bourne_etal2011Barriersfish, with a detailed review of different criteria in @kemp_ohanley2010Proceduresevaluating, passability of barriers can be quantified in many different ways. Fish physiology (i.e. species, length, swim speeds) can make defining passability complex but with important implications for evaluating connectivity and prioritizing remediation candidates [@bourne_etal2011Barriersfish; @shaw_etal2016Importancepartial; @mahlum_etal2014EvaluatingBarrier; @kemp_ohanley2010Proceduresevaluating].  @washingtondepartmentoffishwildlife2009FishPassage present criteria for assigning passability scores to culverts that have already been assessed as barriers in coarser level assessments. These passability scores provide additional information to feed into decision making processes related to the prioritization of remediation site candidates and have potential for application in British Columbia.  
@@ -420,12 +421,12 @@ The "Barrier" and "Potential Barrier" rankings used in this project followed @fi
 
 ## Phase 2 - Habitat Confirmation Assessments
 
-During the 2024 field assessments, habitat confirmation assessments were conducted at three sites within the Morice River, Kispiox River, and Bulkley River watershed groups. A total of approximately `r habitat_confirmations_priorities |> pull(length_surveyed) |> sum(na.rm = TRUE) |> round(-3)/1000` km of stream was assessed. Electrofishing surveys were conducted at all habitat confirmation sites. Georeferenced field maps are provided in Attachment 1.
+During the 2024 field assessments, habitat confirmation assessments were conducted at three sites within the Morice River, Kispiox River, and Bulkley River watershed groups. A total of approximately `r habitat_confirmations_priorities |> pull(length_surveyed) |> sum(na.rm = TRUE) |> round(-3)/1000` km of stream was assessed. Electrofishing surveys were conducted at all habitat confirmation sites. Georeferenced field maps are provided in `r knitr::asis_output(if (gitbook_on) "[Attachment 1](#attach-1-maps)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "attachment-1---maps.html", anchor_text = "Attachment 1"))`.
 
 <br>
 
 As collaborative decision making was ongoing at the time of reporting, site prioritization can be considered preliminary. 
-Results are summarized in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fig:map-interactive) and ")}` Tables \@ref(tab:tab-overview) - \@ref(fig:plot-fish-all) with raw habitat and fish sampling data included in digital format [here](`r paste0(params$repo_url, "blob/main/data/habitat_confirmations.xls")`). A summary of preliminary modeling results illustrates the estimated Chinook, coho, and steelhead spawning and rearing habitat potentially available upstream of each crossing, based on measured/modelled channel width and upstream accessible stream length, as presented in Figure \@ref(fig:plot-model-all). Detailed information for each site assessed with Phase 2 assessments (including maps) are presented within site specific appendices to this document.
+Results are summarized in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fig:map-interactive) and ")}` Tables \@ref(tab:tab-overview) - \@ref(fig:plot-fish-all) with raw habitat and fish sampling data included in `r knitr::asis_output(if (gitbook_on) "[Attachment 2](#raw-dat)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "attachment-2---habitat-assessment-and-fish-sampling-data.html", anchor_text = "Attachment 2"))`. A summary of preliminary modeling results illustrates the estimated Chinook, coho, and steelhead spawning and rearing habitat potentially available upstream of each crossing, based on measured/modelled channel width and upstream accessible stream length, as presented in Figure \@ref(fig:plot-model-all). Detailed information for each site assessed with Phase 2 assessments (including maps) are presented within site specific appendices to this document.
 
 `r if(gitbook_on){knitr::asis_output("")} else knitr::asis_output("<br><br><br><br>")`
 
@@ -571,11 +572,11 @@ Fish sampling was conducted at `r tab_fish_sites_sum |> n_distinct()` sites with
 
 <br>
 
-Fork length data was used to delineate salmonids based on life stages: fry (0 to 65mm), parr (>65 to 110mm), juvenile (>110mm to 140mm) and adult (>140mm) by visually assessing the histograms presented in Figure \@ref(fig:fish-histogram).  A summary of sites assessed are included in Table \@ref(tab:tab-fish-site-summary) and raw data is provided in [Attachment 3](https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/blob/main/data/fish_data_tags_joined.csv). A summary of density results for all life stages combined of select species is also presented in Figure \@ref(fig:plot-fish-all). 
+Fork length data was used to delineate salmonids based on life stages: fry (0 to 65mm), parr (>65 to 110mm), juvenile (>110mm to 140mm) and adult (>140mm) by visually assessing the histograms presented in Figure \@ref(fig:fish-histogram).  A summary of sites assessed are included in Table \@ref(tab:tab-fish-site-summary) and raw data is provided in `r knitr::asis_output(if (gitbook_on) "[Attachment 2](#raw-dat)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "attachment-2---habitat-assessment-and-fish-sampling-data.html", anchor_text = "Attachment 2"))`. A summary of density results for all life stages combined of select species is also presented in Figure \@ref(fig:plot-fish-all). 
 
 <br>
 
-Results are presented in greater detail within individual habitat confirmation site appendices, and for sandstone Creek [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). 
+Results are presented in greater detail within individual habitat confirmation site appendices, and for Sandstone Creek [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). 
 
 <br>
 
@@ -666,28 +667,6 @@ with remediation work led by the Gitskan Watershed Authorities. This project ser
 
 
 ## Monitoring
-
-<!-- ### Morice River -->
-
-<!-- All sites below have been incorporated -->
-<!-- into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wet’suwet’en. -->
-
-<!-- - Riddeck Creek - PSCIS 197360 - Morice-Owen FSR. Electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked over time.  Results are presented [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).  -->
-
-<!-- - Alvin Creek - PSCIS 197379 - Morice-Owen FSR (km 29.8). Revisited with the intention to conduct fish sampling however the stream was primarily dry with water present only within a small culvert outlet pool. Areas electrofished in 2022 were surveyed with PIT tag reader to scope for tags from potential mortalities related  -->
-<!-- to the dewatering.  Results are presented [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).  -->
-
-<!-- - Tributary to Owen Creek - PSCIS 197378 - Klate lake Road. Electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked over time. Aerial imagery was also collected utilizing an unmanned aerial vehicle. Results are presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/) -->
-
-
-<!-- ### Kispiox River -->
-
-<!-- - Tributary to Skeena River - PSCIS 198217 - Sik-E-Dakh Water Tower Road.  Prior to replacement of the crosssing in the spring of 2024, electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked over time. Additionally, lidar imagery was also collected utilizing an unmanned aerial vehicle.  Aerial imagery and lidar data were collected with a drone. Results are presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). -->
-
-<!-- - Dale Creek - PSCIS 198215 - Kispiox Westside Road. Electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked as part of effectiveness monitoring at the site. Results are presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). -->
-
-<!-- - Sterritt creek - 198225 - Babine Slide FSR.  Revisited with the intention to conduct fish sampling however, before sampling was conducted surveyors observed a 2 - 3m high near vertical cascade flowing over bedrock into the small culvert outlet pool immediately below the FSR. It was decided to not proceed with electrofishing as replacement of the culvert with a bridge would not facilitate upstream fish migration. Results are presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). -->
-
 Electrofishing was conducted at Sandstone Creek to build on previous data. Salmonids with fork lengths >60mm were PIT-tagged to facilitate long-term tracking of health and movement with data amalgamated into past reporting [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/).
 
 <br>
