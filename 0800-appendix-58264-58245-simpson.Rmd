@@ -26,7 +26,7 @@ my_site2 <- 58264
 
 ## Site Location {.unnumbered}
 
-PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`, approximately 3km northwest of Smithers, BC. The stream is incorrectly mapped in the BC Freshwater Atlas, and is located south of the mapped channel. Simpson Creek flows into Kathlyn Creek, which joins the Bulkley River approximalety 4km downstream. PSCIS crossing `r as.character(my_site)` is located 70m upstream of the confluence of `r fpr::fpr_my_pscis_info()` and Kathlyn Creek, on `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`. Approximately 1.4km upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. Both crossings are within the Bulkley River watershed group.
+PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`, approximately 3km northwest of Smithers, BC. The stream is incorrectly mapped in the BC Freshwater Atlas, and is located south of the mapped channel. Simpson Creek flows into Kathlyn Creek, which joins the Bulkley River approximalety 4km downstream. PSCIS crossing `r as.character(my_site)` is located 70m upstream of the confluence of `r fpr::fpr_my_pscis_info()` and Kathlyn Creek, on `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`. Approximately 1.4km upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. Both crossings are within the Bulkley River watershed group and are situated on roads under the responsibility of the Ministry of Transportation and Infrastructure.
 
 <br>
 
