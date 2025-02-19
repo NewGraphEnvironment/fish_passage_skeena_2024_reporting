@@ -590,6 +590,8 @@ tab_fish_sites_sum |>
 ```{r plot-fish-all, fig.cap='Boxplots of densities (fish/100m2) of fish captured downstream (ds) and upstream (us) by electrofishing during habitat confirmation assessments.', eval=T}
 
 plot_fish_box_all <- fish_abund |> 
+  dplyr::mutate(species_code = dplyr::case_when(species_code == "Cutthroat Trout /Rainbow Trout  hybrid" ~ "CT/RB Hybrid",
+                                                TRUE ~ species_code)) |> 
   dplyr::filter(
     !species_code %in% c('Mountain Whitefish', 
                          'Sucker (General)',
