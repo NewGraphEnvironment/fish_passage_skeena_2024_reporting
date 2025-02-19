@@ -17,8 +17,6 @@ pal_phase1 <-
    leaflet::colorFactor(palette = c("red", "yellow", "grey", "black"), 
                levels = c("High", "Moderate", "Low", NA))
 
-# Track still needs to be clipped - https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/60
-# tracks <- sf::read_sf("./data/habitat_confirmation_tracks.gpx", layer = "tracks")
 
   
 map <- leaflet::leaflet(height=500, width=780) |>
@@ -62,7 +60,8 @@ leaflet::addCircleMarkers(data=dplyr::filter(tab_map_phase_1, stringr::str_detec
                  weight = 2,
                  opacity = 1.0,
                  group = "Phase 1") |> 
-  # leaflet::addPolylines(data=tracks,
+  #NOT RUN YET - TRACKS STILL NEED TO BE CLIPPED, https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/issues/27
+  # leaflet::addPolylines(data=habitat_confirmation_tracks,
   #              opacity=0.75, color = '#e216c4',
   #              fillOpacity = 0.75, weight=5, group = "Phase 2") |>
 
