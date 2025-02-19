@@ -1,6 +1,6 @@
 # Introduction {#intro}
 
-`r if(identical(gitbook_on, FALSE))knitr::asis_output(paste0("This report is available as pdf and as an online interactive report at ", params$report_url, ". We recommend viewing online as the web-hosted html version contains more features and is more easily navigable."))`
+`r if(identical(gitbook_on, FALSE)) knitr::asis_output(paste0("This report is available as a PDF and as an online interactive report at ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = params$report_url), ". We recommend viewing online as the web-hosted HTML version contains more features and is more easily navigable."))`
 
 `r if(identical(gitbook_on, FALSE)){knitr::asis_output("<br>")}`
 
@@ -28,14 +28,6 @@ were previously documented as per the report links below. The reports for these 
 - [Skeena Watershed Fish Passage Restoration Planning 2022](https://newgraphenvironment.github.io/fish_passage_skeena_2022_reporting/)
 - [Skeena Watershed Fish Passage Restoration Planning 2023](https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting/)
 
-
-<br>
-
-Please note that at the time of reporting, this document was a living document changing over time.  Version numbers are
-logged for each release with modifications, enhancements and other changes tracked with the [changelog section](#changelog).
-Additionally, issues and planned enhancements are tracked
-[here](`r paste0(params$repo_url,'issues')`).
-
 <br>
 
 
@@ -58,3 +50,7 @@ groups are engaged in fund raising, cost benefits and the ethics of crossing rep
 collaboratively alongside the cost benefits and ethics of alternative investment activities including transportation
 corridor relocation/deactivation, land procurement/covenant, cattle exclusion, riparian/floodplain restoration, habitat
 complexing, water conservation,  commercial/recreational fishing management, salt water interventions and research.
+
+<br>
+
+Please note that at the time of reporting this document can be considered a living document. Version numbers are logged for each release with modifications, enhancements, and other changes tracked in the [Changelog](#changelog) with issues and proposed/planned enhancements tracked `r ngr::ngr_str_link_url(url_base = params$repo_url, url_resource = "issues", anchor_text = "here")`.
