@@ -60,10 +60,9 @@ leaflet::addCircleMarkers(data=dplyr::filter(tab_map_phase_1, stringr::str_detec
                  weight = 2,
                  opacity = 1.0,
                  group = "Phase 1") |> 
-  #NOT RUN YET - TRACKS STILL NEED TO BE CLIPPED, https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/issues/27
-  # leaflet::addPolylines(data=habitat_confirmation_tracks,
-  #              opacity=0.75, color = '#e216c4',
-  #              fillOpacity = 0.75, weight=5, group = "Phase 2") |>
+  leaflet::addPolylines(data=habitat_confirmation_tracks,
+               opacity=0.75, color = '#e216c4',
+               fillOpacity = 0.75, weight=5, group = "Phase 2") |>
 
 leaflet::addAwesomeMarkers(
     lng = as.numeric(photo_metadata$gps_longitude),
