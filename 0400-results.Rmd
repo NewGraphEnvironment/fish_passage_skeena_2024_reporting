@@ -549,21 +549,19 @@ bcfishpass_phase2_plot_prep <- bcfishpass |>
   )
 
     
-
-  
-  
   
 bcfishpass_phase2_plot_prep |> 
   ggplot2::ggplot(ggplot2::aes(x = stream_crossing_id, y = value)) +
   ggplot2::geom_bar(stat = "identity") +
   ggplot2::facet_wrap(~name, ncol = 2) +
-  ggdark::dark_theme_bw(base_size = 11) +
   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5)) +
-  ggplot2::labs(x = "Site", y = "Modelled habitat (km)")
+  ggplot2::labs(x = "Site", y = "Modelled habitat (km)")+
+  ggplot2::theme_light(base_size = 11)
 
 
 ```
 
+<br>
 
 ### Fish Sampling
 
@@ -576,13 +574,6 @@ Fork length data was used to delineate salmonids based on life stages: fry (0 to
 <br>
 
 Results are presented in greater detail within individual habitat confirmation site appendices, and for Sandstone Creek [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). 
-
-<br>
-
-```{r fish-histogram, fig.cap= 'Histograms of fish lengths by species.  Fish captured by electrofishing during habitat confirmation assessments.', eval = F}
-knitr::include_graphics("fig/fish_histogram.png")
-
-```
 
 
 `r if(gitbook_on){knitr::asis_output("")} else knitr::asis_output("<br><br><br><br>")`
@@ -612,13 +603,22 @@ plot_fish_box_all <- fish_abund |>
   ggplot2::theme(legend.position = "none", axis.title.x = ggplot2::element_blank()) +
   ggplot2::geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 1) +
   ggplot2::ylab(expression(Density ~ (Fish/100 ~  m^2))) +
-  ggplot2::theme_minimal()
+  ggplot2::theme_light()
   # ggdark::dark_theme_bw()
 
 
 
 plot_fish_box_all
 ```
+
+<br>
+
+```{r fish-histogram, fig.cap= 'Histograms of fish lengths by species.  Fish captured by electrofishing during habitat confirmation assessments.', eval = T}
+knitr::include_graphics("fig/fish_histogram.png")
+
+```
+
+<br>
 
 ## Phase 3 - Design
 
