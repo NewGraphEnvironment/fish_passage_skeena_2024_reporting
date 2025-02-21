@@ -7,6 +7,9 @@
 # but not sure that filtering is actually necessary - we could test and remove if it is not
 my_funding_project_number = "skeena_2024_Phase1"
 
+# specify the repo
+repo_name <- "fish_passage_skeena_2024_reporting"
+
 
 # name the watershed groups in our study area
 wsg <- c('BULK', 'MORR', 'ZYMO', 'KISP', 'KLUM')
@@ -53,6 +56,16 @@ xref_pscis_my_crossing_modelled <- pscis_assessment_svw |>
   sf::st_drop_geometry()
 
 
+# Load the cleaned habitat_confirmations tracks for this project
+path_tracks <- fs::path_expand("~/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/gps/gps_2024.gpkg")
+
+habitat_confirmation_tracks <- sf::st_read(dsn = path_tracks,
+                                           layer = "gps_tracks_2024") |>
+  dplyr::filter(repo == repo_name & cleaned == TRUE)
+
+
+
+
 # Initiliaze the database-----------------------------------------------------------------------------------------------------
 ### RUN FIRST TIME ONLY ###
 # mydb <- DBI::dbConnect(RSQLite::SQLite(), "data/bcfishpass.sqlite")
@@ -79,6 +92,10 @@ readwritesqlite::rws_write(pscis_assessment_svw, exists = F, delete = TRUE,
 readwritesqlite::rws_drop_table("xref_pscis_my_crossing_modelled", conn = conn)
 readwritesqlite::rws_write(xref_pscis_my_crossing_modelled, exists = F, delete = TRUE,
                            conn = conn, x_name = "xref_pscis_my_crossing_modelled")
+
+readwritesqlite::rws_drop_table("habitat_confirmation_tracks", conn = conn)
+readwritesqlite::rws_write(habitat_confirmation_tracks, exists = F, delete = TRUE,
+                           conn = conn, x_name = "habitat_confirmation_tracks")
 
 readwritesqlite::rws_list_tables(conn)
 readwritesqlite::rws_disconnect(conn)
