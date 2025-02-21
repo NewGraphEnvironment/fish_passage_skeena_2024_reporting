@@ -28,11 +28,13 @@ fig:photo-buck-04
 tab:cost-est-phase-1
 tab:tab-overview
 tab:phase-2-cv-assess-sum
+tab:cost-est-phase-2
 tab:tab-habitat-summary
 tab:tab-wshd-sum-all
 fig:plot-model-all
 tab:tab-fish-site-summary
 fig:plot-fish-all
+fig:fish-histogram
 tab:tab-wshd-198916
 tab:tab-culvert-bcfp-198916
 tab:tab-culvert-198916

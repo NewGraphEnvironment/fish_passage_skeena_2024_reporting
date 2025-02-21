@@ -137,7 +137,7 @@ DBI::dbDisconnect(conn)
 # unique(sites_all$watershed_group_name)
 # 
 # # here is a list of SERN wtershed groups
-wsg_skeena <- c("Bulkley River",
+wsg <- c("Bulkley River",
               "Zymoetz River",
               "Kispiox River",
               "Kalum River",
@@ -167,7 +167,7 @@ sites_all_summary <- sites_all |>
       T ~ NA_character_
     )) |> 
   # remove the elk counts
-  dplyr::filter(watershed_group %in% wsg_skeena) |>
+  dplyr::filter(watershed_group %in% wsg) |>
   dplyr::group_by(watershed_group) |> 
   dplyr::summarise(
     dplyr::across(assessment:fish_sampling, ~ sum(!is.na(.x))),
@@ -185,7 +185,7 @@ sites_all_summary <- sites_all |>
 
 ```{r tab-sites-sum-cap, results="asis"}
 my_caption = "Summary of fish passage assessment procedures conducted in the Skeena through SERNbc since 2020."
-my_tab_caption(tip_header = FALSE)
+my_tab_caption(tip_flag = FALSE)
 ```
 
 ```{r tab-sites-sum}
@@ -206,6 +206,7 @@ my_tab_caption()
 
 ```{r tab-sites-all}
 sites_all |>
+  dplyr::filter(watershed_group %in% wsg) |>
   sf::st_drop_geometry() |>
   dplyr::relocate(watershed_group, .after = my_crossing_reference) |> 
   dplyr::select(-idx) |>
@@ -384,7 +385,7 @@ Field assessments were conducted between `r format(min(pscis_all$date), format="
 
 <br>
 
-Of the `r pscis_all |> filter(source != 'pscis_phase2.xlsm') |> nrow()` sites where fish passage assessments were completed, `r pscis_phase1 |> nrow()` were not yet inventoried in the PSCIS system.  This included `r pscis_phase1 |> filter(barrier_result == 'Passable') |> nrow()` crossings considered "passable", `r pscis_phase1 |> filter(barrier_result == 'Potential') |> nrow() |> english::as.english()` crossings considered a "potential" barrier, and `r pscis_phase1 |> filter(barrier_result == 'Barrier') |> nrow()` crossings were considered "barriers" according to threshold values based on culvert embedment, outlet drop, slope, diameter (relative to channel size) and length [@fish_passage_assessments].
+Of the `r pscis_all |> filter(source != 'pscis_phase2.xlsm') |> nrow()` sites where fish passage assessments were completed, `r pscis_phase1 |> nrow()` were not yet inventoried in the PSCIS system.  This included `r pscis_phase1 |> filter(barrier_result == 'Passable') |> nrow()` crossings considered "passable", `r pscis_phase1 |> filter(barrier_result == 'Potential') |> nrow() |> english::as.english()` crossings considered a "potential" barrier, and `r pscis_phase1 |> filter(barrier_result == 'Barrier') |> nrow()` crossings were considered "barriers" according to threshold values based on culvert embedment, outlet drop, slope, diameter (relative to channel size) and length [@moe2011Fieldassessment].
 
 <!-- Additionally, although all were considered fully passable, `r pscis_phase1 |> filter(barrier_result == 'Unknown') |> nrow() |> english::as.english()` crossings assessed were fords and ranked as "unknown" according to the provincial protocol.  -->
 
@@ -398,7 +399,7 @@ A summary of crossings assessed, a rough cost estimate for remediation, and a pr
 
 <br>
 
-The "Barrier" and "Potential Barrier" rankings used in this project followed @fish_passage_assessments and represent an assessment of passability for juvenile salmon or small resident rainbow trout under any flow conditions that may occur throughout the year [@clarkinNationalInventoryAssessment2005; @bellFisheriesHandbookEngineering1991; @thompsonAssessingFishPassage2013]. As noted in @bourne_etal2011Barriersfish, with a detailed review of different criteria in @kemp_ohanley2010Proceduresevaluating, passability of barriers can be quantified in many different ways. Fish physiology (i.e. species, length, swim speeds) can make defining passability complex but with important implications for evaluating connectivity and prioritizing remediation candidates [@bourne_etal2011Barriersfish; @shaw_etal2016Importancepartial; @mahlum_etal2014EvaluatingBarrier; @kemp_ohanley2010Proceduresevaluating].  @washingtondepartmentoffishwildlife2009FishPassage present criteria for assigning passability scores to culverts that have already been assessed as barriers in coarser level assessments. These passability scores provide additional information to feed into decision making processes related to the prioritization of remediation site candidates and have potential for application in British Columbia.  
+The "Barrier" and "Potential Barrier" rankings used in this project followed @moe2011Fieldassessment and represent an assessment of passability for juvenile salmon or small resident rainbow trout under any flow conditions that may occur throughout the year [@clarkinNationalInventoryAssessment2005; @bellFisheriesHandbookEngineering1991; @thompsonAssessingFishPassage2013]. As noted in @bourne_etal2011Barriersfish, with a detailed review of different criteria in @kemp_ohanley2010Proceduresevaluating, passability of barriers can be quantified in many different ways. Fish physiology (i.e. species, length, swim speeds) can make defining passability complex but with important implications for evaluating connectivity and prioritizing remediation candidates [@bourne_etal2011Barriersfish; @shaw_etal2016Importancepartial; @mahlum_etal2014EvaluatingBarrier; @kemp_ohanley2010Proceduresevaluating].  @washingtondepartmentoffishwildlife2009FishPassage present criteria for assigning passability scores to culverts that have already been assessed as barriers in coarser level assessments. These passability scores provide additional information to feed into decision making processes related to the prioritization of remediation site candidates and have potential for application in British Columbia.  
 
 
 `r if(gitbook_on){knitr::asis_output("")} else knitr::asis_output("<br><br><br><br>")`
