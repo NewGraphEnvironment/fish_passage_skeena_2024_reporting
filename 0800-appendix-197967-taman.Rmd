@@ -1,0 +1,111 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+  markdown: 
+    wrap: 72
+---
+
+```{r setup-197967, eval = F}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
+source('scripts/packages.R')
+source('scripts/tables.R')
+source('scripts/functions.R')
+```
+
+```{r  load-data-197967}
+my_site <- 197967
+```
+
+# Taman Creek - 197967 - Appendix {- #taman}
+
+
+## Site Location {.unnumbered}
+
+PSCIS crossing `r as.character(my_site)` is located on Taman Creek approximately 22.5km east of Topley, BC. The crossing is situated on Highway 16, approximately 2.5km upstream from Bulkley Lake. Although the stream is named the Bulkley River in the BC Freshwater Atlas, Taman Creek flows into this stream approximately 750m upstream of the highway, and the stream at the highway is commonly referred to as Taman Creek including on highway signage. The culvert is the responsibility of the Ministry of Transportation and Infrastructure and the crossing is within the Bulkley River watershed group.
+
+<br>
+
+## Background {.unnumbered}
+
+The site was originally prioritized for replacement in 2021 by @irvine2022BulkleyRiver, following a habitat confirmation assessment
+which can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/taman-creek---197967---appendix.html), which also includes detailed background information.  A map of the watershed is provided in map attachment [`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "bulk", archive_date = "2022-09-06")`).
+
+<br>
+
+In December 2023, the crossing was replaced with an extensive streambed simulation structure by Enviro-Ex Contracting Ltd. Funding for the project was provided by the Ministry of Transportation and Infrastructure through coordination from SERNbc.
+
+<br>
+
+## Monitoring {.unnumbered}
+
+In 2024, crews revisited the site and reassessed the crossing, with results summarized in Table \@ref(tab:tab-culvert-197967). The structure was well-constructed, with nearly 2m of embedded material consisting of large boulders, cobbles, and gravels. Upstream, woody debris and boulder structures were cabled together for additional reinforcement `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-197967-01)).")}else(knitr::asis_output("Figure \\@ref(fig:photo-197967-d01)."))` This large-scale construction project involved substantial fill, extending approximately 60m downstream and over 200m upstream.
+
+<br>
+
+Photos showing a comparison of the culvert assessment conducted in 2021 versus the completed replacement structure in 2024 are presented in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fig:photo-197967-02) and Table \\@ref(tab:tab-culvert-197967).")}else(knitr::asis_output("Figure \\@ref(fig:photo-197967-d01)."))` 
+
+<br>
+
+```{r tab-culvert-197967, eval = T}
+fpr::fpr_table_cv_summary_memo(dat = pscis_reassessments)
+
+```
+
+<br>
+
+## Conclusion {.unnumbered}
+
+Restoration of fish passage at crossing `r as.character(my_site)` was restored in 2024 with a streambed simulation structure. Replacement of the crossing should provide access to habitat blocked to upstream migrating fish for likely 10 - 20
+years (timeline depending on the rate of down cutting caused by the outlet drops) and the site now provides fish migration conditions that are equal to or better than those present before construction.
+
+<br>
+
+The replacement of crossing `r as.character(my_site)` on Highway 16 represents a rare example of a major highway crossing being successfully upgraded for fish passage. This project was particularly notable not only due to the complexity of construction on Highway 16 but also for the high-quality implementation. Extensive embedment using natural streambed substrates—including large boulders, cobbles, and gravels—was incorporated, along with cabled woody debris and boulder structures upstream for added stability. This crossing serves as an exemplary model for future large-scale streambed simulation replacements.
+
+<br>
+
+<!-- Resampling of fish at the site in future years of the project is recommended to build our understanding of fish use, -->
+<!-- movement and health in the stream providing valuable data for monitoring the effectiveness of the crossing replacement. -->
+<!-- Additionally, yearly acquisition of aerial imagery is recommended so that imagery and 3D -->
+<!-- models generated from the data can be compared to products generated from data gathered in 2023 before the replacement. These comparisons will -->
+<!-- be useful for communications related to the project as well as for providing insight into changes in stream morphology, -->
+<!-- effectiveness of environmental management plans and site rehabilitation efforts following construction. -->
+
+
+`r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
+
+```{r photo-197967-01-prep, eval=T}
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = 'us_logs_')
+
+my_caption1 = paste0('Woody debris and boulder structures cabled together for additional reinforcement located upstream of ', my_site, ' in 2024.')
+
+
+
+```
+
+```{r photo-197967-01, fig.cap= my_caption1, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo1)
+```
+
+<br>
+
+```{r photo-197967-02-prep, eval=T}
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = 'crossing_all_2021')
+
+my_caption2 = paste0('Photos of crossing ', my_site, ' in 2021.')
+
+
+```
+
+```{r photo-197967-02, fig.cap= my_caption2, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo2)
+```
+
+```{r photo-197967-d01, fig.cap = my_caption, fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=identical(gitbook_on, FALSE)}
+my_caption <- paste0('Left: ', my_caption1, ' Right: ', my_caption2)
+
+knitr::include_graphics(my_photo1)
+knitr::include_graphics("fig/pixel.png")
+knitr::include_graphics(my_photo2)
+```

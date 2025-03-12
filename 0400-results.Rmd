@@ -628,9 +628,7 @@ knitr::include_graphics("fig/fish_histogram.png")
 
 ## Phase 3 - Design
 
-All sites with a design for remediation of fish passage can be found in Table 
-
-At the time of reporting, designs for remediation of fish passage had been completed for the following sites listed by watershed group:
+All sites with a design for remediation of fish passage can be found in Table \@ref(tab:tab-sites-cap) by filtering using Design = yes. At the time of reporting, designs for remediation of fish passage had been completed for the following sites listed by watershed group:
 
 
 ### Bulkley River
@@ -658,25 +656,19 @@ into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wetâ€
 
 ## Phase 4 - Remediations
 
-Remediation of fish passage has been completed at the following sites (listed by watershed group):
+All sites where remediation of fish passage has been completed can be found in Table \@ref(tab:tab-sites-cap) by filtering using Remediation = yes.
 
-### Bulkley River 
-- McDowell Creek - 58159 - Private Road.  Replaced with a clear-span bridge in 2022 with remediation work led by the Canadian Wildlife Federation. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).
-- Robert Hatch Creek - 197912 - Unnamed Road. Removal of the collapsed bridge in 2022 with remediation work led by the Canadian Wildlife Federation. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/).
-- Taman Creek - 197967 - Highway 16. Replacement of culvert with embedded closed bottom structure by Ministry of Transportation and Infrastructure. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting).
-
-
-### Kispiox River
-- Tributary to Skeena River - 198217 - Sik-E-Dakh Water Tower Road.  Replacement of the crossing with a clear-span bridge in 2024
+In 2024,  PSCIS crossing 198217 on Tributary to Skeena River, located on the Sik-E-Dakh Water Tower Road was replaced with a clear-span bridge
 with remediation work led by the Gitskan Watershed Authorities. This project serves as a great example to follow in future installations, demonstrating thoughtful erosion control and re-vegetation, a wide, stable channel with minimal riprap, and strategic riprap placement that was effectively buried to maintain natural channel morphology. Background information - updated in 2025 - can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/)
 
 
 ## Monitoring
+
 Electrofishing was conducted at Sandstone Creek to build on previous data. Salmonids with fork lengths >60mm were PIT-tagged to facilitate long-term tracking of health and movement with data amalgamated into past reporting [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/).
 
 <br>
 
-Following replacement of Taman Creek (PSCIS crossing 197967) on Highway 16, effectiveness monitoring was conducted in 2024.  Background can be reviewed [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting) with results of the monitoring presented in a report appendix.
+Following replacement of Taman Creek (PSCIS crossing 197967) on Highway 16, effectiveness monitoring was conducted in 2024.  Background can be reviewed [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/taman-creek---197967---appendix.html) with results of the monitoring presented in [Taman Creek - 197967 - Appendix](#taman).
 
 
 
