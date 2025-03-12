@@ -1,4 +1,4 @@
-# Appendix - Phase 1 Fish Passage Assessment Data and Photos {-}
+# Appendix - Phase 1 Fish Passage Assessment Data and Photos {- #appendix1}
 
 `r knitr::knit(text = mapply(fpr::fpr_table_cv_detailed_print,  tab_sum = tab_summary, comments = tab_summary_comments, photos = tab_photo_url))`
 
