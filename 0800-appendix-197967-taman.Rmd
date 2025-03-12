@@ -57,7 +57,7 @@ fpr::fpr_table_cv_summary_memo(dat = pscis_reassessments)
 ## Conclusion {.unnumbered}
 
 Restoration of fish passage at crossing `r as.character(my_site)` was restored in 2024 with a streambed simulation structure. Replacement of the crossing should provide access to habitat blocked to upstream migrating fish for likely 10 - 20
-years (timeline depending on the rate of down cutting caused by the outlet drops) and the site now provides fish migration conditions that are equal to or better than those present before construction.
+years (timeline depending on the rate of down cutting caused by the outlet drops).
 
 <br>
 
