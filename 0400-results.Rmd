@@ -630,6 +630,7 @@ knitr::include_graphics("fig/fish_histogram.png")
 
 All sites with a design for remediation of fish passage can be found in Table \@ref(tab:tab-sites-cap) by filtering using Design = yes. At the time of reporting, designs for remediation of fish passage had been completed for the following sites listed by watershed group:
 
+<br>
 
 ### Bulkley River
 
@@ -643,6 +644,7 @@ to inform the design of the replacement structure. Background presented [here](h
 - Tributary to Buck Creek - PSCIS 197640 - Buck Flats Road. Preliminary design commisioned from Pacific North Coast Consulting by Canadian Wildlife Federation. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).
 - Station  Creek (also know as Mission Creek) - PSCIS 124420. Preliminary design commisioned from Pacific North Coast Consulting by Canadian Wildlife Federation. Background presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/).
 
+<br>
 
 ### Morice River
 
@@ -652,15 +654,18 @@ into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wet�
 - Alvin Creek - PSCIS 197379 - Morice-Owen FSR (km 29.8).  Design developed by Mark Dewitt from the Ministry of Forests. Background presented [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/). the site has been incorporated
 into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wet’suwet’en.
 
-
+<br>
 
 ## Phase 4 - Remediations
 
 All sites where remediation of fish passage has been completed can be found in Table \@ref(tab:tab-sites-cap) by filtering using Remediation = yes.
 
+<br>
+
 In 2024,  PSCIS crossing 198217 on Tributary to Skeena River, located on the Sik-E-Dakh Water Tower Road was replaced with a clear-span bridge
 with remediation work led by the Gitskan Watershed Authorities. This project serves as a great example to follow in future installations, demonstrating thoughtful erosion control and re-vegetation, a wide, stable channel with minimal riprap, and strategic riprap placement that was effectively buried to maintain natural channel morphology. Background information - updated in 2025 - can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/)
 
+<br>
 
 ## Monitoring
 
