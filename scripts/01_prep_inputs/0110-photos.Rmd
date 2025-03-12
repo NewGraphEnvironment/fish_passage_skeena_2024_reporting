@@ -7,7 +7,7 @@ output:
 params:
   repo_owner: "NewGraphEnvironment"
   repo_name: "fish_passage_peace_2024_reporting"
-  gis_name: "sern_skeena_2023"
+  gis_project_name: "sern_skeena_2023"
   job_name: "2024-072-sern-skeena-fish-passage"
 ---
 
@@ -27,9 +27,9 @@ options(knitr.kable.NAN = '--')
 # mv -v ~/Projects/gis/mergin/bcfishpass_skeena_20220823-v225/photos/* ~/Projects/current/2022-049-sern-skeena-fish-passage/data/photos/mergin/
 
 # Build Local Directory  ------------------------------------------------------------
-dir_photos_mergin_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, "/ignore_mobile/photos/"))
-dir_photos_mergin_resized <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, "/ignore_mobile/photos_resized"))
-# dir_photos_processed_final <- fs::path_expand(fs::path("~/Projects/data/", params$gis_name, "/photos/"))
+dir_photos_mergin_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/ignore_mobile/photos/"))
+dir_photos_mergin_resized <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/ignore_mobile/photos_resized"))
+# dir_photos_processed_final <- fs::path_expand(fs::path("~/Projects/data/", params$gis_project_name, "/photos/"))
 dir_photos_originals <- fs::path_expand(fs::path("~/Library/CloudStorage/OneDrive-Personal/Projects", params$job_name, "/data/photos/"))
 dir_photos_onedrive <- fs::path_expand(fs::path("~/Library/CloudStorage/OneDrive-Personal/Projects", params$job_name, "data/photos/"))
 ```
@@ -143,11 +143,11 @@ fs::dir_delete("/Users/airvine/Projects/gis/sern_peace_fwcp_2023/photos")
 ```
 
 ```{r dir-site-create-pscis}
-form_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'form_pscis.gpkg'))
-form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_pscis_2024.gpkg'))
+form_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, 'form_pscis.gpkg'))
+form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, 'data_field/2024/form_pscis_2024.gpkg'))
 
 #this can be run for the ow photos
-# form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_pscis_ow_2024.gpkg'))
+# form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, 'data_field/2024/form_pscis_ow_2024.gpkg'))
 
 
 fs::dir_create(fs::path_dir(form_new))
@@ -252,7 +252,7 @@ purrr::map2(files_to_copy, files_to_paste, ~ fs::file_copy(.x, .y, overwrite = T
 # Build photo amalgamation for each site
 
 ```{r amalg}
-form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_pscis_2024.gpkg'))
+form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, 'data_field/2024/form_pscis_2024.gpkg'))
 
 # get a list of sites to burn
 sites_l <- fpr::fpr_sp_gpkg_backup(
@@ -280,8 +280,8 @@ CANT USUALLY DO THIS UNTILL WE SUBMIT THE DATA AND GET THE PSCIS IDS BUT WE HAVE
 ```{r dir-site-create-fiss}
 
 # copy the gpkg to the new location - this is just as easily done by hand. Named it weird
-form_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'form_fiss_site_newgraph.gpkg'))
-form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_fiss_site_newgraph_2024.gpkg'))
+form_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, 'form_fiss_site_newgraph.gpkg'))
+form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, 'data_field/2024/form_fiss_site_newgraph_2024.gpkg'))
 
 fs::dir_create(fs::path_dir(form_new))
 
@@ -379,8 +379,8 @@ identical(
 
 
 ```{r dir-site-create-pscis}
-form_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'form_monitoring.gpkg'))
-form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_name, 'data_field/2024/form_monitoring_2024.gpkg'))
+form_raw <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, 'form_monitoring.gpkg'))
+form_new <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, 'data_field/2024/form_monitoring_2024.gpkg'))
 
 fs::dir_create(fs::path_dir(form_new))
 
@@ -440,6 +440,8 @@ fpr::fpr_photo_rename(
 )
 ```
 
+
+# Remove duplicates
 
 After we sort the photos that came off the camera by hand into their directories we can amalgamate with the renamed photos.
 
@@ -552,4 +554,26 @@ readr::write_csv(photos_dry_run, "data/inputs_extracted/photo_duplicate_rm_log.c
 
 ```
 
+# Rename folders with PSCIS IDs
 
+For this step we copy phase 1 directories and rename them with the PSCIS ID. We need to do this to complete the reporting.
+
+<br>
+
+First lets get a list of the sites that need IDs updated.
+
+```{r phase1-rename}
+
+phase1_rename <- pscis_all |> 
+  dplyr::filter(source == 'pscis_phase1.xlsm') |> 
+  dplyr::select(pscis_crossing_id, my_crossing_reference)
+
+dirs_to_copy <- fs::path_expand(fs::path(dir_photos_onedrive, phase1_rename$my_crossing_reference))
+dirs_to_paste <- fs::path_expand(fs::path(dir_photos_onedrive, phase1_rename$pscis_crossing_id))
+  
+#Copy over the photos
+fs::dir_copy(dirs_to_copy, dirs_to_paste)
+
+# Leave the old folders there in case we need them - not sure if some scripts full photos using the modelled crossing ID...
+
+```
