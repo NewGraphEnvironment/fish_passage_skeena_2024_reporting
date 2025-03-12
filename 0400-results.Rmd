@@ -180,7 +180,9 @@ sites_all_summary <- sites_all |>
   # annoying special case
   dplyr::rename(
     `Drone Imagery` = Uav) |> 
-  janitor::adorn_totals()
+  janitor::adorn_totals() |> 
+      # make all the columns strings so we can filter them
+    dplyr::mutate(across(everything(), as.character))
 ```
 
 ```{r tab-sites-sum-cap, results="asis"}
@@ -217,6 +219,8 @@ sites_all |>
                        stringr::str_replace_all("uav", "Drone") |>
                        stringr::str_to_title()) |> 
   # dplyr::arrange(desc(stream_crossing_id)) |> 
+      # make all the columns strings so we can filter them
+    dplyr::mutate(across(everything(), as.character)) |> 
   
   my_dt_table(
     cols_freeze_left = 1,
