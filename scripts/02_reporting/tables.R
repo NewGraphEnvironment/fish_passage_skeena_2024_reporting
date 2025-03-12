@@ -161,7 +161,14 @@ xref_bcfishpass_names <- fpr::fpr_xref_crossings
 # Habitat Summaries -------------------------------------------------
 
 ## Build hab_site object for fpr_my_habitat_info() ------------------
-hab_site <- form_fiss_site
+
+# arrange so hab con sites (ef = NA) come before the electrofishing sites - this is needed to that `fpr_my_habitat_info`
+# pulls the hab con sites not the ef sites
+hab_site <- form_fiss_site |>
+  dplyr::group_by(site) |>
+  dplyr::arrange(site, dplyr::desc(is.na(ef)), ef, .by_group = TRUE)
+
+
 
 
 ## Build tab_hab_summary object for tables --------------------------
