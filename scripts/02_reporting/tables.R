@@ -3,10 +3,13 @@
 # Parameters -------------------------------------------------
 
 # path to form_pscis_2024
-path_form_pscis <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_pscis_2024.gpkg')
+path_form_pscis <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/data_field/2024/form_pscis_2024.gpkg"))
 
 # path to NEW `form_fiss_site_2024` made from `0205_fiss_extract_inputs.Rmd`
-path_form_fiss_site <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024.gpkg')
+path_form_fiss_site <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/data_field/2024/form_fiss_site_2024.gpkg"))
+
+# path to monitoring form
+path_form_monitoring <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/data_field/2024/form_monitoring_2024.gpkg"))
 
 # Onedrive path to the fish data with the pit tags joined.
 path_fish_tags_joined <-  fs::path_expand('~/Projects/repo/fish_passage_skeena_2024_reporting/data/fish_data_tags_joined.csv')
@@ -62,7 +65,7 @@ spawn_gradient <- bcfishpass_spawn_rear_model |>
 
 # Load data -------------------------------------------------
 
-## Reload form_pscis -------------------------------------------------
+## Update form_pscis -------------------------------------------------
 
 # form_pscis gets read in from `02_reporting/0165-read-sqlite.R`
 
@@ -88,7 +91,7 @@ if (params$update_form_pscis) {
 }
 
 
-## Reload form_fiss_site -------------------------------------------------
+## Update form_fiss_site -------------------------------------------------
 
 # form_fiss_site data gets read in from `02_reporting/0165-read-sqlite.R`
 
@@ -113,6 +116,35 @@ if (params$update_form_fiss_site) {
   readwritesqlite::rws_drop_table("form_fiss_site", conn = conn)
   readwritesqlite::rws_write(form_fiss_site, exists = F, delete = TRUE,
                              conn = conn, x_name = "form_fiss_site")
+  readwritesqlite::rws_disconnect(conn)
+}
+
+
+## Update form_monitoring  -------------------------------------------------
+
+# form_monitoring data gets read in from `02_reporting/0165-read-sqlite.R`
+
+# If update_form_monitoring = TRUE then load form_monitoring to sqlite - need to load the params from `index.Rmd`
+if (params$update_form_monitoring) {
+  form_monitoring <- fpr::fpr_sp_gpkg_backup(
+    path_gpkg = path_form_monitoring,
+    dir_backup = "data/backup/",
+    update_utm = TRUE,
+    update_site_id = TRUE,
+    write_back_to_path = FALSE,
+    return_object = TRUE,
+    write_to_csv = FALSE,
+    write_to_rdata = FALSE,
+    col_easting = "utm_easting",
+    col_northing = "utm_northing")
+
+
+  # Now burn to the sqlite
+  conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
+  # won't run on first build if the table doesn't exist
+  readwritesqlite::rws_drop_table("form_monitoring", conn = conn)
+  readwritesqlite::rws_write(form_monitoring, exists = F, delete = TRUE,
+                             conn = conn, x_name = "form_monitoring")
   readwritesqlite::rws_disconnect(conn)
 }
 
@@ -689,3 +721,24 @@ tab_map_phase_2 <- dplyr::left_join(
       'target="_blank">Culvert Photos</a>'
     )
   )
+
+
+# Monitoring --------------------------------------------------------------
+
+# clean up the monitoring form so we can display it in a table
+tab_monitoring <- form_monitoring |>
+  sf::st_drop_geometry() |>
+  dplyr::select(
+    pscis_crossing_id,
+    stream_name,
+    road_name,
+    crossing_subtype,
+    `span` = diameter_or_span_meters,
+    `width` = length_or_width_meters,
+    assessment_comment,
+    dplyr::matches("_notes$"),
+    -condition_notes,
+    -climate_notes,
+    -priority_notes
+  ) |>
+  janitor::clean_names(case = "title")

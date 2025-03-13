@@ -32,6 +32,9 @@ form_pscis <- readwritesqlite::rws_read_table("form_pscis", conn = conn)
 #Read in the form_fiss_site
 form_fiss_site <- readwritesqlite::rws_read_table("form_fiss_site", conn = conn)
 
+#Read in the form_monitoring
+form_monitoring <- readwritesqlite::rws_read_table("form_monitoring", conn = conn)
+
 #Read in the cleaned habitat confirmation gps tracks
 habitat_confirmation_tracks <- readwritesqlite::rws_read_table("habitat_confirmation_tracks", conn = conn)
 
