@@ -29,7 +29,7 @@ PSCIS crossing `r as.character(my_site)` is located on Taman Creek approximately
 ## Background {.unnumbered}
 
 The site was originally prioritized for replacement in 2021 by @irvine2022BulkleyRiver, following a habitat confirmation assessment
-which can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/taman-creek---197967---appendix.html), which also includes detailed background information.  A map of the watershed is provided in map attachment [`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "bulk", archive_date = "2022-09-06")`).
+which can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/taman-creek---197967---appendix.html). This assessment also includes detailed background information.  A map of the watershed is provided in map attachment [`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "bulk", archive_date = "2022-09-06")`).
 
 <br>
 
@@ -39,11 +39,26 @@ Between 2022 and 2024, Enviro-Ex Contracting Ltd. replaced the crossing with an 
 
 ## Monitoring {.unnumbered}
 
-In 2024, crews revisited the site and reassessed the crossing, with results summarized in Table \@ref(tab:tab-culvert-197967). The structure was well-constructed, with nearly 2m of embedded material consisting of large boulders, cobbles, and gravels. Upstream, woody debris and boulder structures were cabled together for additional reinforcement `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-197967-01)).")}else(knitr::asis_output("Figure \\@ref(fig:photo-197967-d01)."))` This large-scale construction project involved substantial fill, extending approximately 60m downstream and over 200m upstream.
+In 2024, crews revisited the site for monitoring purposes, with results summarised in Table \@ref(tab:tab-monitoring-197967).  The structure was well-constructed, with nearly 2m of embedded material consisting of large boulders, cobbles, and gravels. Upstream, woody debris and boulder structures were cabled together for additional reinforcement `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-197967-01)).")}else(knitr::asis_output("Figure \\@ref(fig:photo-197967-d01)."))` This large-scale construction project involved substantial fill, extending approximately 60m downstream and over 200m upstream. Crews also reassessed the crossings barrier status, with results found in Table \@ref(tab:tab-culvert-197967). 
 
 <br>
 
 Photos showing a comparison of the culvert assessment conducted in 2021 versus the completed replacement structure in 2024 are presented in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fig:photo-197967-02) and Table \\@ref(tab:tab-culvert-197967).")}else(knitr::asis_output("Figure \\@ref(fig:photo-197967-d01)."))` 
+
+<br>
+
+```{r tab-monitoring-197967}
+tab_monitoring |> 
+  dplyr::filter(`Pscis Crossing Id` == my_site) |> 
+  dplyr::mutate(across(everything(), as.character)) |> 
+  tidyr::pivot_longer(
+    cols = everything(),  # Select all columns
+    names_to = "variable",  # Column names become values in this column
+    values_to = "value"  # Data values go into this column
+  ) |> 
+  fpr::fpr_kable(caption_text = paste0('Summary of monitoring metric results for site ', my_site, '.'),
+                                       scroll = gitbook_on)
+```
 
 <br>
 
@@ -65,12 +80,11 @@ The replacement of crossing `r as.character(my_site)` on Highway 16 represents a
 
 <br>
 
-<!-- Resampling of fish at the site in future years of the project is recommended to build our understanding of fish use, -->
-<!-- movement and health in the stream providing valuable data for monitoring the effectiveness of the crossing replacement. -->
-<!-- Additionally, yearly acquisition of aerial imagery is recommended so that imagery and 3D -->
-<!-- models generated from the data can be compared to products generated from data gathered in 2023 before the replacement. These comparisons will -->
-<!-- be useful for communications related to the project as well as for providing insight into changes in stream morphology, -->
-<!-- effectiveness of environmental management plans and site rehabilitation efforts following construction. -->
+Fish sampling using eDNA is recommended to build our understanding of fish use,
+movement and health in the stream providing valuable data for monitoring the effectiveness of the crossing replacement. Additionally, yearly acquisition of aerial imagery is recommended so that imagery and 3D
+models generated from the data can be compared to products generated from data gathered in 2023 before the replacement. These comparisons will
+be useful for communications related to the project as well as for providing insight into changes in stream morphology,
+effectiveness of environmental management plans and site rehabilitation efforts following construction.
 
 
 `r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
