@@ -54,6 +54,8 @@ source('scripts/02_reporting/0180-photos-extract-metadata.R')
 #################################################################################################
 ##move the phase 1 appendix out of the main directory to a backup file or else the file is too big
 
+staticimports::import()
+source('scripts/staticimports.R')
 
 # define the _bookfile_name from _bookdown.yml
 filename_html <- 'fish_passage_skeena_2024'
