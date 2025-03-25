@@ -117,8 +117,7 @@ map
 
 ## Site Assessment Data Since 2020
 
-Fish passage assessment procedures conducted through SERNbc in the Skeena River Watershed since 2020 are amalgamated  
-`r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Tables \\@ref(tab:tab-sites-sum-cap) - \\@ref(tab:tab-sites-cap).")}`
+Fish passage assessment procedures conducted through SERNbc in the Skeena River Watershed since 2020 are amalgamated `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Tables \\@ref(tab:tab-sites-sum-cap) - \\@ref(tab:tab-sites-cap)")}`.
 
 <br>
 
@@ -185,12 +184,12 @@ sites_all_summary <- sites_all |>
     dplyr::mutate(across(everything(), as.character))
 ```
 
-```{r tab-sites-sum-cap, results="asis"}
+```{r tab-sites-sum-cap, results="asis", eval = gitbook_on}
 my_caption = "Summary of fish passage assessment procedures conducted in the Skeena through SERNbc since 2020."
 my_tab_caption(tip_flag = FALSE)
 ```
 
-```{r tab-sites-sum}
+```{r tab-sites-sum, eval = gitbook_on}
 sites_all_summary |> 
   my_dt_table(
     page_length = 20,
@@ -201,12 +200,12 @@ sites_all_summary |>
 <br>
 
 
-```{r tab-sites-cap, results="asis"}
+```{r tab-sites-cap, results="asis", eval = gitbook_on}
 my_caption = "Details of fish passage assessment procedures conducted in the Skeena through SERNbc since 2020."
 my_tab_caption()
 ```
 
-```{r tab-sites-all}
+```{r tab-sites-all, eval = gitbook_on}
 sites_all |>
   dplyr::filter(watershed_group %in% wsg) |>
   sf::st_drop_geometry() |>
@@ -233,7 +232,7 @@ sites_all |>
 
 In addition to numerous layers documenting fieldwork activities since 2020, a summary of background information spatial layers and tables loaded to the collaborative GIS project (`r params$gis_project_name`) at the
 time of writing (`r format(lubridate::now(), "%Y-%m-%d")`) are included 
-`r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-rfp-tracking).")}`.
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-rfp-tracking)")}`.
 
 <br>
 
@@ -296,13 +295,15 @@ rfp_tracking_prep |>
 
 ```
 
+`r if(gitbook_on){knitr::asis_output("<br>")}`
+
 ## Buck Creek Falls
 
 Buck falls are located just downstream of the Buck Flats Road bridge on the Buck Creek mainstem approximately 30 km upstream of its confluence with the Bulkley River. The falls have not yet been documented in the FISS database [@moe2024ProvincialObstacles] but have been previously noted in @gottesfeld_rabnett2007SkeenaFish, the World Waterfall Database [@BuckFallsBritishColumbiaCanadaWorldWaterfallDatabase], and on the Houston Hikers website [@BuckFallsAdventures]. Although rainbow trout, mountain whitefish, kokannee and other non-salmonid resident species have been documented upstream of the falls in the FISS database - no salmon species are documented upstream [@moe2024KnownBC]. An assessment was conducted on September 19, 2024 to assess the feasibility of upstream migration of the falls.  
 
 <br>
 
-The falls consist of a series of three separate vertical and cascade sections over and approximately 200m section of stream. The upper falls consisted of a ~4 m high vertical drop, presenting a substantial barrier to fish passage `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d01))."))`. Approximately 25 m downstream, the second falls was a ~3.5 m high sheer drop to bedrock, with minimal pool depth available to facilitate fish passage `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d01))."))`. Further downstream ~100 m, the third step comprised a ~1.5 m vertical drop with an overlying cascade, exhibiting a ~15% gradient over a 1.0 m height `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-03)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d02))."))`. An additional cascade, located a further ~25 m downstream, featured a ~2 m high drop with a ~30% gradient extending over a 5 m length `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-04)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d02))."))`.
+The falls consist of a series of three separate vertical and cascade sections over and approximately 200m section of stream. The upper falls consisted of a ~4 m high vertical drop, presenting a substantial barrier to fish passage `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d01))."))` Approximately 25 m downstream, the second falls was a ~3.5 m high sheer drop to bedrock, with minimal pool depth available to facilitate fish passage `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d01))."))` Further downstream ~100 m, the third step comprised a ~1.5 m vertical drop with an overlying cascade, exhibiting a ~15% gradient over a 1.0 m height `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-03)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d02))."))` An additional cascade, located a further ~25 m downstream, featured a ~2 m high drop with a ~30% gradient extending over a 5 m length `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-04)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d02))."))`
 
 <br>
 
@@ -399,7 +400,7 @@ Reassessments were completed at `r pscis_reassessments |> nrow()` sites where PS
 
 <br>
 
-A summary of crossings assessed, a rough cost estimate for remediation, and a priority ranking for follow-up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")} else knitr::asis_output(ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "appendix---phase-1-fish-passage-assessment-data-and-photos.html", anchor_text = "Attachment 1"))`.
+A summary of crossings assessed, a rough cost estimate for remediation, and a priority ranking for follow-up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")} else knitr::asis_output(ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "appendix---phase-1-fish-passage-assessment-data-and-photos.html", anchor_text = "Appendix"))`.
 
 <br>
 
@@ -424,12 +425,12 @@ The "Barrier" and "Potential Barrier" rankings used in this project followed @mo
 
 ## Phase 2 - Habitat Confirmation Assessments
 
-During the 2024 field assessments, habitat confirmation assessments were conducted at three sites within the Morice River, Kispiox River, and Bulkley River watershed groups. A total of approximately `r habitat_confirmations_priorities |> pull(length_surveyed) |> sum(na.rm = TRUE) |> round(-3)/1000` km of stream was assessed. Electrofishing surveys were conducted at all habitat confirmation sites. Georeferenced field maps are provided in `r knitr::asis_output(if (gitbook_on) "[Attachment 1](#attach-1-maps)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "attachment-1---maps.html", anchor_text = "Attachment 1"))`.
+During the 2024 field assessments, habitat confirmation assessments were conducted at three sites within the Morice River, Kispiox River, and Bulkley River watershed groups. A total of approximately `r habitat_confirmations_priorities |> pull(length_surveyed) |> sum(na.rm = TRUE) |> round(-3)/1000` km of stream was assessed. Electrofishing surveys were conducted at all habitat confirmation sites. Georeferenced field maps are provided in `r knitr::asis_output(if (gitbook_on) "[Attachment 1](#attach-1-maps)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "attach-1-maps.html", anchor_text = "Attachment 1"))`.
 
 <br>
 
 As collaborative decision making was ongoing at the time of reporting, site prioritization can be considered preliminary. 
-Results are summarized in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fig:map-interactive) and ")}` Tables \@ref(tab:tab-overview) - \@ref(fig:plot-fish-all) with raw habitat and fish sampling data included in `r knitr::asis_output(if (gitbook_on) "[Attachment 2](#raw-dat)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "attachment-2---habitat-assessment-and-fish-sampling-data.html", anchor_text = "Attachment 2"))`. A summary of preliminary modeling results illustrates the estimated Chinook, coho, and steelhead spawning and rearing habitat potentially available upstream of each crossing, based on measured/modelled channel width and upstream accessible stream length, as presented in Figure \@ref(fig:plot-model-all). Detailed information for each site assessed with Phase 2 assessments (including maps) are presented within site specific appendices to this document.
+Results are summarized in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fig:map-interactive) and ")}` Tables \@ref(tab:tab-overview) - \@ref(fig:plot-fish-all) with raw habitat and fish sampling data included in `r knitr::asis_output(if (gitbook_on) "[Attachment 2](#raw-dat)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "raw-dat.html", anchor_text = "Attachment 2"))`. A summary of preliminary modeling results illustrates the estimated Chinook, coho, and steelhead spawning and rearing habitat potentially available upstream of each crossing, based on measured/modelled channel width and upstream accessible stream length, as presented in Figure \@ref(fig:plot-model-all). Detailed information for each site assessed with Phase 2 assessments (including maps) are presented within site specific appendices to this document.
 
 `r if(gitbook_on){knitr::asis_output("")} else knitr::asis_output("<br><br><br><br>")`
 
@@ -558,9 +559,9 @@ bcfishpass_phase2_plot_prep |>
   ggplot2::ggplot(ggplot2::aes(x = stream_crossing_id, y = value)) +
   ggplot2::geom_bar(stat = "identity") +
   ggplot2::facet_wrap(~name, ncol = 2) +
-  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5)) +
   ggplot2::labs(x = "Site", y = "Modelled habitat (km)")+
-  ggplot2::theme_light(base_size = 11)
+  ggplot2::theme_light(base_size = 11) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1)) 
 
 
 ```
@@ -573,7 +574,7 @@ Fish sampling was conducted at `r tab_fish_sites_sum |> n_distinct()` sites with
 
 <br>
 
-Fork length data was used to delineate salmonids based on life stages: fry (0 to 65mm), parr (>65 to 110mm), juvenile (>110mm to 140mm) and adult (>140mm) by visually assessing the histograms presented in Figure \@ref(fig:fish-histogram).  A summary of sites assessed are included in Table \@ref(tab:tab-fish-site-summary) and raw data is provided in `r knitr::asis_output(if (gitbook_on) "[Attachment 2](#raw-dat)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "attachment-2---habitat-assessment-and-fish-sampling-data.html", anchor_text = "Attachment 2"))`. A summary of density results for all life stages combined of select species is also presented in Figure \@ref(fig:plot-fish-all). 
+Fork length data was used to delineate salmonids based on life stages: fry (0 to 65mm), parr (>65 to 110mm), juvenile (>110mm to 140mm) and adult (>140mm) by visually assessing the histograms presented in Figure \@ref(fig:fish-histogram).  A summary of sites assessed are included in Table \@ref(tab:tab-fish-site-summary) and raw data is provided in `r knitr::asis_output(if (gitbook_on) "[Attachment 2](#raw-dat)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "raw-dat.html", anchor_text = "Attachment 2"))`. A summary of density results for all life stages combined of select species is also presented in Figure \@ref(fig:plot-fish-all). 
 
 <br>
 
@@ -628,7 +629,8 @@ knitr::include_graphics("fig/fish_histogram.png")
 
 ## Phase 3 - Design
 
-All sites with a design for remediation of fish passage can be found in Table \@ref(tab:tab-sites-cap) by filtering using Design = yes. At the time of reporting, designs for remediation of fish passage had been completed for the following sites listed by watershed group:
+All sites with a design for remediation of fish passage can be found `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-sites-cap) by filtering using Design = yes")}`. At the time of reporting, designs for remediation of fish passage had been completed for the following sites listed by watershed group:
+
 
 <br>
 
@@ -658,12 +660,12 @@ into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wetâ€
 
 ## Phase 4 - Remediations
 
-All sites where remediation of fish passage has been completed can be found in Table \@ref(tab:tab-sites-cap) by filtering using Remediation = yes.
+All sites where remediation of fish passage has been completed can be found `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-sites-cap) by filtering using Remediation = yes")}`. 
 
 <br>
 
 In 2024,  PSCIS crossing 198217 on Tributary to Skeena River, located on the Sik-E-Dakh Water Tower Road was replaced with a clear-span bridge
-with remediation work led by the Gitskan Watershed Authorities. This project serves as a great example to follow in future installations, demonstrating thoughtful erosion control and re-vegetation, a wide, stable channel with minimal riprap, and strategic riprap placement that was effectively buried to maintain natural channel morphology. Background information - updated in 2025 - can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/)
+with remediation work led by the Gitskan Watershed Authorities. This project serves as a great example to follow in future installations, demonstrating thoughtful erosion control and re-vegetation, a wide, stable channel with minimal riprap, and strategic riprap placement that was effectively buried to maintain natural channel morphology. Background information - updated in 2025 - can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). 
 
 <br>
 
