@@ -677,5 +677,92 @@ Electrofishing was conducted at Sandstone Creek to build on previous data. Salmo
 
 Following replacement of Taman Creek (PSCIS crossing 197967) on Highway 16, effectiveness monitoring was conducted in 2024.  Background information can be reviewed [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/taman-creek---197967---appendix.html) with results of the 2024 monitoring presented in [Taman Creek - 197967 - Appendix](#taman).
 
+<br>
+
+## Aerial Imagery
+
+Orthoimagery has been gathered for several crossings as part of fish passage restoration planning efforts in the Skeena River watershed. Data has been stored as Cloud Optimized Geotiffs on a cloud service provider (AWS) with select imagery linked to in the collaborative GIS project. Additionally - a tile service has been set up to facilitate viewing and downloading of individual images, provided `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = "here"))`. 
+
+<br>
+
+```{r api1, eval = F}
+
+# only needs to be run at the beginning or if we want to update
+
+# Grab the imagery from the stac
+
+# bc bounding box
+bcbbox <-  as.numeric(
+  sf::st_bbox(bcmaps::bc_bound()) |> sf::st_transform(crs = 4326)
+)
+
+# use rstac to query the collection
+q <- rstac::stac("https://images.a11s.one/") |>
+    rstac::stac_search(
+      # collections = "uav-imagery-bc",
+      collections = "imagery-uav-bc-prod",
+                      bbox = bcbbox
+                      
+                     ) |>
+  rstac::post_request()
+
+# get deets of the items
+r <- q |>
+  rstac::items_fetch()
+```
+
+
+```{r uav-clean-burn, eval = F}
+
+# build the table to display the info
+tab_uav <- tibble::tibble(url_download = purrr::map_chr(r$features, ~ purrr::pluck(.x, "assets", "image", "href"))) |> 
+  dplyr::mutate(stub = stringr::str_replace_all(url_download, "https://imagery-uav-bc.s3.amazonaws.com/", "")) |> 
+  tidyr::separate(
+    col = stub, 
+    into = c("region", "watershed_group", "year", "item", "rest"),
+    sep = "/",
+    extra = "drop"
+  ) |> 
+  dplyr::mutate(link_view = ngr::ngr_str_link_url(
+    url_base = "https://viewer.a11s.one/?cog=",
+    url_resource = url_download, 
+    url_resource_path = FALSE,
+    # anchor_text= "URL View"
+    anchor_text= tools::file_path_sans_ext(basename(url_download))
+  ),
+  link_download = ngr::ngr_str_link_url(url_base = url_download, anchor_text = url_download)) |> 
+  dplyr::select(region, watershed_group, year, item, link_view, link_download)
+
+
+
+# grab the imagery for this project area
+project_region <- "skeena"
+project_year <- "2024"
+
+project_uav <- tab_uav |> 
+  dplyr::filter(region == project_region) |> 
+  dplyr::filter(year == project_year)
+
+
+# Burn to sqlite 
+conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
+readwritesqlite::rws_list_tables(conn)
+readwritesqlite::rws_drop_table("project_uav", conn = conn)
+readwritesqlite::rws_write(project_uav, exists = F, delete = TRUE,
+                           conn = conn, x_name = "project_uav")
+readwritesqlite::rws_disconnect(conn)
+
+```
+
+```{r tab-uav-imagery-cap, results="asis", eval= gitbook_on}
+my_caption <- "Drone imagery download and viewer links."
+
+my_tab_caption()
+```
+
+```{r tab-uav-imagery, eval= gitbook_on}
+project_uav |> 
+  my_dt_table(cols_freeze_left = 2, escape = FALSE)
+```
 
 

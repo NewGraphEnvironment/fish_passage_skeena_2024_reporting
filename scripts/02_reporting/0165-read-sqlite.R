@@ -38,6 +38,9 @@ form_monitoring <- readwritesqlite::rws_read_table("form_monitoring", conn = con
 #Read in the cleaned habitat confirmation gps tracks
 habitat_confirmation_tracks <- readwritesqlite::rws_read_table("habitat_confirmation_tracks", conn = conn)
 
+#Read in the uav imagery table
+project_uav <- readwritesqlite::rws_read_table("project_uav", conn = conn)
+
 
 # You must run `0170-load-wshd_stats.R` at before this
 # watershed stats for the watersheds in this project

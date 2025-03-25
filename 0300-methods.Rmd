@@ -374,3 +374,11 @@ xref_moti_climate_names  %>%
   fpr::fpr_kable(caption_text = 'Climate change data collected at MoTi culvert sites', scroll = gitbook_on)
 
 ```
+
+<br>
+
+## Aerial Imagery
+
+UAV imagery collected during the project was processed using [OpenDroneMap](https://github.com/OpenDroneMap/ODM) to produce orthomosaics, digital surface models (DSMs), and digital terrain models (DTMs). The resulting imagery products were converted to cloud-optimized GeoTIFFs (COGs) to support efficient storage and web-based access. These COGs were uploaded to a cloud service provider (AWS) and organized using the [SpatioTemporal Asset Catalog (STAC)](https://github.com/radiantearth/stac-spec) specification, enabling standardized spatial and temporal querying of the data. Scripts used in this workflow are available [here](https://github.com/NewGraphEnvironment/stac_uav_bc/tree/main/scripts).
+
+<br>
