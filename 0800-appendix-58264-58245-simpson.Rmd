@@ -114,14 +114,20 @@ fpr::fpr_table_cv_summary_memo()
 <br>
 
 ```{r tab-culvert-203122, eval = T}
-fpr::fpr_table_cv_summary_memo(site = my_site3, site_photo_id = my_site3)
+# fpr::fpr_table_cv_summary_memo(site = my_site3, site_photo_id = my_site3)
+
+# See issue https://github.com/NewGraphEnvironment/mybookdown-template/issues/65
+fpr_table_cv_summary_memo_test(site = my_site3, site_photo_id = my_site3)
 
 ```
 
 <br>
 
 ```{r tab-culvert-58264, eval = T}
-fpr::fpr_table_cv_summary_memo(site = my_site2, site_photo_id = my_site2)
+# fpr::fpr_table_cv_summary_memo(site = my_site2, site_photo_id = my_site2)
+
+# See issue https://github.com/NewGraphEnvironment/mybookdown-template/issues/65
+fpr_table_cv_summary_memo_test(site = my_site2, site_photo_id = my_site2)
 
 ```
 

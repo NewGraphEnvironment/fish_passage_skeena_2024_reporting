@@ -89,6 +89,7 @@ font_set <- 9
 ```{r source}
 source('scripts/packages.R')
 source('scripts/staticimports.R')
+source('scripts/functions.R')
 source("scripts/02_reporting/0165-read-sqlite.R")
 source('scripts/02_reporting/tables.R')
 

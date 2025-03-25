@@ -63,7 +63,10 @@ tab_monitoring |>
 <br>
 
 ```{r tab-culvert-197967, eval = T}
-fpr::fpr_table_cv_summary_memo(dat = pscis_reassessments)
+# fpr::fpr_table_cv_summary_memo(dat = pscis_reassessments)
+
+# See issue https://github.com/NewGraphEnvironment/mybookdown-template/issues/65
+fpr_table_cv_summary_memo_test(dat = pscis_reassessments)
 
 ```
 
