@@ -629,42 +629,43 @@ knitr::include_graphics("fig/fish_histogram.png")
 
 ## Phase 3 - Design
 
-All sites with a design for remediation of fish passage can be found `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-sites-cap) by filtering using Design = yes")}`. At the time of reporting, designs for remediation of fish passage had been completed for the following sites listed by watershed group:
+All sites with a design for remediation of fish passage can be found `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-sites-cap) by filtering using Design = yes")}`. In 2024, designs for remediation of fish passage were completed for the following sites:
 
-
-<br>
-
-### Bulkley River
-
-- McDowell Creek - PSCIS 58159 - Private Road.  Design for clear-span bridge completed in 2021 Onsite Engineering with
-funding provided through this program. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).
-- Tyhee Creek - PSCIS 123445 - Highway 16. Preliminary design commissioned from Pacific North Coast Consulting by Canadian Wildlife Federation.  Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).
-- Helps Creek - PSCIS 124500 - Lawson Road. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).
-- Thompson Creek - 123377 - Walcott Road.  At the time of reporting, geotechnical assessments were underway from consultants
-under contract to the Ministry of Transportation and Infrastructure
-to inform the design of the replacement structure. Background presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/). 
-- Tributary to Buck Creek - PSCIS 197640 - Buck Flats Road. Preliminary design commisioned from Pacific North Coast Consulting by Canadian Wildlife Federation. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).
-- Station  Creek (also know as Mission Creek) - PSCIS 124420. Preliminary design commisioned from Pacific North Coast Consulting by Canadian Wildlife Federation. Background presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/).
+ - Station Creek (also known as Mission Creek) – PSCIS crossing 124421 is a Hazelton municipal crossing on 11th Avenue. In 2024, a replacement design was completed by Pacific North Coast Consulting Services, with funding from SERN coordinated through this project. Remediation efforts, led by Skeena Fisheries Commission, Gitksan Watershed Authorities, the Department of Fisheries and Oceans, and the Chicago Creek Community Environmental Enhancement Society, are planned for summer 2025. During the 2024 field visit, an aerial survey was conducted, with the resulting orthomosaics available `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = "here"))`. Additionally, Waterfall Creek, a tributary to Station Creek, was surveyed from the waterfall downstream to Highway 16. Background information is presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/).
+  
+  - Tributary to Owen Creek – PSCIS crossing 197378 is located on Klate Lake Road. In 2024, a replacement design was completed by Pacific North Coast Consulting Services, with funding from SERN coordinated through this project. Klate Lake Road provides access to forestry areas under the tenure of Yinka Dene, as well as Nadina Mountain Provincial Park, which features the [Nadina Mountain Trail](https://www.trailforks.com/trails/nadina-mountain-trail/). Background information is presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/).
 
 <br>
 
-### Morice River
+<!-- ### Bulkley River -->
 
-- Riddeck Creek - PSCIS 197360 - Morice-Owen FSR. Design developed by consultants under contract to the Ministry of 
-Water, Lands and Resource Stewardship. Some materials have been purchased for construction and the site has been incorporated
-into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wet’suwet’en. Background presented [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).
-- Alvin Creek - PSCIS 197379 - Morice-Owen FSR (km 29.8).  Design developed by Mark Dewitt from the Ministry of Forests. Background presented [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/). the site has been incorporated
-into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wet’suwet’en.
+<!-- - McDowell Creek - PSCIS 58159 - Private Road.  Design for clear-span bridge completed in 2021 Onsite Engineering with -->
+<!-- funding provided through this program. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/). -->
+<!-- - Tyhee Creek - PSCIS 123445 - Highway 16. Preliminary design commissioned from Pacific North Coast Consulting by Canadian Wildlife Federation.  Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/). -->
+<!-- - Helps Creek - PSCIS 124500 - Lawson Road. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/). -->
+<!-- - Thompson Creek - 123377 - Walcott Road.  At the time of reporting, geotechnical assessments were underway from consultants -->
+<!-- under contract to the Ministry of Transportation and Infrastructure -->
+<!-- to inform the design of the replacement structure. Background presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/).  -->
+<!-- - Tributary to Buck Creek - PSCIS 197640 - Buck Flats Road. Preliminary design commisioned from Pacific North Coast Consulting by Canadian Wildlife Federation. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/). -->
+<!-- - Station  Creek (also know as Mission Creek) - PSCIS 124420. Preliminary design commisioned from Pacific North Coast Consulting by Canadian Wildlife Federation. Background presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/). -->
 
-<br>
+<!-- <br> -->
+
+<!-- ### Morice River -->
+
+<!-- - Riddeck Creek - PSCIS 197360 - Morice-Owen FSR. Design developed by consultants under contract to the Ministry of  -->
+<!-- Water, Lands and Resource Stewardship. Some materials have been purchased for construction and the site has been incorporated -->
+<!-- into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wet’suwet’en. Background presented [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/). -->
+<!-- - Alvin Creek - PSCIS 197379 - Morice-Owen FSR (km 29.8).  Design developed by Mark Dewitt from the Ministry of Forests. Background presented [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/). the site has been incorporated -->
+<!-- into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wet’suwet’en. -->
+
+<!-- <br> -->
 
 ## Phase 4 - Remediations
 
-All sites where remediation of fish passage has been completed can be found `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-sites-cap) by filtering using Remediation = yes")}`. 
+All sites where remediation of fish passage has been completed can be found `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-sites-cap) by filtering using Remediation = yes")}`. In 2024, remediation of fish passage was completed at the following site:
 
-<br>
-
-In 2024,  PSCIS crossing 198217 on Tributary to Skeena River, located on the Sik-E-Dakh Water Tower Road was replaced with a clear-span bridge
+  - In 2024,  PSCIS crossing 198217 on Tributary to Skeena River, located on the Sik-E-Dakh Water Tower Road was replaced with a clear-span bridge
 with remediation work led by the Gitskan Watershed Authorities. This project serves as a great example to follow in future installations, demonstrating thoughtful erosion control and re-vegetation, a wide, stable channel with minimal riprap, and strategic riprap placement that was effectively buried to maintain natural channel morphology. Background information - updated in 2025 - can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). 
 
 <br>
@@ -723,25 +724,28 @@ tab_uav <- tibble::tibble(url_download = purrr::map_chr(r$features, ~ purrr::plu
     sep = "/",
     extra = "drop"
   ) |> 
-  dplyr::mutate(link_view = ngr::ngr_str_link_url(
-    url_base = "https://viewer.a11s.one/?cog=",
-    url_resource = url_download, 
-    url_resource_path = FALSE,
-    # anchor_text= "URL View"
-    anchor_text= tools::file_path_sans_ext(basename(url_download))
-  ),
-  link_download = ngr::ngr_str_link_url(url_base = url_download, anchor_text = url_download)) |> 
+  dplyr::mutate(
+    link_view = 
+                  dplyr::case_when(
+                    !tools::file_path_sans_ext(basename(url_download)) %in% c("dsm", "dtm") ~ 
+                      ngr::ngr_str_link_url(
+                        url_base = "https://viewer.a11s.one/?cog=",
+                        url_resource = url_download, 
+                        url_resource_path = FALSE,
+                        # anchor_text= "URL View"
+                        anchor_text= tools::file_path_sans_ext(basename(url_download))),
+                    T ~ "-"),
+                        link_download = ngr::ngr_str_link_url(url_base = url_download, anchor_text = url_download)
+    )|> 
   dplyr::select(region, watershed_group, year, item, link_view, link_download)
 
 
 
 # grab the imagery for this project area
 project_region <- "skeena"
-project_year <- "2024"
 
 project_uav <- tab_uav |> 
-  dplyr::filter(region == project_region) |> 
-  dplyr::filter(year == project_year)
+  dplyr::filter(region == project_region)
 
 
 # Burn to sqlite 

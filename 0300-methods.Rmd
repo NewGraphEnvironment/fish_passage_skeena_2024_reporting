@@ -103,8 +103,7 @@ To obtain estimates of channel width upstream of crossing locations, where avail
 
 <br>
 
-We are working with Poisson Consulting to map stream discharge and temperature causal effects pathways with the intent of focusing aquatic restoration actions in areas of highest potential for positive impacts on fisheries values. Details of this analysis and subsequent outputs can be reviewed in `r knitr::asis_output(if (gitbook_on) "[Attachment 3](#attach-3-bayes)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "attach-3-bayes.html", anchor_text = "Attachment 3"))`.
-
+We are working with Poisson Consulting to map stream discharge and temperature causal effects pathways with the intent of focusing aquatic restoration actions in areas of highest potential for positive impacts on fisheries values. Details of this analysis and subsequent outputs can be reviewed in [Attachment 3](#attach-3-bayes). 
 
 <br>
 
