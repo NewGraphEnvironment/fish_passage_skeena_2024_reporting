@@ -31,6 +31,7 @@ params:
   update_packages: FALSE
   update_form_pscis: FALSE
   update_form_fiss_site: FALSE
+  update_form_monitoring: FALSE
   update_gis: FALSE
 nocite: |
   @busch_etal2011LandscapeLevelModela, 
@@ -88,6 +89,7 @@ font_set <- 9
 ```{r source}
 source('scripts/packages.R')
 source('scripts/staticimports.R')
+source('scripts/functions.R')
 source("scripts/02_reporting/0165-read-sqlite.R")
 source('scripts/02_reporting/tables.R')
 

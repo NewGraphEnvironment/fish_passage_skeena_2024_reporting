@@ -1,7 +1,17 @@
 
 
-#  `r if(gitbook_on){knitr::asis_output("**Attachment 3 - Bayesian analysis to map stream discharge and temperature causal effects pathways**")} else knitr::asis_output("**Attachment 3 - Bayesian analysis to map stream discharge and temperature causal effects pathways**")` {-#attach-3-bayes}
+# **Attachment 3 - Bayesian analysis to map stream discharge and temperature causal effects pathways** {-#attach-3-bayes}
 
-We are working with Poisson Consulting to map stream discharge and temperature causal effects pathways with the intent of focusing aquatic restoration actions in areas of highest potential for positive impacts on fisheries values. Details of this analysis and subsequent outputs can be reviewed [here](https://www.poissonconsulting.ca/f/859859031) with issues tracked at https://github.com/poissonconsulting/fish-passage-22/issues.
+We are working with Poisson Consulting to map stream discharge and temperature causal effects pathways with the intent of focusing aquatic restoration actions in areas of highest potential for positive impacts on fisheries values. Details of this analysis and subsequent outputs can be reviewed in the report [Spatial Stream Network Analysis of Nechako Watershed Stream Temperatures 2022b](https://www.poissonconsulting.ca/temporary-hidden-link/1295467017/fish-passage-22b/) [@hill_etal2024Spatialstream]. Ongoing work regarding the project are tracked [here](https://github.com/poissonconsulting/fish-passage-22/issues) and [here](https://github.com/poissonconsulting/fish-passage-22b/issues). 
 
+<br>
 
+The project began with a custom mechanistic model (visually represented [here](https://github.com/poissonconsulting/fish-passage-22b?tab=readme-ov-file#dags)), but the model struggled to converge. The project then shifted to the air2stream model, which offers a middle ground between fully mechanistic models—often data-intensive and reliant on quantities that are difficult to measure or estimate—and purely statistical models, which lack physical justification and perform poorly when extrapolated to new conditions (@toffolon_piccolroaz2015hybridmodel). After several adaptations, the expected stream temperatures were best modeled using the four-parameter version of the air2stream model, with added random effects by site for each of the four parameters (@hill_etal2024Spatialstream).
+
+<br>
+
+The data used for the model were sourced from the following locations, for years 2019-2021:
+
+  - Water temperature data collected in the Nechako Watershed were downloaded from [Zenodo](https://zenodo.org/records/6426024#.ZEAqr-zMI0Q) (@gilbert_etal2022Subhourlywater). 
+  - Hourly air temperature data were obtained from the ERA-5-Land dataset via the Copernicus Climate Change Service (@munozsabater2019ERA5Landhourly) 
+  - Daily baseflow and surface runoff data were sourced from the[ Pacific Climate Impacts Consortium’s Gridded Hydrologic Model Output](https://www.pacificclimate.org/data/gridded-hydrologic-model-output) using the ACCESS1-0_rcp85 scenario (@victoriapacificclimateimpactsconsortiumGriddedHydrologic).

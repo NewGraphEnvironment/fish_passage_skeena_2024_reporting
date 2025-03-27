@@ -1,0 +1,105 @@
+---
+title: "0300-monitoring-backup-wrangle"
+date: "Created: 2025-03-10 | Updated: `r format(Sys.Date(), '%Y-%m-%d')`"
+output: 
+  html_document:
+    code_folding: "hide"
+params:
+  repo_owner: "NewGraphEnvironment"
+  repo_name: "fish_passage_skeena_2024_reporting"
+  gis_project_name: "sern_skeena_2023"
+  job_name: "2024-072-sern-skeena-fish-passage"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, echo=TRUE, include = TRUE}
+knitr::opts_chunk$set(echo=TRUE, message=FALSE, warning=FALSE, dpi=60, out.width = "100%", eval = FALSE)
+options(scipen=999)
+options(knitr.kable.NA = '--') #'--'
+options(knitr.kable.NAN = '--')
+```
+
+
+# Purpose of this script
+
+This scripts is used to backup the `form_monitoring_2024.gpkg` file before QA in QGIS and to clean the form after QA in QGIS.
+
+
+## Fetch and backup the data
+
+Update the `gis_project_name` and the `repo_name` in the YAML at the beginning of this script. 
+
+Name the project directory we are pulling from and import the data. We use `fpr_sp_gpkg_backup` to import and backup the data, as well as update the UTMS. We will also write the data to a csv and Rdata file and commit for version control using git. Commit these inital backup files with a message such as "initial commit - raw 2024 data".
+
+`update_site_id = TRUE` now checks for duplicate sites.
+
+```{r import}
+path_form_monitoring <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/data_field/2024/form_monitoring_2024.gpkg"))
+
+form_monitoring_raw <- fpr::fpr_sp_gpkg_backup(
+  path_gpkg = path_form_monitoring,
+  dir_backup = "data/backup/",
+  update_utm = TRUE,
+  update_site_id = FALSE, ## This now also checks for duplicates
+  write_back_to_path = FALSE,
+  write_to_csv = TRUE,
+  write_to_rdata = TRUE,
+  return_object = TRUE,
+  col_easting = "utm_easting",
+  col_northing = "utm_northing")
+  
+```
+
+
+## QA in QGIS
+
+The following should be done in QGIS:
+
+- remove the site used to make the form (with `my_crossing_reference` set to `123456`)
+- back up the original assessment comments so we can redo this amalgamation of text if we need to. Use the field calculator, select generate new field, name it `assessment_comment_og`, and select `assessment_comment` in the expression box. 
+- reorder the columns for easy QA in Q
+
+
+## Backup the data after QA
+
+Backup the data after QA in QGIS and commit with a detailed message.
+
+```{r backup}
+path_form_monitoring <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/data_field/2024/form_monitoring_2024.gpkg"))
+
+form_monitoring <- fpr::fpr_sp_gpkg_backup(
+  path_gpkg = path_form_monitoring,
+  dir_backup = "data/backup/",
+  update_utm = TRUE,
+  update_site_id = TRUE, ## This now also checks for duplicates
+  write_back_to_path = FALSE,
+  write_to_csv = TRUE,
+  write_to_rdata = TRUE,
+  return_object = TRUE,
+  col_easting = "utm_easting",
+  col_northing = "utm_northing")
+  
+```
+
+
+
+## If you need to load an old version of a form
+
+This is code to load an an old old version of a form and reburn to a geopackage 
+
+```{r load-from-backup}
+
+# Load the backup .Rdata file for the old version of the form
+load("/Users/lucyschick/Projects/current/temp_fiss_backup/form_fiss_site_2024.RData")
+
+form_fiss_old <- form_fiss_site_2024
+rm(form_fiss_site_2024)
+
+# Burn back to a geopackage
+form_fiss_old |> 
+  sf::st_write(path_form_fiss_site,
+               append = FALSE,
+               delete_dsn = TRUE)
+```
+
