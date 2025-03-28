@@ -12,6 +12,6 @@ The project began with a custom mechanistic model (visually represented [here](h
 
 The data used for the model were sourced from the following locations, for years 2019-2021:
 
-  - Water temperature data collected in the Nechako Watershed were downloaded from [Zenodo](https://zenodo.org/records/6426024#.ZEAqr-zMI0Q) (@gilbert_etal2022Subhourlywater). 
+  - Water temperature data collected in the Nechako Watershed were downloaded from [Zenodo](https://zenodo.org/records/6426024#.ZEAqr-zMI0Q) [@gilbert_etal2022Subhourlywater]. 
   - Hourly air temperature data were obtained from the ERA-5-Land dataset via the Copernicus Climate Change Service (@munozsabater2019ERA5Landhourly) 
   - Daily baseflow and surface runoff data were sourced from the[ Pacific Climate Impacts Consortium’s Gridded Hydrologic Model Output](https://www.pacificclimate.org/data/gridded-hydrologic-model-output) using the ACCESS1-0_rcp85 scenario (@victoriapacificclimateimpactsconsortiumGriddedHydrologic).

@@ -23,7 +23,9 @@ fif <- function(what, where=".", in_files="\\.[Rr]$", recursive = TRUE,
   if (!found) message("(No results found)")
 }
 
-fpr_table_cv_summary_memo_test <- function(dat = pscis_phase2,
+
+# https://github.com/NewGraphEnvironment/fpr/issues/115
+lfpr_table_cv_summary_memo <- function(dat = pscis_phase2,
                                            site = my_site,
                                            site_photo_id = my_site,
                                            font = 11,
@@ -35,21 +37,22 @@ fpr_table_cv_summary_memo_test <- function(dat = pscis_phase2,
   comment_label <- paste0("Comments: ", comments)
 
   photo_label <- paste0(
-    "Photos: From top left clockwise: Road/Site Card, Barrel, Outlet, Downstream, Upstream, Inlet.\n\n",
-    "![](data/photos/", site_photo_id, "/crossing_all.JPG)"
+    "Photos: From top left clockwise: Road/Site Card, Barrel, Outlet, Downstream, Upstream, Inlet."
+    # "![](data/photos/", site_photo_id, "/crossing_all.JPG)"
   )
+  photos_inserted <- paste0("![](data/photos/", site_photo_id, "/crossing_all.JPG)")
 
 
-  fpr_kable(
-    fpr_table_cv_detailed(dat = dat_site),
+  fpr::fpr_kable(
+    fpr::fpr_table_cv_detailed(dat = dat_site),
     caption_text = paste0("Summary of fish passage assessment for PSCIS crossing ", site, "."),
     booktabs = TRUE,
     scroll = FALSE,
     font = font
   ) |>
     kableExtra::add_footnote(
-      label = c(comment_label, photo_label),
-      notation = "none",
-      threeparttable = TRUE
+      label = c(comment_label, photo_label, photos_inserted),
+      notation = "none"
     )
 }
+

@@ -211,6 +211,13 @@ sites_all |>
   sf::st_drop_geometry() |>
   dplyr::relocate(watershed_group, .after = my_crossing_reference) |> 
   dplyr::select(-idx) |>
+    #!!!!!!!!!!!!!!!!!!!!!!!hack to get the designs in asap
+  dplyr::mutate(
+    design = dplyr::case_when(
+      stream_crossing_id %in% c(124421, 197378) ~ "yes",
+      T ~ design
+    )
+  ) |> 
   # make pretty names
   dplyr::rename_with(~ . |>
                        stringr::str_replace_all("_", " ") |>
@@ -218,9 +225,9 @@ sites_all |>
                        stringr::str_replace_all("uav", "Drone") |>
                        stringr::str_to_title()) |> 
   # dplyr::arrange(desc(stream_crossing_id)) |> 
-      # make all the columns strings so we can filter them
-    dplyr::mutate(across(everything(), as.character)) |> 
-  
+
+  # make all the columns strings so we can filter them
+  dplyr::mutate(across(everything(), as.character)) |> 
   my_dt_table(
     cols_freeze_left = 1,
     escape = FALSE
@@ -631,9 +638,17 @@ knitr::include_graphics("fig/fish_histogram.png")
 
 All sites with a design for remediation of fish passage can be found `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-sites-cap) by filtering using Design = yes")}`. In 2024, designs for remediation of fish passage were completed for the following sites:
 
- - Station Creek (also known as Mission Creek) – PSCIS crossing 124421 is a Hazelton municipal crossing on 11th Avenue. In 2024, a replacement design was completed by Pacific North Coast Consulting Services, with funding from SERN coordinated through this project. Remediation efforts, led by Skeena Fisheries Commission, Gitksan Watershed Authorities, the Department of Fisheries and Oceans, and the Chicago Creek Community Environmental Enhancement Society, are planned for summer 2025. During the 2024 field visit, an aerial survey was conducted, with the resulting orthomosaics available `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = "here"))`. Additionally, Waterfall Creek, a tributary to Station Creek, was surveyed from the waterfall downstream to Highway 16. Background information is presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/).
+ - Waterfall Creek – PSCIS crossing 124421 is a Hazelton municipal crossing on 11th Avenue. Waterfall Creek flows into Station Creek downstream of this site. Remediation efforts, led by Gitksan Watershed Authorities, in collaboration with SERNbc, Skeena Fisheries Commission, the Department of Fisheries and Oceans, Gitsxan House representives adn the Chicago Creek Community Environmental Enhancement Society, are tentatively planned for summer 2025. Through this year's project - SERNbc funded the  engineering design for a bridge to replace the open bottom culverts - drafted by Pacific North Coast Consulting Services.  In 2024  a field visit was conducted which included a habitat survey from the waterfall located above town to Highway 16.  Additionally  an aerial survey was conducted with a drone to map the historic Waterfall Creek wetland areas located north of Highway 16/10th avenue (east of Churchill Street) to support restoration planning (orthomosaics available `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = "here"))`). Reporting updated with 2024 data along with background information for the Station Creek and Waterfall Creek watersheds are presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/) and [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2022_reporting/).
   
-  - Tributary to Owen Creek – PSCIS crossing 197378 is located on Klate Lake Road. In 2024, a replacement design was completed by Pacific North Coast Consulting Services, with funding from SERN coordinated through this project. Klate Lake Road provides access to forestry areas under the tenure of Yinka Dene, as well as Nadina Mountain Provincial Park, which features the [Nadina Mountain Trail](https://www.trailforks.com/trails/nadina-mountain-trail/). Background information is presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/).
+  - Tributary to Owen Creek – PSCIS crossing 197378 is located on Klate Lake Road. Through 2024/25 project activities SERNbc 
+funded an engineering design completed by Pacific North Coast Consulting Services. Proposed works include the replacement of
+the existing 1.0m wide round culvert with a 12m free span bridge.  This site has been earmarked for replacement through
+the Bii Wenii Kwa Restoration/Recovery Plan which is a collaboration between the Wet'suwet'en Treaty Society, Fisheries and Oceans Canada, 
+BC Ministry of Forests, and Water, Land and Resource Stewardship, Morice Water Monitoring Trust, and Northwest Research and Monitoring [@morgan2024biiwenii]. 
+Klate Lake Road provides access to forestry areas under the tenure of Yinka Dene Economic Development Limited Partnership (YLP) which is the corporate business arm of the Wet’suwet’en First Nation.  Additionally
+this road provides access to the [Nadina Mountain Provincial Park](https://bcparks.ca/nadina-mountain-park/), which features the [Nadina Mountain Trail](https://www.trailforks.com/trails/nadina-mountain-trail/) [@bcparks2025NadinaMountain]. Background information updated in 2025
+and also including habitat confirmation reporting and fish sampling conducted in 2021 and 2023 is presented in @irvine_schick2023SkeenaWatershed  [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/).  Design drawings for the proposed bridge installation
+are available [here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2021_reporting/blob/master/data/inputs_raw/Owen Creek Trib - BRIDGE GA DESIGN SEALED IFC.pdf).
 
 <br>
 
@@ -682,7 +697,7 @@ Following replacement of Taman Creek (PSCIS crossing 197967) on Highway 16, effe
 
 ## Aerial Imagery
 
-Orthoimagery has been gathered for several crossings as part of fish passage restoration planning efforts in the Skeena River watershed. Data has been stored as Cloud Optimized Geotiffs on a cloud service provider (AWS) with select imagery linked to in the collaborative GIS project. Additionally - a tile service has been set up to facilitate viewing and downloading of individual images, provided `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = "here"))`. 
+Orthoimagery and elevation model rasters are presented `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = paste0("at", params$report_url, "/results-and-discussion.html")))`. 
 
 <br>
 
@@ -700,7 +715,6 @@ bcbbox <-  as.numeric(
 # use rstac to query the collection
 q <- rstac::stac("https://images.a11s.one/") |>
     rstac::stac_search(
-      # collections = "uav-imagery-bc",
       collections = "imagery-uav-bc-prod",
                       bbox = bcbbox
                       

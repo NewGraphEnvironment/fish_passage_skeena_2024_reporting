@@ -48,7 +48,7 @@ bibliography: "`r rbbt::bbt_write_bib('references.bib', overwrite = TRUE)`"
 biblio-style: apalike
 link-citations: no
 github-repo: rstudio/bookdown-demo
-description: "Restoring Fish Passage in the Skeena River Watershed"
+description: "Restoring Fish Passage in the Skeena River Watershed - 2024"
 lof: true
 
 ---

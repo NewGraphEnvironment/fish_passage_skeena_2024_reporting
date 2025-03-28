@@ -1,32 +1,31 @@
-─ Session info ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+─ Session info ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
  setting  value
  version  R version 4.4.2 (2024-10-31)
- os       macOS Sequoia 15.3
+ os       macOS Sequoia 15.3.2
  system   aarch64, darwin20
  ui       RStudio
  language (EN)
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       America/Vancouver
- date     2025-02-21
+ date     2025-03-28
  rstudio  2024.12.0+467 Kousa Dogwood (desktop)
  pandoc   3.2 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)
 
-─ Packages ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+─ Packages ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
  package           * version    date (UTC) lib source
  archive             1.1.9      2024-09-12 [2] CRAN (R 4.4.1)
- backports           1.5.0      2024-05-23 [1] CRAN (R 4.4.1)
  base64enc           0.1-3      2015-07-28 [1] CRAN (R 4.4.1)
- bibtex              0.5.1      2023-01-26 [2] CRAN (R 4.4.0)
  bit                 4.5.0.1    2024-12-03 [1] CRAN (R 4.4.1)
  bit64               4.6.0-1    2025-01-16 [1] CRAN (R 4.4.1)
  blob                1.2.4      2023-03-17 [1] CRAN (R 4.4.0)
  bookdown          * 0.42       2025-01-07 [1] CRAN (R 4.4.1)
- brew                1.0-10     2023-12-16 [2] CRAN (R 4.4.0)
+ brew                1.0-10     2023-12-16 [1] CRAN (R 4.4.1)
  bslib               0.9.0      2025-01-30 [1] CRAN (R 4.4.1)
  cachem              1.1.0      2024-05-16 [1] CRAN (R 4.4.1)
  cellranger          1.1.0      2016-07-27 [1] CRAN (R 4.4.0)
  chk                 0.10.0     2025-01-24 [1] CRAN (R 4.4.1)
+ chromote            0.4.0      2025-01-25 [1] CRAN (R 4.4.1)
  class               7.3-22     2023-05-03 [2] CRAN (R 4.4.2)
  classInt            0.4-11     2025-01-08 [1] CRAN (R 4.4.1)
  cli                 3.6.3      2024-06-21 [1] CRAN (R 4.4.1)
@@ -57,7 +56,7 @@
  ggplot2           * 3.5.1      2024-04-23 [1] CRAN (R 4.4.0)
  glue                1.8.0      2024-09-30 [1] CRAN (R 4.4.1)
  gtable              0.3.6      2024-10-25 [1] CRAN (R 4.4.1)
- here                1.0.1      2020-12-13 [2] CRAN (R 4.4.0)
+ here                1.0.1      2020-12-13 [1] CRAN (R 4.4.1)
  hms                 1.1.3      2023-03-21 [1] CRAN (R 4.4.0)
  htmltools           0.5.8.1    2024-04-04 [1] CRAN (R 4.4.1)
  htmlwidgets         1.6.4      2023-12-06 [1] CRAN (R 4.4.0)
@@ -66,15 +65,15 @@
  janitor             2.2.1      2024-12-22 [1] CRAN (R 4.4.1)
  jquerylib           0.1.4      2021-04-26 [1] CRAN (R 4.4.0)
  jsonlite            1.8.9      2024-09-20 [1] CRAN (R 4.4.1)
- kableExtra          1.4.0      2024-01-24 [1] CRAN (R 4.4.0)
+ kableExtra          1.4.0.3    2025-03-04 [1] Github (haozhu233/kableExtra@a9c509a)
  KernSmooth          2.23-24    2024-05-17 [2] CRAN (R 4.4.2)
  knitr             * 1.49       2024-11-08 [1] CRAN (R 4.4.1)
  labeling            0.4.3      2023-08-29 [1] CRAN (R 4.4.1)
  later               1.4.1      2024-11-27 [1] CRAN (R 4.4.1)
  leaflet             2.2.2      2024-03-26 [1] CRAN (R 4.4.0)
- leaflet.extras      2.0.1      2024-08-19 [2] CRAN (R 4.4.1)
+ leaflet.extras      2.0.1      2024-08-19 [1] CRAN (R 4.4.1)
  leaflet.providers   2.0.0      2023-10-17 [1] CRAN (R 4.4.0)
- leafpop             0.1.0      2021-05-22 [2] CRAN (R 4.4.0)
+ leafpop             0.1.0      2021-05-22 [1] CRAN (R 4.4.0)
  lifecycle           1.0.4      2023-11-07 [1] CRAN (R 4.4.1)
  lubridate         * 1.9.4      2024-12-08 [1] CRAN (R 4.4.1)
  magick              2.8.5      2024-09-20 [1] CRAN (R 4.4.1)
@@ -83,13 +82,12 @@
  mime                0.12       2021-09-28 [1] CRAN (R 4.4.1)
  miniUI              0.1.1.1    2018-05-18 [2] CRAN (R 4.4.0)
  munsell             0.5.1      2024-04-01 [1] CRAN (R 4.4.1)
- ngr               * 0.0.0.9002 2025-02-14 [1] local
+ ngr               * 0.0.0.9002 2025-03-12 [1] local
  pagedown          * 0.22       2025-01-07 [1] CRAN (R 4.4.1)
  pillar              1.10.1     2025-01-07 [1] CRAN (R 4.4.1)
- pkgbuild            1.4.4      2024-03-17 [2] CRAN (R 4.4.0)
+ pkgbuild            1.4.6      2025-01-16 [1] CRAN (R 4.4.1)
  pkgconfig           2.0.3      2019-09-22 [1] CRAN (R 4.4.1)
- pkgload             1.3.4      2024-01-16 [2] CRAN (R 4.4.0)
- plyr                1.8.9      2023-10-02 [1] CRAN (R 4.4.1)
+ pkgload             1.4.0      2024-06-28 [1] CRAN (R 4.4.0)
  poisutils           0.0.0.9010 2024-05-14 [2] Github (poissonconsulting/poisutils@8310dc4)
  processx            3.8.5      2025-01-08 [1] CRAN (R 4.4.1)
  profvis             0.3.8      2023-05-02 [2] CRAN (R 4.4.0)
@@ -105,13 +103,12 @@
  readr             * 2.1.5      2024-01-10 [1] CRAN (R 4.4.0)
  readwritesqlite   * 0.2.0.9006 2025-02-21 [1] Github (poissonconsulting/readwritesqlite@d178ad5)
  readxl              1.4.3      2023-07-06 [1] CRAN (R 4.4.0)
- RefManageR          1.4.0      2022-09-30 [2] CRAN (R 4.4.0)
  remotes             2.5.0      2024-03-17 [2] CRAN (R 4.4.0)
  rlang               1.1.5      2025-01-17 [1] CRAN (R 4.4.1)
  rmarkdown         * 2.29       2024-11-04 [1] CRAN (R 4.4.1)
  roxygen2            7.3.1      2024-01-22 [2] CRAN (R 4.4.0)
  RPostgres         * 1.4.7      2024-05-27 [1] CRAN (R 4.4.0)
- rprojroot           2.0.4      2023-11-05 [2] CRAN (R 4.4.0)
+ rprojroot           2.0.4      2023-11-05 [1] CRAN (R 4.4.1)
  rsconnect           1.3.4      2025-01-22 [2] CRAN (R 4.4.1)
  RSQLite             2.3.9      2024-12-03 [1] CRAN (R 4.4.1)
  rstudioapi          0.17.1     2024-10-22 [1] CRAN (R 4.4.1)
@@ -125,7 +122,6 @@
  shrtcts             0.1.2      2024-05-14 [2] Github (gadenbuie/shrtcts@41051cf)
  snakecase           0.11.1     2023-08-27 [1] CRAN (R 4.4.0)
  staticimports       0.0.0.9001 2025-02-14 [1] local
- stringdist          0.9.12     2023-11-28 [2] CRAN (R 4.4.0)
  stringi             1.8.4      2024-05-06 [1] CRAN (R 4.4.1)
  stringr           * 1.5.1      2023-11-14 [1] CRAN (R 4.4.0)
  svglite             2.1.3      2023-12-08 [1] CRAN (R 4.4.0)
@@ -136,7 +132,7 @@
  tidyr             * 1.3.1      2024-01-24 [1] CRAN (R 4.4.1)
  tidyselect          1.2.1      2024-03-11 [1] CRAN (R 4.4.0)
  tidyverse         * 2.0.0      2023-02-22 [1] CRAN (R 4.4.0)
- tidyxl              1.0.10     2025-01-11 [2] Github (nacnudus/tidyxl@7e2fbe7)
+ tidyxl              1.0.10     2025-03-04 [1] Github (nacnudus/tidyxl@7e2fbe7)
  timechange          0.3.0      2024-01-18 [1] CRAN (R 4.4.1)
  tzdb                0.4.0      2023-05-12 [1] CRAN (R 4.4.0)
  units               0.8-5      2023-11-28 [1] CRAN (R 4.4.1)
@@ -146,16 +142,16 @@
  vctrs               0.6.5      2023-12-01 [1] CRAN (R 4.4.0)
  viridisLite         0.4.2      2023-05-02 [1] CRAN (R 4.4.1)
  vroom               1.6.5      2023-12-05 [1] CRAN (R 4.4.0)
+ websocket           1.4.2      2024-07-22 [1] CRAN (R 4.4.1)
  withr               3.0.2      2024-10-28 [1] CRAN (R 4.4.1)
  wk                  0.9.4      2024-10-11 [1] CRAN (R 4.4.1)
- xciter              0.0.0.9001 2025-02-21 [1] local
  xfun                0.50       2025-01-07 [1] CRAN (R 4.4.1)
  xml2                1.3.6      2023-12-04 [1] CRAN (R 4.4.1)
  xtable              1.8-4      2019-04-21 [1] CRAN (R 4.4.1)
  yaml                2.3.10     2024-07-26 [1] CRAN (R 4.4.1)
- yesno               0.1.2      2020-07-10 [2] CRAN (R 4.4.0)
+ yesno               0.1.3      2024-07-26 [1] CRAN (R 4.4.1)
 
  [1] /Users/airvine/Library/R/arm64/4.4/library
  [2] /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library
 
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
