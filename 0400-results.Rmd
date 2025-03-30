@@ -228,6 +228,12 @@ sites_all |>
 
   # make all the columns strings so we can filter them
   dplyr::mutate(across(everything(), as.character)) |> 
+  
+  
+  
+  # drop the uav imagery for now since it is out of date
+  
+  dplyr::select(-`Link Drone1`,  -`Link Drone2`) |> 
   my_dt_table(
     cols_freeze_left = 1,
     escape = FALSE
@@ -461,7 +467,8 @@ The "Barrier" and "Potential Barrier" rankings used in this project followed @mo
 
 ## Habitat Confirmation Assessments
 
-During the 2024 field assessments, habitat confirmation assessments were conducted at three sites within the Morice River, Kispiox River, and Bulkley River watershed groups. A total of approximately `r habitat_confirmations_priorities |> pull(length_surveyed) |> sum(na.rm = TRUE) |> round(-3)/1000` km of stream was assessed. Electrofishing surveys were conducted at all habitat confirmation sites. Georeferenced field maps are provided in `r knitr::asis_output(if (gitbook_on) "[Attachment 1](#attach-1-maps)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "attach-1-maps.html", anchor_text = "Attachment 1"))`.
+During the 2024 field assessments, habitat confirmation assessments were conducted at `r habitat_confirmations_priorities |> dplyr::distinct(site) |> nrow()`
+sites within the Morice River, Kispiox River, and Bulkley River watershed groups. A total of approximately `r habitat_confirmations_priorities |> pull(length_surveyed) |> sum(na.rm = TRUE) |> round(-3)/1000` km of stream was assessed. Electrofishing surveys were conducted at all habitat confirmation sites. Georeferenced field maps are provided in `r knitr::asis_output(if (gitbook_on) "[Attachment 1](#attach-1-maps)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "attach-1-maps.html", anchor_text = "Attachment 1"))`.
 
 <br>
 
@@ -614,12 +621,14 @@ Fork length data was used to delineate salmonids based on life stages: fry (0 to
 
 <br>
 
-Results are presented in greater detail within individual habitat confirmation site appendices, and for Sandstone Creek [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). 
+Results are presented in greater detail within individual habitat confirmation site appendices within this report as
+well as for Sandstone Creek within @irvine_schick2023SkeenaWatershed [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/) and
+Stock Creek within @irvine2023BulkleyWatershed [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2022_reporting/). 
 
 
-`r if(gitbook_on){knitr::asis_output("")} else knitr::asis_output("<br><br><br><br>")`
+`r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("<br><br><br><br>")`
 
-<br>
+
 
 ```{r tab-fish-site-summary}
 tab_fish_sites_sum |> 
@@ -734,7 +743,7 @@ remediation of fish passage has been completed at the following sites (listed by
 
 ## Monitoring
 
-Five stream where habitat confirmations were conducted in the past were revisited in 2024 to gather data to further inform prioritization and or to provide data for effectiveness monitoring. Below are sites visited (listed by watershed group) with details of data collected and links to reporting provided.
+Five streams where habitat confirmations were conducted in the past were revisited in 2024 to gather data to further inform prioritization and or to provide data for effectiveness monitoring. Below are sites visited (listed by watershed group) with details of data collected and links to reporting provided.
 
 ### Bulkley River
 
@@ -742,7 +751,7 @@ Five stream where habitat confirmations were conducted in the past were revisite
 both the prioritization process and baseline monitoring. Reporting updated [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2022_reporting).
 
 - Taman Creek- PSCIS 197967 - Highway 16.  Construction activities took place to replace this crossing between 2022 and 2024.  
-Effectiveness monitoring was conducted in 2024 in.  Background information can be reviewed within this document  [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/taman-creek---197967---appendix.html) with results of the 2024 monitoring presented in [Taman Creek - 197967 - Appendix](#taman).
+Effectiveness monitoring was conducted in 2024.  Background information was updated  [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/taman-creek---197967---appendix.html) with results of the 2024 monitoring presented in within this document in [Taman Creek - 197967 - Appendix](#taman).
 
 - Waterfall Creek – PSCIS 124421 - 11th Avenue.  This crossing is within New Hazelton. In addition to the aquisition of 
 a design for PSCIS crossing 124421 on 11th Avenue discussed earlier - in 2024 a field visit was conducted which included a habitat survey covering the
@@ -751,10 +760,12 @@ the area from 10th avenue (Highway 16) to the waterfall located above town.  Add
 
 ### Zymoetz River
 
-- Sandstone Creek - PSCIS 8530 - McDonell Forest Service Road.  Electrofishing was conducted at the sites below to understand fish community composition as part of both the prioritization process and baseline monitoring. Salmonids with fork lengths >60mm were PIT-tagged to facilitate long-term tracking of health and movement with data amalgamated into past reporting [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/).
-
 - Tributary to McDonell Lake - PSCIS 8547 - McDonell Forest Service Road. This site was visited in 2024 with the intent of conducting electrofishing to support an engineering design commissioned by SERNbc (in collaboration with Giotsxan Watershed Authorities) through this project. However, water temperatures were too low for effective sampling at that time. Although preliminary data was collected to inform an engineering design, resources were ultimately redirected to Waterfall Creek in New Hazelton. This decision followed an assessment of the stream by DFO, which suggested 
 the stream was unlikely to support a salmon-bearing cohort. Because the associated grant funding provided to the Gitxsan Watershed Authorities 
 was from the Salmon Restoration and Innovation Fund the site was not pursued further under that funding stream.
+
+- Sandstone Creek - PSCIS 8530 - McDonell Forest Service Road.  Electrofishing was conducted at the sites below to understand fish community composition as part of both the prioritization process and baseline monitoring. Salmonids with fork lengths >60mm were PIT-tagged to facilitate long-term tracking of health and movement with data amalgamated into past reporting [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/).
+
+
 
 
