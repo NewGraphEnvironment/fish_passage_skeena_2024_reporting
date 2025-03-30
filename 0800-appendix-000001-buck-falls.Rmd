@@ -1,0 +1,83 @@
+# Buck Falls - Appendix {-#buck-falls}
+
+Buck falls are located just downstream of the Buck Flats Road bridge on the Buck Creek mainstem approximately 30 km upstream of its confluence with the Bulkley River. The falls have not yet been documented in the FISS database [@moe2024ProvincialObstacles] but have been previously noted in @gottesfeld_rabnett2007SkeenaFish, the World Waterfall Database [@BuckFallsBritishColumbiaCanadaWorldWaterfallDatabase], and on the Houston Hikers website [@BuckFallsAdventures]. Although rainbow trout, mountain whitefish, kokannee and other non-salmonid resident species have been documented upstream of the falls in the FISS database - no salmon species are documented upstream [@moe2024KnownBC]. An assessment was conducted on September 19, 2024 to assess the feasibility of upstream migration of the falls.  
+
+<br>
+
+The falls consist of a series of three separate vertical and cascade sections over and approximately 200m section of stream. The upper falls consisted of a ~4 m high vertical drop, presenting a substantial barrier to fish passage `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d01))."))` Approximately 25 m downstream, the second falls was a ~3.5 m high sheer drop to bedrock, with minimal pool depth available to facilitate fish passage `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d01))."))` Further downstream ~100 m, the third step comprised a ~1.5 m vertical drop with an overlying cascade, exhibiting a ~15% gradient over a 1.0 m height `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-03)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d02))."))` An additional cascade, located a further ~25 m downstream, featured a ~2 m high drop with a ~30% gradient extending over a 5 m length `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-04)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d02))."))`
+
+<br>
+
+
+```{r photo-buck-01-prep, eval=T}
+my_site = "buck_falls"
+
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = '_falls1')
+
+my_caption1 = paste0("Buck Falls – The upper falls featured a ~4m high vertical drop. A 2m tall net is included for scale.")
+
+
+```
+
+```{r photo-buck-01, fig.cap= my_caption1, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo1)
+```
+
+<br>
+
+```{r photo-buck-02-prep, eval=T}
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = '_falls2')
+
+my_caption2 = paste0("Buck Falls – The second falls consisted of a ~3.5m high sheer drop to bedrock.")
+
+
+```
+
+```{r photo-buck-02, fig.cap= my_caption2, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo2)
+```
+
+```{r photo-buck-d01, fig.cap = my_caption, fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=identical(gitbook_on, FALSE)}
+my_caption <- paste0('Left: ', my_caption1, ' Right: ', my_caption2)
+
+knitr::include_graphics(my_photo1)
+knitr::include_graphics("fig/pixel.png")
+knitr::include_graphics(my_photo2)
+```
+
+<br>
+
+```{r photo-buck-03-prep, eval=T}
+
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = '_falls3')
+
+my_caption1 = paste0("Buck Falls – The third step consisted of a ~1.5 m vertical drop with an overlying cascade, exhibiting a ~15% gradient over a 1.0m height.")
+
+
+```
+
+```{r photo-buck-03, fig.cap= my_caption1, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo1)
+```
+
+<br>
+
+```{r photo-buck-04-prep, eval=T}
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = '_falls4')
+
+my_caption2 = paste0("Buck Falls – An additional cascade featured a ~2m high drop with a ~30% gradient extending over a 5 m length. A 2m tall net is included for scale.")
+
+```
+
+```{r photo-buck-04, fig.cap= my_caption2, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo2)
+```
+
+```{r photo-buck-d02, fig.cap = my_caption, fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=identical(gitbook_on, FALSE)}
+my_caption <- paste0('Left: ', my_caption1, ' Right: ', my_caption2)
+
+knitr::include_graphics(my_photo1)
+knitr::include_graphics("fig/pixel.png")
+knitr::include_graphics(my_photo2)
+```
+
