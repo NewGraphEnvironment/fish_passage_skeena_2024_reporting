@@ -1,0 +1,84 @@
+
+# Executive Summary {-}
+
+`r if(identical(gitbook_on, FALSE)) knitr::asis_output(paste0("This report is available as a PDF and as an online interactive report at ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = params$report_url), ". We recommend viewing online as the web-hosted HTML version contains more features and is more easily navigable. Please reference the website for the latest PDF from ", ngr::ngr_str_link_url(url_base = params$repo_url, url_resource = "raw/main/docs/fish_passage_skeena_2024.pdf", anchor_text = "fish_passage_skeena_2024.pdf"), "."))`
+
+
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output("<br>")}`
+
+Since 2020, the Society for Ecosystem Restoration Northern British Columbia (SERNbc) has been actively involved in planning, coordinating, and conducting fish passage restoration efforts within the Bulkley River and Morice River watershed groups, which are sub-basins of the Skeena River watershed. In 2022, the study area was expanded to include the Zymoetz River watershed group and the Kispiox River watershed group, followed by an extension in 2023 to encompass sections of the Kitsumkalum River watershed group, particularly where Highway 16 intersects the watershed.
+
+<br>
+
+The primary objective of this project is to identify and prioritize fish passage barriers within these study areas,
+develop comprehensive restoration plans to address these barriers, and foster momentum for broader ecosystem restoration
+initiatives. While the primary focus is on fish passage, this work also serves as a lens through which to view the
+broader ecosystems, leveraging efforts to build capacity for ecosystem restoration and improving our understanding of
+watershed health. We recognize that the health of life - such as our own - and the health of our surroundings are
+interconnected, with our overall well-being dependent on the health of our environment.
+
+<br>
+
+Although the main purpose of this report is to document 2024 field work data and results, it also builds on reporting 
+from field activities conducted from 2020 to 2023. In addition to the numerous assessments at sites undocumented in past
+years of the project, field activities were also conducted 3 sites where habitat confirmations
+were previously documented as per the report links below. The reports for these sites were edited and updated with 2024 data.
+
+- [Bulkley River and Morice River Watershed Groups Fish Passage Restoration Planning (2020)](https://newgraphenvironment.github.io/fish_passage_bulkley_2020_reporting/)
+- [Bulkley River and Morice River Watershed Groups Fish Passage Restoration Planning 2021](https://newgraphenvironment.github.io/fish_passage_skeena_2021_reporting/)
+- [Bulkley River Watershed Fish Passage Restoration Planning 2022](https://newgraphenvironment.github.io/fish_passage_bulkley_2022_reporting/)
+- [Skeena Watershed Fish Passage Restoration Planning 2022](https://newgraphenvironment.github.io/fish_passage_skeena_2022_reporting/)
+- [Skeena Watershed Fish Passage Restoration Planning 2023](https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting/)
+
+Fish passage assessment procedures conducted through SERNbc in the Skeena River Watershed since 2020 are amalgamated `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Tables \\@ref(tab:tab-sites-sum-cap) - \\@ref(tab:tab-sites-cap)")}`
+which includes links to project reporting for each site.
+
+<br>
+
+-  Field assessments were conducted between `r format(min(pscis_all$date), format="%B %d, %Y")` and 
+`r format(max(pscis_all$date), format="%B %d, %Y")` by Al Irvine, R.P.Bio., Lucy Schick, B.Sc., Tieasha Pierre, 
+Vern Joseph, Jesse Olson, and Jessica Doyon. 
+
+-  In 2024, A total of `r pscis_all |> filter(source != 'pscis_phase2.xlsm') |> nrow()` Fish Passage Assessments were completed, including `r n_distinct(pscis_phase1$my_crossing_reference)` Phase 1 assessments and `r pscis_reassessments |> nrow()` reassessments. 
+
+-  During the 2024 field assessments, habitat confirmation assessments were conducted at `r habitat_confirmations_priorities |> dplyr::distinct(site) |> nrow()`
+sites within the Morice River, Kispiox River, and Bulkley River watershed groups. A total of approximately `r habitat_confirmations_priorities |> pull(length_surveyed) |> sum(na.rm = TRUE) |> round(-3)/1000` km of stream was assessed.
+
+- In 2024, fish sampling was conducted at `r tab_fish_sites_sum |> n_distinct()` sites within `r tab_fish_sites_sum |> distinct(stream) |> nrow()` streams, with a total of `r tab_fish_summary |> dplyr::pull(count_fish) |> sum(na.rm = TRUE)` fish captured. Fork length, weight, and species were documented for each fish.
+
+- In 2024, engineering designs for remediation of fish passage were completed for the following sites:
+
+    + Waterfall Creek – PSCIS 124421 - 11th Avenue.  This crossing is within New Hazelton. Waterfall Creek flows into Station Creek downstream of this site. Remediation efforts, led by Gitksan Watershed Authorities, in collaboration with SERNbc, Skeena Fisheries Commission, the Department of Fisheries and Oceans, Gitsxan House representives, the Chicago Creek Community Environmental Enhancement Society and the District of New Hazelton are tentatively planned for summer 2025. Through this year's project - SERNbc funded the  engineering design for a bridge to replace the open bottom culverts - drafted by Pacific North Coast Consulting Services. 
+  
+    + Tributary to Owen Creek – PSCIS crossing 197378 is located on Klate Lake Road. Through 2024/25 project activities SERNbc 
+    funded an engineering design completed by Pacific North Coast Consulting Services. Proposed works include the replacement of
+    the existing 1.0m wide round culvert with a 12m free span bridge.  This site has been earmarked for replacement through
+    the Bii Wenii Kwa Restoration/Recovery Plan which is a collaboration between the Wet'suwet'en Treaty Society, Fisheries and Oceans Canada, 
+    BC Ministry of Forests, and Water, Land and Resource Stewardship, Morice Water Monitoring Trust, and Northwest Research and Monitoring. The Bii Wenii Kwa
+    Watershed Restoration and Recovery Plan aims to improve watershed health and support both resident and anadromous fish while helping the Wet’suwet’en, and
+    Federal and Provincial governments address habitat risks by enhancing and restoring fish habitat, consolidating existing data, prioritizing restoration
+    work with cost estimates, and providing monitoring recommendations [@morgan2024biiwenii].
+
+- In 2024 - PSCIS crossing 198217 on a Tributary to Skeena River - Sik-E-Dakh Water Tower Road was replaced with a clear-span bridge 
+with remediation work led by the Gitskan Watershed Authorities. 
+
+- Five streams where habitat confirmations were conducted in the past were revisited in 2024 to gather data to further inform prioritization and or to provide data for effectiveness monitoring. Below are sites visited:
+
+    + Stock Creek - PSCIS 195943 - Barrett Station Rd (electrofishing). Bulkley River watershed group.
+
+    - Taman Creek- PSCIS 197967 - Highway 16.  Construction activities took place to replace this crossing between 2022 and 2024.  
+    Effectiveness monitoring was conducted in 2024 with results of the 2024 monitoring presented in [Taman Creek - 197967 - Appendix](#taman).
+    Bulkley River watershed group.
+
+    - Waterfall Creek – PSCIS 124421 - 11th Avenue. In addition to the aquisition of 
+    a design for PSCIS crossing 124421 on 11th Avenue discussed earlier - in 2024 a field visit was conducted which included a habitat survey covering 
+    the area from 10th avenue (Highway 16) to the waterfall located above town.  Additionally  an aerial survey was conducted with a drone to map the historic Waterfall Creek wetland areas located north of Highway 16/10th avenue (east of Churchill Street) to support restoration planning. Bulkley River watershed group.
+    
+        - Tributary to McDonell Lake - PSCIS 8547 - McDonell Forest Service Road. This site was visited in 2024 with the intent of conducting electrofishing to support an engineering design commissioned by SERNbc (in collaboration with Giotsxan Watershed Authorities) through this project. However, water temperatures were too low for effective sampling at that time. Although preliminary data was collected to inform an engineering design, resources were ultimately redirected to Waterfall Creek in New Hazelton. This decision followed an assessment of the stream by DFO, which suggested the stream was unlikely to support a salmon-bearing cohort. Because the associated grant funding provided to the Gitxsan Watershed Authorities 
+    was from the Salmon Restoration and Innovation Fund the site was not pursued further under that funding stream. Zymoetz River
+    watershed group.
+
+    - Sandstone Creek - PSCIS 8530 - McDonell Forest Service Road.  Electrofishing was conducted at the sites below to understand fish community composition as part of both the prioritization process and baseline monitoring. Salmonids with fork lengths >60mm were PIT-tagged to facilitate long-term tracking of health and movement with data amalgamated into past reporting [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/). Zymoetz River
+    watershed group.
+
+
