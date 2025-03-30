@@ -1,0 +1,13 @@
+﻿Parameter,Description
+dewatering,Have the remediation works led to dewatering of the channel due to substrate aggradation or other factors?
+velocity,Are flow velocities similar to those within the natural channel?  Are they expected to exceed swim speeds of particular fish species/life stages of interest?
+constriction,Have the remediation works led to constriction of the channel.   Compare channel width underneath structure and within construction footprint to average channel widths upstream and downstream?
+substrate,Is the substrate within/under and adjacent to the remediated structure generally equivalent to that found upstream and downstream where natural channel conditions exist?
+riparian,What is the condition of the riparian area within the construction footprint? 
+uav_flight,Was a flight conducted with unmmanned aerial vehicle to document conditions at time of monitoring?
+flow_depth,What are the flow depths at the time of assessment within project footprint. Are depths expected to be sufficient to facilitat upstream passage for specific species/life stages of interest?
+stability,Does the structure appear to be stable or is there evidence of erosion/shifting?
+revegetation,How were riparian areas rehabillitated and are they improving fish habitat value?
+cover,"Is cover available for fish within the construction footprint in the form of overhanging vegetation, large/small woody debris, boulders, undercut banks, etc?"
+maintenance,"If required, provide maintenance recommendations."
+recommendations,"General recommendations for follow up.  Could include revegetation, addition of substrate, fish sampling, etc."
