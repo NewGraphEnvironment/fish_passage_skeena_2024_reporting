@@ -26,14 +26,22 @@ my_site4 <- 203126
 
 ## Site Location {.unnumbered}
 
-PSCIS crossings `r as.character(my_site)`, `r as.character(my_site3)`, and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`, approximately 3km northwest of Smithers, BC. The stream is incorrectly mapped in the BC Freshwater Atlas, and is located south of the mapped channel. Simpson Creek flows into Kathlyn Creek, which joins the Bulkley River approximalety 4km downstream. PSCIS crossing `r as.character(my_site)` is located 70m upstream of the confluence of `r fpr::fpr_my_pscis_info()` and Kathlyn Creek, on `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`. Approximately 530 m upstream, crossing `r as.character(my_site3)` is located on and is the responsibility of the Canadian National Railway. A further 950m upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. The `r fpr_my_pscis_info(col_pull = road_name, site = my_site)` and `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)` crossings are the responsibility of the Ministry of Transportation and Infrastructure and all crossing are within the Bulkley River watershed group.
+PSCIS crossings `r as.character(my_site)`, `r as.character(my_site3)`, and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`, approximately 3km northwest of Smithers, BC. Within the BC Freshwater Atlas, the stream is incorrectly mapped at multiple locations including immediately adjacent
+to Kathlyn Creek as well as the entire section of stream between the CN Railway line to approximately 300m upstream of
+Neilson Road (Figure . Simpson Creek flows into Kathlyn Creek, which joins the Bulkley River approximalety 4km downstream. PSCIS crossing `r as.character(my_site)` is located 70m upstream of the confluence of `r fpr::fpr_my_pscis_info()` and Kathlyn Creek, on `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`. Approximately 530 m upstream, crossing `r as.character(my_site3)` is located on and is the responsibility of the Canadian National Railway. A further 950m upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. The `r fpr_my_pscis_info(col_pull = road_name, site = my_site)` and `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)` crossings are the responsibility of the Ministry of Transportation and Infrastructure and all crossing are within the Bulkley River watershed group.
 
-<br>
+```{r map-58245, fig.cap = my_caption}
+my_caption <- "Map of Simpson Creek"
+
+knitr::include_graphics("fig/gis/map_simpson.jpeg")
+
+```
+
 
 
 ## Background {.unnumbered}
 
-At this location, `r fpr::fpr_my_pscis_info()` is a
+At PSCIS crossing `r as.character(my_site)`, `r fpr::fpr_my_pscis_info()` is a
 `r fpr::fpr_my_bcfishpass() |>english::ordinal()` order stream and drains a high elevation watershed of approximately
 `r fpr::fpr_my_wshd()`km^2^. The watershed ranges in elevation from
 a maximum of `r fpr::fpr_my_wshd(col = 'elev_max')`m to
@@ -46,7 +54,11 @@ In 2012, PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)
 
 <br>
 
-Historically, Simpson Creek has been a spawning location for coho salmon. Since 1986, coho have been transplanted into the Kathlyn Creek system from the Toboggan Creek Hatchery [@gottesfeld_rabnett2007SkeenaFish]. Kathlyn Creek also supports a small population of pink salmon, and steelhead are known to inhabit Kathlyn Lake and spawn upstream of the Chicken Creek confluence, which would include areas near the Simpson Creek confluence [@gottesfeld_rabnett2007SkeenaFish]. Adjacent to the crossing on Nielson Road (`r as.character(my_site2)`), coho salmon and other salmonids have been documented in the past, along with cutthroat trout, rainbow trout, steelhead, mountain whitefish, and Dolly Varden [@norris2024smnorrisbcfishobs; @moe2024KnownBC]. Approximately 360 m downstream of Nielson Road, the adjacent landowner has observed recent steelhead and coho spawning and historically chinook spawning. 
+@gottesfeld_rabnett2007SkeenaFish report that Simpson Creek has been a spawning location for coho salmon from the Kathln Creek
+system, noting that since 1986, coho have been transplanted into the Kathlyn Creek system from the Toboggan Creek Hatchery [@gottesfeld_rabnett2007SkeenaFish]. 
+Kathlyn Creek also supports a small population of pink salmon, and steelhead are known to inhabit Kathlyn Lake and spawn upstream of the Chicken Creek confluence, which would include areas near the Simpson Creek confluence [@gottesfeld_rabnett2007SkeenaFish]. Adjacent to the crossing on Nielson Road (`r as.character(my_site2)`), coho salmon, cutthroat trout, rainbow trout, steelhead, mountain whitefish, and Dolly Varden have been documented in the past [@norris2024smnorrisbcfishobs; @moe2024KnownBC]. 
+A landowner adjacent to the stream reported observing steelhead and coho spawning within the last decade and chinook spawning
+historically near their property located approximately 360 m downstream of Nielson Road. 
 
 <br>
 
