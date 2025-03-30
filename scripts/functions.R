@@ -56,3 +56,29 @@ lfpr_table_cv_summary_memo <- function(dat = pscis_phase2,
     )
 }
 
+lfpr_table_cv_detailed_print <- function(tab_sum,
+                                         comments,
+                                         photos,
+                                         gitbook_switch = gitbook_on) {
+
+  comment_label <- paste0("Comments: ", comments[[1]])
+
+  photo_label <- paste0(
+    "Photos: PSCIS ID ", photos[[1]],
+    ". From top left clockwise: Road/Site Card, Barrel, Outlet, Downstream, Upstream, Inlet."
+  )
+
+  photo_insert <- photos[[2]]
+
+  output <- tab_sum |>
+    knitr::kable(booktabs = TRUE) |>
+    kableExtra::kable_styling(c("condensed"), full_width = TRUE, font_size = 11) |>
+    kableExtra::add_footnote(
+      label = list(comment_label, photo_label, photo_insert),
+      notation = "none"
+    )
+
+  # inlclude page breaks so the pdf builds properly and so tables have some seperation in the online report- easier to read
+  paste0(output, "<br><br><br><br><br>")
+}
+
