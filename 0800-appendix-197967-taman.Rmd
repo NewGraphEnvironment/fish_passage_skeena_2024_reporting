@@ -53,9 +53,11 @@ tab_monitoring |>
   dplyr::mutate(across(everything(), as.character)) |> 
   tidyr::pivot_longer(
     cols = everything(),  # Select all columns
-    names_to = "variable",  # Column names become values in this column
-    values_to = "value"  # Data values go into this column
+    names_to = "Parameter",  # Column names become values in this column
+    values_to = "Description"  # Data values go into this column
   ) |> 
+  # remove "notes" from Parameter column
+  dplyr::mutate(Parameter = stringr::str_replace_all(Parameter, " Notes", "")) |>
   fpr::fpr_kable(caption_text = paste0('Summary of monitoring metric results for site ', my_site, '.'),
                                        scroll = gitbook_on)
 ```
@@ -74,9 +76,11 @@ lfpr_table_cv_summary_memo(dat = pscis_reassessments)
 
 ## Conclusion {.unnumbered}
 
-In 2024, conditions for upstream fish passage through the highway crossing at Taman Creek was greatly improved through installation of a streambed simulation structure featuring a large culvert width, embedded natural streambed substrates, and the addition of well
+In 2024, conditions for upstream fish passage through the highway crossing at Taman Creek was greatly improved through installation of a 
+streambed simulation structure featuring a large culvert width, embedded natural streambed substrates, and the addition of well
 designed habitat features within the reconstructed channel. Future monitoring of the site could repeat monitoring metrics conducted in 
-2024, track morphological changes to the channel in the years following construction and include fish sampling and/or eDNA presence surveys to understand fish use upstream and downstream of the crossing. 
+2024, track morphological changes to the channel in the years following construction (via drone generated elevation models or lidar)
+and include fish sampling and/or eDNA presence surveys to understand fish use upstream and downstream of the crossing. 
 
 
 `r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
