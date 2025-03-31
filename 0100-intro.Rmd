@@ -1,6 +1,6 @@
 # Introduction {#intro}
 
-`r if(identical(gitbook_on, FALSE)) knitr::asis_output(paste0("This report is available as a PDF and as an online interactive report at ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = params$report_url), ". We recommend viewing online as the web-hosted HTML version contains more features and is more easily navigable. Please reference the website for the latest PDF from ", ngr::ngr_str_link_url(url_base = params$repo_url, url_resource = "raw/main/docs/fish_passage_skeena_2024.pdf", anchor_text = "fish_passage_skeena_2024.pdf"), "."))`
+`r if(identical(gitbook_on, FALSE)) knitr::asis_output(paste0("This report is available as a PDF and as an online interactive report at ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = params$report_url), ". We recommend viewing online as the web-hosted HTML version contains more features and is more easily navigable. Please reference the website for the latest versino stampled PDF from ", ngr::ngr_str_link_url(url_base = params$repo_url, url_resource = "raw/main/docs/fish_passage_skeena_2024.pdf", anchor_text = "fish_passage_skeena_2024.pdf"), "."))`
 
 
 `r if(identical(gitbook_on, FALSE)){knitr::asis_output("<br>")}`

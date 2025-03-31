@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Restoring Fish Passage in the Skeena River Watershed - 2024" />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="NewGraphEnvironment/fish_passage_skeena_2024_reporting" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Tributary to Knapper Creek - 198940 &amp; 198935 - Appendix | Skeena Watershed Fish Passage Restoration Planning 2024" />
@@ -54,6 +54,50 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.2.2/leaflet.js"></script>
+<script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+<link href="libs/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.css" rel="stylesheet" />
+<script src="libs/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.min.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+<link href="libs/lfx-fullscreen-1.0.2/lfx-fullscreen-prod.css" rel="stylesheet" />
+<script src="libs/lfx-fullscreen-1.0.2/lfx-fullscreen-prod.js"></script>
+<link href="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet" />
+<script src="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
+<script src="libs/leaflet-minimap-3.3.1/Minimap-binding.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="libs/jszip-1.13.6/jszip.min.js"></script>
+<link href="libs/dt-ext-buttons-1.13.6/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-buttons-1.13.6/js/dataTables.buttons.min.js"></script>
+<script src="libs/dt-ext-buttons-1.13.6/js/buttons.html5.min.js"></script>
+<script src="libs/dt-ext-buttons-1.13.6/js/buttons.colVis.min.js"></script>
+<script src="libs/dt-ext-buttons-1.13.6/js/buttons.print.min.js"></script>
+<link href="libs/dt-ext-fixedcolumns-1.13.6/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-fixedcolumns-1.13.6/js/dataTables.fixedColumns.min.js"></script>
+<link href="libs/dt-ext-colreorder-1.13.6/css/colReorder.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-colreorder-1.13.6/js/dataTables.colReorder.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
 
 <script type="text/javascript">
 
@@ -83,6 +127,70 @@ document.addEventListener('DOMContentLoaded', toggle_R);
 </script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
   
@@ -249,13 +357,17 @@ second order stream and drains a watershed of approximately
 4.1km<sup>2</sup>. The watershed ranges in elevation from
 a maximum of 1131m to
 785m near the lower crossing (Table
-<a href="tributary-to-knapper-creek---198940-198935---appendix.html#tab:tab-wshd-198940">4.17</a>). There is suspected interconnection between wetlands in this watershed and adjacent watersheds, suggesting the current estimates may under-represent the watershed’s size.</p>
+<a href="tributary-to-knapper-creek---198940-198935---appendix.html#tab:tab-wshd-198940">4.21</a>). There is suspected interconnection between wetlands in this watershed and adjacent watersheds, suggesting the current estimates may under-represent the watershed’s size.</p>
 <p><br></p>
 <p>In 2023, crossings 198940 and 198935 were assessed with fish passage assessments <span class="citation">(Irvine and Schick 2023)</span>. These sites were prioritized for follow-up with habitat confirmation assessments due to the presence of high-value habitat observed upstream and fish observed during the 2023 assessment <span class="citation">(Irvine and Schick 2023)</span>. Previously, cutthroat trout and rainbow trout have been documented upstream of crossing 198940 <span class="citation">(Norris [2018] 2024; MoE 2024a)</span>.</p>
 <p><br></p>
-<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb121-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_wshd_sum</span>(<span class="at">site_id =</span> my_site) <span class="sc">|&gt;</span></span>
+<span id="cb121-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb121-2" tabindex="-1"></a>  fpr<span class="sc">::</span><span class="fu">fpr_kable</span>(<span class="at">caption_text =</span> <span class="fu">paste0</span>(<span class="st">&#39;Summary of derived upstream watershed statistics for PSCIS crossing &#39;</span>, my_site, <span class="st">&#39;.&#39;</span>),</span>
+<span id="cb121-3"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb121-3" tabindex="-1"></a>           <span class="at">footnote_text =</span> <span class="st">&#39;Elev P60 = Elevation at which 60% of the watershed area is above&#39;</span>,</span>
+<span id="cb121-4"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb121-4" tabindex="-1"></a>           <span class="at">scroll =</span> F)</span></code></pre></div>
+<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-wshd-198940">Table 4.17: </span>Summary of derived upstream watershed statistics for PSCIS crossing 198940.
+<span id="tab:tab-wshd-198940">Table 4.21: </span>Summary of derived upstream watershed statistics for PSCIS crossing 198940.
 </caption>
 <thead>
 <tr>
@@ -324,26 +436,28 @@ SE
 <p><br></p>
 <!-- Habitat modelling outputs from `bcfishpass` indicated 1.2km of steelhead and 1km of coho rearing habitat upstream of crossing 198940 on spur HM7504 (gradients <8.5% for steelhead and <5.5% for coho). Upstream of the crossing on Gold creek fsr, there is 0.9km of steelhead and 1.9km of coho rearing habitat modelled.  -->
 <p>Outputs are presented in Table
-<a href="tributary-to-knapper-creek---198940-198935---appendix.html#tab:tab-culvert-bcfp-198940">4.18</a>). A map of the watershed is provided in
+<a href="tributary-to-knapper-creek---198940-198935---appendix.html#tab:tab-culvert-bcfp-198940">4.22</a>). A map of the watershed is provided in
 map attachment
 <a href="https://hillcrestgeo.ca/outgoing/fishpassage/projects/morr/archive/2022-09-06/FishPassage_093L.108.pdf">093L.108</a>.</p>
 <p><br></p>
-<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb122-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_bcfp</span>(<span class="at">scroll =</span> gitbook_on) </span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
+<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-culvert-bcfp-198940">Table 4.18: </span>Summary of fish habitat modelling for PSCIS crossing 198940.
+<span id="tab:tab-culvert-bcfp-198940">Table 4.22: </span>Summary of fish habitat modelling for PSCIS crossing 198940.
 </caption>
 <thead>
 <tr>
-<th style="text-align:left;">
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 Habitat
 </th>
-<th style="text-align:right;">
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
 Potential
 </th>
-<th style="text-align:right;">
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
 Remediation Gain
 </th>
-<th style="text-align:right;">
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
 Remediation Gain (%)
 </th>
 </tr>
@@ -596,24 +710,25 @@ SK Rearing (ha)
 </tr>
 </tfoot>
 </table>
+</div>
 <p><br></p>
 </div>
 <div id="stream-characteristics-at-crossings-198940-and-198935" class="section level2 unnumbered hasAnchor">
 <h2>Stream Characteristics at Crossings 198940 and 198935<a href="tributary-to-knapper-creek---198940-198935---appendix.html#stream-characteristics-at-crossings-198940-and-198935" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>At the time of the 2024 assessment, PSCIS crossing 198940 on spur HM7504 was
-un-embedded, and ranked as a barrier to upstream fish passage according to the provincial protocol <span class="citation">(MoE 2011)</span> (Table <a href="tributary-to-knapper-creek---198940-198935---appendix.html#tab:tab-culvert-198940">4.19</a>). However, the culvert was backwatered to 30%, making it unlikely to be a barrier to fish passage. The pipe was significantly undersized for the stream, and the road appeared to be failing, likely due to a partially clogged inlet and spring freshet impacts.</p>
+un-embedded, and ranked as a barrier to upstream fish passage according to the provincial protocol <span class="citation">(MoE 2011)</span> (Table <a href="tributary-to-knapper-creek---198940-198935---appendix.html#tab:tab-culvert-198940">4.23</a>). However, the culvert was backwatered to 30%, making it unlikely to be a barrier to fish passage. The pipe was significantly undersized for the stream, and the road appeared to be failing, likely due to a partially clogged inlet and spring freshet impacts.</p>
 <p><br></p>
 <p>PSCIS crossing 198935 on Gold creek fsr was un-embedded, non-backwatered and ranked as a barrier to upstream fish passage according to the provincial protocol
-<span class="citation">(MoE 2011)</span> (Table <a href="tributary-to-knapper-creek---198940-198935---appendix.html#tab:tab-culvert-198935">4.20</a>). This culvert had a significant 0.8 m deep outlet pool, and was deteriorating at the inlet.</p>
+<span class="citation">(MoE 2011)</span> (Table <a href="tributary-to-knapper-creek---198940-198935---appendix.html#tab:tab-culvert-198935">4.24</a>). This culvert had a significant 0.8 m deep outlet pool, and was deteriorating at the inlet.</p>
 <p><br></p>
 <p>At all crossings, the water temperature was 4.9<span class="math inline">\(^\circ\)</span>C,
 pH was 8.2 and
 conductivity was 236 uS/cm.</p>
-<div style="page-break-after: always;"></div>
 <p><br></p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb123-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_cv_summary_memo</span>()</span></code></pre></div>
 <table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-culvert-198940">Table 4.19: </span>Summary of fish passage assessment for PSCIS crossing 198940.
+<span id="tab:tab-culvert-198940">Table 4.23: </span>Summary of fish passage assessment for PSCIS crossing 198940.
 </caption>
 <thead>
 <tr>
@@ -874,9 +989,10 @@ Fix Span / Diameter
 </table></li>
 </ul>
 <p><br></p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb124-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_cv_summary_memo</span>(<span class="at">site =</span> my_site2, <span class="at">site_photo_id =</span> my_site2)</span></code></pre></div>
 <table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-culvert-198935">Table 4.20: </span>Summary of fish passage assessment for PSCIS crossing 198935.
+<span id="tab:tab-culvert-198935">Table 4.24: </span>Summary of fish passage assessment for PSCIS crossing 198935.
 </caption>
 <thead>
 <tr>
@@ -1137,26 +1253,32 @@ Fix Span / Diameter
 </table></li>
 </ul>
 <p><br></p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb125-1" tabindex="-1"></a><span class="do">##this is useful to get some comments for the report</span></span>
+<span id="cb125-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb125-2" tabindex="-1"></a>hab_site <span class="sc">|&gt;</span><span class="fu">filter</span>(site <span class="sc">==</span> my_site <span class="sc">&amp;</span> location <span class="sc">==</span> <span class="st">&#39;ds&#39;</span>) <span class="sc">|&gt;</span><span class="fu">pull</span>(comments)</span>
+<span id="cb125-3"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb125-3" tabindex="-1"></a>hab_site <span class="sc">|&gt;</span><span class="fu">filter</span>(site <span class="sc">==</span> my_site <span class="sc">&amp;</span> location <span class="sc">==</span> <span class="st">&#39;us&#39;</span>) <span class="sc">|&gt;</span><span class="fu">pull</span>(comments)</span>
+<span id="cb125-4"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb125-4" tabindex="-1"></a>hab_site <span class="sc">|&gt;</span><span class="fu">filter</span>(site <span class="sc">==</span> my_site2 <span class="sc">&amp;</span> location <span class="sc">==</span> <span class="st">&#39;us&#39;</span>) <span class="sc">|&gt;</span><span class="fu">pull</span>(comments)</span></code></pre></div>
 </div>
 <div id="stream-characteristics-downstream-of-crossing-198940" class="section level2 unnumbered hasAnchor">
 <h2>Stream Characteristics Downstream of Crossing 198940<a href="tributary-to-knapper-creek---198940-198935---appendix.html#stream-characteristics-downstream-of-crossing-198940" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The stream was surveyed downstream from crossing 198940 for 300m (Figure <a href="tributary-to-knapper-creek---198940-198935---appendix.html#fig:photo-198940-d01">4.15</a>).. The habitat was rated as medium, with good flow, abundant gravels, overhanging banks, and healthy riparian vegetation, providing good rearing and spawning habitat for coho, rainbow trout, Dolly Varden, and cutthroat trout. The average channel width was 3.3m, the average wetted width was 1.5m, and the average gradient was 3.3%.The dominant substrate was gravels with cobbles sub-dominant.Total cover amount was rated as moderate with undercut banks dominant. Cover was also present as small woody debris, large woody debris, and overhanging vegetation..</p>
+<p>The stream was surveyed downstream from crossing 198940 for 300m (Figure <a href="tributary-to-knapper-creek---198940-198935---appendix.html#fig:photo-198940-01">4.21</a>).. The habitat was rated as medium, with good flow, abundant gravels, overhanging banks, and healthy riparian vegetation, providing good rearing and spawning habitat for coho, rainbow trout, Dolly Varden, and cutthroat trout. The dominant substrate was gravels with cobbles sub-dominant.Total cover amount was rated as moderate with undercut banks dominant. Cover was also present as small woody debris, large woody debris, and overhanging vegetation.The average channel width was 3.3m, the average wetted width was 1.5m, and the average gradient was 3.3%..</p>
 <p><br></p>
 </div>
 <div id="stream-characteristics-upstream-of-crossing-198940-and-downstream-of-crossing-198935" class="section level2 unnumbered hasAnchor">
 <h2>Stream Characteristics Upstream of Crossing 198940 and Downstream of Crossing 198935<a href="tributary-to-knapper-creek---198940-198935---appendix.html#stream-characteristics-upstream-of-crossing-198940-and-downstream-of-crossing-198935" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The stream was surveyed in the downstream direction, starting at the upstream crossing on Gold Creek FSR (198935), down to the crossing on road/spur HM7504 (198940), a distance of approximately 340 m (Figure <a href="tributary-to-knapper-creek---198940-198935---appendix.html#fig:photo-198940-d01">4.15</a> Total cover amount was rated as moderate with undercut banks dominant. Cover was also present as small woody debris, large woody debris, deep pools, and overhanging vegetation.The average channel width was 2.8m, the average wetted width was 1.2m, and the average gradient was 2.7%.The dominant substrate was gravels with fines sub-dominant. The habitat was rated as medium value with good flow, abundant spawning gravels, and suitable rearing habitat in undercut banks and occasional deep pools. Historic beaver activity was evident, including a large breached dam near the upstream end of the site. The riparian zone consisted of a healthy shrub and herbaceous flood-tolerant plant community. The stream corridor, approximately 40–50 m wide, was bordered by mature coniferous forest on both sides.</p>
+<p>The stream was surveyed in the downstream direction, starting at the upstream crossing on Gold Creek FSR (198935), down to the crossing on road/spur HM7504 (198940), a distance of approximately 340 m (Figure <a href="tributary-to-knapper-creek---198940-198935---appendix.html#fig:photo-198940-02">4.22</a>). Total cover amount was rated as moderate with undercut banks dominant. Cover was also present as small woody debris, large woody debris, deep pools, and overhanging vegetation.The average channel width was 2.8m, the average wetted width was 1.2m, and the average gradient was 2.7%.The dominant substrate was gravels with fines sub-dominant. The habitat was rated as medium value with good flow, abundant spawning gravels, and suitable rearing habitat in undercut banks and occasional deep pools. Historic beaver activity was evident, including a large breached dam near the upstream end of the site. The riparian zone consisted of a healthy shrub and herbaceous flood-tolerant plant community. The stream corridor, approximately 40–50 m wide, was bordered by mature coniferous forest on both sides.</p>
 <p><br></p>
 </div>
 <div id="stream-characteristics-upstream-of-crossing-198935" class="section level2 unnumbered hasAnchor">
 <h2>Stream Characteristics Upstream of Crossing 198935<a href="tributary-to-knapper-creek---198940-198935---appendix.html#stream-characteristics-upstream-of-crossing-198935" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The stream was surveyed upstream from crossing 198935 for 700m . (Figure <a href="tributary-to-knapper-creek---198940-198935---appendix.html#fig:photo-198935-d01">4.16</a>). The habitat was rated as medium value with a good flow and abundant gravels throughout. A mature mixed forest, including cottonwood, provided excellent bank stabilization, resulting in deeply undercut banks and intermittent pools up to 60 cm deep within the surveyed area. The average channel width was 2.5m, the average wetted width was 1.9m, and the average gradient was 2.2%.Total cover amount was rated as moderate with undercut banks dominant. Cover was also present as small woody debris, large woody debris, deep pools, and overhanging vegetation.The dominant substrate was gravels with fines sub-dominant.</p>
+<p>The stream was surveyed upstream from crossing 198935 for 700m . (Figure <a href="tributary-to-knapper-creek---198940-198935---appendix.html#fig:photo-198935-01">4.23</a>). The habitat was rated as medium value with a good flow and abundant gravels throughout. A mature mixed forest, including cottonwood, provided excellent bank stabilization, resulting in deeply undercut banks and intermittent pools up to 60 cm deep within the surveyed area. The average channel width was 2.5m, the average wetted width was 1.9m, and the average gradient was 2.2%.The dominant substrate was gravels with fines sub-dominant.Total cover amount was rated as moderate with undercut banks dominant. Cover was also present as small woody debris, large woody debris, deep pools, and overhanging vegetation.</p>
 <p><br></p>
 </div>
 <div id="fish-sampling-3" class="section level2 unnumbered hasAnchor">
 <h2>Fish Sampling<a href="tributary-to-knapper-creek---198940-198935---appendix.html#fish-sampling-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Electrofishing was conducted upstream and downstream of crossing (198935) with results summarised in Tables <a href="tributary-to-knapper-creek---198940-198935---appendix.html#tab:tab-fish-site-198935">4.22</a> - <a href="tributary-to-knapper-creek---198940-198935---appendix.html#tab:tab-fish-dens-198935">4.23</a> and Figure <a href="tributary-to-knapper-creek---198940-198935---appendix.html#fig:plot-fish-box-198935">4.14</a>. A total of 39 fish were captured downstream including rainbow trout, cutthroat trout, and Dolly Varden. Upstream of the crossing 43 fish were captured including rainbow trout, cutthroat trout, and cutthroat trout/rainbow trout hybrid (Figure <a href="tributary-to-knapper-creek---198940-198935---appendix.html#fig:photo-198935-d01">4.16</a>). .</p>
+<p>Electrofishing was conducted upstream and downstream of crossing (198935) with results summarised in Tables <a href="tributary-to-knapper-creek---198940-198935---appendix.html#tab:tab-fish-site-198935">4.26</a> - <a href="tributary-to-knapper-creek---198940-198935---appendix.html#tab:tab-fish-dens-198935">4.27</a> and Figure <a href="tributary-to-knapper-creek---198940-198935---appendix.html#fig:plot-fish-box-198935">4.20</a>. A total of 39 fish were captured downstream including rainbow trout, cutthroat trout, and Dolly Varden. Upstream of the crossing 43 fish were captured including rainbow trout, cutthroat trout, and cutthroat trout/rainbow trout hybrid (Figure <a href="tributary-to-knapper-creek---198940-198935---appendix.html#fig:photo-198935-02">4.24</a>). .</p>
 <p><br></p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb126-1" tabindex="-1"></a><span class="co"># FOR THE FOLLOWING SECTIONS TO RUN WE NEED:</span></span>
+<span id="cb126-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb126-2" tabindex="-1"></a><span class="co"># - `tab_cost_est_phase2` build in `tables.R` which is used by `fpr_my_cost_estimate()`</span></span></code></pre></div>
 </div>
 <div id="structure-remediation-and-cost-estimate-1" class="section level2 unnumbered hasAnchor">
 <h2>Structure Remediation and Cost Estimate<a href="tributary-to-knapper-creek---198940-198935---appendix.html#structure-remediation-and-cost-estimate-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -1169,11 +1291,15 @@ Fix Span / Diameter
 <h2>Conclusion<a href="tributary-to-knapper-creek---198940-198935---appendix.html#conclusion-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Tributary to Knapper Creek contains moderate-value rearing and spawning habitat for coho, rainbow trout, Dolly Varden, and cutthroat trout. Electrofishing at the time of assessment confirmed the presence of rainbow trout, cutthroat trout, cutthroat/rainbow trout hybrids, and Dolly Varden. Habitat modelling identified 1.2km of steelhead rearing habitat upstream of crossing 198940, with approximately 300m less upstream of 198935. There is suspected interconnection between wetlands in this watershed and adjacent watersheds, suggesting the current modelling may under-represent the watershed’s size.</p>
 <p>Should restoration activities proceed, efforts should focus on PSCIS crossing<code>r as.character(my_site2)</code> on Gold Creek FSR, which had a small outlet drop and a deep outlet pool. PSCIS crossing 198940 on Road/Spur HM7504 was backwatered and not presumed to be a barrier to fish passage. Both crossings were noted as undersized for the stream.</p>
-<div style="page-break-after: always;"></div>
 <p><br></p>
-<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;">
+<p><br></p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb127-1" tabindex="-1"></a>tab_hab_summary <span class="sc">|&gt;</span></span>
+<span id="cb127-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb127-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Site <span class="sc">%in%</span> <span class="fu">c</span>(my_site, my_site2)) <span class="sc">|&gt;</span> </span>
+<span id="cb127-3"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb127-3" tabindex="-1"></a>  fpr<span class="sc">::</span><span class="fu">fpr_kable</span>(<span class="at">caption_text =</span> <span class="fu">paste0</span>(<span class="st">&quot;Summary of habitat details for PSCIS crossings &quot;</span>, my_site, <span class="st">&quot; and &quot;</span>, my_site2, <span class="st">&quot;.&quot;</span>),</span>
+<span id="cb127-4"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb127-4" tabindex="-1"></a>                 <span class="at">scroll =</span> F) </span></code></pre></div>
+<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-habitat-summary-198940">Table 4.21: </span>Summary of habitat details for PSCIS crossings 198940 and 198935.
+<span id="tab:tab-habitat-summary-198940">Table 4.25: </span>Summary of habitat details for PSCIS crossings 198940 and 198935.
 </caption>
 <thead>
 <tr>
@@ -1297,9 +1423,10 @@ medium
 </tbody>
 </table>
 <p><br></p>
-<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;">
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb128-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_fish_site</span>(<span class="at">sit =</span> my_site2)</span></code></pre></div>
+<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-fish-site-198935">Table 4.22: </span>Fish sampling site summary for 198935.
+<span id="tab:tab-fish-site-198935">Table 4.26: </span>Fish sampling site summary for 198935.
 </caption>
 <thead>
 <tr>
@@ -1367,9 +1494,10 @@ partial enclosure
 </tbody>
 </table>
 <p><br></p>
-<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb129-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_fish_density</span>(<span class="at">sit =</span> my_site2)</span></code></pre></div>
+<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-fish-dens-198935">Table 4.23: </span>Fish sampling density results summary for 198935.
+<span id="tab:tab-fish-dens-198935">Table 4.27: </span>Fish sampling density results summary for 198935.
 </caption>
 <thead>
 <tr>
@@ -1623,31 +1751,80 @@ FALSE
 </tr>
 </tfoot>
 </table>
-<div style="page-break-after: always;"></div>
+<p><br></p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb130-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing &#39;</span>, my_site2, <span class="st">&#39;.&#39;</span>)</span>
+<span id="cb130-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb130-2" tabindex="-1"></a></span>
+<span id="cb130-3"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb130-3" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_plot_fish_box</span>(<span class="at">sit =</span> my_site2) </span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:plot-fish-box-198935"></span>
 <img src="fish_passage_skeena_2024_files/figure-html/plot-fish-box-198935-1.png" alt="Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing 198935." width="100%" />
 <p class="caption">
-Figure 4.14: Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing 198935.
+Figure 4.20: Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing 198935.
 </p>
 </div>
 <p><br></p>
-<p><br></p>
-<div class="figure"><span style="display:block;" id="fig:photo-198940-d01"></span>
-<img src="data/photos/198940/20240918_141318_ds_typical_2_k_.JPG" alt="Left: Typical habitat downstream of PSCIS crossing 198940. Right: Typical habitat upstream of PSCIS crossing 198940." width="49.5%" /><img src="fig/pixel.png" alt="Left: Typical habitat downstream of PSCIS crossing 198940. Right: Typical habitat upstream of PSCIS crossing 198940." width="1%" /><img src="data/photos/198940/20240918_132230_us_typical_1_k_.JPG" alt="Left: Typical habitat downstream of PSCIS crossing 198940. Right: Typical habitat upstream of PSCIS crossing 198940." width="49.5%" />
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb131-1" tabindex="-1"></a>my_photo1 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">str_to_pull =</span> <span class="st">&#39;ds_typical_2_&#39;</span>)</span>
+<span id="cb131-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb131-2" tabindex="-1"></a></span>
+<span id="cb131-3"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb131-3" tabindex="-1"></a>my_caption1 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Typical habitat downstream of PSCIS crossing &#39;</span>, my_site, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb132-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:photo-198940-01"></span>
+<img src="data/photos/198940/20240918_141318_ds_typical_2_k_.JPG" alt="Typical habitat downstream of PSCIS crossing 198940." width="100%" />
 <p class="caption">
-Figure 4.15: Left: Typical habitat downstream of PSCIS crossing 198940. Right: Typical habitat upstream of PSCIS crossing 198940.
+Figure 4.21: Typical habitat downstream of PSCIS crossing 198940.
 </p>
 </div>
 <p><br></p>
-<p><br></p>
-<div class="figure"><span style="display:block;" id="fig:photo-198935-d01"></span>
-<img src="data/photos/198935/20240918_111534_us_typical_2_k_.JPG" alt="Left: Typical habitat upstream of PSCIS crossing 198935. Right: Rainbow trout captured downstream of crossing 198935." width="49.5%" /><img src="fig/pixel.png" alt="Left: Typical habitat upstream of PSCIS crossing 198935. Right: Rainbow trout captured downstream of crossing 198935." width="1%" /><img src="data/photos/198935/TC_00164_fish_1_k_.JPG" alt="Left: Typical habitat upstream of PSCIS crossing 198935. Right: Rainbow trout captured downstream of crossing 198935." width="49.5%" />
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb133-1" tabindex="-1"></a>my_photo2 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">str_to_pull =</span> <span class="st">&#39;us_typical_1&#39;</span>)</span>
+<span id="cb133-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb133-2" tabindex="-1"></a></span>
+<span id="cb133-3"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb133-3" tabindex="-1"></a>my_caption2 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Typical habitat upstream of PSCIS crossing &#39;</span>, my_site, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb134-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:photo-198940-02"></span>
+<img src="data/photos/198940/20240918_132230_us_typical_1_k_.JPG" alt="Typical habitat upstream of PSCIS crossing 198940." width="100%" />
 <p class="caption">
-Figure 4.16: Left: Typical habitat upstream of PSCIS crossing 198935. Right: Rainbow trout captured downstream of crossing 198935.
+Figure 4.22: Typical habitat upstream of PSCIS crossing 198940.
 </p>
 </div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb135-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Left: &#39;</span>, my_caption1, <span class="st">&#39; Right: &#39;</span>, my_caption2)</span>
+<span id="cb135-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb135-2" tabindex="-1"></a></span>
+<span id="cb135-3"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb135-3" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span>
+<span id="cb135-4"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb135-4" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;fig/pixel.png&quot;</span>)</span>
+<span id="cb135-5"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb135-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
+<p><br></p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb136-1" tabindex="-1"></a>my_photo1 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">site =</span> my_site2, <span class="at">str_to_pull =</span> <span class="st">&#39;us_typical_2&#39;</span>)</span>
+<span id="cb136-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb136-2" tabindex="-1"></a></span>
+<span id="cb136-3"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb136-3" tabindex="-1"></a>my_caption1 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Typical habitat upstream of PSCIS crossing &#39;</span>, my_site2, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb137-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:photo-198935-01"></span>
+<img src="data/photos/198935/20240918_111534_us_typical_2_k_.JPG" alt="Typical habitat upstream of PSCIS crossing 198935." width="100%" />
+<p class="caption">
+Figure 4.23: Typical habitat upstream of PSCIS crossing 198935.
+</p>
+</div>
+<p><br></p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb138-1" tabindex="-1"></a>my_photo2 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">site =</span> my_site2, <span class="at">str_to_pull =</span> <span class="st">&#39;fish_1&#39;</span>)</span>
+<span id="cb138-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb138-2" tabindex="-1"></a></span>
+<span id="cb138-3"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb138-3" tabindex="-1"></a>my_caption2 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Rainbow trout captured downstream of crossing &#39;</span>, my_site2, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb139-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:photo-198935-02"></span>
+<img src="data/photos/198935/TC_00164_fish_1_k_.JPG" alt="Rainbow trout captured downstream of crossing 198935." width="100%" />
+<p class="caption">
+Figure 4.24: Rainbow trout captured downstream of crossing 198935.
+</p>
+</div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb140-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Left: &#39;</span>, my_caption1, <span class="st">&#39; Right: &#39;</span>, my_caption2)</span>
+<span id="cb140-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb140-2" tabindex="-1"></a></span>
+<span id="cb140-3"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb140-3" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span>
+<span id="cb140-4"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb140-4" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;fig/pixel.png&quot;</span>)</span>
+<span id="cb140-5"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb140-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
 <p><br></p>
 
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb141-1" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo=</span><span class="cn">FALSE</span>, <span class="at">message=</span><span class="cn">FALSE</span>, <span class="at">warning=</span><span class="cn">FALSE</span>)</span>
+<span id="cb141-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb141-2" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&#39;scripts/packages.R&#39;</span>)</span>
+<span id="cb141-3"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb141-3" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&#39;scripts/tables.R&#39;</span>)</span>
+<span id="cb141-4"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb141-4" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&#39;scripts/functions.R&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb142-1" tabindex="-1"></a>my_site <span class="ot">&lt;-</span> <span class="dv">58245</span></span>
+<span id="cb142-2"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb142-2" tabindex="-1"></a>my_site2 <span class="ot">&lt;-</span> <span class="dv">58264</span></span>
+<span id="cb142-3"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb142-3" tabindex="-1"></a>my_site3 <span class="ot">&lt;-</span> <span class="dv">203122</span></span>
+<span id="cb142-4"><a href="tributary-to-knapper-creek---198940-198935---appendix.html#cb142-4" tabindex="-1"></a>my_site4 <span class="ot">&lt;-</span> <span class="dv">203126</span></span></code></pre></div>
 </div>
 </div>
             </section>
