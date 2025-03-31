@@ -1,5 +1,8 @@
 # Skeena Watershed Fish Passage Restoration Planning 2024 - 0.1.0 (20250330) {-}
 
+  - Add executive summary
+  - Add recommendations
+  - incorperate top ranked sites from each watershed group to summary table in results
   - Rework methods and results
   - Move Buck Falls to appendix
   - Rename Gershwin to Comeau
