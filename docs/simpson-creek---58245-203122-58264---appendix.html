@@ -52,52 +52,6 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
-<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
-<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-1.3.1/leaflet.js"></script>
-<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-<script src="libs/proj4-2.6.2/proj4.min.js"></script>
-<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
-<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.2.2/leaflet.js"></script>
-<script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
-<script src="libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
-<link href="libs/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.css" rel="stylesheet" />
-<script src="libs/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.min.js"></script>
-<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
-<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
-<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
-<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
-<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
-<link href="libs/lfx-fullscreen-1.0.2/lfx-fullscreen-prod.css" rel="stylesheet" />
-<script src="libs/lfx-fullscreen-1.0.2/lfx-fullscreen-prod.js"></script>
-<link href="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet" />
-<script src="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
-<script src="libs/leaflet-minimap-3.3.1/Minimap-binding.js"></script>
-<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
-<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.33/datatables.js"></script>
-<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="libs/jszip-1.13.6/jszip.min.js"></script>
-<link href="libs/dt-ext-buttons-1.13.6/css/buttons.dataTables.min.css" rel="stylesheet" />
-<script src="libs/dt-ext-buttons-1.13.6/js/dataTables.buttons.min.js"></script>
-<script src="libs/dt-ext-buttons-1.13.6/js/buttons.html5.min.js"></script>
-<script src="libs/dt-ext-buttons-1.13.6/js/buttons.colVis.min.js"></script>
-<script src="libs/dt-ext-buttons-1.13.6/js/buttons.print.min.js"></script>
-<link href="libs/dt-ext-fixedcolumns-1.13.6/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
-<script src="libs/dt-ext-fixedcolumns-1.13.6/js/dataTables.fixedColumns.min.js"></script>
-<link href="libs/dt-ext-colreorder-1.13.6/css/colReorder.dataTables.min.css" rel="stylesheet" />
-<script src="libs/dt-ext-colreorder-1.13.6/js/dataTables.colReorder.min.js"></script>
-<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
-<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
-<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
-<script src="libs/selectize-0.12.0/selectize.min.js"></script>
-<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
 
 <script type="text/javascript">
 
@@ -127,70 +81,6 @@ document.addEventListener('DOMContentLoaded', toggle_R);
 </script>
 
 
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
 
 <style type="text/css">
   
@@ -271,6 +161,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.7" data-path="results-and-discussion.html"><a href="results-and-discussion.html#remediations-1"><i class="fa fa-check"></i><b>4.7</b> Remediations</a></li>
 <li class="chapter" data-level="4.8" data-path="results-and-discussion.html"><a href="results-and-discussion.html#monitoring-1"><i class="fa fa-check"></i><b>4.8</b> Monitoring</a></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="recommendations.html"><a href="recommendations.html"><i class="fa fa-check"></i><b>5</b> Recommendations</a></li>
 <li class="chapter" data-level="" data-path="appendix1.html"><a href="appendix1.html"><i class="fa fa-check"></i>Appendix - Phase 1 Fish Passage Assessment Data and Photos</a></li>
 <li class="chapter" data-level="" data-path="buck-falls.html"><a href="buck-falls.html"><i class="fa fa-check"></i>Buck Falls - Appendix</a></li>
 <li class="chapter" data-level="" data-path="taman.html"><a href="taman.html"><i class="fa fa-check"></i>Taman Creek - 197967 - Appendix</a>
@@ -350,13 +241,10 @@ div.csl-indent {
 <p>PSCIS crossings 58245, 203122, and 58264 are located on Simpson Creek, approximately 3km northwest of Smithers, BC. Within the BC Freshwater Atlas, the stream is incorrectly mapped at multiple locations including immediately adjacent
 to Kathlyn Creek as well as the entire section of stream between the CN Railway line to approximately 300m upstream of
 Neilson Road (Figure . Simpson Creek flows into Kathlyn Creek, which joins the Bulkley River approximalety 4km downstream. PSCIS crossing 58245 is located 70m upstream of the confluence of Simpson Creek and Kathlyn Creek, on Lake Kathlyn Road. Approximately 530 m upstream, crossing 203122 is located on and is the responsibility of the Canadian National Railway. A further 950m upstream, crossing 58264 is located on Nielson Road. The Lake Kathlyn Road and Nielson Road crossings are the responsibility of the Ministry of Transportation and Infrastructure and all crossing are within the Bulkley River watershed group.</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb143-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="st">&quot;Map of Simpson Creek&quot;</span></span>
-<span id="cb143-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb143-2" tabindex="-1"></a></span>
-<span id="cb143-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb143-3" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;fig/gis/map_simpson.jpeg&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:map-58245"></span>
 <img src="fig/gis/map_simpson.jpeg" alt="Map of Simpson Creek" width="100%" />
 <p class="caption">
-Figure 4.25: Map of Simpson Creek
+Figure 5.14: Map of Simpson Creek
 </p>
 </div>
 </div>
@@ -367,7 +255,7 @@ third order stream and drains a high elevation watershed of approximately
 13.1km<sup>2</sup>. The watershed ranges in elevation from
 a maximum of 2477m to
 503m near the lower crossing (Table
-<a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-wshd-58264">4.28</a>). Simpson Creek is a major contributor to the greater Kathlyn Creek watershed, with flow volumes during the 2024 assessment slightly less than the Kathlyn Creek mainstem.</p>
+<a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-wshd-58264">5.17</a>). Simpson Creek is a major contributor to the greater Kathlyn Creek watershed, with flow volumes during the 2024 assessment slightly less than the Kathlyn Creek mainstem.</p>
 <p><br></p>
 <p>In 2012, PSCIS crossings 58245 and 58264 were assessed with fish passage assessments by Marlim Ecological Consulting Ltd. and both were ranked as barriers <span class="citation">(MarLim Ecological Consulting Ltd. 2013)</span>.</p>
 <p><br></p>
@@ -379,13 +267,9 @@ historically near their property located approximately 360 m downstream of Niels
 <p><br></p>
 <p>According to a nearby landowner, the crossing on Nielson Road (58264) was originally a bridge but was replaced with the current culvert during an emergency flood event in the 1990s. Materials from the flood were used to construct dikes upstream and downstream of the crossing, which remained in place at the time of the 2024 assessment. Upstream of the Nielson Road crossing, a trail runs parallel to the stream for 400m up to the power line, offering an excellent opportunity for community engagement. By connecting people to the land, the trail can foster stewardship and advocacy for the stream, potentially leading to future restoration efforts.</p>
 <p><br></p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb144-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_wshd_sum</span>(<span class="at">site_id =</span> my_site) <span class="sc">|&gt;</span></span>
-<span id="cb144-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb144-2" tabindex="-1"></a>  fpr<span class="sc">::</span><span class="fu">fpr_kable</span>(<span class="at">caption_text =</span> <span class="fu">paste0</span>(<span class="st">&#39;Summary of derived upstream watershed statistics for PSCIS crossing &#39;</span>, my_site, <span class="st">&#39;.&#39;</span>),</span>
-<span id="cb144-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb144-3" tabindex="-1"></a>           <span class="at">footnote_text =</span> <span class="st">&#39;Elev P60 = Elevation at which 60% of the watershed area is above&#39;</span>,</span>
-<span id="cb144-4"><a href="simpson-creek---58245-203122-58264---appendix.html#cb144-4" tabindex="-1"></a>           <span class="at">scroll =</span> F)</span></code></pre></div>
-<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-wshd-58264">Table 4.28: </span>Summary of derived upstream watershed statistics for PSCIS crossing 58245.
+<span id="tab:tab-wshd-58264">Table 5.17: </span>Summary of derived upstream watershed statistics for PSCIS crossing 58245.
 </caption>
 <thead>
 <tr>
@@ -453,28 +337,26 @@ E
 </table>
 <p><br></p>
 <p>Habitat modelling outputs from <code>bcfishpass</code> indicated 1.6km of steelhead and 1.4km of coho rearing habitat upstream of crossing 58245 on Lake Kathlyn Road (gradients &lt;8.5% for steelhead and &lt;5.5% for coho). Upstream of the crossing on Nielson Road, only 100m of habitat is modelled for steelhead and coho rearing due to a steeper stream gradient exceeding 8.5%. Outputs are presented in Table
-<a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-culvert-bcfp-58245">4.29</a>). A map of the watershed is provided in
+<a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-culvert-bcfp-58245">5.18</a>). A map of the watershed is provided in
 map attachment
 <a href="https://hillcrestgeo.ca/outgoing/fishpassage/projects/bulk/archive/2022-09-06/FishPassage_093L.122.pdf">093L.122</a>.</p>
 <p><br></p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb145-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_bcfp</span>(<span class="at">scroll =</span> gitbook_on) </span></code></pre></div>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
-<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-culvert-bcfp-58245">Table 4.29: </span>Summary of fish habitat modelling for PSCIS crossing 58245.
+<span id="tab:tab-culvert-bcfp-58245">Table 5.18: </span>Summary of fish habitat modelling for PSCIS crossing 58245.
 </caption>
 <thead>
 <tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:left;">
 Habitat
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:right;">
 Potential
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:right;">
 Remediation Gain
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:right;">
 Remediation Gain (%)
 </th>
 </tr>
@@ -727,31 +609,30 @@ SK Rearing (ha)
 </tr>
 </tfoot>
 </table>
-</div>
 <p><br></p>
 </div>
 <div id="stream-characteristics-at-crossings-58245-203122-and-58264" class="section level2 unnumbered hasAnchor">
 <h2>Stream Characteristics at Crossings 58245, 203122, and 58264<a href="simpson-creek---58245-203122-58264---appendix.html#stream-characteristics-at-crossings-58245-203122-and-58264" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>At the time of the 2024 assessment, PSCIS crossing 58245 on Lake Kathlyn Road was
 un-embedded, non-backwatered and although it ranked as a
-barrier to upstream fish passage according to the provincial protocol, neither of the two culverts at this location had an outlet drop, therefore it is unlikely a barrier to fish passage <span class="citation">(MoE 2011)</span> (Table <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-culvert-58245">4.30</a>).</p>
+barrier to upstream fish passage according to the provincial protocol, neither of the two culverts at this location had an outlet drop, therefore it is unlikely a barrier to fish passage <span class="citation">(MoE 2011)</span> (Table <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-culvert-58245">5.19</a>).</p>
 <p><br></p>
 <p>Approximately 530 m upstream of Lake Kathlyn Road, PSCIS crossing 203122 on the CN Railway was un-embedded, non-backwatered and ranked as a
 barrier to upstream fish passage according to the provincial protocol
-<span class="citation">(MoE 2011)</span> (Table <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-culvert-203122">4.31</a>). The two culverts were roughly 30 m apart, the southern pipe was dry and fully embedded, while the northern pipe was currently conveying the main flow of Simpson Creek.</p>
+<span class="citation">(MoE 2011)</span> (Table <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-culvert-203122">5.20</a>). The two culverts were roughly 30 m apart, the southern pipe was dry and fully embedded, while the northern pipe was currently conveying the main flow of Simpson Creek.</p>
 <p><br></p>
 <p>A further 950m upstream, PSCIS crossing 58264 on Nielson Road was un-embedded, non-backwatered and ranked as a
 barrier to upstream fish passage according to the provincial protocol
-<span class="citation">(MoE 2011)</span> (Table <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-culvert-58264">4.32</a>). This concrete oval culvert had a significant 1 m outlet drop and 1.2 m deep outlet pool.</p>
+<span class="citation">(MoE 2011)</span> (Table <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-culvert-58264">5.21</a>). This concrete oval culvert had a significant 1 m outlet drop and 1.2 m deep outlet pool.</p>
 <p><br></p>
 <p>At all crossings, the water temperature was 6.1<span class="math inline">\(^\circ\)</span>C,
 pH was 7.7 and
 conductivity was 107 uS/cm.</p>
+<div style="page-break-after: always;"></div>
 <p><br></p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb146-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_cv_summary_memo</span>()</span></code></pre></div>
 <table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-culvert-58245">Table 4.30: </span>Summary of fish passage assessment for PSCIS crossing 58245.
+<span id="tab:tab-culvert-58245">Table 5.19: </span>Summary of fish passage assessment for PSCIS crossing 58245.
 </caption>
 <thead>
 <tr>
@@ -1012,13 +893,9 @@ Fix Span / Diameter
 </table></li>
 </ul>
 <p><br></p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb147-1" tabindex="-1"></a><span class="co"># fpr::fpr_table_cv_summary_memo(site = my_site3, site_photo_id = my_site3)</span></span>
-<span id="cb147-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb147-2" tabindex="-1"></a></span>
-<span id="cb147-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb147-3" tabindex="-1"></a><span class="co"># See issue https://github.com/NewGraphEnvironment/mybookdown-template/issues/65</span></span>
-<span id="cb147-4"><a href="simpson-creek---58245-203122-58264---appendix.html#cb147-4" tabindex="-1"></a><span class="fu">lfpr_table_cv_summary_memo</span>(<span class="at">site =</span> my_site3, <span class="at">site_photo_id =</span> my_site3)</span></code></pre></div>
 <table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-culvert-203122">Table 4.31: </span>Summary of fish passage assessment for PSCIS crossing 203122.
+<span id="tab:tab-culvert-203122">Table 5.20: </span>Summary of fish passage assessment for PSCIS crossing 203122.
 </caption>
 <thead>
 <tr>
@@ -1282,13 +1159,9 @@ Fix Span / Diameter
 </table></li>
 </ul>
 <p><br></p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb148-1" tabindex="-1"></a><span class="co"># fpr::fpr_table_cv_summary_memo(site = my_site2, site_photo_id = my_site2)</span></span>
-<span id="cb148-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb148-2" tabindex="-1"></a></span>
-<span id="cb148-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb148-3" tabindex="-1"></a><span class="co"># See issue https://github.com/NewGraphEnvironment/mybookdown-template/issues/65</span></span>
-<span id="cb148-4"><a href="simpson-creek---58245-203122-58264---appendix.html#cb148-4" tabindex="-1"></a><span class="fu">lfpr_table_cv_summary_memo</span>(<span class="at">site =</span> my_site2, <span class="at">site_photo_id =</span> my_site2)</span></code></pre></div>
 <table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-culvert-58264">Table 4.32: </span>Summary of fish passage assessment for PSCIS crossing 58264.
+<span id="tab:tab-culvert-58264">Table 5.21: </span>Summary of fish passage assessment for PSCIS crossing 58264.
 </caption>
 <thead>
 <tr>
@@ -1552,19 +1425,15 @@ Fix Span / Diameter
 </table></li>
 </ul>
 <p><br></p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb149-1" tabindex="-1"></a><span class="do">##this is useful to get some comments for the report</span></span>
-<span id="cb149-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb149-2" tabindex="-1"></a>hab_site <span class="sc">|&gt;</span><span class="fu">filter</span>(site <span class="sc">==</span> my_site <span class="sc">&amp;</span> location <span class="sc">==</span> <span class="st">&#39;ds&#39;</span>) <span class="sc">|&gt;</span><span class="fu">pull</span>(comments)</span>
-<span id="cb149-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb149-3" tabindex="-1"></a>hab_site <span class="sc">|&gt;</span><span class="fu">filter</span>(site <span class="sc">==</span> my_site <span class="sc">&amp;</span> location <span class="sc">==</span> <span class="st">&#39;us&#39;</span>) <span class="sc">|&gt;</span><span class="fu">pull</span>(comments)</span>
-<span id="cb149-4"><a href="simpson-creek---58245-203122-58264---appendix.html#cb149-4" tabindex="-1"></a>hab_site <span class="sc">|&gt;</span><span class="fu">filter</span>(site <span class="sc">==</span> my_site2 <span class="sc">&amp;</span> location <span class="sc">==</span> <span class="st">&#39;us&#39;</span>) <span class="sc">|&gt;</span><span class="fu">pull</span>(comments)</span></code></pre></div>
 </div>
 <div id="stream-characteristics-downstream-of-crossing-58245" class="section level2 unnumbered hasAnchor">
 <h2>Stream Characteristics Downstream of Crossing 58245<a href="simpson-creek---58245-203122-58264---appendix.html#stream-characteristics-downstream-of-crossing-58245" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The stream was surveyed downstream from crossing 58245 for 70m , to the confluence with Kathlyn Creek. The stream ran adjacent to the road along one bank, which had limited riparian vegetation consisting primarily of shrubs. The opposite bank, bordered by private property, had minimal vegetation and no significant riparian cover. Multiple sections of bank armouring and channelization were observed near the private property, and only small pockets of gravels suitable for spawning were observed (Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:photo-58245-01">4.27</a>). The average channel width was 6.2m, the average wetted width was 3.9m, and the average gradient was 2%.Total cover amount was rated as moderate with undercut banks dominant. Cover was also present as small woody debris, deep pools, and overhanging vegetation.The dominant substrate was fines with cobbles sub-dominant. The habitat was rated as medium value for salmonid rearing and spawning.</p>
+<p>The stream was surveyed downstream from crossing 58245 for 70m , to the confluence with Kathlyn Creek. The stream ran adjacent to the road along one bank, which had limited riparian vegetation consisting primarily of shrubs. The opposite bank, bordered by private property, had minimal vegetation and no significant riparian cover. Multiple sections of bank armouring and channelization were observed near the private property, and only small pockets of gravels suitable for spawning were observed (Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:photo-58245-d01">5.16</a>). Total cover amount was rated as moderate with undercut banks dominant. Cover was also present as small woody debris, deep pools, and overhanging vegetation.The dominant substrate was fines with cobbles sub-dominant.The average channel width was 6.2m, the average wetted width was 3.9m, and the average gradient was 2%. The habitat was rated as medium value for salmonid rearing and spawning.</p>
 <p><br></p>
 </div>
 <div id="stream-characteristics-upstream-of-crossing-58245-and-downstream-of-crossing-203122" class="section level2 unnumbered hasAnchor">
 <h2>Stream Characteristics Upstream of Crossing 58245 and Downstream of Crossing 203122<a href="simpson-creek---58245-203122-58264---appendix.html#stream-characteristics-upstream-of-crossing-58245-and-downstream-of-crossing-203122" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The stream was surveyed from Lake Kathlyn Road (crossing 58245) to the CN railway (crossing 203122), a distance of approximately 650m. Above Lake Kathlyn Road, the stream was heavily impacted by adjacent private lands, with riparian vegetation removed, the stream channelized, and banks armoured (Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:photo-58245-02">4.28</a>). Extensive beaver activity was observed in the lower stream, with dams ranging in height from 0.4 to 1 m. Nearing the railway crossing, the stream consisted of mostly intact riparian vegetation, abundant gravels, deep pools, and large woody debris. Total cover amount was rated as moderate with undercut banks dominant. Cover was also present as small woody debris, large woody debris, deep pools, and overhanging vegetation.The average channel width was 6m, the average wetted width was 4.3m, and the average gradient was 1.1%.The dominant substrate was fines with gravels sub-dominant. The habitat was rated as high value for salmonid spawning and rearing.</p>
+<p>The stream was surveyed from Lake Kathlyn Road (crossing 58245) to the CN railway (crossing 203122), a distance of approximately 650m. Above Lake Kathlyn Road, the stream was heavily impacted by adjacent private lands, with riparian vegetation removed, the stream channelized, and banks armoured (Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:photo-58245-d01">5.16</a>). Extensive beaver activity was observed in the lower stream, with dams ranging in height from 0.4 to 1 m. Nearing the railway crossing, the stream consisted of mostly intact riparian vegetation, abundant gravels, deep pools, and large woody debris. The average channel width was 6m, the average wetted width was 4.3m, and the average gradient was 1.1%.The dominant substrate was fines with gravels sub-dominant.Total cover amount was rated as moderate with undercut banks dominant. Cover was also present as small woody debris, large woody debris, deep pools, and overhanging vegetation. The habitat was rated as high value for salmonid spawning and rearing.</p>
 <p><br></p>
 <p>PSCIS crossing 203126, situated approximately 70m upstream of Lake Kathlyn Road, was also assessed during the survey, with the culvert assessment provided in <a href="appendix1.html#appendix1">Appendix 1</a>. The crossing consisted of three 0.95m pipes running beneath a private driveway, with two pipes appearing fully embedded. The crossing was non-backwatered and ranked as a
 barrier to upstream fish passage according to the provincial protocol
@@ -1573,19 +1442,19 @@ barrier to upstream fish passage according to the provincial protocol
 </div>
 <div id="stream-characteristics-upstream-of-crossing-203122-and-downstream-of-crossing-58264" class="section level2 unnumbered hasAnchor">
 <h2>Stream Characteristics Upstream of Crossing 203122 and Downstream of Crossing 58264<a href="simpson-creek---58245-203122-58264---appendix.html#stream-characteristics-upstream-of-crossing-203122-and-downstream-of-crossing-58264" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The stream was surveyed from the CN railway (crossing 203122) to Nielson Road (crossing 58264), a distance of approximately 950m (Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:photo-58264-01">4.29</a>). From the railway crossing upstream, the gradient was low (2–3%), with high-quality habitat characterized by abundant gravels, deep pools up to 90cm, large woody debris, and diverse cover. In this section, the adjacent landowner reported recent steelhead and coho spawning, as well as historical Chinook spawning. Approximately 300m downstream of Nielson Road, the gradient increased (5–6%), transitioning into straight riffle-cascade sections with confined, channelized, dyke-like banks. Total cover amount was rated as moderate with deep pools dominant. Cover was also present as small woody debris, large woody debris, undercut banks, and overhanging vegetation.The dominant substrate was gravels with cobbles sub-dominant.The average channel width was 6.2m, the average wetted width was 3.5m, and the average gradient was 4.1%. The habitat was rated as high value for salmonid spawning and rearing.</p>
+<p>The stream was surveyed from the CN railway (crossing 203122) to Nielson Road (crossing 58264), a distance of approximately 950m (Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:photo-58264-d01">5.17</a>). From the railway crossing upstream, the gradient was low (2–3%), with high-quality habitat characterized by abundant gravels, deep pools up to 90cm, large woody debris, and diverse cover. In this section, the adjacent landowner reported recent steelhead and coho spawning, as well as historical Chinook spawning. Approximately 300m downstream of Nielson Road, the gradient increased (5–6%), transitioning into straight riffle-cascade sections with confined, channelized, dyke-like banks. Total cover amount was rated as moderate with deep pools dominant. Cover was also present as small woody debris, large woody debris, undercut banks, and overhanging vegetation.The average channel width was 6.2m, the average wetted width was 3.5m, and the average gradient was 4.1%.The dominant substrate was gravels with cobbles sub-dominant. The habitat was rated as high value for salmonid spawning and rearing.</p>
 <p><br></p>
 </div>
 <div id="stream-characteristics-upstream-of-crossing-58264" class="section level2 unnumbered hasAnchor">
 <h2>Stream Characteristics Upstream of Crossing 58264<a href="simpson-creek---58245-203122-58264---appendix.html#stream-characteristics-upstream-of-crossing-58264" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The stream was surveyed upstream from crossing 58264 for 615m . This section of the stream featured a steeper gradient, predominantly characterized by boulder cover with occasional pockets of gravels suitable for coho, steelhead, and Dolly Varden spawning (Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:photo-58264-02">4.30</a>). Pools were infrequent throughout. The riparian zone was composed of a healthy, mature mixed forest, providing stability and shading. The upper end of the site was situated just upstream of a short cascade with a 20% gradient. The habitat was rated as medium value for salmonid rearing an spawning. The dominant substrate was cobbles with boulders sub-dominant.The average channel width was 8.9m, the average wetted width was 4.7m, and the average gradient was 7.3%.Total cover amount was rated as moderate with boulders dominant. Cover was also present as large woody debris.</p>
+<p>The stream was surveyed upstream from crossing 58264 for 615m . This section of the stream featured a steeper gradient, predominantly characterized by boulder cover with occasional pockets of gravels suitable for coho, steelhead, and Dolly Varden spawning (Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:photo-58264-d01">5.17</a>). Pools were infrequent throughout. The riparian zone was composed of a healthy, mature mixed forest, providing stability and shading. The upper end of the site was situated just upstream of a short cascade with a 20% gradient. The habitat was rated as medium value for salmonid rearing an spawning. Total cover amount was rated as moderate with boulders dominant. Cover was also present as large woody debris.The dominant substrate was cobbles with boulders sub-dominant.The average channel width was 8.9m, the average wetted width was 4.7m, and the average gradient was 7.3%.</p>
 <p><br></p>
 </div>
 <div id="fish-sampling-4" class="section level2 unnumbered hasAnchor">
 <h2>Fish Sampling<a href="simpson-creek---58245-203122-58264---appendix.html#fish-sampling-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Electrofishing was conducted upstream and downstream of crossing (58264) with results summarised in Tables <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-fish-site-58264">4.34</a> - <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-fish-dens-58264">4.35</a> and Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:plot-fish-box-58264">4.26</a>. A total of 20 fish were captured downstream including rainbow trout, cutthroat trout/rainbow trout hybrid, and Dolly Varden. Upstream of the crossing 12 rainbow trout were captured (Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:photo-58264-03">4.31</a>). .</p>
+<p>Electrofishing was conducted upstream and downstream of crossing (58264) with results summarised in Tables <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-fish-site-58264">5.23</a> - <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-fish-dens-58264">5.24</a> and Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:plot-fish-box-58264">5.15</a>. A total of 20 fish were captured downstream including rainbow trout, cutthroat trout/rainbow trout hybrid, and Dolly Varden. Upstream of the crossing 12 rainbow trout were captured (Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:photo-58264-d02">5.18</a>). .</p>
 <p><br></p>
-<p>Electrofishing was conducted at one site approximately 360 m downstream of Nielsen Road, with results summarised in Tables <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-fish-site-58264">4.34</a> - <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-fish-dens-58264">4.35</a> and Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:plot-fish-box-58264">4.26</a>. At this location, the adjacent landowner had reported recent steelhead and coho spawning and historically Chinook spawning. A total of 43 fish were captured including coho salmon, cutthroat trout/rainbow trout hybrid, and Dolly Varden (Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:photo-58264-04">4.32</a>).</p>
+<p>Electrofishing was conducted at one site approximately 360 m downstream of Nielsen Road, with results summarised in Tables <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-fish-site-58264">5.23</a> - <a href="simpson-creek---58245-203122-58264---appendix.html#tab:tab-fish-dens-58264">5.24</a> and Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:plot-fish-box-58264">5.15</a>. At this location, the adjacent landowner had reported recent steelhead and coho spawning and historically Chinook spawning. A total of 43 fish were captured including coho salmon, cutthroat trout/rainbow trout hybrid, and Dolly Varden (Figure <a href="simpson-creek---58245-203122-58264---appendix.html#fig:photo-58264-d02">5.18</a>).</p>
 <p><br></p>
 </div>
 <div id="structure-remediation-and-cost-estimate-2" class="section level2 unnumbered hasAnchor">
@@ -1600,15 +1469,11 @@ barrier to upstream fish passage according to the provincial protocol
 <div id="conclusion-3" class="section level2 unnumbered hasAnchor">
 <h2>Conclusion<a href="simpson-creek---58245-203122-58264---appendix.html#conclusion-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Simpson Creek is a significant contributor to the Kathlyn Creek watershed, with flow volumes during the 2024 assessment slightly less than those observed in the Kathlyn Creek mainstem. The habitat was rated as value for salmonid spawning and rearing. Simpson Creek has historically supported a variety of salmonids, and coho captured during electrofishing at the time of assessment further confirm the stream’s continued importance as salmonid habitat. PSCIS crossing 58264 on Nielsen Road is a strong candidate for remediation, given its large outlet drop (1m) and low traffic volume, it is a high priority for replacement. Upstream of this crossing, a trail runs alongside the stream offering opportunities for community engagement and education, which could foster stewardship and advocacy for the stream. PSCIS crossing 203122 on the CN Railway presented a minimal barrier at the time of assessment and was considered a low priority for replacement. However, if restoration activities proceed at the upstream crossing on Nielsen Road, this crossing should be reassessed. PSCIS crossing 58245 on Lake Kathlyn Road is not presumed to be a significant barrier to fish passage and was rated as a low priority for replacement. However, the culverts were heavily corroded and located in an area impacted by riparian vegetation removal, stream channelization, and bank armouring, which presents a valuable opportunity for community-led restoration efforts and education. The proximity of these sites to Smithers, BC, enhances opportunities for public involvement and education, further supporting long-term restoration goals for Simpson Creek.</p>
+<div style="page-break-after: always;"></div>
 <p><br></p>
-<p><br></p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb150-1" tabindex="-1"></a>tab_hab_summary <span class="sc">|&gt;</span></span>
-<span id="cb150-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb150-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Site <span class="sc">%in%</span> <span class="fu">c</span>(my_site, my_site2)) <span class="sc">|&gt;</span> </span>
-<span id="cb150-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb150-3" tabindex="-1"></a>  fpr<span class="sc">::</span><span class="fu">fpr_kable</span>(<span class="at">caption_text =</span> <span class="fu">paste0</span>(<span class="st">&quot;Summary of habitat details for PSCIS crossings &quot;</span>, my_site, <span class="st">&quot; and &quot;</span>, my_site2, <span class="st">&quot;.&quot;</span>),</span>
-<span id="cb150-4"><a href="simpson-creek---58245-203122-58264---appendix.html#cb150-4" tabindex="-1"></a>                 <span class="at">scroll =</span> F) </span></code></pre></div>
-<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
+<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-habitat-summary-58245">Table 4.33: </span>Summary of habitat details for PSCIS crossings 58245 and 58264.
+<span id="tab:tab-habitat-summary-58245">Table 5.22: </span>Summary of habitat details for PSCIS crossings 58245 and 58264.
 </caption>
 <thead>
 <tr>
@@ -1732,10 +1597,9 @@ medium
 </tbody>
 </table>
 <p><br></p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb151-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_fish_site</span>(<span class="at">sit =</span> my_site2)</span></code></pre></div>
-<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
+<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-fish-site-58264">Table 4.34: </span>Fish sampling site summary for 58264.
+<span id="tab:tab-fish-site-58264">Table 5.23: </span>Fish sampling site summary for 58264.
 </caption>
 <thead>
 <tr>
@@ -1823,10 +1687,9 @@ partial enclosure
 </tbody>
 </table>
 <p><br></p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb152-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_fish_density</span>(<span class="at">sit =</span> my_site2)</span></code></pre></div>
-<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-fish-dens-58264">Table 4.35: </span>Fish sampling density results summary for 58264.
+<span id="tab:tab-fish-dens-58264">Table 5.24: </span>Fish sampling density results summary for 58264.
 </caption>
 <thead>
 <tr>
@@ -2100,97 +1963,37 @@ FALSE
 </tr>
 </tfoot>
 </table>
-<p><br></p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb153-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing &#39;</span>, my_site2, <span class="st">&#39;.&#39;</span>)</span>
-<span id="cb153-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb153-2" tabindex="-1"></a></span>
-<span id="cb153-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb153-3" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_plot_fish_box</span>(<span class="at">sit =</span> my_site2) </span></code></pre></div>
+<div style="page-break-after: always;"></div>
 <div class="figure"><span style="display:block;" id="fig:plot-fish-box-58264"></span>
 <img src="fish_passage_skeena_2024_files/figure-html/plot-fish-box-58264-1.png" alt="Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing 58264." width="100%" />
 <p class="caption">
-Figure 4.26: Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing 58264.
+Figure 5.15: Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing 58264.
 </p>
 </div>
 <p><br></p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb154-1" tabindex="-1"></a>my_photo1 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">str_to_pull =</span> <span class="st">&#39;ds_typical_1_&#39;</span>)</span>
-<span id="cb154-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb154-2" tabindex="-1"></a></span>
-<span id="cb154-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb154-3" tabindex="-1"></a>my_caption1 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Typical habitat downstream of PSCIS crossing &#39;</span>, my_site, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb155-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:photo-58245-01"></span>
-<img src="data/photos/58245/20240920_160903_ds_typical_1_k_.JPG" alt="Typical habitat downstream of PSCIS crossing 58245." width="100%" />
+<p><br></p>
+<div class="figure"><span style="display:block;" id="fig:photo-58245-d01"></span>
+<img src="data/photos/58245/20240920_160903_ds_typical_1_k_.JPG" alt="Left: Typical habitat downstream of PSCIS crossing 58245. Right: Typical habitat upstream of PSCIS crossing 58245 and downstream of PSCIS crossing 203122, with signs of bank armouring and channelization." width="49.5%" /><img src="fig/pixel.png" alt="Left: Typical habitat downstream of PSCIS crossing 58245. Right: Typical habitat upstream of PSCIS crossing 58245 and downstream of PSCIS crossing 203122, with signs of bank armouring and channelization." width="1%" /><img src="data/photos/58245/20240920_154455_us_typical_2_k_.JPG" alt="Left: Typical habitat downstream of PSCIS crossing 58245. Right: Typical habitat upstream of PSCIS crossing 58245 and downstream of PSCIS crossing 203122, with signs of bank armouring and channelization." width="49.5%" />
 <p class="caption">
-Figure 4.27: Typical habitat downstream of PSCIS crossing 58245.
+Figure 5.16: Left: Typical habitat downstream of PSCIS crossing 58245. Right: Typical habitat upstream of PSCIS crossing 58245 and downstream of PSCIS crossing 203122, with signs of bank armouring and channelization.
 </p>
 </div>
 <p><br></p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb156-1" tabindex="-1"></a>my_photo2 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">str_to_pull =</span> <span class="st">&#39;us_typical_2&#39;</span>)</span>
-<span id="cb156-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb156-2" tabindex="-1"></a></span>
-<span id="cb156-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb156-3" tabindex="-1"></a>my_caption2 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Typical habitat upstream of PSCIS crossing &#39;</span>, my_site, <span class="st">&#39; and downstream of PSCIS crossing &#39;</span>, my_site3, <span class="st">&#39;, with signs of bank armouring and channelization.&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb157-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:photo-58245-02"></span>
-<img src="data/photos/58245/20240920_154455_us_typical_2_k_.JPG" alt="Typical habitat upstream of PSCIS crossing 58245 and downstream of PSCIS crossing 203122, with signs of bank armouring and channelization." width="100%" />
-<p class="caption">
-Figure 4.28: Typical habitat upstream of PSCIS crossing 58245 and downstream of PSCIS crossing 203122, with signs of bank armouring and channelization.
-</p>
-</div>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb158-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Left: &#39;</span>, my_caption1, <span class="st">&#39; Right: &#39;</span>, my_caption2)</span>
-<span id="cb158-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb158-2" tabindex="-1"></a></span>
-<span id="cb158-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb158-3" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span>
-<span id="cb158-4"><a href="simpson-creek---58245-203122-58264---appendix.html#cb158-4" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;fig/pixel.png&quot;</span>)</span>
-<span id="cb158-5"><a href="simpson-creek---58245-203122-58264---appendix.html#cb158-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
 <p><br></p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb159-1" tabindex="-1"></a>my_photo1 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">site =</span> my_site2, <span class="at">str_to_pull =</span> <span class="st">&quot;stspawninglocation&quot;</span>)</span>
-<span id="cb159-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb159-2" tabindex="-1"></a></span>
-<span id="cb159-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb159-3" tabindex="-1"></a>my_caption1 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Steelhead spawning location upstream of PSCIS crossing &#39;</span>, my_site3, <span class="st">&#39; and downstream of PSCIS crossing &#39;</span>, my_site2, <span class="st">&#39;, as reported by the adjacent landowner.&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb160-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:photo-58264-01"></span>
-<img src="data/photos/58264/20240920_115636_ds_stspawninglocation_k_.JPG" alt="Steelhead spawning location upstream of PSCIS crossing 203122 and downstream of PSCIS crossing 58264, as reported by the adjacent landowner." width="100%" />
+<div class="figure"><span style="display:block;" id="fig:photo-58264-d01"></span>
+<img src="data/photos/58264/20240920_115636_ds_stspawninglocation_k_.JPG" alt="Left: Steelhead spawning location upstream of PSCIS crossing 203122 and downstream of PSCIS crossing 58264, as reported by the adjacent landowner. Right: Typical habitat upstream of PSCIS crossing 58264." width="49.5%" /><img src="fig/pixel.png" alt="Left: Steelhead spawning location upstream of PSCIS crossing 203122 and downstream of PSCIS crossing 58264, as reported by the adjacent landowner. Right: Typical habitat upstream of PSCIS crossing 58264." width="1%" /><img src="data/photos/58264/20240927_145942_us_typical_1_k_.JPG" alt="Left: Steelhead spawning location upstream of PSCIS crossing 203122 and downstream of PSCIS crossing 58264, as reported by the adjacent landowner. Right: Typical habitat upstream of PSCIS crossing 58264." width="49.5%" />
 <p class="caption">
-Figure 4.29: Steelhead spawning location upstream of PSCIS crossing 203122 and downstream of PSCIS crossing 58264, as reported by the adjacent landowner.
+Figure 5.17: Left: Steelhead spawning location upstream of PSCIS crossing 203122 and downstream of PSCIS crossing 58264, as reported by the adjacent landowner. Right: Typical habitat upstream of PSCIS crossing 58264.
 </p>
 </div>
 <p><br></p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb161-1" tabindex="-1"></a>my_photo2 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">site =</span> my_site2, <span class="at">str_to_pull =</span> <span class="st">&#39;us_typical_1&#39;</span>)</span>
-<span id="cb161-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb161-2" tabindex="-1"></a></span>
-<span id="cb161-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb161-3" tabindex="-1"></a>my_caption2 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Typical habitat upstream of PSCIS crossing &#39;</span>, my_site2, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb162-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:photo-58264-02"></span>
-<img src="data/photos/58264/20240927_145942_us_typical_1_k_.JPG" alt="Typical habitat upstream of PSCIS crossing 58264." width="100%" />
-<p class="caption">
-Figure 4.30: Typical habitat upstream of PSCIS crossing 58264.
-</p>
-</div>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb163-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Left: &#39;</span>, my_caption1, <span class="st">&#39; Right: &#39;</span>, my_caption2)</span>
-<span id="cb163-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb163-2" tabindex="-1"></a></span>
-<span id="cb163-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb163-3" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span>
-<span id="cb163-4"><a href="simpson-creek---58245-203122-58264---appendix.html#cb163-4" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;fig/pixel.png&quot;</span>)</span>
-<span id="cb163-5"><a href="simpson-creek---58245-203122-58264---appendix.html#cb163-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
 <p><br></p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb164-1" tabindex="-1"></a>my_photo1 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">site =</span> my_site2, <span class="at">str_to_pull =</span> <span class="st">&#39;fish_1&#39;</span>)</span>
-<span id="cb164-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb164-2" tabindex="-1"></a></span>
-<span id="cb164-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb164-3" tabindex="-1"></a>my_caption1 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Rainbow trout captured downstream of crossing &#39;</span>, my_site2, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb165-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:photo-58264-03"></span>
-<img src="data/photos/58264/TC_00319_fish_1_k_.JPG" alt="Rainbow trout captured downstream of crossing 58264." width="100%" />
+<div class="figure"><span style="display:block;" id="fig:photo-58264-d02"></span>
+<img src="data/photos/58264/TC_00319_fish_1_k_.JPG" alt="Left: Rainbow trout captured downstream of crossing 58264. Right: Coho salmon captured approximately 360 m downstream of crossing 58264." width="49.5%" /><img src="fig/pixel.png" alt="Left: Rainbow trout captured downstream of crossing 58264. Right: Coho salmon captured approximately 360 m downstream of crossing 58264." width="1%" /><img src="data/photos/58264/TC_00344_fish_2_k_.JPG" alt="Left: Rainbow trout captured downstream of crossing 58264. Right: Coho salmon captured approximately 360 m downstream of crossing 58264." width="49.5%" />
 <p class="caption">
-Figure 4.31: Rainbow trout captured downstream of crossing 58264.
+Figure 5.18: Left: Rainbow trout captured downstream of crossing 58264. Right: Coho salmon captured approximately 360 m downstream of crossing 58264.
 </p>
 </div>
-<p><br></p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb166-1" tabindex="-1"></a>my_photo2 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">site =</span> my_site2, <span class="at">str_to_pull =</span> <span class="st">&#39;fish_2&#39;</span>)</span>
-<span id="cb166-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb166-2" tabindex="-1"></a></span>
-<span id="cb166-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb166-3" tabindex="-1"></a>my_caption2 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Coho salmon captured approximately 360 m downstream of crossing &#39;</span>, my_site2, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb167-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:photo-58264-04"></span>
-<img src="data/photos/58264/TC_00344_fish_2_k_.JPG" alt="Coho salmon captured approximately 360 m downstream of crossing 58264." width="100%" />
-<p class="caption">
-Figure 4.32: Coho salmon captured approximately 360 m downstream of crossing 58264.
-</p>
-</div>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="simpson-creek---58245-203122-58264---appendix.html#cb168-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Left: &#39;</span>, my_caption1, <span class="st">&#39; Right: &#39;</span>, my_caption2)</span>
-<span id="cb168-2"><a href="simpson-creek---58245-203122-58264---appendix.html#cb168-2" tabindex="-1"></a></span>
-<span id="cb168-3"><a href="simpson-creek---58245-203122-58264---appendix.html#cb168-3" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span>
-<span id="cb168-4"><a href="simpson-creek---58245-203122-58264---appendix.html#cb168-4" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;fig/pixel.png&quot;</span>)</span>
-<span id="cb168-5"><a href="simpson-creek---58245-203122-58264---appendix.html#cb168-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
 
 </div>
 </div>

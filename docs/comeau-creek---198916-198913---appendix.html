@@ -52,52 +52,6 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
-<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
-<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-1.3.1/leaflet.js"></script>
-<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-<script src="libs/proj4-2.6.2/proj4.min.js"></script>
-<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
-<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.2.2/leaflet.js"></script>
-<script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
-<script src="libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
-<link href="libs/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.css" rel="stylesheet" />
-<script src="libs/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.min.js"></script>
-<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
-<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
-<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
-<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
-<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
-<link href="libs/lfx-fullscreen-1.0.2/lfx-fullscreen-prod.css" rel="stylesheet" />
-<script src="libs/lfx-fullscreen-1.0.2/lfx-fullscreen-prod.js"></script>
-<link href="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet" />
-<script src="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
-<script src="libs/leaflet-minimap-3.3.1/Minimap-binding.js"></script>
-<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
-<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.33/datatables.js"></script>
-<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="libs/jszip-1.13.6/jszip.min.js"></script>
-<link href="libs/dt-ext-buttons-1.13.6/css/buttons.dataTables.min.css" rel="stylesheet" />
-<script src="libs/dt-ext-buttons-1.13.6/js/dataTables.buttons.min.js"></script>
-<script src="libs/dt-ext-buttons-1.13.6/js/buttons.html5.min.js"></script>
-<script src="libs/dt-ext-buttons-1.13.6/js/buttons.colVis.min.js"></script>
-<script src="libs/dt-ext-buttons-1.13.6/js/buttons.print.min.js"></script>
-<link href="libs/dt-ext-fixedcolumns-1.13.6/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
-<script src="libs/dt-ext-fixedcolumns-1.13.6/js/dataTables.fixedColumns.min.js"></script>
-<link href="libs/dt-ext-colreorder-1.13.6/css/colReorder.dataTables.min.css" rel="stylesheet" />
-<script src="libs/dt-ext-colreorder-1.13.6/js/dataTables.colReorder.min.js"></script>
-<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
-<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
-<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
-<script src="libs/selectize-0.12.0/selectize.min.js"></script>
-<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
 
 <script type="text/javascript">
 
@@ -127,70 +81,6 @@ document.addEventListener('DOMContentLoaded', toggle_R);
 </script>
 
 
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
 
 <style type="text/css">
   
@@ -271,6 +161,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.7" data-path="results-and-discussion.html"><a href="results-and-discussion.html#remediations-1"><i class="fa fa-check"></i><b>4.7</b> Remediations</a></li>
 <li class="chapter" data-level="4.8" data-path="results-and-discussion.html"><a href="results-and-discussion.html#monitoring-1"><i class="fa fa-check"></i><b>4.8</b> Monitoring</a></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="recommendations.html"><a href="recommendations.html"><i class="fa fa-check"></i><b>5</b> Recommendations</a></li>
 <li class="chapter" data-level="" data-path="appendix1.html"><a href="appendix1.html"><i class="fa fa-check"></i>Appendix - Phase 1 Fish Passage Assessment Data and Photos</a></li>
 <li class="chapter" data-level="" data-path="buck-falls.html"><a href="buck-falls.html"><i class="fa fa-check"></i>Buck Falls - Appendix</a></li>
 <li class="chapter" data-level="" data-path="taman.html"><a href="taman.html"><i class="fa fa-check"></i>Taman Creek - 197967 - Appendix</a>
@@ -353,25 +244,15 @@ tributary that flows into Cormeau Creek approximately 270m downstream of Highway
 2.5km upstream from the Cormeau Creek / Skeena River confluence. As noted in <span class="citation">M. McCarthy (2000)</span> - the mainstem of Cormeau Creek deviates from the mapped Cormeau Creek stream line approximately 5.3km upstream of the incorrectly mapped confluence of Cormeau Creek and
 the Skeena River and enters the drainage labelled as Gershwin Creek at a location 4.8km upstream of the true Cormeau Creek
 confluence with the Skeena River. PSCIS crossing 198916 is located on Gershwin Creek on the CN Railway 1.8km upstream of the confluence of Gershwin Creek and the Skeena River. PSCIS crossing 198913 is located on Comeau Creek at Highway 16. Comeau Creek flows into Gershwin Creek just downstream of the highway. Both sites are within the Kispiox River watershed group. PSCIS crossing 198916 is owned by CN Rail and 198913 is the responsibility of the Ministry of Transportation and Infrastructure.</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="comeau-creek---198916-198913---appendix.html#cb90-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="st">&quot;Comeau Creek and Gershwin Creek. Map provided by Gitskan Watershed Authorities&quot;</span></span>
-<span id="cb90-2"><a href="comeau-creek---198916-198913---appendix.html#cb90-2" tabindex="-1"></a></span>
-<span id="cb90-3"><a href="comeau-creek---198916-198913---appendix.html#cb90-3" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;fig/gis/map_comeau_gwa_2016.png&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:map-198916"></span>
 <img src="fig/gis/map_comeau_gwa_2016.png" alt="Comeau Creek and Gershwin Creek. Map provided by Gitskan Watershed Authorities" width="100%" />
 <p class="caption">
-Figure 4.11: Comeau Creek and Gershwin Creek. Map provided by Gitskan Watershed Authorities
+Figure 5.4: Comeau Creek and Gershwin Creek. Map provided by Gitskan Watershed Authorities
 </p>
 </div>
 </div>
 <div id="background-2" class="section level2 unnumbered hasAnchor">
 <h2>Background<a href="comeau-creek---198916-198913---appendix.html#background-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="comeau-creek---198916-198913---appendix.html#cb91-1" tabindex="-1"></a><span class="co"># # A`r fpr::fpr_my_pscis_info()` is mapped as a</span></span>
-<span id="cb91-2"><a href="comeau-creek---198916-198913---appendix.html#cb91-2" tabindex="-1"></a><span class="co"># `r fpr::fpr_my_bcfishpass() |&gt; english::ordinal()` order stream with an</span></span>
-<span id="cb91-3"><a href="comeau-creek---198916-198913---appendix.html#cb91-3" tabindex="-1"></a><span class="co"># upstream watershed area of approximately</span></span>
-<span id="cb91-4"><a href="comeau-creek---198916-198913---appendix.html#cb91-4" tabindex="-1"></a><span class="co"># `r fpr::fpr_my_wshd()`km^2^. The watershed ranges in elevation from</span></span>
-<span id="cb91-5"><a href="comeau-creek---198916-198913---appendix.html#cb91-5" tabindex="-1"></a><span class="co"># a maximum of `r fpr::fpr_my_wshd(col = &#39;elev_max&#39;)`m to</span></span>
-<span id="cb91-6"><a href="comeau-creek---198916-198913---appendix.html#cb91-6" tabindex="-1"></a><span class="co"># `r fpr::fpr_my_wshd(col = &#39;elev_site&#39;)`m near the lower crossing (Table</span></span>
-<span id="cb91-7"><a href="comeau-creek---198916-198913---appendix.html#cb91-7" tabindex="-1"></a><span class="co"># \@ref(tab:tab-wshd-198916)). </span></span></code></pre></div>
 <p>In 1999, <span class="citation">M. McCarthy (2000)</span> conducted a detailed survey of Comeau Creek including the area from the confluence with
 the Skeena River to a point estimated as the upstream limit to fish (7.2km distance). During that survey two pairs of
 coho salmon were observed spawning at location approximately 100m and 130m upstream of the Skeena River confluence.
@@ -394,10 +275,6 @@ Coreau Creek and the Skeena River. Additionally, are documented in the lake upst
 <p>In 2024 habitat confirmations and fish sampling were conducted upstream and downstream of Comeau Creek PSCIS crossings 198916, 198913 on the CN railway and Highway 16. Additionally, in 2024, two crossings on Comeau Road were also assessed with fish passage assessments. The first - PSCIS crossing 203124 on Gershwin Creek was located approximately 100m up the road from the highway.<br />
 The second crossing - PSCIS 203123 - on a tributary to Comeau Creek - was located at approximately 1.6km up the road from the highway.
 Field assessment results and review of freshwater atlas mapping of the area between these two crossings indicates that the lake/wetland area mapped as upstream of the second crossing where observations of Dolly Varden and cutthrout have been recorded likely drains north-west to Gershwin Creek and not south-east to Comeau Creek as indicated in the provincial mapping.</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="comeau-creek---198916-198913---appendix.html#cb92-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_wshd_sum</span>(<span class="at">site_id =</span> my_site) <span class="sc">|&gt;</span> </span>
-<span id="cb92-2"><a href="comeau-creek---198916-198913---appendix.html#cb92-2" tabindex="-1"></a>  fpr<span class="sc">::</span><span class="fu">fpr_kable</span>(<span class="at">caption_text =</span> <span class="fu">paste0</span>(<span class="st">&#39;Summary of derived upstream watershed statistics for PSCIS crossing &#39;</span>, my_site, <span class="st">&#39;.&#39;</span>),</span>
-<span id="cb92-3"><a href="comeau-creek---198916-198913---appendix.html#cb92-3" tabindex="-1"></a>           <span class="at">footnote_text =</span> <span class="st">&#39;Elev P60 = Elevation at which 60% of the watershed area is above&#39;</span>,</span>
-<span id="cb92-4"><a href="comeau-creek---198916-198913---appendix.html#cb92-4" tabindex="-1"></a>           <span class="at">scroll =</span> F)</span></code></pre></div>
 <p><br></p>
 <!-- Habitat modelling outputs from bcfishpass indicated 4.4km of coho rearing habitat upstream of the railway crossing (198916) and 1.7 km upstream of the Highway 16 crossing (198913) (gradients <5.5% for coho). However, the estimate for the railway crossing includes the tributary, which is unlikely to provide much habitat beyond the wetlands located 350 m upstream, just past PSCIS crossing 198907. Additionally, based on the assessment of the PSCIS crossing 203123 approximately 1.3km upstream of the Highway 16 crossing (198913), where the stream had no visible channel, a more conservative estimate of coho rearing habitat upstream of the Highway 16 crossing likely 1.3km, while upstream of the railway crossing, it is approximately 2.3km. -->
 <p><br></p>
@@ -405,10 +282,6 @@ Field assessment results and review of freshwater atlas mapping of the area betw
 map attachment
 <a href="https://hillcrestgeo.ca/outgoing/fishpassage/projects/kisp/archive/2022-09-06/FishPassage_093M.101.pdf">093M.101</a>.</p>
 <p><br></p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="comeau-creek---198916-198913---appendix.html#cb93-1" tabindex="-1"></a><span class="co"># likley bogus</span></span>
-<span id="cb93-2"><a href="comeau-creek---198916-198913---appendix.html#cb93-2" tabindex="-1"></a><span class="co"># Although modelling outputs from bcfishpass are presented in Table</span></span>
-<span id="cb93-3"><a href="comeau-creek---198916-198913---appendix.html#cb93-3" tabindex="-1"></a><span class="co"># \@ref(tab:tab-culvert-bcfp-198916)). </span></span>
-<span id="cb93-4"><a href="comeau-creek---198916-198913---appendix.html#cb93-4" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_bcfp</span>(<span class="at">scroll =</span> gitbook_on) </span></code></pre></div>
 <p><br></p>
 </div>
 <div id="stream-characteristics-at-crossings-198916-and-198913" class="section level2 unnumbered hasAnchor">
@@ -416,10 +289,10 @@ map attachment
 <p>At the time of assessment, PSCIS crossing 198916 on the CN Railway was
 un-embedded, non-backwatered and ranked as a
 barrier to upstream fish passage according to the provincial protocol
-<span class="citation">(MoE 2011)</span> (Table <a href="comeau-creek---198916-198913---appendix.html#tab:tab-culvert-198916">4.14</a>). Constructed in the 1920s, this crossing is a concrete box culvert approximately 100 m in length, located beneath the CN railway with approximately 30–40 m of fill above it. It features a 0.45m outlet drop that adult fish could likely overcome but is presumed to act as a barrier to juvenile fish due to high velocities caused by the culvert’s steep slope (6%) and shallow flow depths.</p>
+<span class="citation">(MoE 2011)</span> (Table <a href="comeau-creek---198916-198913---appendix.html#tab:tab-culvert-198916">5.3</a>). Constructed in the 1920s, this crossing is a concrete box culvert approximately 100 m in length, located beneath the CN railway with approximately 30–40 m of fill above it. It features a 0.45m outlet drop that adult fish could likely overcome but is presumed to act as a barrier to juvenile fish due to high velocities caused by the culvert’s steep slope (6%) and shallow flow depths.</p>
 <p><br></p>
 <p>PSCIS crossing 198913 on Highway 16 was un-embedded, non-backwatered and ranked as a barrier to upstream fish passage according to the provincial protocol
-<span class="citation">(MoE 2011)</span> (Table <a href="comeau-creek---198916-198913---appendix.html#tab:tab-culvert-198913">4.15</a>). The crossing had a 0.35m outlet drop and a 0.85m deep outlet pool, suggesting the culvert is undersized for the stream.</p>
+<span class="citation">(MoE 2011)</span> (Table <a href="comeau-creek---198916-198913---appendix.html#tab:tab-culvert-198913">5.4</a>). The crossing had a 0.35m outlet drop and a 0.85m deep outlet pool, suggesting the culvert is undersized for the stream.</p>
 <p><br></p>
 <p>Water temperature was 7.6<span class="math inline">\(^\circ\)</span>C,
 pH was 8.1 and
@@ -429,14 +302,11 @@ conductivity was 305 uS/cm.</p>
 was partially clogging the pipe inlet had caused water to pool upstream of the road with a very small defined channel downstream (&lt;1m).<br />
 The second crossing - PSCIS 203123 - on a tributary to Comeau Creek - was located at approximately 1.6km up the road from the highway.<br />
 At this location the stream had no visible channel.</p>
+<div style="page-break-after: always;"></div>
 <p><br></p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="comeau-creek---198916-198913---appendix.html#cb94-1" tabindex="-1"></a><span class="co"># fpr::fpr_table_cv_summary_memo()</span></span>
-<span id="cb94-2"><a href="comeau-creek---198916-198913---appendix.html#cb94-2" tabindex="-1"></a></span>
-<span id="cb94-3"><a href="comeau-creek---198916-198913---appendix.html#cb94-3" tabindex="-1"></a><span class="co"># See issue https://github.com/NewGraphEnvironment/mybookdown-template/issues/65</span></span>
-<span id="cb94-4"><a href="comeau-creek---198916-198913---appendix.html#cb94-4" tabindex="-1"></a><span class="fu">lfpr_table_cv_summary_memo</span>()</span></code></pre></div>
 <table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-culvert-198916">Table 4.14: </span>Summary of fish passage assessment for PSCIS crossing 198916.
+<span id="tab:tab-culvert-198916">Table 5.3: </span>Summary of fish passage assessment for PSCIS crossing 198916.
 </caption>
 <thead>
 <tr>
@@ -700,13 +570,9 @@ Fix Span / Diameter
 </table></li>
 </ul>
 <p><br></p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="comeau-creek---198916-198913---appendix.html#cb95-1" tabindex="-1"></a><span class="co"># fpr::fpr_table_cv_summary_memo(site = my_site2, site_photo_id = my_site2)</span></span>
-<span id="cb95-2"><a href="comeau-creek---198916-198913---appendix.html#cb95-2" tabindex="-1"></a></span>
-<span id="cb95-3"><a href="comeau-creek---198916-198913---appendix.html#cb95-3" tabindex="-1"></a><span class="co"># See issue https://github.com/NewGraphEnvironment/mybookdown-template/issues/65</span></span>
-<span id="cb95-4"><a href="comeau-creek---198916-198913---appendix.html#cb95-4" tabindex="-1"></a><span class="fu">lfpr_table_cv_summary_memo</span>(<span class="at">site =</span> my_site2, <span class="at">site_photo_id =</span> my_site2)</span></code></pre></div>
 <table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-culvert-198913">Table 4.15: </span>Summary of fish passage assessment for PSCIS crossing 198913.
+<span id="tab:tab-culvert-198913">Table 5.4: </span>Summary of fish passage assessment for PSCIS crossing 198913.
 </caption>
 <thead>
 <tr>
@@ -970,24 +836,20 @@ Fix Span / Diameter
 </table></li>
 </ul>
 <p><br></p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="comeau-creek---198916-198913---appendix.html#cb96-1" tabindex="-1"></a><span class="do">##this is useful to get some comments for the report</span></span>
-<span id="cb96-2"><a href="comeau-creek---198916-198913---appendix.html#cb96-2" tabindex="-1"></a>hab_site <span class="sc">|&gt;</span> <span class="fu">filter</span>(site <span class="sc">==</span> my_site <span class="sc">&amp;</span> location <span class="sc">==</span> <span class="st">&#39;ds&#39;</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(comments)</span>
-<span id="cb96-3"><a href="comeau-creek---198916-198913---appendix.html#cb96-3" tabindex="-1"></a>hab_site <span class="sc">|&gt;</span> <span class="fu">filter</span>(site <span class="sc">==</span> my_site <span class="sc">&amp;</span> location <span class="sc">==</span> <span class="st">&#39;us&#39;</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(comments)</span>
-<span id="cb96-4"><a href="comeau-creek---198916-198913---appendix.html#cb96-4" tabindex="-1"></a>hab_site <span class="sc">|&gt;</span> <span class="fu">filter</span>(site <span class="sc">==</span> my_site2 <span class="sc">&amp;</span> location <span class="sc">==</span> <span class="st">&#39;us&#39;</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(comments)</span></code></pre></div>
 </div>
 <div id="stream-characteristics-downstream-of-crossing-198916" class="section level2 unnumbered hasAnchor">
 <h2>Stream Characteristics Downstream of Crossing 198916<a href="comeau-creek---198916-198913---appendix.html#stream-characteristics-downstream-of-crossing-198916" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The stream was surveyed downstream from crossing 198916 for 300m . The stream contained numerous boulders forming step pools; however, moderate flows at the time of assessment limited the availability of pools suitable for fish. The first pool suitable for overwintering fish, with adequately reduced flow, was located approximately 250m downstream of the culvert. There were occasional gravels suitable for spawning and frequent large woody debris, which contributed to the formation of additional steps. (Figure <a href="comeau-creek---198916-198913---appendix.html#fig:photo-198916-01">4.14</a>). Total cover amount was rated as moderate with boulders dominant. Cover was also present as small woody debris, large woody debris, and overhanging vegetation.The dominant substrate was cobbles with gravels sub-dominant.The average channel width was 5.9m, the average wetted width was 3.7m, and the average gradient was 5.1%. The habitat was rated as medium value suitable for salmonid rearing and spawning.</p>
+<p>The stream was surveyed downstream from crossing 198916 for 300m . The stream contained numerous boulders forming step pools; however, moderate flows at the time of assessment limited the availability of pools suitable for fish. The first pool suitable for overwintering fish, with adequately reduced flow, was located approximately 250m downstream of the culvert. There were occasional gravels suitable for spawning and frequent large woody debris, which contributed to the formation of additional steps. (Figure <a href="comeau-creek---198916-198913---appendix.html#fig:photo-198916-d01">5.7</a>). The dominant substrate was cobbles with gravels sub-dominant.Total cover amount was rated as moderate with boulders dominant. Cover was also present as small woody debris, large woody debris, and overhanging vegetation.The average channel width was 5.9m, the average wetted width was 3.7m, and the average gradient was 5.1%. The habitat was rated as medium value suitable for salmonid rearing and spawning.</p>
 <p><br></p>
 </div>
 <div id="stream-characteristics-upstream-of-crossing-198916-and-downstream-of-crossing-198913" class="section level2 unnumbered hasAnchor">
 <h2>Stream Characteristics Upstream of Crossing 198916 and Downstream of Crossing 198913<a href="comeau-creek---198916-198913---appendix.html#stream-characteristics-upstream-of-crossing-198916-and-downstream-of-crossing-198913" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The stream was surveyed from the railway crossing (198916) upstream to the Highway 16 crossing (198913), a distance of approximately 900 m (Figures <a href="comeau-creek---198916-198913---appendix.html#fig:photo-198916-02">4.15</a> - <a href="comeau-creek---198916-198913---appendix.html#fig:photo-198913-01">4.16</a>. A large woody debris jam was observed approximately 250m upstream of the railway crossing, creating a 17% gradient over a 9m section due to a fallen tree. The stream maintained good flow through this steeper section, supported by a healthy, mature mixed riparian forest that stabilized the banks. The dominant substrate was cobbles with boulders sub-dominant.The average channel width was 4.4m, the average wetted width was 3.3m, and the average gradient was 4.4%.Total cover amount was rated as moderate with undercut banks dominant. Cover was also present as small woody debris, boulders, and overhanging vegetation. The habitat was rated as medium value and contained occasional pockets of gravels suitable for spawning by coho salmon, Dolly Varden, and cutthroat trout.</p>
+<p>The stream was surveyed from the railway crossing (198916) upstream to the Highway 16 crossing (198913), a distance of approximately 900 m (Figures <a href="comeau-creek---198916-198913---appendix.html#fig:photo-198916-d01">5.7</a>- <a href="comeau-creek---198916-198913---appendix.html#fig:photo-198913-d01">5.8</a>). A large woody debris jam was observed approximately 250m upstream of the railway crossing, creating a 17% gradient over a 9m section due to a fallen tree. The stream maintained good flow through this steeper section, supported by a healthy, mature mixed riparian forest that stabilized the banks. The dominant substrate was cobbles with boulders sub-dominant.The average channel width was 4.4m, the average wetted width was 3.3m, and the average gradient was 4.4%.Total cover amount was rated as moderate with undercut banks dominant. Cover was also present as small woody debris, boulders, and overhanging vegetation. The habitat was rated as medium value and contained occasional pockets of gravels suitable for spawning by coho salmon, Dolly Varden, and cutthroat trout.</p>
 <p><br></p>
 </div>
 <div id="stream-characteristics-upstream-of-crossing-198913" class="section level2 unnumbered hasAnchor">
 <h2>Stream Characteristics Upstream of Crossing 198913<a href="comeau-creek---198916-198913---appendix.html#stream-characteristics-upstream-of-crossing-198913" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The stream was surveyed upstream from crossing 198913 - located on Highway 16 for 600m. The stream had frequent pools suitable for overwintering fish, with spawning gravels present despite a significant amount of fines. In the ~200 m section just upstream of the crossing, the stream maintained a low gradient and flowed through agricultural fields with mature cottonwood riparian cover throughout the entire area surveyed (Figure <a href="comeau-creek---198916-198913---appendix.html#fig:photo-198913-02">4.17</a>).The dominant substrate was gravels with fines sub-dominant.Total cover amount was rated as abundant with large woody debris dominant. Cover was also present as small woody debris, boulders, deep pools, and overhanging vegetation.The average channel width was 6.0m, the average wetted width was 4m, and the average gradient was 2.8%. The habitat was rated as high value for salmonid rearing an spawning.</p>
+<p>The stream was surveyed upstream from crossing 198913 - located on Highway 16 for 600m. The stream had frequent pools suitable for overwintering fish, with spawning gravels present despite a significant amount of fines. In the ~200 m section just upstream of the crossing, the stream maintained a low gradient and flowed through agricultural fields with mature cottonwood riparian cover throughout the entire area surveyed (Figure <a href="comeau-creek---198916-198913---appendix.html#fig:photo-198913-d01">5.8</a>).Total cover amount was rated as abundant with large woody debris dominant. Cover was also present as small woody debris, boulders, deep pools, and overhanging vegetation.The dominant substrate was gravels with fines sub-dominant.The average channel width was 6.0m, the average wetted width was 4m, and the average gradient was 2.8%. The habitat was rated as high value for salmonid rearing an spawning.</p>
 <p><br></p>
 </div>
 <div id="fish-sampling-2" class="section level2 unnumbered hasAnchor">
@@ -995,10 +857,10 @@ Fix Span / Diameter
 <p>Electrofishing was conducted on Coreau Creek below and above the railway crossing (198916) as well as
 upstream and downstream of the crossing on Highway 16 (198913).</p>
 <p><br></p>
-<p>Coreau Creek railway crossing (198916 results are summarised in Tables <a href="comeau-creek---198916-198913---appendix.html#tab:tab-fish-site-198916">4.17</a> - <a href="comeau-creek---198916-198913---appendix.html#tab:tab-fish-dens-198916">4.19</a> and Figure <a href="comeau-creek---198916-198913---appendix.html#fig:plot-fish-box-198916">4.12</a>. A total of 35 fish were captured downstream including Dolly Varden and cutthroat trout, and 3 Dolly Varden were captured upstream (Figure <a href="comeau-creek---198916-198913---appendix.html#fig:photo-198916-03">4.18</a>).</p>
+<p>Coreau Creek railway crossing (198916 results are summarised in Tables <a href="comeau-creek---198916-198913---appendix.html#tab:tab-fish-site-198916">5.6</a> - <a href="comeau-creek---198916-198913---appendix.html#tab:tab-fish-dens-198916">5.8</a> and Figure <a href="comeau-creek---198916-198913---appendix.html#fig:plot-fish-box-198916">5.5</a>. A total of 35 fish were captured downstream including Dolly Varden and cutthroat trout, and 3 Dolly Varden were captured upstream (Figures <a href="comeau-creek---198916-198913---appendix.html#fig:photo-198913-d02">5.10</a>).</p>
 <p><br></p>
-<p>Electrofishing results for upstream and downstream of the crossing on Highway 16 (198913) are summarised in Tables <a href="comeau-creek---198916-198913---appendix.html#tab:tab-fish-site-198913">4.18</a> - <a href="comeau-creek---198916-198913---appendix.html#tab:tab-fish-dens-198913">4.20</a> and Figure
-<a href="comeau-creek---198916-198913---appendix.html#fig:plot-fish-box-198913">4.13</a>. A total of 12 fish were captured downstream including Dolly Varden and cutthroat trout, and 9 Dolly Varden were captured upstream (Figure <a href="comeau-creek---198916-198913---appendix.html#fig:photo-198913-03">4.19</a>).</p>
+<p>Electrofishing results for upstream and downstream of the crossing on Highway 16 (198913) are summarised in Tables <a href="comeau-creek---198916-198913---appendix.html#tab:tab-fish-site-198913">5.7</a> - <a href="comeau-creek---198916-198913---appendix.html#tab:tab-fish-dens-198913">5.9</a> and Figure
+<a href="comeau-creek---198916-198913---appendix.html#fig:plot-fish-box-198913">5.6</a>. A total of 12 fish were captured downstream including Dolly Varden and cutthroat trout, and 9 Dolly Varden were captured upstream (Figures <a href="comeau-creek---198916-198913---appendix.html#fig:photo-198913-d02">5.10</a>).</p>
 <p><br></p>
 </div>
 <div id="structure-remediation-and-cost-estimate" class="section level2 unnumbered hasAnchor">
@@ -1029,14 +891,10 @@ coho spawners still utilize this system, implementing this recommendation could 
 A full assessment of the area between the railway crossing and the confluence of the Skeena River is recommended during
 the fall to scope for coho and pink spawners and update the state of knowledge regarding natural and man-made barriers
 in this section of stream.</p>
-<p><br></p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="comeau-creek---198916-198913---appendix.html#cb97-1" tabindex="-1"></a>tab_hab_summary <span class="sc">|&gt;</span></span>
-<span id="cb97-2"><a href="comeau-creek---198916-198913---appendix.html#cb97-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Site <span class="sc">%in%</span> <span class="fu">c</span>(my_site, my_site2)) <span class="sc">|&gt;</span> </span>
-<span id="cb97-3"><a href="comeau-creek---198916-198913---appendix.html#cb97-3" tabindex="-1"></a>  fpr<span class="sc">::</span><span class="fu">fpr_kable</span>(<span class="at">caption_text =</span> <span class="fu">paste0</span>(<span class="st">&quot;Summary of habitat details for PSCIS crossings &quot;</span>, my_site, <span class="st">&quot; and &quot;</span>, my_site2, <span class="st">&quot;.&quot;</span>),</span>
-<span id="cb97-4"><a href="comeau-creek---198916-198913---appendix.html#cb97-4" tabindex="-1"></a>                 <span class="at">scroll =</span> F) </span></code></pre></div>
-<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
+<div style="page-break-after: always;"></div>
+<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-habitat-summary-198916">Table 4.16: </span>Summary of habitat details for PSCIS crossings 198916 and 198913.
+<span id="tab:tab-habitat-summary-198916">Table 5.5: </span>Summary of habitat details for PSCIS crossings 198916 and 198913.
 </caption>
 <thead>
 <tr>
@@ -1160,10 +1018,9 @@ medium
 </tbody>
 </table>
 <p><br></p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="comeau-creek---198916-198913---appendix.html#cb98-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_fish_site</span>()</span></code></pre></div>
-<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
+<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-fish-site-198916">Table 4.17: </span>Fish sampling site summary for 198916.
+<span id="tab:tab-fish-site-198916">Table 5.6: </span>Fish sampling site summary for 198916.
 </caption>
 <thead>
 <tr>
@@ -1251,10 +1108,9 @@ partial enclosure
 </tbody>
 </table>
 <p><br></p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="comeau-creek---198916-198913---appendix.html#cb99-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_fish_site</span>(<span class="at">sit =</span> my_site2)</span></code></pre></div>
-<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;">
+<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-fish-site-198913">Table 4.18: </span>Fish sampling site summary for 198913.
+<span id="tab:tab-fish-site-198913">Table 5.7: </span>Fish sampling site summary for 198913.
 </caption>
 <thead>
 <tr>
@@ -1342,10 +1198,9 @@ partial enclosure
 </tbody>
 </table>
 <p><br></p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="comeau-creek---198916-198913---appendix.html#cb100-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_fish_density</span>()</span></code></pre></div>
-<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-fish-dens-198916">Table 4.19: </span>Fish sampling density results summary for 198916.
+<span id="tab:tab-fish-dens-198916">Table 5.8: </span>Fish sampling density results summary for 198916.
 </caption>
 <thead>
 <tr>
@@ -1660,10 +1515,9 @@ FALSE
 </tfoot>
 </table>
 <p><br></p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="comeau-creek---198916-198913---appendix.html#cb101-1" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_table_fish_density</span>(<span class="at">sit =</span> my_site2)</span></code></pre></div>
-<table class="table table-condensed table-responsive" style="font-size: 11px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<table class="table table-condensed table-responsive" style="font-size: 9px; color: black; margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption style="font-size: initial !important;">
-<span id="tab:tab-fish-dens-198913">Table 4.20: </span>Fish sampling density results summary for 198913.
+<span id="tab:tab-fish-dens-198913">Table 5.9: </span>Fish sampling density results summary for 198913.
 </caption>
 <thead>
 <tr>
@@ -1917,113 +1771,51 @@ FALSE
 </tr>
 </tfoot>
 </table>
-<p><br></p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="comeau-creek---198916-198913---appendix.html#cb102-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing &#39;</span>, my_site, <span class="st">&#39;.&#39;</span>)</span>
-<span id="cb102-2"><a href="comeau-creek---198916-198913---appendix.html#cb102-2" tabindex="-1"></a></span>
-<span id="cb102-3"><a href="comeau-creek---198916-198913---appendix.html#cb102-3" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_plot_fish_box</span>() </span></code></pre></div>
+<div style="page-break-after: always;"></div>
 <div class="figure"><span style="display:block;" id="fig:plot-fish-box-198916"></span>
 <img src="fish_passage_skeena_2024_files/figure-html/plot-fish-box-198916-1.png" alt="Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing 198916." width="100%" />
 <p class="caption">
-Figure 4.12: Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing 198916.
+Figure 5.5: Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing 198916.
 </p>
 </div>
 <p><br></p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="comeau-creek---198916-198913---appendix.html#cb103-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing &#39;</span>, my_site2, <span class="st">&#39;.&#39;</span>)</span>
-<span id="cb103-2"><a href="comeau-creek---198916-198913---appendix.html#cb103-2" tabindex="-1"></a></span>
-<span id="cb103-3"><a href="comeau-creek---198916-198913---appendix.html#cb103-3" tabindex="-1"></a>fpr<span class="sc">::</span><span class="fu">fpr_plot_fish_box</span>(<span class="at">sit =</span> my_site2) </span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:plot-fish-box-198913"></span>
 <img src="fish_passage_skeena_2024_files/figure-html/plot-fish-box-198913-1.png" alt="Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing 198913." width="100%" />
 <p class="caption">
-Figure 4.13: Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing 198913.
+Figure 5.6: Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing 198913.
 </p>
 </div>
 <p><br></p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="comeau-creek---198916-198913---appendix.html#cb104-1" tabindex="-1"></a>my_photo1 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">str_to_pull =</span> <span class="st">&#39;ds_typical_1_&#39;</span>)</span>
-<span id="cb104-2"><a href="comeau-creek---198916-198913---appendix.html#cb104-2" tabindex="-1"></a></span>
-<span id="cb104-3"><a href="comeau-creek---198916-198913---appendix.html#cb104-3" tabindex="-1"></a>my_caption1 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Typical habitat downstream of PSCIS crossing &#39;</span>, my_site, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="comeau-creek---198916-198913---appendix.html#cb105-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:photo-198916-01"></span>
-<img src="data/photos/198916/20240925_123547_ds_typical_1_k_.JPG" alt="Typical habitat downstream of PSCIS crossing 198916." width="100%" />
+<p><br></p>
+<div class="figure"><span style="display:block;" id="fig:photo-198916-d01"></span>
+<img src="data/photos/198916/20240925_123547_ds_typical_1_k_.JPG" alt="Left: Typical habitat downstream of PSCIS crossing 198916. Right: Typical habitat upstream of PSCIS crossing 198916." width="49.5%" /><img src="fig/pixel.png" alt="Left: Typical habitat downstream of PSCIS crossing 198916. Right: Typical habitat upstream of PSCIS crossing 198916." width="1%" /><img src="data/photos/198916/20240925_123116_us_typical_1_k_.JPG" alt="Left: Typical habitat downstream of PSCIS crossing 198916. Right: Typical habitat upstream of PSCIS crossing 198916." width="49.5%" />
 <p class="caption">
-Figure 4.14: Typical habitat downstream of PSCIS crossing 198916.
+Figure 5.7: Left: Typical habitat downstream of PSCIS crossing 198916. Right: Typical habitat upstream of PSCIS crossing 198916.
 </p>
 </div>
 <p><br></p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="comeau-creek---198916-198913---appendix.html#cb106-1" tabindex="-1"></a>my_photo2 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">str_to_pull =</span> <span class="st">&#39;us_typical_1&#39;</span>)</span>
-<span id="cb106-2"><a href="comeau-creek---198916-198913---appendix.html#cb106-2" tabindex="-1"></a></span>
-<span id="cb106-3"><a href="comeau-creek---198916-198913---appendix.html#cb106-3" tabindex="-1"></a>my_caption2 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Typical habitat upstream of PSCIS crossing &#39;</span>, my_site, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="comeau-creek---198916-198913---appendix.html#cb107-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:photo-198916-02"></span>
-<img src="data/photos/198916/20240925_123116_us_typical_1_k_.JPG" alt="Typical habitat upstream of PSCIS crossing 198916." width="100%" />
+<p><br></p>
+<div class="figure"><span style="display:block;" id="fig:photo-198913-d01"></span>
+<img src="data/photos/198916/20240925_125431_us_pool_k_.JPG" alt="Left: Typical habitat downstream of PSCIS crossing 198913. Right: Typical habitat upstream of PSCIS crossing 198913." width="49.5%" /><img src="fig/pixel.png" alt="Left: Typical habitat downstream of PSCIS crossing 198913. Right: Typical habitat upstream of PSCIS crossing 198913." width="1%" /><img src="data/photos/198913/20240925_150310_us_typical_2_k_.JPG" alt="Left: Typical habitat downstream of PSCIS crossing 198913. Right: Typical habitat upstream of PSCIS crossing 198913." width="49.5%" />
 <p class="caption">
-Figure 4.15: Typical habitat upstream of PSCIS crossing 198916.
-</p>
-</div>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="comeau-creek---198916-198913---appendix.html#cb108-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Left: &#39;</span>, my_caption1, <span class="st">&#39; Right: &#39;</span>, my_caption2)</span>
-<span id="cb108-2"><a href="comeau-creek---198916-198913---appendix.html#cb108-2" tabindex="-1"></a></span>
-<span id="cb108-3"><a href="comeau-creek---198916-198913---appendix.html#cb108-3" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span>
-<span id="cb108-4"><a href="comeau-creek---198916-198913---appendix.html#cb108-4" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;fig/pixel.png&quot;</span>)</span>
-<span id="cb108-5"><a href="comeau-creek---198916-198913---appendix.html#cb108-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
-<p><br></p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="comeau-creek---198916-198913---appendix.html#cb109-1" tabindex="-1"></a>my_photo1 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">site =</span> my_site, <span class="at">str_to_pull =</span> <span class="st">&#39;us_pool&#39;</span>)</span>
-<span id="cb109-2"><a href="comeau-creek---198916-198913---appendix.html#cb109-2" tabindex="-1"></a></span>
-<span id="cb109-3"><a href="comeau-creek---198916-198913---appendix.html#cb109-3" tabindex="-1"></a>my_caption1 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Typical habitat downstream of PSCIS crossing &#39;</span>, my_site2, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="comeau-creek---198916-198913---appendix.html#cb110-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:photo-198913-01"></span>
-<img src="data/photos/198916/20240925_125431_us_pool_k_.JPG" alt="Typical habitat downstream of PSCIS crossing 198913." width="100%" />
-<p class="caption">
-Figure 4.16: Typical habitat downstream of PSCIS crossing 198913.
+Figure 5.8: Left: Typical habitat downstream of PSCIS crossing 198913. Right: Typical habitat upstream of PSCIS crossing 198913.
 </p>
 </div>
 <p><br></p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="comeau-creek---198916-198913---appendix.html#cb111-1" tabindex="-1"></a>my_photo2 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">site =</span> my_site2, <span class="at">str_to_pull =</span> <span class="st">&#39;us_typical_2&#39;</span>)</span>
-<span id="cb111-2"><a href="comeau-creek---198916-198913---appendix.html#cb111-2" tabindex="-1"></a></span>
-<span id="cb111-3"><a href="comeau-creek---198916-198913---appendix.html#cb111-3" tabindex="-1"></a>my_caption2 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Typical habitat upstream of PSCIS crossing &#39;</span>, my_site2, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="comeau-creek---198916-198913---appendix.html#cb112-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:photo-198913-02"></span>
-<img src="data/photos/198913/20240925_150310_us_typical_2_k_.JPG" alt="Typical habitat downstream of PSCIS crossing 198913." width="100%" />
-<p class="caption">
-Figure 4.17: Typical habitat downstream of PSCIS crossing 198913.
-</p>
-</div>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="comeau-creek---198916-198913---appendix.html#cb113-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Left: &#39;</span>, my_caption1, <span class="st">&#39; Right: &#39;</span>, my_caption2)</span>
-<span id="cb113-2"><a href="comeau-creek---198916-198913---appendix.html#cb113-2" tabindex="-1"></a></span>
-<span id="cb113-3"><a href="comeau-creek---198916-198913---appendix.html#cb113-3" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span>
-<span id="cb113-4"><a href="comeau-creek---198916-198913---appendix.html#cb113-4" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;fig/pixel.png&quot;</span>)</span>
-<span id="cb113-5"><a href="comeau-creek---198916-198913---appendix.html#cb113-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
 <p><br></p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="comeau-creek---198916-198913---appendix.html#cb114-1" tabindex="-1"></a>my_photo1 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">str_to_pull =</span> <span class="st">&#39;fish_1&#39;</span>)</span>
-<span id="cb114-2"><a href="comeau-creek---198916-198913---appendix.html#cb114-2" tabindex="-1"></a></span>
-<span id="cb114-3"><a href="comeau-creek---198916-198913---appendix.html#cb114-3" tabindex="-1"></a>my_caption1 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Cutthroat trout captured downstream of crossing &#39;</span>, my_site, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="comeau-creek---198916-198913---appendix.html#cb115-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:photo-198916-03"></span>
-<img src="data/photos/198916/IMG_6890_fish_1_k_.JPG" alt="Cutthroat trout captured downstream of crossing 198916." width="100%" />
-<p class="caption">
-Figure 4.18: Cutthroat trout captured downstream of crossing 198916.
-</p>
-</div>
-<p><br></p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="comeau-creek---198916-198913---appendix.html#cb116-1" tabindex="-1"></a>my_photo2 <span class="ot">=</span> fpr<span class="sc">::</span><span class="fu">fpr_photo_pull_by_str</span>(<span class="at">site =</span> my_site2, <span class="at">str_to_pull =</span> <span class="st">&#39;fish_1&#39;</span>)</span>
-<span id="cb116-2"><a href="comeau-creek---198916-198913---appendix.html#cb116-2" tabindex="-1"></a></span>
-<span id="cb116-3"><a href="comeau-creek---198916-198913---appendix.html#cb116-3" tabindex="-1"></a>my_caption2 <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&#39;Dolly varden with captured downstream of crossing &#39;</span>, my_site2, <span class="st">&#39;.&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="comeau-creek---198916-198913---appendix.html#cb117-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:photo-198913-03"></span>
-<img src="data/photos/198913/TC_00516_fish_1_k_.JPG" alt="Dolly varden with captured downstream of crossing 198913." width="100%" />
+<img src="data/photos/198913/20240925_150310_us_typical_2_k_.JPG" alt="Typical habitat upstream of PSCIS crossing 198913." width="80%" />
 <p class="caption">
-Figure 4.19: Dolly varden with captured downstream of crossing 198913.
+Figure 5.9: Typical habitat upstream of PSCIS crossing 198913.
 </p>
 </div>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="comeau-creek---198916-198913---appendix.html#cb118-1" tabindex="-1"></a>my_caption <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Left: &#39;</span>, my_caption1, <span class="st">&#39; Right: &#39;</span>, my_caption2)</span>
-<span id="cb118-2"><a href="comeau-creek---198916-198913---appendix.html#cb118-2" tabindex="-1"></a></span>
-<span id="cb118-3"><a href="comeau-creek---198916-198913---appendix.html#cb118-3" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo1)</span>
-<span id="cb118-4"><a href="comeau-creek---198916-198913---appendix.html#cb118-4" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;fig/pixel.png&quot;</span>)</span>
-<span id="cb118-5"><a href="comeau-creek---198916-198913---appendix.html#cb118-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(my_photo2)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:photo-198913-d02"></span>
+<img src="data/photos/198916/IMG_6890_fish_1_k_.JPG" alt="Left: Cutthroat trout captured downstream of crossing 198916. Right: Typical habitat upstream of PSCIS crossing 198913." width="49.5%" /><img src="fig/pixel.png" alt="Left: Cutthroat trout captured downstream of crossing 198916. Right: Typical habitat upstream of PSCIS crossing 198913." width="1%" /><img src="data/photos/198913/20240925_150310_us_typical_2_k_.JPG" alt="Left: Cutthroat trout captured downstream of crossing 198916. Right: Typical habitat upstream of PSCIS crossing 198913." width="49.5%" />
+<p class="caption">
+Figure 5.10: Left: Cutthroat trout captured downstream of crossing 198916. Right: Typical habitat upstream of PSCIS crossing 198913.
+</p>
+</div>
 
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="comeau-creek---198916-198913---appendix.html#cb119-1" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo=</span><span class="cn">FALSE</span>, <span class="at">message=</span><span class="cn">FALSE</span>, <span class="at">warning=</span><span class="cn">FALSE</span>)</span>
-<span id="cb119-2"><a href="comeau-creek---198916-198913---appendix.html#cb119-2" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&#39;scripts/packages.R&#39;</span>)</span>
-<span id="cb119-3"><a href="comeau-creek---198916-198913---appendix.html#cb119-3" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&#39;scripts/tables.R&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="comeau-creek---198916-198913---appendix.html#cb120-1" tabindex="-1"></a>my_site <span class="ot">&lt;-</span>  <span class="dv">198940</span></span>
-<span id="cb120-2"><a href="comeau-creek---198916-198913---appendix.html#cb120-2" tabindex="-1"></a>my_site2 <span class="ot">&lt;-</span> <span class="dv">198935</span></span></code></pre></div>
 </div>
 </div>
             </section>
