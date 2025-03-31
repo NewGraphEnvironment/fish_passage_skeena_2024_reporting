@@ -206,34 +206,40 @@ my_tab_caption()
 ```
 
 ```{r tab-sites-all, eval = gitbook_on}
-sites_all |>
-  dplyr::filter(watershed_group %in% wsg) |>
-  sf::st_drop_geometry() |>
-  dplyr::relocate(watershed_group, .after = my_crossing_reference) |> 
-  dplyr::select(-idx) |>
-    #!!!!!!!!!!!!!!!!!!!!!!!hack to get the designs and remediationin asap 198217
-  dplyr::mutate(
-    design = dplyr::case_when(
-      stream_crossing_id %in% c(124421) ~ "yes",
-      T ~ design
-    )
-  ) |>
-  # make pretty names
-  dplyr::rename_with(~ . |>
-                       stringr::str_replace_all("_", " ") |>
-                       stringr::str_replace_all("repo", "Report") |>
-                       stringr::str_replace_all("uav", "Drone") |>
-                       stringr::str_to_title()) |> 
-  # dplyr::arrange(desc(stream_crossing_id)) |> 
 
+# grab teh ranks
+sites_rank <- readr::read_csv("data/inputs_raw/rank_results.csv") 
+
+
+dplyr::left_join(
+  sites_all |>
+    dplyr::filter(watershed_group %in% wsg) |>
+    sf::st_drop_geometry() |>
+    dplyr::relocate(watershed_group, .after = my_crossing_reference) |> 
+    dplyr::select(-idx) |>
+    #!!!!!!!!!!!!!!!!!!!!!!!hack to get the designs and remediationin asap 198217
+    dplyr::mutate(
+      design = dplyr::case_when(
+        stream_crossing_id %in% c(124421) ~ "yes",
+        T ~ design
+      )
+    ) |>
+    # make pretty names
+    dplyr::rename_with(~ . |>
+                         stringr::str_replace_all("_", " ") |>
+                         stringr::str_replace_all("repo", "Report") |>
+                         stringr::str_replace_all("uav", "Drone") |>
+                         stringr::str_to_title()) |> 
+    # drop the uav imagery for now since it is out of date
+    dplyr::select(-`Link Drone1`,  -`Link Drone2`),
+  
+  sites_rank |> 
+    dplyr::select(`Stream Crossing Id`, Rank),
+  
+  by = "Stream Crossing Id"
+) |> 
   # make all the columns strings so we can filter them
   dplyr::mutate(across(everything(), as.character)) |> 
-  
-  
-  
-  # drop the uav imagery for now since it is out of date
-  
-  dplyr::select(-`Link Drone1`,  -`Link Drone2`) |> 
   my_dt_table(
     cols_freeze_left = 1,
     escape = FALSE
@@ -677,7 +683,7 @@ knitr::include_graphics("fig/fish_histogram.png")
 
 All sites with a design for remediation of fish passage can be found `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-sites-cap) by filtering using Design = yes")}`. In 2024, designs for remediation of fish passage were completed for the following site within the Bulkley River watershed group:
 
- - Waterfall Creek – PSCIS 124421 - 11th Avenue.  This crossing is within New Hazelton. Waterfall Creek flows into Station Creek downstream of this site. Remediation efforts, led by Gitksan Watershed Authorities, in collaboration with SERNbc, Skeena Fisheries Commission, the Department of Fisheries and Oceans, Gitsxan House representives, the Chicago Creek Community Environmental Enhancement Society and the District of New Hazelton are tentatively planned for summer 2025. Through this year's project - SERNbc funded the  engineering design for a bridge to replace the open bottom culverts - drafted by Pacific North Coast Consulting Services. Reporting updated with 2024 data along with background information for the Station Creek and Waterfall Creek watersheds are presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/) and [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2022_reporting/).
+ - Waterfall Creek – PSCIS 124421 - 11th Avenue.  This crossing is within New Hazelton. Waterfall Creek flows into Station Creek downstream of this site. Remediation efforts, led by Gitksan Watershed Authorities, in collaboration with SERNbc, Skeena Fisheries Commission, the Fisheries and Oceans Canada, Gitsxan House representives, the Chicago Creek Community Environmental Enhancement Society and the District of New Hazelton are tentatively planned for summer 2025. Through this year's project - SERNbc funded the  engineering design for a bridge to replace the open bottom culverts - drafted by Pacific North Coast Consulting Services. Reporting updated with 2024 data along with background information for the Station Creek and Waterfall Creek watersheds are presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/) and [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2022_reporting/).
   
   - Tributary to Owen Creek – PSCIS crossing 197378 is located on Klate Lake Road. Through 2024/25 project activities SERNbc 
 funded an engineering design completed by Pacific North Coast Consulting Services. Proposed works include the replacement of
