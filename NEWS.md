@@ -1,3 +1,8 @@
+# Skeena Watershed Fish Passage Restoration Planning 2024 - 0.1.1 (20250331) {-}
+  - Add recommendations to executive summary
+  - Add discussion points to the recommendation section
+
+
 # Skeena Watershed Fish Passage Restoration Planning 2024 - 0.1.0 (20250330) {-}
 
   - Add executive summary
