@@ -98,9 +98,16 @@ Fish passage restoration within the Skeena and across British Columbia is furthe
 
 <br>
 
-In 2024, all field activities since 2020 — including fish passage assessments, habitat confirmation assessments, fish sampling, drone imagery collection, engineering design, remediations, and effectiveness monitoring were consolidated into a centralized interactive table to enable multi-criteria querying (e.g. by watershed group, stream name, road name, PSCIS ID, top ranking sites by watershed group) linking directly to supporting project documentation. While a preliminary ranking of the top five remediation priorities by watershed group is provided, these are inherently subjective and contingent on the capacity and willingness of infrastructure owners and tenure holders to invest in implementation - both financially and in terms of capacity spanning the many years it
-can take to see projects from concept through to restoration. Often we are needing to act opportunistically and persue
-less expensive and complicated options in order to keep moving and achieve progress in the short term.
+In 2024, all field activities since 2020—including fish passage and habitat confirmation assessments, fish sampling, drone imagery collection, engineering design, remediations, and effectiveness monitoring—were consolidated into a centralized interactive table. This tool enables multi-criteria querying (e.g., by watershed group, stream name, road name, PSCIS ID, or top-ranked sites) with direct links to supporting documentation.
+
+<br>
+
+While preliminary top remediation priorities are provided by watershed group, these rankings are inherently subjective and depend on the capacity and willingness of infrastructure owners and tenure holders to support implementation—both financially and over the often multi-year project timelines. In practice, we must often act opportunistically, pursuing simpler, lower-cost options to maintain momentum and achieve near-term progress.
+
+<br>
+
+Government, community groups, landowners, and other stakeholders should work collaboratively to address the highest-ranked barriers identified 
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-sites-cap)")}`. Although the table presents many options, linked reports specify whether each site is a low, moderate, or high priority. Progress on any front is meaningful, and aiming to remediate at least one high-priority site per year per watershed group—regardless of its overall rank—is a practical and effective approach.
 
 <br>
 
@@ -110,4 +117,5 @@ Thus, sustainable restoration must extend beyond culvert upgrades toward reimagi
 
 <br>
 
-Although subject to revisions and updates, this report provides a snapshot of the current state of fish passage restoration within the Skeena River watershed. It is intended to inform and engage stakeholders, including Indigenous communities, government agencies, and the public, in the ongoing work of restoring fish passage and improving watershed health. We hope that this report will inspire further collaboration and action to address the challenges of fish passage restoration in the context of overall watershed health in the Skeena River basin and beyond.
+Although subject to revisions and updates, this report provides a snapshot of the current state of fish passage restoration within 
+study area watershed groups in the Skeena River watershed. It is intended to inform and engage stakeholders, including Indigenous communities, government agencies, and the public, in the ongoing work of restoring fish passage and improving watershed health. We hope that this report will inspire further collaboration and action to address the challenges of fish passage restoration in the context of overall watershed health in the Skeena River basin and beyond.
