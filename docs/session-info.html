@@ -52,6 +52,50 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.2.2/leaflet.js"></script>
+<script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+<link href="libs/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.css" rel="stylesheet" />
+<script src="libs/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.min.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+<link href="libs/lfx-fullscreen-1.0.2/lfx-fullscreen-prod.css" rel="stylesheet" />
+<script src="libs/lfx-fullscreen-1.0.2/lfx-fullscreen-prod.js"></script>
+<link href="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet" />
+<script src="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
+<script src="libs/leaflet-minimap-3.3.1/Minimap-binding.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="libs/jszip-1.13.6/jszip.min.js"></script>
+<link href="libs/dt-ext-buttons-1.13.6/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-buttons-1.13.6/js/dataTables.buttons.min.js"></script>
+<script src="libs/dt-ext-buttons-1.13.6/js/buttons.html5.min.js"></script>
+<script src="libs/dt-ext-buttons-1.13.6/js/buttons.colVis.min.js"></script>
+<script src="libs/dt-ext-buttons-1.13.6/js/buttons.print.min.js"></script>
+<link href="libs/dt-ext-fixedcolumns-1.13.6/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-fixedcolumns-1.13.6/js/dataTables.fixedColumns.min.js"></script>
+<link href="libs/dt-ext-colreorder-1.13.6/css/colReorder.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-colreorder-1.13.6/js/dataTables.colReorder.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
 
 <script type="text/javascript">
 
@@ -81,6 +125,70 @@ document.addEventListener('DOMContentLoaded', toggle_R);
 </script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
   
@@ -237,175 +345,11 @@ div.csl-indent {
 <div id="session-info" class="section level1 unnumbered hasAnchor">
 <h1>Session Info<a href="session-info.html#session-info" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Information about the computing environment is important for reproducibility. A summary of the computing environment is saved to <code>session_info.csv</code>, which can be viewed and downloaded from <a href="https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/blob/main/session_info.csv" target="_blank">here</a>.</p>
-<pre><code>## ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-##  setting  value
-##  version  R version 4.4.2 (2024-10-31)
-##  os       macOS Sequoia 15.3.2
-##  system   aarch64, darwin20
-##  ui       RStudio
-##  language (EN)
-##  collate  en_US.UTF-8
-##  ctype    en_US.UTF-8
-##  tz       America/Vancouver
-##  date     2025-03-31
-##  rstudio  2024.12.0+467 Kousa Dogwood (desktop)
-##  pandoc   3.2 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)
-## 
-## ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-##  package           * version    date (UTC) lib source
-##  archive             1.1.9      2024-09-12 [2] CRAN (R 4.4.1)
-##  backports           1.5.0      2024-05-23 [1] CRAN (R 4.4.1)
-##  base64enc           0.1-3      2015-07-28 [1] CRAN (R 4.4.1)
-##  bcdata              0.5.0      2024-12-12 [1] CRAN (R 4.4.1)
-##  bibtex              0.5.1      2023-01-26 [2] CRAN (R 4.4.0)
-##  bit                 4.5.0.1    2024-12-03 [1] CRAN (R 4.4.1)
-##  bit64               4.6.0-1    2025-01-16 [1] CRAN (R 4.4.1)
-##  blob                1.2.4      2023-03-17 [1] CRAN (R 4.4.0)
-##  bookdown          * 0.42       2025-01-07 [1] CRAN (R 4.4.1)
-##  brew                1.0-10     2023-12-16 [1] CRAN (R 4.4.1)
-##  bslib               0.9.0      2025-01-30 [1] CRAN (R 4.4.1)
-##  cachem              1.1.0      2024-05-16 [1] CRAN (R 4.4.1)
-##  cellranger          1.1.0      2016-07-27 [1] CRAN (R 4.4.0)
-##  chk                 0.10.0     2025-01-24 [1] CRAN (R 4.4.1)
-##  chromote            0.4.0      2025-01-25 [1] CRAN (R 4.4.1)
-##  class               7.3-22     2023-05-03 [2] CRAN (R 4.4.2)
-##  classInt            0.4-11     2025-01-08 [1] CRAN (R 4.4.1)
-##  cli                 3.6.3      2024-06-21 [1] CRAN (R 4.4.1)
-##  codetools           0.2-20     2024-03-31 [2] CRAN (R 4.4.2)
-##  colorspace          2.1-1      2024-07-26 [1] CRAN (R 4.4.1)
-##  conflicted        * 1.2.0      2023-02-01 [1] CRAN (R 4.4.0)
-##  crayon              1.5.3      2024-06-20 [1] CRAN (R 4.4.1)
-##  crosstalk           1.2.1      2023-11-23 [1] CRAN (R 4.4.0)
-##  curl                6.2.0      2025-01-23 [1] CRAN (R 4.4.1)
-##  DBI                 1.2.3      2024-06-02 [1] CRAN (R 4.4.1)
-##  dbplyr              2.5.0      2024-03-19 [1] CRAN (R 4.4.0)
-##  devtools          * 2.4.5      2022-10-11 [2] CRAN (R 4.4.0)
-##  digest              0.6.37     2024-08-19 [1] CRAN (R 4.4.1)
-##  dplyr             * 1.1.4      2023-11-17 [1] CRAN (R 4.4.0)
-##  DT                  0.33       2024-04-04 [1] CRAN (R 4.4.0)
-##  e1071               1.7-16     2024-09-16 [1] CRAN (R 4.4.1)
-##  ellipsis            0.3.2      2021-04-29 [2] CRAN (R 4.4.0)
-##  english             1.2-6      2021-08-21 [2] CRAN (R 4.4.0)
-##  evaluate            1.0.3      2025-01-10 [1] CRAN (R 4.4.1)
-##  exifr               0.3.2      2021-03-20 [1] CRAN (R 4.4.0)
-##  farver              2.1.2      2024-05-13 [1] CRAN (R 4.4.1)
-##  fasstr              0.5.3      2024-09-27 [1] CRAN (R 4.4.1)
-##  fastmap             1.2.0      2024-05-15 [1] CRAN (R 4.4.1)
-##  fishbc              0.2.1      2021-05-12 [1] CRAN (R 4.4.0)
-##  forcats           * 1.0.0      2023-01-29 [1] CRAN (R 4.4.0)
-##  fpr               * 1.2.0      2025-02-21 [1] Github (newgraphenvironment/fpr@7943230)
-##  fs                  1.6.5      2024-10-30 [1] CRAN (R 4.4.1)
-##  generics            0.1.3      2022-07-05 [1] CRAN (R 4.4.1)
-##  ggdark            * 0.2.1      2019-01-11 [1] CRAN (R 4.4.0)
-##  ggplot2           * 3.5.1      2024-04-23 [1] CRAN (R 4.4.0)
-##  glue                1.8.0      2024-09-30 [1] CRAN (R 4.4.1)
-##  gtable              0.3.6      2024-10-25 [1] CRAN (R 4.4.1)
-##  here                1.0.1      2020-12-13 [1] CRAN (R 4.4.1)
-##  hms                 1.1.3      2023-03-21 [1] CRAN (R 4.4.0)
-##  htmltools           0.5.8.1    2024-04-04 [1] CRAN (R 4.4.1)
-##  htmlwidgets         1.6.4      2023-12-06 [1] CRAN (R 4.4.0)
-##  httpuv              1.6.15     2024-03-26 [1] CRAN (R 4.4.0)
-##  httr                1.4.7      2023-08-15 [1] CRAN (R 4.4.0)
-##  janitor             2.2.1      2024-12-22 [1] CRAN (R 4.4.1)
-##  jquerylib           0.1.4      2021-04-26 [1] CRAN (R 4.4.0)
-##  jsonlite            1.8.9      2024-09-20 [1] CRAN (R 4.4.1)
-##  kableExtra          1.4.0.3    2025-03-04 [1] Github (haozhu233/kableExtra@a9c509a)
-##  KernSmooth          2.23-24    2024-05-17 [2] CRAN (R 4.4.2)
-##  knitr             * 1.49       2024-11-08 [1] CRAN (R 4.4.1)
-##  labeling            0.4.3      2023-08-29 [1] CRAN (R 4.4.1)
-##  later               1.4.1      2024-11-27 [1] CRAN (R 4.4.1)
-##  leaflet             2.2.2      2024-03-26 [1] CRAN (R 4.4.0)
-##  leaflet.extras      2.0.1      2024-08-19 [1] CRAN (R 4.4.1)
-##  leaflet.providers   2.0.0      2023-10-17 [1] CRAN (R 4.4.0)
-##  leafpop             0.1.0      2021-05-22 [1] CRAN (R 4.4.0)
-##  lifecycle           1.0.4      2023-11-07 [1] CRAN (R 4.4.1)
-##  lubridate         * 1.9.4      2024-12-08 [1] CRAN (R 4.4.1)
-##  magick              2.8.5      2024-09-20 [1] CRAN (R 4.4.1)
-##  magrittr            2.0.3      2022-03-30 [1] CRAN (R 4.4.1)
-##  memoise             2.0.1      2021-11-26 [1] CRAN (R 4.4.0)
-##  mime                0.12       2021-09-28 [1] CRAN (R 4.4.1)
-##  miniUI              0.1.1.1    2018-05-18 [2] CRAN (R 4.4.0)
-##  munsell             0.5.1      2024-04-01 [1] CRAN (R 4.4.1)
-##  ngr               * 0.0.0.9002 2025-03-12 [1] local
-##  pagedown          * 0.22       2025-01-07 [1] CRAN (R 4.4.1)
-##  pillar              1.10.1     2025-01-07 [1] CRAN (R 4.4.1)
-##  pkgbuild            1.4.6      2025-01-16 [1] CRAN (R 4.4.1)
-##  pkgconfig           2.0.3      2019-09-22 [1] CRAN (R 4.4.1)
-##  pkgload             1.4.0      2024-06-28 [1] CRAN (R 4.4.0)
-##  plyr                1.8.9      2023-10-02 [1] CRAN (R 4.4.1)
-##  poisutils           0.0.0.9010 2024-05-14 [2] Github (poissonconsulting/poisutils@8310dc4)
-##  processx            3.8.5      2025-01-08 [1] CRAN (R 4.4.1)
-##  profvis             0.3.8      2023-05-02 [2] CRAN (R 4.4.0)
-##  promises            1.3.2      2024-11-28 [1] CRAN (R 4.4.1)
-##  proxy               0.4-27     2022-06-09 [1] CRAN (R 4.4.1)
-##  ps                  1.8.1      2024-10-28 [1] CRAN (R 4.4.1)
-##  purrr             * 1.0.4      2025-02-05 [1] CRAN (R 4.4.1)
-##  R6                  2.5.1      2021-08-19 [1] CRAN (R 4.4.1)
-##  rappdirs            0.3.3      2021-01-31 [1] CRAN (R 4.4.1)
-##  rbbt                0.0.0.9000 2024-06-26 [2] local
-##  Rcpp                1.0.14     2025-01-12 [1] CRAN (R 4.4.1)
-##  RcppRoll            0.3.1      2024-07-07 [1] CRAN (R 4.4.1)
-##  readr             * 2.1.5      2024-01-10 [1] CRAN (R 4.4.0)
-##  readwritesqlite   * 0.2.0.9006 2025-02-21 [1] Github (poissonconsulting/readwritesqlite@d178ad5)
-##  readxl              1.4.3      2023-07-06 [1] CRAN (R 4.4.0)
-##  RefManageR          1.4.0      2022-09-30 [2] CRAN (R 4.4.0)
-##  remotes             2.5.0      2024-03-17 [2] CRAN (R 4.4.0)
-##  reprex            * 2.1.1      2024-07-06 [1] CRAN (R 4.4.0)
-##  rfp               * 0.0.0.9000 2024-11-18 [2] local
-##  rlang               1.1.5      2025-01-17 [1] CRAN (R 4.4.1)
-##  rmarkdown         * 2.29       2024-11-04 [1] CRAN (R 4.4.1)
-##  roxygen2            7.3.1      2024-01-22 [2] CRAN (R 4.4.0)
-##  RPostgres         * 1.4.7      2024-05-27 [1] CRAN (R 4.4.0)
-##  rprojroot           2.0.4      2023-11-05 [1] CRAN (R 4.4.1)
-##  rsconnect           1.3.4      2025-01-22 [2] CRAN (R 4.4.1)
-##  RSQLite             2.3.9      2024-12-03 [1] CRAN (R 4.4.1)
-##  rstudioapi          0.17.1     2024-10-22 [1] CRAN (R 4.4.1)
-##  rvest               1.0.4      2024-02-12 [1] CRAN (R 4.4.0)
-##  s2                  1.1.7      2024-07-17 [1] CRAN (R 4.4.0)
-##  sass                0.4.9      2024-03-15 [1] CRAN (R 4.4.0)
-##  scales              1.3.0      2023-11-28 [1] CRAN (R 4.4.0)
-##  servr               0.32       2024-10-04 [1] CRAN (R 4.4.1)
-##  sessioninfo         1.2.2      2021-12-06 [2] CRAN (R 4.4.0)
-##  sf                * 1.0-19     2024-11-05 [1] CRAN (R 4.4.1)
-##  shiny               1.10.0     2024-12-14 [1] CRAN (R 4.4.1)
-##  shrtcts             0.1.2      2024-05-14 [2] Github (gadenbuie/shrtcts@41051cf)
-##  snakecase           0.11.1     2023-08-27 [1] CRAN (R 4.4.0)
-##  staticimports       0.0.0.9001 2025-02-14 [1] local
-##  stringdist          0.9.12     2023-11-28 [2] CRAN (R 4.4.0)
-##  stringi             1.8.4      2024-05-06 [1] CRAN (R 4.4.1)
-##  stringr           * 1.5.1      2023-11-14 [1] CRAN (R 4.4.0)
-##  svglite             2.1.3      2023-12-08 [1] CRAN (R 4.4.0)
-##  systemfonts         1.2.1      2025-01-20 [1] CRAN (R 4.4.1)
-##  terra               1.8-21     2025-02-10 [1] CRAN (R 4.4.1)
-##  tibble            * 3.2.1      2023-03-20 [1] CRAN (R 4.4.0)
-##  tidyhydat           0.7.0      2024-10-04 [1] CRAN (R 4.4.1)
-##  tidyr             * 1.3.1      2024-01-24 [1] CRAN (R 4.4.1)
-##  tidyselect          1.2.1      2024-03-11 [1] CRAN (R 4.4.0)
-##  tidyverse         * 2.0.0      2023-02-22 [1] CRAN (R 4.4.0)
-##  tidyxl              1.0.10     2025-03-04 [1] Github (nacnudus/tidyxl@7e2fbe7)
-##  timechange          0.3.0      2024-01-18 [1] CRAN (R 4.4.1)
-##  tzdb                0.4.0      2023-05-12 [1] CRAN (R 4.4.0)
-##  units               0.8-5      2023-11-28 [1] CRAN (R 4.4.1)
-##  urlchecker          1.0.1      2021-11-30 [2] CRAN (R 4.4.0)
-##  usethis           * 2.2.3      2024-02-19 [2] CRAN (R 4.4.0)
-##  uuid                1.2-1      2024-07-29 [1] CRAN (R 4.4.1)
-##  vctrs               0.6.5      2023-12-01 [1] CRAN (R 4.4.0)
-##  viridisLite         0.4.2      2023-05-02 [1] CRAN (R 4.4.1)
-##  vroom               1.6.5      2023-12-05 [1] CRAN (R 4.4.0)
-##  websocket           1.4.2      2024-07-22 [1] CRAN (R 4.4.1)
-##  withr               3.0.2      2024-10-28 [1] CRAN (R 4.4.1)
-##  wk                  0.9.4      2024-10-11 [1] CRAN (R 4.4.1)
-##  xciter            * 0.0.0.9001 2025-03-28 [1] local
-##  xfun                0.50       2025-01-07 [1] CRAN (R 4.4.1)
-##  xml2                1.3.6      2023-12-04 [1] CRAN (R 4.4.1)
-##  xtable              1.8-4      2019-04-21 [1] CRAN (R 4.4.1)
-##  yaml                2.3.10     2024-07-26 [1] CRAN (R 4.4.1)
-##  yesno               0.1.3      2024-07-26 [1] CRAN (R 4.4.1)
-## 
-##  [1] /Users/airvine/Library/R/arm64/4.4/library
-##  [2] /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library
-## 
-## ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="session-info.html#cb169-1" tabindex="-1"></a><span class="cf">if</span>(gitbook_on){</span>
+<span id="cb169-2"><a href="session-info.html#cb169-2" tabindex="-1"></a>  devtools<span class="sc">::</span><span class="fu">session_info</span>(<span class="at">to_file =</span> <span class="st">&#39;session_info.csv&#39;</span>)</span>
+<span id="cb169-3"><a href="session-info.html#cb169-3" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb169-4"><a href="session-info.html#cb169-4" tabindex="-1"></a>  devtools<span class="sc">::</span><span class="fu">session_info</span>()</span>
+<span id="cb169-5"><a href="session-info.html#cb169-5" tabindex="-1"></a>}</span></code></pre></div>
 
 </div>
             </section>
