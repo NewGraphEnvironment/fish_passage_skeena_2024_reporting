@@ -8,7 +8,7 @@ bookdown::gitbook:
       after: |
         <li><a href="https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting" target="blank">Scripts and Data</a></li>
       collapse: section
-    download: ["https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/raw/main/docs/fish_passage_skeena_2024.pdf", "fish_passage_skeena_2024.html"]
+    download: ["fish_passage_skeena_2024_reporting.pdf", "fish_passage_skeena_2024_reporting.html"]
     fontsettings:
       theme: white
       family: sans
