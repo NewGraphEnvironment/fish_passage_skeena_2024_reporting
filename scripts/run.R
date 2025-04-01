@@ -19,8 +19,18 @@ source('scripts/02_reporting/0180-photos-extract-metadata.R')
   source('scripts/staticimports.R')
   my_news_to_appendix()
 
+  files_to_move <- list.files(pattern = ".Rmd$") |>
+    stringr::str_subset('2300', negate = F) #move the attachments out
+  files_destination <- paste0('hold/', files_to_move)
+
+  ##move the files
+  mapply(file.rename, from = files_to_move, to = files_destination)
+
   rmarkdown::render_site(output_format = 'bookdown::gitbook',
                          encoding = 'UTF-8')
+
+  ##move the files from the hold file back to the main file
+  mapply(file.rename, from = files_destination, to = files_to_move)
 
 }
 
@@ -57,8 +67,8 @@ source('scripts/02_reporting/0180-photos-extract-metadata.R')
 staticimports::import()
 source('scripts/staticimports.R')
 
-# define the _bookfile_name from _bookdown.yml
-filename_html <- 'fish_passage_skeena_2024'
+# define the _bookfile_name from _bookdown.yml - need to run a chunk of  the index
+filename_html <- basename(params$repo_url)
 
 {
 

@@ -422,7 +422,7 @@ crossing structure are also included within an `sqlite` database within this yea
 Initial mapping of stream discharge and temperature causal effects pathways for the future purpose of focusing aquatic restoration 
 actions in areas of highest potential for positive impacts on fisheries values (ie. elimination of areas from intrinsic models 
 where water temperatures are likely too cold to support fish production) are detailed in @hill_etal2024Spatialstream which is 
-included as [Attachment 3](#attach-3-bayes). 
+included as [Attachment 3](#attach-bayes). 
 
 
 ## Fish Passage Assessements

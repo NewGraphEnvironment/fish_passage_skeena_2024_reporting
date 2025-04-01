@@ -1,4 +1,4 @@
-#  `r if(gitbook_on){knitr::asis_output("**Attachment 2 - Habitat Assessment and Fish Sampling Data**")} else knitr::asis_output("**Attachment 2 - Habitat Assessment and Fish Sampling Data**")` {-#raw-dat}
+#  `r if(gitbook_on){knitr::asis_output("**Attachment 2 - Habitat Assessment and Fish Sampling Data**")} else knitr::asis_output("**Attachment 3 - Habitat Assessment and Fish Sampling Data**")` {-#raw-dat}
 
 All field data collected is available `r ngr::ngr_str_link_url(url_base = params$repo_url, url_resource = "raw/main/data/", anchor_text = "here")`.
 
