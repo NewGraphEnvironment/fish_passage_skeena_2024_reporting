@@ -1,6 +1,6 @@
 
 
-#  `r if(gitbook_on){knitr::asis_output("**Attachment 1 - Maps**")} else knitr::asis_output("**Attachment 1 - Maps**")` {-#attach-1-maps}
+#  **Attachment - Maps** {-#attach-maps}
 
 All georeferenced field maps are presented at: 
 
