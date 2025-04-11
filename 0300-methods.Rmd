@@ -307,38 +307,7 @@ Cost estimates for structure replacement with bridges and embedded culverts were
 
 Base costs for installation of bridges on forest service roads and permit roads with surfaces specified in provincial GIS road layers as rough and loose was estimated at \$30000/linear m and assumed that the road could be closed during construction and a minimum bridge span of 15m. For streams with channel widths <2m, embedded culverts were reported as an effective solution with total installation costs estimated at $100k/crossing (pers. comm. Phil MacDonald, Steve Page then adjusted for inflation in 2020). For larger streams (>6m), estimated span width increased proportionally to the size of the stream.  For crossings with large amounts of fill (>3m), the replacement bridge span was increased by an additional 3m for each 1m of fill >3m to account for cutslopes to the stream at a 1.5:1 ratio. To account for road type, a multiplier table was generated to estimate incremental cost increases with costs estimated for structure replacement on paved surfaces, railways and arterial/highways costing up to 15 times more than forest service roads due to expenses associate with design/engineering requirements, traffic control and paving.  The cost multiplier table (Table \@ref(tab:tab-cost-mult)) should be considered very approximate with refinement recommended for future projects.
 
-
-### Climate Change Risk Assessment
-
-In collaboration with the Ministry of Transportation and Infrastructure (MoTi), a new climate change replacement program
-aims to prioritize vulnerable culverts for replacement (pers. comm Sean Wong, 2022) based on data collected and ranked
-related to three categories - culvert condition, vulnerability and priority. Within the "condition" risk category - data
-was collected and crossings were ranked based on erosion, embankment and blockage issues.  The "climate" risk category
-included ranked assessments of the likelihood of both a flood event affecting the culvert as well as the consequence of
-a flood event affecting the culvert.  Within the "priority" category the following factors were ranked - traffic volume,
-community access, cost, constructability, fish bearing status and environmental impacts (Table
-\@ref(tab:tab-moti-params)). This project is still in its early stages with methodology changes going forward.
-
 <br>
-
-
-```{r tab-moti-params, eval=T}
-
-# This line can be removed once Table.R is run. Just a work around for now. 
-xref_moti_climate_names <- sfpr_xref_moti_climate_names()
-
-xref_moti_climate_names  %>%
-  dplyr::slice(7:nrow(.)) |>
-  dplyr::select(spdsht, report) |>
-  dplyr::rename(Parameter = spdsht, Description = report) |>
-  fpr::fpr_kable(caption_text = 'Climate change data collected at MoTi culvert sites', scroll = gitbook_on)
-
-```
-
-
-
-`r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
-
 
 ```{r tab-cost-mult, eval = TRUE}
 
@@ -362,6 +331,35 @@ sfpr_xref_road_cost() |>
   # filter(Class != 'FSR' & Surface != 'Paved') |>
   fpr::fpr_kable(caption_text = 'Cost multiplier table based on road class and surface type.', scroll = F)
 ```
+
+### Climate Change Risk Assessment
+
+In collaboration with the Ministry of Transportation and Infrastructure (MoTi), a new climate change replacement program
+aims to prioritize vulnerable culverts for replacement (pers. comm Sean Wong, 2022) based on data collected and ranked
+related to three categories - culvert condition, vulnerability and priority. Within the "condition" risk category - data
+was collected and crossings were ranked based on erosion, embankment and blockage issues.  The "climate" risk category
+included ranked assessments of the likelihood of both a flood event affecting the culvert as well as the consequence of
+a flood event affecting the culvert.  Within the "priority" category the following factors were ranked - traffic volume,
+community access, cost, constructability, fish bearing status and environmental impacts (Table
+\@ref(tab:tab-moti-params)). This project is still in its early stages with methodology changes going forward.
+
+<br>
+
+```{r tab-moti-params, eval=T}
+
+# This line can be removed once Table.R is run. Just a work around for now. 
+xref_moti_climate_names <- sfpr_xref_moti_climate_names()
+
+xref_moti_climate_names  %>%
+  dplyr::slice(7:nrow(.)) |>
+  dplyr::select(spdsht, report) |>
+  dplyr::rename(Parameter = spdsht, Description = report) |>
+  fpr::fpr_kable(caption_text = 'Climate change data collected at MoTi culvert sites', scroll = gitbook_on)
+
+```
+
+`r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
+
 
 ## Habitat Confirmation Assessments
 
