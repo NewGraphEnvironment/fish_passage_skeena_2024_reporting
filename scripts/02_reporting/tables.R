@@ -35,14 +35,13 @@ model_species_name <- dplyr::case_when(params$model_species == "bt" ~ "Bull trou
 
 # Network/access model caption
 
-# Hard coding these for now, not ideal but will do.
-bt_network_gradient <- "25"
-st_network_gradient <- "20"
+# Network/access model caption
+sp_network_gradient <- dplyr::case_when(params$model_species == "bt" ~ "25",
+                                        params$model_species == "st" ~ "20")
 
-sp_network_caption <- dplyr::case_when(params$model_species == "bt" ~ paste0(model_species_name," network model used for habitat estimates (total length of stream network <",
-                                                                             bt_network_gradient, "% gradient)."),
-                                       params$model_species == "st" ~ paste0(model_species_name," network model used for habitat estimates (total length of stream network <",
-                                                                             st_network_gradient, "% gradient)."))
+sp_network_caption <- paste0(model_species_name," network model used for habitat estimates (total length of stream network <",
+                             sp_network_gradient, "% gradient).")
+
 
 #Rearing model caption
 
