@@ -121,6 +121,11 @@ Fish passage assessment procedures conducted through SERNbc in the Skeena River 
 
 <br>
 
+
+Since 2020, orthoimagery and elevation model rasters have been generated and stored as Cloud Optimized Geotiffs on a cloud service provider (AWS) with select imagery linked to in the collaborative GIS project. Additionally - a tile service has been set up to facilitate viewing and downloading of individual images, provided `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = paste0("at", params$report_url, "/results-and-discussion.html")))`. 
+
+`r if(gitbook_on){knitr::asis_output("<br>")}`
+
 ```{r ld-db}
 conn = fpr::fpr_db_conn()
 
@@ -245,9 +250,6 @@ dplyr::left_join(
     escape = FALSE
   )
 ```
-
-
-Since 2020, orthoimagery and elevation model rasters have been generated via  presented `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = paste0("at", params$report_url, "/results-and-discussion.html")))`. 
 
 <br>
 
