@@ -114,30 +114,7 @@ readwritesqlite::rws_disconnect(conn)
 
 
 
-# Fish histogram -----------------------------------------------------------------------
-bin_1 <- floor(min(fish_data_complete$length, na.rm = TRUE) / 5) * 5
-bin_n <- ceiling(max(fish_data_complete$length, na.rm = TRUE) / 5) * 5
-bins <- seq(bin_1, bin_n, by = 5)
 
-# Check what species we have and filter out any we don't want, took out the hybrids so we have an even number of facets
-fish_data_complete |> dplyr::distinct(species)
-
-plot_fish_hist <- ggplot2::ggplot(
-  fish_data_complete |> dplyr::filter(!species %in% c('Fish Unidentified Species',"Cutthroat Trout /Rainbow Trout  hybrid",  'NFC')),
-  ggplot2::aes(x = length)
-) +
-  ggplot2::geom_histogram(breaks = bins, alpha = 0.75,
-                          position = "identity", size = 0.75) +
-  ggplot2::labs(x = "Fork Length (mm)", y = "Count (#)") +
-  ggplot2::facet_wrap(~species) +
-  ggplot2::theme_light(base_size = 8) +
-  ggplot2::scale_x_continuous(breaks = bins[seq(1, length(bins), by = 2)]) +
-  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
-
-plot_fish_hist
-
-ggplot2::ggsave(plot = plot_fish_hist, file = "./fig/fish_histogram.png",
-                h = 3.4, w = 5.11, units = "in", dpi = 300)
 
 
 
