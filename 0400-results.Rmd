@@ -25,9 +25,9 @@ map <- leaflet::leaflet(height=500, width=780) |>
   # leaflet::addProviderTiles(providers$"Esri.DeLorme") |> 
   leaflet::addProviderTiles("Esri.WorldTopoMap", group = "Topo") |>
   leaflet::addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") |> 
-  # leaflet::addPolygons(data = wshd_study_areas, color = "#F29A6E", weight = 1, smoothFactor = 0.5,
-  #             opacity = 1.0, fillOpacity = 0,
-  #             fillColor = "#F29A6E", label = wshd_study_areas$watershed_group_name) |>
+  leaflet::addPolygons(data = wshd_study_areas, color = "#F29A6E", weight = 1, smoothFactor = 0.5,
+              opacity = 1.0, fillOpacity = 0,
+              fillColor = "#F29A6E", label = wshd_study_areas$watershed_group_name) |>
   leaflet::addPolygons(data = wshds, color = "#0859C6", weight = 1, smoothFactor = 0.5,
               opacity = 1.0, fillOpacity = 0.25,
               fillColor = "#00DBFF",

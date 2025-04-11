@@ -41,6 +41,9 @@ habitat_confirmation_tracks <- readwritesqlite::rws_read_table("habitat_confirma
 #Read in the uav imagery table
 project_uav <- readwritesqlite::rws_read_table("project_uav", conn = conn)
 
+#Read in the watershed polygons for the watersheds included in the project study area
+wshd_study_areas <- readwritesqlite::rws_read_table("wshd_study_areas", conn = conn)
+
 
 # You must run `0170-load-wshd_stats.R` at before this
 # watershed stats for the watersheds in this project

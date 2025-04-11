@@ -1,4 +1,6 @@
-# retrieve the watershed stats and elevations of the pscis sites then burn to the sqlite
+# This script does 2 things watershed-related:
+# 1. Retrieves the watershed polygons for the watersheds included in the project study area (big scale)
+# 2. Retrieves the upstream watershed stats and site elevations for the phase 2 habitat confirmation sites (small scale)
 
 # Load required objects -------------------------------------------------
 
@@ -8,7 +10,37 @@ source("scripts/02_reporting/0165-read-sqlite.R")
 # `tables.R` reads in the `form_pscis_2024` object
 source('scripts/02_reporting/tables.R')
 
+# name the watershed groups in our study area
+wsg <- c('BULK', 'MORR', 'ZYMO', 'KISP', 'KLUM')
 
+
+# 1 - Retrieve the watershed polygons for the watersheds included in the project study area (big scale)  -------------------------------------------------
+
+# Grab the watershed polygons included in the project study area - this is displayed in the interactive map
+wshd_study_areas <- fpr::fpr_db_query(
+  glue::glue( "SELECT * FROM whse_basemapping.fwa_watershed_groups_poly a
+              WHERE a.watershed_group_code IN ({glue::glue_collapse(glue::single_quote(wsg), sep = ', ')})"
+  )) |>
+  # casts geometries to type "POLYGON" (instead of Multipolygon)
+  sf::st_cast("POLYGON") |>
+  sf::st_transform(crs = 4326)
+
+
+# Add to the sqlite
+conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
+readwritesqlite::rws_list_tables(conn)
+
+# load the watersheds for the  phase 2 habitat confirmation sites
+readwritesqlite::rws_drop_table("wshd_study_areas", conn = conn) ##now drop the table so you can replace it
+readwritesqlite::rws_write(wshd_study_areas, exists = F, delete = TRUE,
+                           conn = conn, x_name = "wshd_study_areas")
+
+readwritesqlite::rws_list_tables(conn)
+readwritesqlite::rws_disconnect(conn)
+
+
+
+# 2 - Retrieve the upstream watershed stats and site elevations for the phase 2 habitat confirmation sites (small scale)  -------------------------------------------------
 
 ## Filter the bcfishpass data to just the phase 2 sites -------------------------------------------------
 bcfishpass_phase2 <- bcfishpass |>
