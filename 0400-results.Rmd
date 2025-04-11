@@ -680,7 +680,7 @@ bin_n <- ceiling(max(fish_data_complete$length, na.rm = TRUE) / 5) * 5
 bins <- seq(bin_1, bin_n, by = 5)
 
 # Check what species we have and filter out any we don't want, took out the hybrids so we have an even number of facets
-fish_data_complete |> dplyr::distinct(species)
+# fish_data_complete |> dplyr::distinct(species)
 
 plot_fish_hist <- ggplot2::ggplot(
   fish_data_complete |> dplyr::filter(!species %in% c('Fish Unidentified Species',"Cutthroat Trout /Rainbow Trout  hybrid",  'NFC')),
