@@ -139,7 +139,7 @@ conductivity was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'conductivit
 
 <br>
 
-Data and photos for Comeau Road crossings assessed with fish passage assessments are presented in [Appendix - Phase 1 Fish Passage Assessment Data and Photos](#appendix1).  For PSCIS crossing 203124 on Gershwin Creek located approximately 100m up the road from the highway - debris 
+Data and photos for Comeau Road crossings assessed with fish passage assessments are presented in [Appendix - Phase 1 Fish Passage Assessment Data and Photos].  For PSCIS crossing 203124 on Gershwin Creek located approximately 100m up the road from the highway - debris 
 was partially clogging the pipe inlet had caused water to pool upstream of the road with a very small defined channel downstream (<1m).  
 The second crossing - PSCIS  203123 - on a tributary to Comeau Creek - was located at approximately 1.6km up the road from the highway.  
 At this location the stream had no visible channel.  
