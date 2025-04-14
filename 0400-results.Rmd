@@ -450,7 +450,7 @@ Reassessments were completed at `r pscis_reassessments |> nrow()` sites where PS
 
 <br>
 
-A summary of crossings assessed, a rough cost estimate for remediation, and a priority ranking for follow-up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")} else knitr::asis_output(ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "appendix---phase-1-fish-passage-assessment-data-and-photos.html", anchor_text = "Appendix"))`.
+A summary of crossings assessed, a rough cost estimate for remediation, and a priority ranking for follow-up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")}else(knitr::asis_output("[Attachment - Phase 1 Data and Photos](#attach-pdf-phase1-dat)"))`.
 
 <br>
 
