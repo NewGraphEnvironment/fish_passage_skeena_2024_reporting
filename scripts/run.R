@@ -91,10 +91,10 @@ filename_html <- basename(params$repo_url)
 
   # reduce the size
   tools::compactPDF(paste0("docs/", filename_html, ".pdf"),
-                    gs_quality = 'screen',
+                    gs_quality = 'ebook',
                     ##this was on the windows machine
                     # gs_cmd = "C:/Program Files/gs/gs9.56.1/bin/gswin64.exe"
-                    gs_cmd = "opt/homebrew/bin/gs"
+                    gs_cmd = "/opt/homebrew/bin/gs"
   )
 
   # get rid of the html as its too big and not needed
@@ -150,7 +150,7 @@ file.remove(paste0(filename_html,'.html'))
 
 # reduce the size
 tools::compactPDF("docs/Appendix_1.pdf",
-                  gs_quality = 'screen',
+                  gs_quality = 'ebook',
                   ##this was on the windows machine
                   # gs_cmd = "C:/Program Files/gs/gs9.56.1/bin/gswin64.exe"
                   gs_cmd = "/opt/homebrew/bin/gs"
