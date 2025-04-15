@@ -44,7 +44,11 @@ The Kitsumkalum River salmon populations have been an important part of their cu
 
 ## Bulkley River
 
-The Bukley River is an 8th order stream that drains an area of 7,762km^2^ in a generally northerly direction from Bulkley Lake on the Nechako Plateau to its confluence with the Skeena River at Hazleton. It has a mean annual discharge of `r round(fasstr::calc_longterm_mean(station_number = "08EE004")$LTMAD,1)` m^3^/s at station 08EE004 located near Quick (\~27km south of Telkwa) and `r round(fasstr::calc_longterm_mean(station_number = "08EE003")$LTMAD,0)` m^3^/s at station 08EE003 located upstream near Houston. Flow patterns at Quick are heavily influenced by inflows from the Morice River (enters just downstream of Houston) resulting in flow patterns typical of high elevation watersheds which receive large amounts of precipitation as snow leading to peak levels of discharge during snowmelt, typically from May to July (Figure \@ref(fig:hydrology-plot)). The hydrograph peaks faster and generally earlier (May - June) for the Bulkley River upstream of Houston where the topography is of lower lower elevation (Figure \@ref(fig:hydrology-plot)).
+The colonial naming conventions for the Bulkley and Morice rivers can be misleading. The Neexdzii Kwah (Upper Bulkley River) is a tributary to Widzin Kwah (Morice River), contributing on average less than one-third of the total flow at their confluence in Houston, BC. However, historical naming during early mapping and settlement resulted in “Bulkley River” being applied to the mainstem flowing from Houston to its confluence with the Skeena River at Hazelton. From a hydrological perspective, it may be more accurate to consider the Morice River as the mainstem and the Upper Bulkley River as one of its tributaries. These naming differences can obscure the true flow dynamics of the watershed. By using Wet’suwet’en place names, we not only recognize the deep connection the Wet’suwet’en have to their clan territories but also convey a more accurate understanding of the geography and hydrology of the region.
+
+<br>
+
+The Bulkley River (Neexdzii Kwah), as defined by colonial naming, is an 8th order stream that drains an area of 7,762km^2^ in a generally northerly direction from Bulkley Lake on the Nechako Plateau to its confluence with the Skeena River at Hazelton. It has a mean annual discharge of `r round(fasstr::calc_longterm_mean(station_number = "08EE004")$LTMAD,1)`m^3^/s at station 08EE004 near Quick (~27km south of Telkwa), and `r round(fasstr::calc_longterm_mean(station_number = "08EE003")$LTMAD,0)`m^3^/s at station 08EE003 upstream near Houston. Flow at Quick is heavily influenced by the Morice River (Widzin Kwah), which joins the Bulkley just downstream of Houston. As a result, discharge patterns at Quick are characteristic of high-elevation, snow-dominated watersheds, with peak flows typically occurring from May to July (Figure \@ref(fig:hydrology-quick)). Upstream of Houston, the hydrograph peaks earlier (May–June), consistent with lower-elevation terrain and reduced snowpack influence (Figure \@ref(fig:hydrology-ub)).
 
 <br>
 
@@ -56,47 +60,67 @@ The valley bottom has seen extensive settlement over the past hundred years with
 
 <br>
 
-```{r, eval=F}
-sfpr_create_hydrograph("08EE003", start_year = 1980)
+```{r hydrology-quick, fig.cap = 'Hydrograph for Bulkley River at Quick (Station #08EE004). Available mean daily discharge data from 1930 to 2023.', eval=T}
+# get date range for figure caption
+# flow_raw <- tidyhydat::hy_daily_flows("08EE004")
+# print(start_year <- flow_raw$Date %>% min() %>% lubridate::year())
+# print(end_year <- flow_raw$Date %>% max() %>% lubridate::year())
+
+plot <- fasstr::plot_longterm_monthly_stats(
+  station_number = "08EE004",
+  ignore_missing = TRUE
+)
+
+print(plot$`Long-term_Monthly_Statistics`)
+
 ```
 
-```{r, eval=F}
-sfpr_create_hydrograph("08EE004")
-```
+<br>
 
-```{r hydrology-plot, fig.cap = 'Hydrograph for Bulkley River at Quick (Station #08EE004) and near Houston (Station #08EE003).', fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=T}
-knitr::include_graphics("fig/hydrograph_08EE004.png")
-knitr::include_graphics("fig/pixel.png")
-knitr::include_graphics("fig/hydrograph_08EE003.png")
+```{r hydrology-ub, fig.cap = 'Hydrograph for Upper Bulkley River near Houston, upstream of the Morice River confluence (Station #08EE003). Available mean daily discharge data from 1930 to 2023.', eval=T}
+# get date range for figure caption
+# flow_raw <- tidyhydat::hy_daily_flows("08EE003")
+# print(start_year <- flow_raw$Date %>% min() %>% lubridate::year())
+# print(end_year <- flow_raw$Date %>% max() %>% lubridate::year())
+
+plot <- fasstr::plot_longterm_monthly_stats(
+  station_number = "08EE003",
+  ignore_missing = TRUE
+)
+
+print(plot$`Long-term_Monthly_Statistics`)
+
 ```
 
 <br>
 
 ## Morice River
 
-The Morice River watershed drains 4,379km^2^ of Coast Mountains and Interior Plateau in a generally south-eastern direction. The Morice River is an 8th order stream that flows approximatley 80km from Morice Lake to the confluence with the upper Bulkley River just north of Houston. Major tributaries include the Nanika River, the Atna River, Gosnell Creek and the Thautil River. There area numerous large lakes situated on the south side of the watershed including Morice Lake, McBride Lake, Stepp Lake, Nanika Lake, Kid Price Lake, Owen Lake and others. There is one active hydrometric station on the mainstem of the Morice River near the outlet of Morice Lake and one historic station that was located at the mouth of the river near Houston that gathered data in 1971 only [@canada2024NationalWater]. An estimate of mean annual discharge for the one year of data available for the Morice near it's confluence with the Bulkley River is `r round(fasstr::calc_longterm_mean(station_number = "08ED003")$LTMAD,0)` m^3^/s. Mean annual discharge is estimated at `r round(fasstr::calc_longterm_mean(station_number = "08ED002")$LTMAD,0)` m^3^/s at station 08ED002 located near the outlet of Morice Lake. Flow patterns are typical of high elevation watersheds influenced by coastal weather patterns which receive large amounts of winter precipitation as snow in the winter and large precipitation events in the fall. This leads to peak levels of discharge during snowmelt, typically from May to July with isolated high flows related to rain and rain on snow events common in the fall (Figure \@ref(fig:hydrology-plot2)).
+The Morice River, known to the Wet’suwet’en as Widzin Kwah and meaning river of clear, blue-green waters, flows from its headwaters at Morice Lake (Widzin Bin) northeast to its confluence with the Upper Bulkley River (Neexdzii Kwah) just north of Houston, BC. The river is an 8th order stream that drains 4,379km^2^ of the Coast Mountains and Interior Plateau. Major tributaries include the Nanika, Atna, and Thautil rivers, as well as Gosnell Creek. Numerous large lakes are located in the southern portion of the watershed, including Morice Lake, McBride Lake, Stepp Lake, Nanika Lake, Kid Price Lake, and Owen Lake. One active hydrometric station (08ED002), located near the outlet of Morice Lake, records a mean annual discharge of `r round(fasstr::calc_longterm_mean(station_number = "08ED002")$LTMAD,0)`m^3^/s [@canada2024NationalWater]. Flow patterns are characteristic of high-elevation coastal-influenced watersheds, with peak discharge from snowmelt occurring between May and July, and additional high flows from fall precipitation and rain-on-snow events (Figure \@ref(fig:hydrology-morice)).
 
 <br>
 
-```{r, eval=FALSE}
-sfpr_create_hydrograph("08ED002")
-```
+```{r hydrology-morice, fig.cap = 'Hydrograph for Morice River near outlet of Morice Lake (Station #08ED002). Available mean daily discharge data from 1961 to 2023.', eval=T}
+# get date range for figure caption
+# flow_raw <- tidyhydat::hy_daily_flows("08ED002")
+# print(start_year <- flow_raw$Date %>% min() %>% lubridate::year())
+# print(end_year <- flow_raw$Date %>% max() %>% lubridate::year())
 
-```{r, eval=FALSE}
-sfpr_create_hydrograph("08ED003")
-```
 
-```{r hydrology-plot2, fig.cap = 'Left: Hydrograph for Morice River near Houston (Station #08ED003 - 1971 data only). Right: Hydrograph for Morice River near outlet of Morice Lake (Station #08ED002).', fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=T}
-knitr::include_graphics("fig/hydrograph_08ED003.png")
-knitr::include_graphics("fig/pixel.png")
-knitr::include_graphics("fig/hydrograph_08ED002.png")
+plot1 <- fasstr::plot_longterm_monthly_stats(
+  station_number = "08ED002",
+  ignore_missing = TRUE,
+  add_year = 2021
+)
+
+print(plot1$`Long-term_Monthly_Statistics`)
 ```
 
 <br>
 
 ## Zymoetz River 
 
-The Zymoetz River (known locally as the Copper River) watershed is an eighth order stream that drains an area of 3026km^2^ in a generally westerly direction. It is considered a major tributary of the Skeena River, as it contributes approximately 10% of the flow. The headwater lakes are located approximately 20km southwest of Smithers, and they include Aldrich, Dennis and McDonell Lakes. The upper and lower portions of the watershed are accessed via logging roads off of Highway 16 from Smithers and Terrace, respectively. Access to the middle watershed is difficult due to road wash out. The Zymoetz River flows roughly 120km, starting just west of Hudson Bay mountain near Smithers and ending at the confluence of the Skeena River, approximately 8km north-east of Terrace. Elevations in the watershed range from 120m at the confluence, to 2740m in the Howson Range. The Duthie mine operated on the south-west slope of Hudson Bay Mountain during the 1930's and 1950's, and reports have documented contaminated streams and lakes in the surrounding area [@gottesfeld_etal2002ConservingSkeena]. The lower end of the Zymoetz watershed has seen a significant reduction in riparian habitat due to fires, forest development practices, pipe line and road construction [@gottesfeld_etal2002ConservingSkeena]. Snowmelt plays a big role in controlling the stream hydrology, with a mean annual discharge estimated at `r round(fasstr::calc_longterm_mean(station_number = "08EF005")$LTMAD,0)` m^3^/s at station 08EF005 located near Smithers. Peak discharge happens in May to early June, which is typical of a high elevation watershed like this (Figure \@ref(fig:hydrology-plot3)).
+The Zymoetz River (known locally as the Copper River) watershed is an 8th order stream that drains an area of 3026km^2^ in a generally westerly direction. It is considered a major tributary of the Skeena River, as it contributes approximately 10% of the flow. The headwater lakes are located approximately 20km southwest of Smithers, and they include Aldrich, Dennis and McDonell Lakes. The upper and lower portions of the watershed are accessed via logging roads off of Highway 16 from Smithers and Terrace, respectively. Access to the middle watershed is difficult due to road wash out. The Zymoetz River flows roughly 120km, starting just west of Hudson Bay mountain near Smithers and ending at the confluence of the Skeena River, approximately 8km north-east of Terrace. Elevations in the watershed range from 120m at the confluence, to 2740m in the Howson Range. The Duthie mine operated on the south-west slope of Hudson Bay Mountain during the 1930's and 1950's, and reports have documented contaminated streams and lakes in the surrounding area [@gottesfeld_etal2002ConservingSkeena]. The lower end of the Zymoetz watershed has seen a significant reduction in riparian habitat due to fires, forest development practices, pipe line and road construction [@gottesfeld_etal2002ConservingSkeena]. Snowmelt plays a big role in controlling the stream hydrology, with a mean annual discharge estimated at `r round(fasstr::calc_longterm_mean(station_number = "08EF005")$LTMAD,0)` m^3^/s at station 08EF005 located near Smithers. Peak discharge happens in May to early June, which is typical of a high elevation watershed like this (Figure \@ref(fig:hydrology-plot3)).
 
 <br>
 
