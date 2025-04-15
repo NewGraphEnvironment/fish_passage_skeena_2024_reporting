@@ -464,10 +464,19 @@ The "Barrier" and "Potential Barrier" rankings used in this project followed @mo
 
 ```{r cost-est-phase-1, eval = T}
 
+### Unique to Skeena 2024 - remove upstream_habitat_length_m for sites 203123 and 203124 on Gershwin Creek due to incorrect mapping in BC Freshwater Atlas, so bcfishpass habitat estimates are misleading.
+tab_cost_est_phase1 <- tab_cost_est_phase1 |>
+    dplyr::mutate(`Habitat Upstream (km)` = dplyr::case_when(`PSCIS ID` %in% c(203123, 203124) ~ NA,
+                                                               .default = `Habitat Upstream (km)`))
+
+skeena_2024_footnote <- "Habitat estimates excluded for PSCIS crossings 203123 and 203124 due to incorrect mapping in BC Freshwater Atlas resulting in misleading estimates."
+
+#### - end 
+
+
  tab_cost_est_phase1 |>
   select(`PSCIS ID`:`Cost Est ( $K)`) |> 
-   fpr::fpr_kable(caption_text = paste0("Upstream habitat estimates and cost benefit analysis for Phase 1 assessments ranked as a 'barrier' or 'potential' barrier. ", sp_network_caption),
-                  scroll = gitbook_on)
+   fpr::fpr_kable(caption_text = paste0("Upstream habitat estimates and cost benefit analysis for Phase 1 assessments ranked as a 'barrier' or 'potential' barrier. ", sp_network_caption), footnote_text = skeena_2024_footnote, scroll = gitbook_on)
  
 ```
 
@@ -489,7 +498,18 @@ Results are summarized in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fi
 
 
 ```{r tab-overview, eval = TRUE}
-table_phase2_overview <- function(dat, caption_text = '', font = font_set, scroll = TRUE){
+
+### Unique to Skeena 2024 - remove upstream_habitat_length_m for sites 198913 and 198916 on Comeau Creek due to incorrect mapping in BC Freshwater Atlas, so bcfishpass habitat estimates are misleading.
+tab_overview <- tab_overview |>
+    dplyr::mutate(`Habitat Gain (km)` = dplyr::case_when(`PSCIS ID` %in% c(198913, 198916) ~ NA,
+                                                               .default = `Habitat Gain (km)`))
+
+skeena_2024_footnote <- "Habitat estimates excluded for PSCIS crossings 198913 and 198916 due to incorrect mapping in BC Freshwater Atlas resulting in misleading estimates."
+
+#### - end 
+
+
+table_phase2_overview <- function(dat, caption_text = '', font = font_set, footnote_text = NULL, scroll = TRUE){
   dat2 <- dat |>
     kable(caption = caption_text, booktabs = T, label = NA) |>
     kableExtra::kable_styling(c("condensed"),
@@ -502,11 +522,17 @@ table_phase2_overview <- function(dat, caption_text = '', font = font_set, scrol
     dat2 <- dat2 |>
       kableExtra::scroll_box(width = "100%", height = "500px")
   }
+  
+  if(!is.null(footnote_text)){
+    dat2 <- dat2 |>
+      kableExtra::footnote(symbol = footnote_text)
+  }
+  
   dat2
 }
 
 tab_overview |> 
-  table_phase2_overview(caption_text = paste0("Overview of habitat confirmation sites. ", sp_rearing_caption), 
+  table_phase2_overview(caption_text = paste0("Overview of habitat confirmation sites. ", sp_rearing_caption), footnote_text = skeena_2024_footnote,
                         scroll = gitbook_on)
 
 ```
@@ -524,6 +550,21 @@ fpr::fpr_table_cv_summary(dat = pscis_phase2)  |>
 
 
 ```{r cost-est-phase-2, eval=T}
+
+### Unique to Skeena 2024 - remove upstream_habitat_length_m for sites 198913 and 198916 on Comeau Creek due to incorrect mapping in BC Freshwater Atlas, so bcfishpass habitat estimates are misleading.
+tab_cost_est_phase2 <- tab_cost_est_phase2 |>
+    dplyr::mutate(upstream_habitat_length_m = dplyr::case_when(pscis_crossing_id %in% c(198913, 198916) ~ NA,
+                                                               .default = upstream_habitat_length_m)) |> 
+    dplyr::mutate(cost_net = dplyr::case_when(pscis_crossing_id %in% c(198913, 198916) ~ NA,
+                                                               .default = upstream_habitat_length_m)) |> 
+    dplyr::mutate(cost_area_net = dplyr::case_when(pscis_crossing_id %in% c(198913, 198916) ~ NA,
+                                                               .default = upstream_habitat_length_m))
+
+skeena_2024_footnote <- "Habitat and cost benefit estimates excluded for PSCIS crossings 198913 and 198916 due to incorrect mapping in BC Freshwater Atlas resulting in misleading estimates."
+
+#### - end 
+
+
 tab_cost_est_phase2 |>
     dplyr::rename(
     `PSCIS ID` = pscis_crossing_id,
@@ -538,7 +579,7 @@ tab_cost_est_phase2 |>
     `Cost Benefit (m / $K)` = cost_net,
     `Cost Benefit (m2 / $K)` = cost_area_net
   ) |> 
-  fpr::fpr_kable(caption_text = paste0("Cost benefit analysis for Phase 2 assessments. ", sp_rearing_caption),
+  fpr::fpr_kable(caption_text = paste0("Cost benefit analysis for Phase 2 assessments. ", sp_rearing_caption), footnote_text = skeena_2024_footnote,
                  scroll = F)
 
 ```
@@ -561,7 +602,7 @@ tab_hab_summary |>
 ```{r tab-wshd-sum-all}
 fpr::fpr_table_wshd_sum() |> 
   fpr::fpr_kable(caption_text = paste0('Summary of watershed area statistics upstream of Phase 2 crossings.'),
-                                 footnote_text = 'Elev P60 = Elevation at which 60% of the watershed area is above', scroll = F)
+                                 footnote_text = 'Elev P60 = Elevation at which 60% of the watershed area is above. \n PSCIS crossings 198913 and 198916 excluded due to incorrect mapping in BC Freshwater Atlas resulting in misleading watershed statistics.', scroll = F)
 
 ```
 

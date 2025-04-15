@@ -52,6 +52,10 @@ bcfishpass_phase2 <- bcfishpass |>
              collapse = "|")
     ))
 
+## Unique to Skeena 2024 - remove sites 198913 and 198916 on Comeau Creek due to incorrect mapping in BC Freshwater Atlas
+bcfishpass_phase2 <- bcfishpass_phase2 |>
+  dplyr::filter(!stream_crossing_id %in% c(198913, 198916))
+
 
 ## Remove crossings on first order streams -------------------------------------------------
 # we needed to remove crossings that are first order because the fwapgr api kicks us off
