@@ -1,5 +1,14 @@
 # Background
 
+
+```{r setup-background}
+# See https://github.com/NewGraphEnvironment/mybookdown-template/issues/64
+ knitr::opts_chunk$set(fig.path = "fig/background/", dev = "png")
+ 
+```
+
+## Project Location
+
 The study area includes the Bulkley River, Zymoetz River, Kispiox River, Morice River and Kitsumkalum River watershed groups (Figure \@ref(fig:overview-map)) and is within the traditional territories of the Wet'suwet'en, Gitxsan and Tsimshian.
 
 <br>
