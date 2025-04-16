@@ -1,4 +1,14 @@
-# install.packages('pak')
+# ensure pak is installed and up to date from CRAN
+if (!requireNamespace("pak", quietly = TRUE)) {
+  install.packages("pak")
+} else {
+  # Only run this if an update is needed
+  current <- packageVersion("pak")
+  latest <- package_version(available.packages()["pak", "Version"])
+  if (current < latest) {
+    pak::pak("pak")  # uses pak to update itself = no popup
+  }
+}
 
 pkgs_cran <- c(
   'tidyverse',
@@ -6,18 +16,19 @@ pkgs_cran <- c(
   'bookdown',
   'rmarkdown',
   'pagedown',
-  'readwritesqlite',
   'RPostgres',
   'sf',
-  "ggdark"
+  "ggdark",
+  "kableExtra"
 )
 
 pkgs_gh <- c(
   "newgraphenvironment/fpr",
   "newgraphenvironment/ngr",
-  # watch for issues in the future with this particular pin to deal with black captions
-  # https://github.com/NewGraphEnvironment/mybookdown-template/issues/50
-  "haozhu233/kableExtra@a9c509a"
+  "newgraphenvironment/staticimports",
+  "lucy-schick/fishbc@updated_data",
+  "poissonconsulting/readwritesqlite", #https://github.com/poissonconsulting/readwritesqlite/issues/47
+  "paleolimbot/rbbt"
 )
 
 pkgs_all <- c(pkgs_cran,
