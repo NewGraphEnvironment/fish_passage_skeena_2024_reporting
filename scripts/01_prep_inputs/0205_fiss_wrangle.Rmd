@@ -43,6 +43,29 @@ form_fiss_site <- fpr::fpr_sp_gpkg_backup(
 ) 
 ```
 
+
+## Fix times
+
+This is not always applicable and we will hopefully have a permanent fix soon.
+
+For Skeena 2024 - Some of the the times in `form_pscis_2024` are incorrect in the form and are in PDT - so when read into R they get converted to UTC and are wrong... ugh times. 
+
+
+```{r time-fix, eval T}
+
+form_fiss_site_time_fix <-  form_fiss_site |> 
+ dplyr::mutate(date_time_start_raw = date_time_start) |> 
+ dplyr::mutate(date_time_start = dplyr::case_when(time_correct == FALSE ~ lubridate::force_tz(date_time_start_raw, tzone = "UTC"), TRUE ~ date_time_start_raw),
+               date_time_start = dplyr::case_when(time_correct == FALSE ~ lubridate::with_tz(date_time_start, tzone = "America/Vancouver"), TRUE ~ date_time_start_raw)) |> 
+  dplyr::relocate(date_time_start_raw, .before = date_time_start)
+
+
+form_fiss_site <- form_fiss_site_time_fix |> 
+  dplyr::select(-date_time_start_raw)
+
+```
+
+
 ## Clean up the form 
 
 ```{r clean-form}
@@ -57,7 +80,7 @@ form_fiss_site_cleaned <- form_fiss_site |>
                 survey_date = lubridate::date(date_time_start),
                 time = hms::as_hms(date_time_start), 
                 # Fix some vocabulary. Change "trib" to long version "Tributary" etc.
-                gazetted_names = str_replace_all(gazetted_names, 'Trib ', 'Tributary '),
+                gazetted_names = stringr::str_replace_all(gazetted_names, 'Trib ', 'Tributary '),
                 crew_members = toupper(crew_members),
                 # fill in text columns from spreadsheet that will likely never change
                 waterbody_type = 'stream',
@@ -73,7 +96,7 @@ form_fiss_site_cleaned <- form_fiss_site |>
   # arrange by surveyor and date/time
   dplyr::arrange(mergin_user, date_time_start) |> 
   # ditch the time since we don't need anymore. Time was dropped on gpkg creation due to type conflict
-  select(-time) |>
+  dplyr::select(-time) |>
   # rearrange the columns for easier QA in QGIS.
   dplyr::select(
     date_time_start,
@@ -82,30 +105,12 @@ form_fiss_site_cleaned <- form_fiss_site |>
     crew_members,
     comments,
     everything()) |> 
-  arrange(date_time_start)
+  dplyr::arrange(date_time_start)
 
 ```
 
 
 
-## Fix the timezone
-
-We need to fix the times because they are in UTC and we need them in PDT. This issue is documented here https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/18
-
-```{r time-fix}
-
-form_fiss_site_prep1 <- form_fiss_site_cleaned |> 
-# make a new column for the time as is with different name then mutate to PST
-  # we don't need the new column but will leave here for now so we can visualize and confirm the time is correct
-  dplyr::mutate(date_time_start_raw = date_time_start,
-         date_time_start = lubridate::force_tz(date_time_start_raw, tzone = "America/Vancouver"),
-         date_time_start = lubridate::with_tz(date_time_start, tzone = "UTC")) |> 
-   dplyr::relocate(date_time_start_raw, .after = date_time_start)
-
-## Double check the time is correct and now remove the date_time_start_raw column
-form_fiss_site_prep1 <- form_fiss_site_prep1 |> 
-  select(-date_time_start_raw)
-```
 
 ## Query database to get 1:50,000 watershed codes
 Really kind of humorous that we are getting 1:50,000 watershed codes from the database then the province turns around
