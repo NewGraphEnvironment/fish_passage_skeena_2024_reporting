@@ -1,7 +1,14 @@
 # Changelog {-}
 
 ### Skeena Watershed Fish Passage Restoration Planning 2024 - Development {-} {-}
+
+
+### Skeena Watershed Fish Passage Restoration Planning 2024 - 0.1.2 (20250423) {-} {-}
   - 3 level table of contents in gitbook
+  - add summary of modelling outputs for sites assessed to results
+  - Update Comeau map
+  - Update hydrographs to new theme
+  - Fish plots in theme_bw
 
 
 ### Skeena Watershed Fish Passage Restoration Planning 2024 - 0.1.1 (20250331) {-} {-}
