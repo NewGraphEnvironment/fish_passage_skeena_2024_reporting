@@ -196,7 +196,7 @@ bcfishpass_spawn_rear_model_references |>
                  scroll = F)
 ```
 
-<br>
+
 
 ```{r tab-bcfp-def, eval = FALSE}
 xref_bcfishpass_names |>
@@ -208,7 +208,7 @@ xref_bcfishpass_names |>
                  scroll = gitbook_on)
 ```
 
-<br>
+
 
 ```{r tablethreshaverage, eval= FALSE}
 #to quantify upstream habitat potentially available for salmonids and facilitate stream line symbology based on stream morphology.
@@ -227,8 +227,6 @@ table_thresh_average |>
     fpr::fpr_kable(caption_text = 'Stream gradient categories (threshold and average) and associated channel type.', scroll = F)
 
 ```
-
-<br>
 
 
 
@@ -281,11 +279,11 @@ fpr_table_barrier_result |>
 
 <br>
 
-The habitat gain index is the quantity of modelled habitat upstream of the subject crossing and represents an estimate of habitat gained with remediation of fish passage at the crossing. For this project, a gradient threshold between accessible and non-accessible habitat was set at 20% (for a minimimum length of 100m) intended to represent the maximum gradient of which the strongest swimmers of anadromous species (steelhead) are likely to be able to migrate upstream.
+The habitat gain index is the quantity of modelled habitat upstream of the subject crossing and represents an estimate of habitat gained with remediation of fish passage at the crossing. For this project, a gradient threshold between accessible and non-accessible habitat was set at `r paste0(sp_network_gradient, "%")` (for a minimimum length of 100m) intended to represent the maximum gradient of which the strongest swimmers of anadromous species (`r stringr::str_to_lower(model_species_name)`) are likely to be able to migrate upstream.
 
 <br>
 
-For reporting of Phase 1 - fish passage assessments within the body of this report (Table \@ref(tab:tab-barrier-scoring)), a "total" value of habitat <20% output from `bcfishpass` was used to estimate the amount of habitat upstream of each crossing less than 20% gradient before a falls of height >5m - as recorded in @ProvincialObstaclesFish or documented in other `bcfishpass` online documentation. For Phase 2 - habitat confirmation sites, conservative estimates of the linear quantity of habitat to be potentially gained by fish passage restoration, steelhead rearing maximum gradient threshold (8.5%) was used.  To generate estimates for area of habitat upstream (m^2^), the estimated linear length was multiplied by half the downstream channel width measured (overall triangular channel shape) as part of the fish passage assessment protocol. Although these estimates are not generally conservative, have low accuracy and do not account for upstream stream crossing structures they allow a rough idea of the best candidates for follow up.
+For reporting of Phase 1 - fish passage assessments within the body of this report (Table \@ref(tab:tab-barrier-scoring)), a "total" value of habitat <20% output from `bcfishpass` was used to estimate the amount of habitat upstream of each crossing less than `r paste0(sp_network_gradient, "%")` gradient before a falls of height >5m - as recorded in @ProvincialObstaclesFish or documented in other `bcfishpass` online documentation. For Phase 2 - habitat confirmation sites, conservative estimates of the linear quantity of habitat to be potentially gained by fish passage restoration, `r stringr::str_to_lower(model_species_name)` rearing maximum gradient threshold (`r paste0(rear_gradient, "%")`) was used. To generate estimates for area of habitat upstream (m^2^), the estimated linear length was multiplied by half the downstream channel width measured (overall triangular channel shape) as part of the fish passage assessment protocol. Although these estimates are not generally conservative, have low accuracy and do not account for upstream stream crossing structures they allow a rough idea of the best candidates for follow up.
 
 <br>
 
@@ -307,38 +305,7 @@ Cost estimates for structure replacement with bridges and embedded culverts were
 
 Base costs for installation of bridges on forest service roads and permit roads with surfaces specified in provincial GIS road layers as rough and loose was estimated at \$30000/linear m and assumed that the road could be closed during construction and a minimum bridge span of 15m. For streams with channel widths <2m, embedded culverts were reported as an effective solution with total installation costs estimated at $100k/crossing (pers. comm. Phil MacDonald, Steve Page then adjusted for inflation in 2020). For larger streams (>6m), estimated span width increased proportionally to the size of the stream.  For crossings with large amounts of fill (>3m), the replacement bridge span was increased by an additional 3m for each 1m of fill >3m to account for cutslopes to the stream at a 1.5:1 ratio. To account for road type, a multiplier table was generated to estimate incremental cost increases with costs estimated for structure replacement on paved surfaces, railways and arterial/highways costing up to 15 times more than forest service roads due to expenses associate with design/engineering requirements, traffic control and paving.  The cost multiplier table (Table \@ref(tab:tab-cost-mult)) should be considered very approximate with refinement recommended for future projects.
 
-
-### Climate Change Risk Assessment
-
-In collaboration with the Ministry of Transportation and Infrastructure (MoTi), a new climate change replacement program
-aims to prioritize vulnerable culverts for replacement (pers. comm Sean Wong, 2022) based on data collected and ranked
-related to three categories - culvert condition, vulnerability and priority. Within the "condition" risk category - data
-was collected and crossings were ranked based on erosion, embankment and blockage issues.  The "climate" risk category
-included ranked assessments of the likelihood of both a flood event affecting the culvert as well as the consequence of
-a flood event affecting the culvert.  Within the "priority" category the following factors were ranked - traffic volume,
-community access, cost, constructability, fish bearing status and environmental impacts (Table
-\@ref(tab:tab-moti-params)). This project is still in its early stages with methodology changes going forward.
-
 <br>
-
-
-```{r tab-moti-params, eval=T}
-
-# This line can be removed once Table.R is run. Just a work around for now. 
-xref_moti_climate_names <- sfpr_xref_moti_climate_names()
-
-xref_moti_climate_names  %>%
-  dplyr::slice(7:nrow(.)) |>
-  dplyr::select(spdsht, report) |>
-  dplyr::rename(Parameter = spdsht, Description = report) |>
-  fpr::fpr_kable(caption_text = 'Climate change data collected at MoTi culvert sites', scroll = gitbook_on)
-
-```
-
-
-
-`r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
-
 
 ```{r tab-cost-mult, eval = TRUE}
 
@@ -363,13 +330,42 @@ sfpr_xref_road_cost() |>
   fpr::fpr_kable(caption_text = 'Cost multiplier table based on road class and surface type.', scroll = F)
 ```
 
+### Climate Change Risk Assessment
+
+In collaboration with the Ministry of Transportation and Infrastructure (MoTi), a new climate change replacement program
+aims to prioritize vulnerable culverts for replacement (pers. comm Sean Wong, 2022) based on data collected and ranked
+related to three categories - culvert condition, vulnerability and priority. Within the "condition" risk category - data
+was collected and crossings were ranked based on erosion, embankment and blockage issues.  The "climate" risk category
+included ranked assessments of the likelihood of both a flood event affecting the culvert as well as the consequence of
+a flood event affecting the culvert.  Within the "priority" category the following factors were ranked - traffic volume,
+community access, cost, constructability, fish bearing status and environmental impacts (Table
+\@ref(tab:tab-moti-params)). This project is still in its early stages with methodology changes going forward.
+
+<br>
+
+```{r tab-moti-params, eval=T}
+
+# This line can be removed once Table.R is run. Just a work around for now. 
+xref_moti_climate_names <- sfpr_xref_moti_climate_names()
+
+xref_moti_climate_names  %>%
+  dplyr::slice(7:nrow(.)) |>
+  dplyr::select(spdsht, report) |>
+  dplyr::rename(Parameter = spdsht, Description = report) |>
+  fpr::fpr_kable(caption_text = 'Climate change data collected at MoTi culvert sites', scroll = gitbook_on)
+
+```
+
+`r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
+
+
 ## Habitat Confirmation Assessments
 
 Following fish passage assessments, habitat confirmations were completed in accordance with procedures outlined in the document “A Checklist for Fish Habitat Confirmation Prior to the Rehabilitation of a Stream Crossing” [@confirmation_checklist_2011]. The main objective of the field surveys was to document upstream habitat quantity and quality and to determine if any other obstructions exist above or below the crossing.  Habitat value was assessed based on channel morphology, flow characteristics (perennial, intermittent, ephemeral), the presence/absence of deep  pools, un-embedded  boulders, substrate, woody debris, undercut banks, aquatic vegetation and overhanging riparian vegetation. Criteria used to rank habitat value was based on guidelines in @confirmation_checklist_2011 (Table \@ref(tab:tab-hab-value)).
 
 <br>
 
-During habitat confirmations, to standardize data collected and facilitate submission of the data to provincial databases, information was collected on ["Site Cards"](https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/laws-policies-standards-guidance/inventory-standards/aquatic-ecosystems). Habitat characteristics recorded included channel widths, wetted widths, residual pool depths, gradients, bankfull depths, stage, temperature, conductivity, pH, cover by type, substrate and channel morphology (among others). When possible, the crew surveyed downstream of the crossing to a minimum distance 300m and upstream to a minimum distance of 500 - 600m. Any  potential  obstacles  to  fish  passage  were  inventoried  with  photos, physical  descriptions  and  locations  recorded on site cards.  Surveyed routes were recorded with time-signatures on handheld GPS units.
+During habitat confirmations, to standardize data collected and facilitate submission of the data to provincial databases, information was collected on digital field forms adapted from provincial ["Site Cards"](https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/laws-policies-standards-guidance/inventory-standards/aquatic-ecosystems). Habitat characteristics recorded included channel widths, wetted widths, residual pool depths, gradients, bankfull depths, stage, temperature, conductivity, pH, cover by type, substrate and channel morphology (among others). When possible, the crew surveyed downstream of the crossing to a minimum distance 300m and upstream to a minimum distance of 500 - 600m. Any  potential  obstacles  to  fish  passage  were  inventoried  with  photos, physical  descriptions  and  locations  recorded on site cards.  Surveyed routes were recorded with time-signatures on handheld GPS units.
 
 <br>
 
@@ -377,13 +373,6 @@ During habitat confirmations, to standardize data collected and facilitate submi
 
 #### Electrofishing 
 Fish sampling was conducted on a subset of sites when biological data was considered to add significant value to the physical habitat assessment information. Electrofishing was utilized for fish sampling according to stream inventory standards and procedures found in the Reconnaissance (1:20 000) Fish and Fish Habitat Inventory Manual [@resourcesinventorycommittee2001Reconnaissance20a]. A Haltech 2000 backpack electrofisher was used within discrete site units both upstream and downstream of the subject crossing with electrofisher settings and seconds, water quality parameters (i.e. conductivity, temperature and ph), start and end locations, length of site and wetted widths (average of a minimum of three) recorded. 
-
-
-<!-- We did not use minnow trapping in 2024 and unsure if we will in the future so leaving this commented out for now. Another section to add in the future will be eDNA sampling. -->
-<!-- ### Minnowtrapping -->
-
-<!-- In the case where electrofishing was not a sufficient method of fish sampling, such as deep areas, streams with insufficient conductance, or temperatures below 5 degrees, minnowtraps were used.  -->
-
 
 #### Fish Handling and Processing
 Captured fish were held in buckets with sufficient water to minimize stress until processing, and multiple buckets were used when catch numbers were high. For each fish captured, fork length, weight and species was recorded with results documented in the fish data submission spreadsheet.
@@ -399,9 +388,7 @@ Scripted processing and serving of UAV imagery collected during the project is a
 ## Engineering Design
 Engineering designs were signed and sealed by professional engineers.  When possible - completed designs are loaded to the PSCIS data portal.
 
-<br>
 
-<!-- Project specific contractors in this paragraph. -->
 ## Remediations
 Structure replacement was conducted by project specific contractors. If not already completed, as-built drawings will be loaded to the PSCIS data portal.
 
@@ -419,12 +406,13 @@ While detailed methods for these activities are included in the previous habitat
 fundamental to effectiveness monitoring, as they provide context to not only facilitate prioritization and communications
 but also for detecting change following restoration.
 
-
 <br>
 
 To support consistent and targeted assessment, a custom field form was developed for routine effectiveness monitoring based
 loosely on @forestinvestmentaccount2003Guidelinesinstream but tailored specifically for fish passage projects. 
 Table \@ref(tab:tab-monitoring-metrics)) outlines the monitoring metrics used.
+
+<br>
 
 ```{r tab-monitoring-metrics, eval = TRUE}
 readr::read_csv('data/inputs_raw/form_monitoring_desc.csv') |> 

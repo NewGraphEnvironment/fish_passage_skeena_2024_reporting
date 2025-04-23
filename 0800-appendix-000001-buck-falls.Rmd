@@ -7,7 +7,7 @@ at Neelhdzii Teezdlii Ceek include coho salmon and chinook salmon.  An assessmen
 
 <br>
 
-The falls consist of a series of three separate vertical and cascade sections over and approximately 200m section of stream. The upper falls consisted of a ~4 m high vertical drop, presenting a substantial barrier to fish passage `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d01))."))` Approximately 25 m downstream, the second falls was a ~3.5 m high sheer drop to bedrock, with minimal pool depth available to facilitate fish passage `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d01))."))` Further downstream ~100 m, the third step comprised a ~1.5 m vertical drop with an overlying cascade, exhibiting a ~15% gradient over a 1.0 m height `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-03)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d02))."))` An additional cascade, located a further ~25 m downstream, featured a ~2 m high drop with a ~30% gradient extending over a 5 m length `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-04)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d02))."))`
+The falls consist of a series of four distinct vertical and cascade sections distributed over approximately 200m of stream. Starting at the downstream end, the lowest feature is a cascade with a ~2m high drop and a ~30% gradient extending over 5m `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d01))."))` Approximately 25m upstream, the next step comprises a ~1.5m vertical drop with an overlying cascade, exhibiting a ~15% gradient over 1.0m `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d01))."))` About 75m further upstream, the third falls is a ~3.5m high sheer drop to bedrock with minimal pool depth to facilitate fish passage `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-03)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d02))."))` The uppermost feature, located approximately 25m upstream, is a ~4m high vertical drop that presents a substantial barrier to fish passage `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-buck-04)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-buck-d02))."))`
 
 <br>
 
@@ -17,12 +17,14 @@ historic Wet’suwet’en traditional fisheries location upstream of Buck Falls 
 passed by salmon in the past and may again ascend in the future (personal communications - Kenny Rabnett - local fisheries
 biologist and legend). 
 
+<br>
+
 ```{r photo-buck-01-prep, eval=T}
 my_site = "buck_falls"
 
-my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = '_falls1')
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = '_falls4')
 
-my_caption1 = paste0("Buck Falls – The upper falls featured a ~4m high vertical drop. A 2m tall net is included for scale.")
+my_caption1 = paste0("Buck Falls – The downstream most feature is a ~2m high drop with a ~30% gradient extending over a 5 m length. A 2m tall net is included for scale.")
 
 
 ```
@@ -34,9 +36,9 @@ knitr::include_graphics(my_photo1)
 <br>
 
 ```{r photo-buck-02-prep, eval=T}
-my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = '_falls2')
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = '_falls3')
 
-my_caption2 = paste0("Buck Falls – The second falls consisted of a ~3.5m high sheer drop to bedrock.")
+my_caption2 = paste0("Buck Falls – The second step consisted of a ~1.5 m vertical drop with an overlying cascade, exhibiting a ~15% gradient over a 1.0m height.")
 
 
 ```
@@ -57,10 +59,9 @@ knitr::include_graphics(my_photo2)
 
 ```{r photo-buck-03-prep, eval=T}
 
-my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = '_falls3')
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = '_falls2')
 
-my_caption1 = paste0("Buck Falls – The third step consisted of a ~1.5 m vertical drop with an overlying cascade, exhibiting a ~15% gradient over a 1.0m height.")
-
+my_caption1 = paste0("Buck Falls – The third falls consisted of a ~3.5m high sheer drop to bedrock.")
 
 ```
 
@@ -71,9 +72,10 @@ knitr::include_graphics(my_photo1)
 <br>
 
 ```{r photo-buck-04-prep, eval=T}
-my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = '_falls4')
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = '_falls1')
 
-my_caption2 = paste0("Buck Falls – An additional cascade featured a ~2m high drop with a ~30% gradient extending over a 5 m length. A 2m tall net is included for scale.")
+my_caption2 = paste0("Buck Falls – The upper falls featured a ~4m high vertical drop. A 2m tall net is included for scale.")
+
 
 ```
 

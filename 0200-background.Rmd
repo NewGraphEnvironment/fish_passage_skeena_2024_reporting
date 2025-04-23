@@ -1,5 +1,14 @@
 # Background
 
+
+```{r setup-background}
+# See https://github.com/NewGraphEnvironment/mybookdown-template/issues/64
+ knitr::opts_chunk$set(fig.path = "fig/background/", dev = "png")
+ 
+```
+
+## Project Location
+
 The study area includes the Bulkley River, Zymoetz River, Kispiox River, Morice River and Kitsumkalum River watershed groups (Figure \@ref(fig:overview-map)) and is within the traditional territories of the Wet'suwet'en, Gitxsan and Tsimshian.
 
 <br>
@@ -44,7 +53,11 @@ The Kitsumkalum River salmon populations have been an important part of their cu
 
 ## Bulkley River
 
-The Bukley River is an 8th order stream that drains an area of 7,762km^2^ in a generally northerly direction from Bulkley Lake on the Nechako Plateau to its confluence with the Skeena River at Hazleton. It has a mean annual discharge of `r round(fasstr::calc_longterm_mean(station_number = "08EE004")$LTMAD,1)` m^3^/s at station 08EE004 located near Quick (\~27km south of Telkwa) and `r round(fasstr::calc_longterm_mean(station_number = "08EE003")$LTMAD,0)` m^3^/s at station 08EE003 located upstream near Houston. Flow patterns at Quick are heavily influenced by inflows from the Morice River (enters just downstream of Houston) resulting in flow patterns typical of high elevation watersheds which receive large amounts of precipitation as snow leading to peak levels of discharge during snowmelt, typically from May to July (Figure \@ref(fig:hydrology-plot)). The hydrograph peaks faster and generally earlier (May - June) for the Bulkley River upstream of Houston where the topography is of lower lower elevation (Figure \@ref(fig:hydrology-plot)).
+The colonial naming conventions for the Bulkley and Morice rivers can be misleading. The Neexdzii Kwah (Upper Bulkley River) is a tributary to Widzin Kwah (Morice River), contributing on average less than one-third of the total flow at their confluence in Houston, BC. However, historical naming during early mapping and settlement resulted in “Bulkley River” being applied to the mainstem flowing from Houston to its confluence with the Skeena River at Hazelton. From a hydrological perspective, it may be more accurate to consider the Morice River as the mainstem and the Upper Bulkley River as one of its tributaries. These naming differences can obscure the true flow dynamics of the watershed. By using Wet’suwet’en place names, we not only recognize the deep connection the Wet’suwet’en have to their clan territories but also convey a more accurate understanding of the geography and hydrology of the region.
+
+<br>
+
+The Bulkley River (Neexdzii Kwah), as defined by colonial naming, is an 8th order stream that drains an area of 7,762km^2^ in a generally northerly direction from Bulkley Lake on the Nechako Plateau to its confluence with the Skeena River at Hazelton. It has a mean annual discharge of `r round(fasstr::calc_longterm_mean(station_number = "08EE004")$LTMAD,1)`m^3^/s at station 08EE004 near Quick (~27km south of Telkwa), and `r round(fasstr::calc_longterm_mean(station_number = "08EE003")$LTMAD,0)`m^3^/s at station 08EE003 upstream near Houston. Flow at Quick is heavily influenced by the Morice River (Widzin Kwah), which joins the Bulkley just downstream of Houston. As a result, discharge patterns at Quick are characteristic of high-elevation, snow-dominated watersheds, with peak flows typically occurring from May to July (Figure \@ref(fig:hydrology-quick)). Upstream of Houston, the hydrograph peaks earlier (May–June), consistent with lower-elevation terrain and reduced snowpack influence (Figure \@ref(fig:hydrology-ub)).
 
 <br>
 
@@ -56,80 +69,119 @@ The valley bottom has seen extensive settlement over the past hundred years with
 
 <br>
 
-```{r, eval=F}
-sfpr_create_hydrograph("08EE003", start_year = 1980)
+```{r hydrology-quick, fig.cap = 'Hydrograph for Bulkley River at Quick (Station #08EE004). Available mean daily discharge data from 1930 to 2023.', eval=T}
+# get date range for figure caption
+# flow_raw <- tidyhydat::hy_daily_flows("08EE004")
+# print(start_year <- flow_raw$Date %>% min() %>% lubridate::year())
+# print(end_year <- flow_raw$Date %>% max() %>% lubridate::year())
+
+plot <- fasstr::plot_longterm_monthly_stats(
+  station_number = "08EE004",
+  ignore_missing = TRUE
+)
+
+print(plot$`Long-term_Monthly_Statistics`)
+
 ```
 
-```{r, eval=F}
-sfpr_create_hydrograph("08EE004")
-```
+<br>
 
-```{r hydrology-plot, fig.cap = 'Hydrograph for Bulkley River at Quick (Station #08EE004) and near Houston (Station #08EE003).', fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=T}
-knitr::include_graphics("fig/hydrograph_08EE004.png")
-knitr::include_graphics("fig/pixel.png")
-knitr::include_graphics("fig/hydrograph_08EE003.png")
+```{r hydrology-ub, fig.cap = 'Hydrograph for Upper Bulkley River near Houston, upstream of the Morice River confluence (Station #08EE003). Available mean daily discharge data from 1930 to 2023.', eval=T}
+# get date range for figure caption
+# flow_raw <- tidyhydat::hy_daily_flows("08EE003")
+# print(start_year <- flow_raw$Date %>% min() %>% lubridate::year())
+# print(end_year <- flow_raw$Date %>% max() %>% lubridate::year())
+
+plot <- fasstr::plot_longterm_monthly_stats(
+  station_number = "08EE003",
+  ignore_missing = TRUE
+)
+
+print(plot$`Long-term_Monthly_Statistics`)
+
 ```
 
 <br>
 
 ## Morice River
 
-The Morice River watershed drains 4,379km^2^ of Coast Mountains and Interior Plateau in a generally south-eastern direction. The Morice River is an 8th order stream that flows approximatley 80km from Morice Lake to the confluence with the upper Bulkley River just north of Houston. Major tributaries include the Nanika River, the Atna River, Gosnell Creek and the Thautil River. There area numerous large lakes situated on the south side of the watershed including Morice Lake, McBride Lake, Stepp Lake, Nanika Lake, Kid Price Lake, Owen Lake and others. There is one active hydrometric station on the mainstem of the Morice River near the outlet of Morice Lake and one historic station that was located at the mouth of the river near Houston that gathered data in 1971 only [@canada2024NationalWater]. An estimate of mean annual discharge for the one year of data available for the Morice near it's confluence with the Bulkley River is `r round(fasstr::calc_longterm_mean(station_number = "08ED003")$LTMAD,0)` m^3^/s. Mean annual discharge is estimated at `r round(fasstr::calc_longterm_mean(station_number = "08ED002")$LTMAD,0)` m^3^/s at station 08ED002 located near the outlet of Morice Lake. Flow patterns are typical of high elevation watersheds influenced by coastal weather patterns which receive large amounts of winter precipitation as snow in the winter and large precipitation events in the fall. This leads to peak levels of discharge during snowmelt, typically from May to July with isolated high flows related to rain and rain on snow events common in the fall (Figure \@ref(fig:hydrology-plot2)).
+The Morice River, known to the Wet’suwet’en as Widzin Kwah and meaning river of clear, blue-green waters, flows from its headwaters at Morice Lake (Widzin Bin) northeast to its confluence with the Upper Bulkley River (Neexdzii Kwah) just north of Houston, BC. The river is an 8th order stream that drains 4,379km^2^ of the Coast Mountains and Interior Plateau. Major tributaries include the Nanika, Atna, and Thautil rivers, as well as Gosnell Creek. Numerous large lakes are located in the southern portion of the watershed, including Morice Lake, McBride Lake, Stepp Lake, Nanika Lake, Kid Price Lake, and Owen Lake. One active hydrometric station (08ED002), located near the outlet of Morice Lake, records a mean annual discharge of `r round(fasstr::calc_longterm_mean(station_number = "08ED002")$LTMAD,0)`m^3^/s [@canada2024NationalWater]. Flow patterns are characteristic of high-elevation coastal-influenced watersheds, with peak discharge from snowmelt occurring between May and July, and additional high flows from fall precipitation and rain-on-snow events (Figure \@ref(fig:hydrology-morice)).
 
 <br>
 
-```{r, eval=FALSE}
-sfpr_create_hydrograph("08ED002")
-```
+```{r hydrology-morice, fig.cap = 'Hydrograph for the Morice River near outlet of Morice Lake (Station #08ED002). Available mean daily discharge data from 1961 to 2023.', eval=T}
+# get date range for figure caption
+# flow_raw <- tidyhydat::hy_daily_flows("08ED002")
+# print(start_year <- flow_raw$Date %>% min() %>% lubridate::year())
+# print(end_year <- flow_raw$Date %>% max() %>% lubridate::year())
 
-```{r, eval=FALSE}
-sfpr_create_hydrograph("08ED003")
-```
 
-```{r hydrology-plot2, fig.cap = 'Left: Hydrograph for Morice River near Houston (Station #08ED003 - 1971 data only). Right: Hydrograph for Morice River near outlet of Morice Lake (Station #08ED002).', fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=T}
-knitr::include_graphics("fig/hydrograph_08ED003.png")
-knitr::include_graphics("fig/pixel.png")
-knitr::include_graphics("fig/hydrograph_08ED002.png")
+plot1 <- fasstr::plot_longterm_monthly_stats(
+  station_number = "08ED002",
+  ignore_missing = TRUE
+)
+
+print(plot1$`Long-term_Monthly_Statistics`)
 ```
 
 <br>
 
 ## Zymoetz River 
 
-The Zymoetz River (known locally as the Copper River) watershed is an eighth order stream that drains an area of 3026km^2^ in a generally westerly direction. It is considered a major tributary of the Skeena River, as it contributes approximately 10% of the flow. The headwater lakes are located approximately 20km southwest of Smithers, and they include Aldrich, Dennis and McDonell Lakes. The upper and lower portions of the watershed are accessed via logging roads off of Highway 16 from Smithers and Terrace, respectively. Access to the middle watershed is difficult due to road wash out. The Zymoetz River flows roughly 120km, starting just west of Hudson Bay mountain near Smithers and ending at the confluence of the Skeena River, approximately 8km north-east of Terrace. Elevations in the watershed range from 120m at the confluence, to 2740m in the Howson Range. The Duthie mine operated on the south-west slope of Hudson Bay Mountain during the 1930's and 1950's, and reports have documented contaminated streams and lakes in the surrounding area [@gottesfeld_etal2002ConservingSkeena]. The lower end of the Zymoetz watershed has seen a significant reduction in riparian habitat due to fires, forest development practices, pipe line and road construction [@gottesfeld_etal2002ConservingSkeena]. Snowmelt plays a big role in controlling the stream hydrology, with a mean annual discharge estimated at `r round(fasstr::calc_longterm_mean(station_number = "08EF005")$LTMAD,0)` m^3^/s at station 08EF005 located near Smithers. Peak discharge happens in May to early June, which is typical of a high elevation watershed like this (Figure \@ref(fig:hydrology-plot3)).
+The Zymoetz River (known locally as the Copper River) is an 8th order stream that drains an area of 3,026km^2^ in a generally westerly direction and is a major tributary to the Skeena River, contributing approximately 10% of its flow. Flowing roughly 120km from its headwaters near Hudson Bay Mountain west of Smithers, to its confluence with the Skeena River about 8km northeast of Terrace, with headwater lakes including Aldrich, Dennis, and McDonell lakes. Elevations in the watershed range from 120m at the confluence, to 2740m in the Howson Range. The watershed is accessed via logging roads from Highway 16 near Smithers and Terrace, though access to the mid-watershed is limited due to road washouts. The Duthie Mine, active during the 1930s and 1950s on the southwest slope of Hudson Bay Mountain, has been linked to contamination in surrounding streams and lakes [@gottesfeld_etal2002ConservingSkeena], while the lower watershed has experienced riparian habitat loss due to wildfires, forestry activity, and pipeline and road construction [@gottesfeld_etal2002ConservingSkeena]. Snowmelt dominates the hydrology, with peak flows from May to early June and a mean annual discharge of `r round(fasstr::calc_longterm_mean(station_number = "08EF005")$LTMAD,0)`m^3^/s at station 08EF005 near Smithers (Figure \@ref(fig:hydrology-zymoetz)).
+
 
 <br>
 
-```{r, eval=FALSE}
-sfpr_create_hydrograph("08EF005")
-```
+```{r hydrology-zymoetz, fig.cap = 'Hydrograph for the Zymoetz River above O.K. Creek (Station #08EF005 - Lat 54.49363 Lon -128.32466). Available mean daily discharge data from 1963 to 2022.', fig.show="hold", eval=T}
+# get date range for figure caption
+# flow_raw <- tidyhydat::hy_daily_flows("08EF005")
+# print(start_year <- flow_raw$Date %>% min() %>% lubridate::year())
+# print(end_year <- flow_raw$Date %>% max() %>% lubridate::year())
 
-```{r hydrology-plot3, fig.cap = 'Zymoetz River Above O.k. Creek (Station #08EF005 - Lat 54.49363 Lon -128.32466). Available mean daily discharge data from 1963 to 2021.', fig.show="hold", eval=T}
-knitr::include_graphics("fig/hydrograph_08EF005.png")
+
+plot1 <- fasstr::plot_longterm_monthly_stats(
+  station_number = "08EF005",
+  ignore_missing = TRUE
+)
+
+print(plot1$`Long-term_Monthly_Statistics`)
+
 ```
 
 <br>
 
-### Kispiox River 
+## Kispiox River 
 
-The Kispiox River watershed is a seventh order stream that drains an area of 2100km^2^ in a south east direction. It is a large tributary of the Skeena River, contributing approximately 9% of its flow. It flows 140km to the confluence of the Skeena River, near Kispiox Village. Elevations in the watershed range from 200m at the mouth to as high as 2090m on Kispiox Mountain. The mainstream of the Kispiox is fed mainly by glacier melt and high elevation snow melt. Swan and Stephens Lakes (located in the upper watershed) are important sockeye systems. Swan Lake drains via Club Lake into Stephens Lake which in turn flows via Stephens Creek into the mainstem of the Kispiox River. Some of the biggest threats to aquatic ecosystems in the Kispiox valley are reported as erosion, obstructions, sedimentation, and altered water yield. The upper third of the Kispiox watershed (upstream of the Nangeese River) is well protected from development by the Swan Lake Kispiox River Provincial Park and because it contains few roads with little forestry development [@gottesfeld_etal2002ConservingSkeena]. The Kispiox River has a mean annual discharge estimated at `r round(fasstr::calc_longterm_mean(station_number = "08EB004")$LTMAD,0)` m^3^/s at station 08EB004 located near Hazelton. Peak discharge happens in May and June as a result of the spring snowmelt (Figure \@ref(fig:hydrology-plot4)).
+The Kispiox River is a 7th order stream that flows approximately 140km southeast to its confluence with the Skeena River near Kispiox Village, draining a watershed area of 2,100km^2^ and contributing an estimated 9% of the Skeena River’s flow. Elevations in the watershed range from 200m at the mouth to 2,090m on Kispiox Mountain. The river is primarily fed by glacier and high-elevation snowmelt, with peak discharge occurring in May and June (Figure \@ref(fig:hydrology-kispiox)), and a mean annual discharge of `r round(fasstr::calc_longterm_mean(station_number = "08EB004")$LTMAD,0)`m^3^/s recorded at station 08EB004 near Hazelton. Important sockeye systems in the upper watershed include Swan and Stephens lakes; Swan Lake drains via Club Lake into Stephens Lake, which flows via Stephens Creek into the Kispiox mainstem. The upper third of the watershed, upstream of the Nangeese River, is relatively undisturbed due to limited road access and protection within Swan Lake Kispiox River Provincial Park [@gottesfeld_etal2002ConservingSkeena]. Reported threats to aquatic ecosystems in the Kispiox Valley include erosion, obstructions, sedimentation, and altered water yield.
 
 <br>
 
-```{r, eval=FALSE}
-sfpr_create_hydrograph("08EB004")
-```
+The Kispiox watershed is also in danger due to the proposed Prince Rupert Gas Transmission (PRGT) pipeline which would run approximately 900km from Hudson’s Hope in northeast BC to the proposed Ksi Lisims LNG facility near the Nass River estuary. The proposed pipeline would not only cut through Kispiox River, but also the Babine, Suskwa, Salmon/Shegunia, Skeena, and Nass rivers, all of which have salmon and steelhead habitat [@LNGPipelinesSkeenaWatershedConservationCoalition]. The project has raised significant concern due to risks to water quality, fish habitat, and indigenous rights. The Kispiox Band, Skeena Watershed Conservation Coalition, Kispiox Valley Community Centre Association, and other local groups have publicly opposed the project and launched legal action challenging the BC Energy Regulator's permitting decisions. As of March 2025, the pipeline had not yet been constructed, and legal proceedings remain ongoing [@Groupschallengerushstartconstructionpipeline2025]. 
 
-```{r hydrology-plot4, fig.cap = 'Kispiox River Near Hazelton (Station #08EB004 - Lat 55.43385 Lon -127.71616). Available mean daily discharge data from 1963 to 2022.', fig.show="hold", eval=T}
-knitr::include_graphics("fig/hydrograph_08EB004.png")
+<br>
+
+```{r hydrology-kispiox, fig.cap = 'Hydrograph for the Kispiox River near Hazelton (Station #08EB004 - Lat 55.43385 Lon -127.71616). Available mean daily discharge data from 1963 to 2024.', fig.show="hold", eval=T}
+
+# get date range for figure caption
+# flow_raw <- tidyhydat::hy_daily_flows("08EB004")
+# print(start_year <- flow_raw$Date %>% min() %>% lubridate::year())
+# print(end_year <- flow_raw$Date %>% max() %>% lubridate::year())
+
+
+plot1 <- fasstr::plot_longterm_monthly_stats(
+  station_number = "08EB004",
+  ignore_missing = TRUE
+)
+
+print(plot1$`Long-term_Monthly_Statistics`)
 ```
 
 <br>
 
 ## Kitsumkalum River
 
-The Kitsumkalum River is a sixth order stream that flows east from the Coast Mountains to Kitsumkalum lake then south to Terrace where it joins the Skeena River, draining an area of 2289km^2^. Major tributaries to the Kitsumkalum River include the Cedar River, Nelson River, Mayo Creek, Goat Creek, Lean-To Creek and Deep Creek [@mcelhanney2022KitsumkalumRiver]. Peak flows occur in May-June from snow melt with subsequent peaks the fall from rain events [@mcelhanney2022KitsumkalumRiver]. There is one hydrometric station below Kitsumkalum lake which has been active since 2018, and has a mean annual discharge of `r round(fasstr::calc_longterm_mean(station_number = "08EG019")$LTMAD,0)` m^3^/s (Figure \@ref(fig:hydrology-plot5)). From 1929-1954, there was a hydrometric station near Terrace, which estimated the mean annual discharge to be `r round(fasstr::calc_longterm_mean(station_number = "08EG006")$LTMAD,0)`m^3^/s.
-
+The Kitsumkalum River is a 6th order stream that flows north-east from the Coast Mountains into Kitsumkalum Lake, then south to its confluence with the Skeena River at Terrace, draining a watershed area of 2,289km^2^. Major tributaries include the Cedar River, Nelson River, Mayo Creek, Goat Creek, Lean-To Creek, and Deep Creek [@mcelhanney2022KitsumkalumRiver]. Peak flows occur in May–June from snowmelt, with additional peaks in the fall due to rainfall events [@mcelhanney2022KitsumkalumRiver]. A hydrometric station located below Kitsumkalum Lake has been active since 2018 and records a mean annual discharge of `r round(fasstr::calc_longterm_mean(station_number = "08EG019")$LTMAD,0)`m^3^/s (Figure \@ref(fig:hydrology-kits)).
 
 <br>
 
@@ -137,16 +189,26 @@ The Kitsumkalum River watershed has been highly impacted by logging. Many of the
 
 <br>
 
-There has been a significant amount of work done to enhance salmon populations within the watershed. The SkeenaWild Conservation Trust is conducting riparian restoration surveys on several tributaries to the Kitsumkalum River, including Willow Creek, Spring Creek, Lean-To Creek, and Deep Creek [@healthywatershedsinitiative2021RiparianRestoration]. The Deep Creek Hatchery, operated by the Terrace Salmonid Enhancement Society, has been supporting Kitsumkalum River chinook populations since 1984 [@gottesfeld_rabnett2007SkeenaFish]. Additionally, there is a small groundwater facility for the incubation and rearing coho and chum, run by the Kitsumkalum First Nation [@gottesfeld_rabnett2007SkeenaFish]. In 2000 The Clear Creek Eastern Side Channel was constructed to enhance juvenile rearing habitat and adult spawning habitat for coho salmon on Clear Creek, a tributary to the Kitsumkalum River, however the site has not been maintained and beaver activity has obstructed fish accessibility to much of the channel [@elmer2021Initialassessment]. 
+There has been a significant amount of work done to enhance salmon populations within the watershed. The SkeenaWild Conservation Trust is conducting riparian restoration surveys on several tributaries to the Kitsumkalum River, including Willow Creek, Spring Creek, Lean-To Creek, and Deep Creek [@healthywatershedsinitiative2021RiparianRestoration]. The Deep Creek Hatchery, operated by the Terrace Salmonid Enhancement Society, has been supporting Kitsumkalum River chinook populations since 1984 [@gottesfeld_rabnett2007SkeenaFish]. Additionally, there is a small groundwater facility for the incubation and rearing coho and chum, run by the Kitsumkalum First Nation [@gottesfeld_rabnett2007SkeenaFish]. In 2000, the Clear Creek Eastern Side Channel was constructed to enhance juvenile rearing habitat and adult spawning habitat for coho salmon on Clear Creek, a tributary to the Kitsumkalum River, however the site has not been maintained and beaver activity has obstructed fish accessibility to much of the channel [@elmer2021Initialassessment]. 
 
 <br>
 
-```{r, eval=FALSE}
-sfpr_create_hydrograph("08EG019")
-```
+```{r hydrology-kits, fig.cap = 'Hydrograph for the Kitsumkalum River Below Alice Creek (Station #08EG019 - Lat 54.6793 Lon -128.74396). Available mean daily discharge data from 2018 to 2023.', fig.show="hold", eval=T}
 
-```{r hydrology-plot5, fig.cap = 'Kitsumkalum River Below Alice Creek (Station #08EG019 - Lat 54.6793 Lon -128.74396). Available mean daily discharge data from 2018 to 2022.', fig.show="hold", eval=T}
-knitr::include_graphics("fig/hydrograph_08EG019.png")
+# get date range for figure caption
+# flow_raw <- tidyhydat::hy_daily_flows("08EG019")
+# print(start_year <- flow_raw$Date %>% min() %>% lubridate::year())
+# print(end_year <- flow_raw$Date %>% max() %>% lubridate::year())
+
+
+plot1 <- fasstr::plot_longterm_monthly_stats(
+  station_number = "08EG019",
+  ignore_missing = TRUE
+)
+
+print(plot1$`Long-term_Monthly_Statistics`)
+
+
 ```
 
 <br>
@@ -155,7 +217,6 @@ knitr::include_graphics("fig/hydrograph_08EG019.png")
 
 In 2004, @ibmbusinessconsultingservices2006ValuationWild estimated the value of Skeena Fisheries at an annual average of \$110 million dollars. The Bulkley-Morice watershed is an integral part of the salmon production in the Skeena drainage and supports an internationally renown steelhead, chinook and coho sport fishery [@tamblyn2005PlanConserve].
 
-<br>
 
 ### Bulkley River
 
@@ -165,7 +226,6 @@ Traditionally, the salmon stocks passing through and spawning in the greater Bul
 
 Renowned as a world class recreational steelhead and coho fishery, the greater Bulkley River receives some of the heaviest angling pressure in the province. In response to longstanding angler concerns with respect to overcrowding, quality of experience and conflict amongst anglers, an Angling Management Plan was drafted for the river following the initiation of the Skeena Quality Waters Strategy process in 2006 and an extensive multi-year consultation process. The plan introduces a number of regulatory measures with the intent to provide Canadian resident anglers with quality steelhead fishing opportunities. Regulatory measures introduced with the Angling Management Plan include prohibited angling for non-guided non-resident aliens on Saturdays and Sundays, Sept 1 - Oct 31 within the Bulkley River, angling prohibited for non-guided non-resident aliens on Saturdays and Sundays, all year within the Suskwa River and angling prohibited for non-guided non-resident aliens Sept 1 - Oct 31 in the Telkwa River. The Neexdzii Kwah is considered Class II water and there is no fshing permitted upstream of the Morice/Bulkley River Confluence [@flnro2013BulkleyRiver; @flnro2013OverviewAngling; @flnrord2019FreshwaterFishing].
 
-<br>
 
 #### Upper Bulkley Falls
 
@@ -201,7 +261,7 @@ dfo_sad_raw %>%
 
 Detailed reviews of Morice River watershed fisheries can be found in @bustard_schell2002ConservingMorice, @gottesfeld_etal2002ConservingSkeena, @schell2003BriefOverview, @gottesfeld_rabnett2007SkeenaFish, and @ilmb2007MoriceLand with a comprehensive review of water quality by @oliver2018Analysiswater Overall, the Morice watershed contains high fisheries values as a major producer of chinook, pink, sockeye, coho and steelhead.
 
-<br>
+
 
 ### Zymoetz River
 
@@ -211,19 +271,19 @@ Within the Zymoetz Watershed, there are many areas with high fishery values. Ste
 
 Traditional First Nations use of the upper Zymoetz River watershed by the Gitxsan and Wet'suwet'en people differed between community sites, residences, and fish houses, and was large and diverse. From the upper to lower Zymoetz River and to the Skeena River, a significant ancient grease trail connected, with a branch track forking through Limonite Creek and flowing down the Telkwa River. The fishery used a weir at the mouth of McDonell Lake and spears at Six Mile Flats, near Dennis Lake. There is no information on native fisheries on the lower Zymoetz River. The Zymoetz is considered to be one of the top ten steelhead rivers in BC [@gottesfeld_etal2002ConservingSkeena].
 
-<br>
+
 
 ### Kispiox River
 
 Kispiox River salmon are a important food source and cultural symbol for the Gitxsan people with sockeye and coho historically the two most significant species. Gitangwalk and Lax Didax, two significant villages that were both abandoned in the early 1900s, were situated on the Kispiox in such a way as to block the sockeye and coho salmon's upstream migration to the Upper Kispiox River spawning grounds providing opportunities to gather and preserve a significant amount of high-quality food over relatively short time periods [@gottesfeld_etal2002ConservingSkeena]. The 100 km of mainstem and 300km of tributary streams in the Kispiox River Watershed are considering high value fish habitat supporting migration, spawning and rearing for many fish species. The Kispiox fisheries supports both recreational and commercial fishing while also enhancing the ecology, nutrient regime, and structural diversity of the drainage. Since 1992, sockeye and coho escapements from the Kispiox Watershed have been documented by the Gitxsan Watershed Authorities as they creates strong cultural, economic, and symbolic ties for the local communities [@gottesfeld_etal2002ConservingSkeena].
 
-<br>
+
 
 ### Kitsumkalum River
 
 The Kitsumkalum River is an important waterway for all species of salmon. It is one of the three main chinook producing rivers in the Skeena watershed and supports all five species of pacific salmon, steelhead, and other resident trout and char species [@mcelhanney2022KitsumkalumRiver]. Most notably, the Kitsumkalum River has consistently produced the largest-bodied chinook in the Skeena Watershed, as well as on most of the Pacific coast [@gottesfeld_rabnett2007SkeenaFish]. The watershed supports strong recreational coho, steelhead, and chinook fishing. Kitsumkalum salmon also play an important role in the culture and economy of the Kitsumkalum Band [@gottesfeld_rabnett2007SkeenaFish].   
 
-<br>
+
 
 ### Salmon Stock Assessment Data
 
@@ -273,7 +333,7 @@ Fish species recorded in the Morice, Bulkley, Zymoetz, Kispiox, and Kitsumkalum 
 
 <br>
 
-Some key areas of high fisheries values for chinook, sockeye and coho are noted in @bustard_schell2002ConservingMorice as McBride Lake, Nanika Lake, and Morice Lake watersheds. A draft gantt chart for select species in the Morice River and Bulkley River watersheds was derived from reviews of the aforementioned references and is included as Figure \@ref(fig:fish-gantt-morice). The data is considered in draft form and will be refined over the spring and summer of 2021 with local fisheries technicians and knowledge holders during the collaboratory assessment planning and fieldwork activities planned.
+Some key areas of high fisheries values for chinook, sockeye and coho are noted in @bustard_schell2002ConservingMorice as McBride Lake, Nanika Lake, and Morice Lake watersheds. A draft gantt chart for select species in the Morice River watershed were derived from reviews of the aforementioned references and is included as Figure \@ref(fig:fish-gantt-morice). The data is considered in draft form and will be refined over the spring and summer of 2021 with local fisheries technicians and knowledge holders during the collaboratory assessment planning and fieldwork activities planned.
 
 <br>
 
@@ -319,46 +379,45 @@ fiss_species_table %>%
 
 <br>
 
-```{r fish-gantt-morice, fig.cap = 'Gantt chart for select species in the Morice River and Bulkley River watersheds.  To be updated in consultation with local fisheries techicians and knowledge holders.', eval=T}
-gantt_raw <- read_csv("data/inputs_raw/fish_species_life_history_gantt.csv")
+```{r fish-gantt-morice, fig.cap = 'Gantt chart for select species in the Morice River watershed.  To be updated in consultation with local fisheries techicians and knowledge holders.', eval=T}
 
+# This include ONLY the Morice data
+gantt_raw <- readr::read_csv("data/inputs_raw/fish_species_life_history_gantt.csv")
 
-##start with just the morice to keep it simple
-# ungroup()
-##start with just the morice to keep it simple
-gantt <- gantt_raw %>%
-  select(Species,
-         life_stage,
-         morice_start2,
-         morice_end2) %>%
+## start with just the morice to keep it simple
+gantt <- gantt_raw |>
+  dplyr::select(Species, life_stage, morice_start2, morice_end2) |>
   dplyr::filter(
     life_stage != 'Rearing' &
       life_stage != 'Upstream fry migration' &
       !is.na(life_stage),
     !is.na(morice_start2)
-  )%>%
-  mutate(
+  ) |>
+  dplyr::mutate(
     morice_start2 = lubridate::as_date(morice_start2),
     morice_end2 = lubridate::as_date(morice_end2),
-    life_stage = factor(life_stage, levels =
-                          c('Migration', 'Overwintering', 'Spawning', 'Incubation', 'Emergence', 'Outmigration')),
-    life_stage = forcats::fct_rev(life_stage) ##last line was upside down!
-  ) %>%
-  dplyr::filter(life_stage != 'Overwintering')
+    life_stage = base::factor(
+      life_stage,
+      levels = c('Migration', 'Overwintering', 'Spawning', 'Incubation', 'Emergence', 'Outmigration')
+    ),
+    life_stage = forcats::fct_rev(life_stage)
+  ) |>
+  dplyr::filter(life_stage != 'Overwintering') |>
+  dplyr::filter(Species != 'Pacific Lamprey')
 
-
-##make a plot
-ggplot(gantt, aes(xmin = morice_start2,
-                  xmax = morice_end2,
-                  y = life_stage,
-                  color = life_stage)) +
-  geom_linerange(size = 2) +
-  labs(x=NULL, y=NULL)+
-  # theme_bw()+
-  ggdark::dark_theme_bw(base_size = 11)+
-  theme(legend.position = "none")+
-  scale_x_date(date_labels = "%B")+
-  facet_wrap(~Species, ncol = 1)
+## make a plot
+ggplot2::ggplot(gantt, ggplot2::aes(
+  xmin = morice_start2,
+  xmax = morice_end2,
+  y = life_stage,
+  color = life_stage
+)) +
+  ggplot2::geom_linerange(size = 2) +
+  ggplot2::labs(x = NULL, y = NULL) +
+  ggplot2::theme_bw(base_size = 11) +
+  ggplot2::theme(legend.position = "none") +
+  ggplot2::scale_x_date(date_labels = "%B") +
+  ggplot2::facet_wrap(~Species, ncol = 1)
 ```
 
 <br>
@@ -381,7 +440,7 @@ plot_grad <- fiss_sum_grad %>%
   ggplot(aes(x = Gradient, y = Percent)) +
   geom_bar(stat = "identity")+
   facet_wrap(~species_code, ncol = 2)+
-  ggdark::dark_theme_bw(base_size = 11)+
+  ggplot2::theme_bw(base_size = 11)+
   labs(x = "Average Stream Gradient", y = "Occurrences (%)")
 plot_grad
 
@@ -396,7 +455,7 @@ plot_width <- fiss_sum_width %>%
   ggplot(aes(x = Width, y = Percent)) +
   geom_bar(stat = "identity")+
   facet_wrap(~species_code, ncol = 2)+
-  ggdark::dark_theme_bw(base_size = 11)+
+  ggplot2::theme_bw(base_size = 11)+
   labs(x = "Channel Width", y = "Occurrences (%)")
 plot_width
 ```
@@ -424,7 +483,7 @@ plot_wshed_hist <- ggplot(fiss_sum_wshed_filter, aes(x=upstream_area_km
   facet_wrap(~species_code, ncol = 2)+
   # scale_color_grey() +
   # scale_fill_grey() +
-  ggdark::dark_theme_bw(base_size = 11)+
+  ggplot2::theme_bw(base_size = 11)+
   scale_x_continuous(breaks = bins[seq(1, length(bins), by = 2)])+
   # scale_color_manual(values=c("grey90", "grey60", "grey30", "grey0"))+
   # theme(axis.text.x = element_text(angle = 45, hjust = 1))+

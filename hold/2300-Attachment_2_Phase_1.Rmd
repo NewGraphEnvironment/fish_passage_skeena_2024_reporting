@@ -1,4 +1,0 @@
-# **Attachment 2 - Phase 1 Data and Photos** {-}
-
-Data and photos for all Phase 1 (fish passage assessments) are provided online at https://www.newgraphenvironment.com/fish_passage_skeena_2024_reporting/appendix---phase-1-fish-passage-assessment-data-and-photos.html
-- with a pdf version at https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/raw/main/docs/Attachment_2.pdf

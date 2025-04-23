@@ -31,7 +31,7 @@ path_form_pscis <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/for
 pscis_export_raw <- fpr::fpr_sp_gpkg_backup(
   path_gpkg = path_form_pscis,
   update_utm = TRUE,
-  update_site_id = TRUE, ## This now also checks for duplicates
+  update_site_id = FALSE, ## This now also checks for duplicates
   write_back_to_path = FALSE,
   write_to_csv = TRUE,
   write_to_rdata = TRUE,
@@ -40,24 +40,26 @@ pscis_export_raw <- fpr::fpr_sp_gpkg_backup(
 
 
 ## Fix times
-For skeena 2024 this is not an issue. Sweet. 
-
-Fix time zone issue, documented here https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/18
 
 This is not always applicable and we will hopefully have a permanent fix soon.
 
-```{r time-fix, eval F}
-
-## Fix time zone, issue here https://github.com/NewGraphEnvironment/fish_passage_template_reporting/issues/18
- pscis_export_time_fix <- pscis_export_raw |>
- dplyr::mutate(date_time_start_raw = date_time_start,
-               date_time_start = lubridate::force_tz(date_time_start_raw, tzone = "America/Vancouver"),
-               date_time_start = lubridate::with_tz(date_time_start, tzone = "UTC"))
+For Skeena 2024 - Some of the the times in `form_pscis_2024` are incorrect in the form and are in PDT - so when read into R they get converted to UTC and are wrong... ugh times. 
 
 
-### IF RUN, must update code below with pscis_export_raw_clean2
+```{r time-fix, eval T}
+
+form_pscis_time_fix <-  pscis_export_raw |> 
+ dplyr::mutate(date_time_start_raw = date_time_start) |> 
+ dplyr::mutate(date_time_start = dplyr::case_when(time_correct == FALSE ~ lubridate::force_tz(date_time_start_raw, tzone = "UTC"), TRUE ~ date_time_start_raw),
+               date_time_start = dplyr::case_when(time_correct == FALSE ~ lubridate::with_tz(date_time_start, tzone = "America/Vancouver"), TRUE ~ date_time_start_raw)) |> 
+  dplyr::relocate(date_time_start_raw, .before = date_time_start)
+
+
+pscis_export_raw <- form_pscis_time_fix |> 
+  dplyr::select(-date_time_start_raw)
 
 ```
+
 
 ## Fix max culvert length and fill depth
 
@@ -102,8 +104,6 @@ Do some final cleaning and prepare the data for easy copy paste into the spreads
 - append MoTi ids to the comments
 - fix some vocabulary
 - add in the pscis assessment phase
-
-TO ADD:
 - change crossing type to other if subtype is ford 
 - fill in resemble channel to no if not yes. This is required when in the spreadsheet. ugh.
 
@@ -114,6 +114,8 @@ pscis_export <- pscis_export_prep1 |>
   dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start, tz = "America/Vancouver"),
                 date = lubridate::date(date_time_start)) |> 
   # append MoTi ids to comments, differentiate between highway major structure, and add time to end
+  # first trim white space
+  dplyr::mutate(assessment_comment = stringr::str_trim(assessment_comment)) |> 
   dplyr::mutate(assessment_comment = dplyr::case_when(
     moti_chris_culvert_id > 1000000 ~ paste0(assessment_comment, ' MoTi chris_culvert_id: ', moti_chris_culvert_id),
     moti_chris_culvert_id < 1000000 ~ paste0(assessment_comment, ' MoTi chris_hwy_structure_road_id: ', moti_chris_culvert_id),
@@ -122,7 +124,7 @@ pscis_export <- pscis_export_prep1 |>
   dplyr::mutate(assessment_comment = dplyr::case_when(moti_chris_culvert_id3 > 1000000 ~ paste0(assessment_comment, ', ', moti_chris_culvert_id3), TRUE ~ assessment_comment)) |>
   # add in pscis phase
   ## DOUBLE CHECK IF THERE ARE ANY SITES THAT ARE PHASE 1 AND 2S!!! FIRST TIME HAB CON SITES
-  dplyr::mutate(pscis_phase = case_when(
+  dplyr::mutate(pscis_phase = dplyr::case_when(
     assess_type_phase1 == "Yes" ~ "phase 1",
     assess_type_phase2 == "Yes" ~ "phase 2",
     assess_type_reassessment == "Yes" ~ "reassessment"),
@@ -130,6 +132,13 @@ pscis_export <- pscis_export_prep1 |>
     stream_name = stringr::str_replace_all(stream_name, 'Trib ', 'Tributary '),
     road_name = stringr::str_replace_all(road_name, 'Hwy ', 'Highway '),
     crew_members = toupper(crew_members)) |>
+  
+  # If the crossing subtype is a ford then change the crossing type to other to fit spreadsheet requirements
+  dplyr::mutate(crossing_type = dplyr::case_when(crossing_subtype == "Ford" ~ "Other", TRUE ~ crossing_type)) |> 
+  
+  # fill in resemble channel to No if not Yes. This is required when in the spreadsheet
+  dplyr::mutate(resemble_channel_yes_no = dplyr::case_when(resemble_channel_yes_no == "Yes" ~ "Yes", TRUE ~ "No")) |> 
+  
   # only select columns from the template object, as well as site_id, pscis_phase, and date_time_start
   dplyr::select(
     dplyr::any_of(names(fpr::fpr_xref_template_pscis())),
@@ -157,7 +166,7 @@ Now burn to a csv in the the `imports_extracted` directory. This is data we impo
 ```{r pscis-burn-csv}
 dir.create("data/inputs_extracted")
 
-pscis_export %>%
+pscis_export |> 
   readr::write_csv('data/inputs_extracted/pscis_export_submission.csv', na='')
 
 ```

@@ -25,9 +25,9 @@ map <- leaflet::leaflet(height=500, width=780) |>
   # leaflet::addProviderTiles(providers$"Esri.DeLorme") |> 
   leaflet::addProviderTiles("Esri.WorldTopoMap", group = "Topo") |>
   leaflet::addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") |> 
-  # leaflet::addPolygons(data = wshd_study_areas, color = "#F29A6E", weight = 1, smoothFactor = 0.5,
-  #             opacity = 1.0, fillOpacity = 0,
-  #             fillColor = "#F29A6E", label = wshd_study_areas$watershed_group_name) |>
+  leaflet::addPolygons(data = wshd_study_areas, color = "#F29A6E", weight = 1, smoothFactor = 0.5,
+              opacity = 1.0, fillOpacity = 0,
+              fillColor = "#F29A6E", label = wshd_study_areas$watershed_group_name) |>
   leaflet::addPolygons(data = wshds, color = "#0859C6", weight = 1, smoothFactor = 0.5,
               opacity = 1.0, fillOpacity = 0.25,
               fillColor = "#00DBFF",
@@ -120,6 +120,11 @@ map
 Fish passage assessment procedures conducted through SERNbc in the Skeena River Watershed since 2020 are amalgamated `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online within the Results and Discussion section of the report found ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Tables \\@ref(tab:tab-sites-sum-cap) - \\@ref(tab:tab-sites-cap)")}`.
 
 <br>
+
+
+Since 2020, orthoimagery and elevation model rasters have been generated and stored as Cloud Optimized Geotiffs on a cloud service provider (AWS) with select imagery linked to in the collaborative GIS project. Additionally - a tile service has been set up to facilitate viewing and downloading of individual images, provided `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = paste0("at", params$report_url, "/results-and-discussion.html")))`. 
+
+`r if(gitbook_on){knitr::asis_output("<br>")}`
 
 ```{r ld-db}
 conn = fpr::fpr_db_conn()
@@ -245,9 +250,6 @@ dplyr::left_join(
     escape = FALSE
   )
 ```
-
-
-Since 2020, orthoimagery and elevation model rasters have been generated via  presented `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = paste0("at", params$report_url, "/results-and-discussion.html")))`. 
 
 <br>
 
@@ -422,7 +424,7 @@ crossing structure are also included within an `sqlite` database within this yea
 Initial mapping of stream discharge and temperature causal effects pathways for the future purpose of focusing aquatic restoration 
 actions in areas of highest potential for positive impacts on fisheries values (ie. elimination of areas from intrinsic models 
 where water temperatures are likely too cold to support fish production) are detailed in @hill_etal2024Spatialstream which is 
-included as [Attachment 3](#attach-bayes). 
+included as [Attachment - Water Temperature Modelling](#attach-bayes). 
 
 
 ## Fish Passage Assessements
@@ -448,7 +450,7 @@ Reassessments were completed at `r pscis_reassessments |> nrow()` sites where PS
 
 <br>
 
-A summary of crossings assessed, a rough cost estimate for remediation, and a priority ranking for follow-up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")} else knitr::asis_output(ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "appendix---phase-1-fish-passage-assessment-data-and-photos.html", anchor_text = "Appendix"))`.
+A summary of crossings assessed, a rough cost estimate for remediation, and a priority ranking for follow-up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")}else(knitr::asis_output("[Attachment - Phase 1 Data and Photos](#attach-pdf-phase1-dat)"))`.
 
 <br>
 
@@ -462,10 +464,19 @@ The "Barrier" and "Potential Barrier" rankings used in this project followed @mo
 
 ```{r cost-est-phase-1, eval = T}
 
+### Unique to Skeena 2024 - remove upstream_habitat_length_m for sites 203123 and 203124 on Gershwin Creek due to incorrect mapping in BC Freshwater Atlas, so bcfishpass habitat estimates are misleading.
+tab_cost_est_phase1 <- tab_cost_est_phase1 |>
+    dplyr::mutate(`Habitat Upstream (km)` = dplyr::case_when(`PSCIS ID` %in% c(203123, 203124) ~ NA,
+                                                               .default = `Habitat Upstream (km)`))
+
+skeena_2024_footnote <- "Habitat estimates excluded for PSCIS crossings 203123 and 203124 due to incorrect mapping in BC Freshwater Atlas resulting in misleading estimates."
+
+#### - end 
+
+
  tab_cost_est_phase1 |>
   select(`PSCIS ID`:`Cost Est ( $K)`) |> 
-   fpr::fpr_kable(caption_text = paste0("Upstream habitat estimates and cost benefit analysis for Phase 1 assessments ranked as a 'barrier' or 'potential' barrier. ", sp_network_caption),
-                  scroll = gitbook_on)
+   fpr::fpr_kable(caption_text = paste0("Upstream habitat estimates and cost benefit analysis for Phase 1 assessments ranked as a 'barrier' or 'potential' barrier. ", sp_network_caption), footnote_text = skeena_2024_footnote, scroll = gitbook_on)
  
 ```
 
@@ -474,12 +485,12 @@ The "Barrier" and "Potential Barrier" rankings used in this project followed @mo
 ## Habitat Confirmation Assessments
 
 During the 2024 field assessments, habitat confirmation assessments were conducted at `r habitat_confirmations_priorities |> dplyr::distinct(site) |> nrow()`
-sites within the Morice River, Kispiox River, and Bulkley River watershed groups. A total of approximately `r habitat_confirmations_priorities |> pull(length_surveyed) |> sum(na.rm = TRUE) |> round(-3)/1000` km of stream was assessed. Electrofishing surveys were conducted at all habitat confirmation sites. Georeferenced field maps are provided in `r knitr::asis_output(if (gitbook_on) "[Attachment 1](#attach-1-maps)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "attach-1-maps.html", anchor_text = "Attachment 1"))`.
+sites within the Morice River, Kispiox River, and Bulkley River watershed groups. A total of approximately `r habitat_confirmations_priorities |> pull(length_surveyed) |> sum(na.rm = TRUE) |> round(-3)/1000` km of stream was assessed. Electrofishing surveys were conducted at all habitat confirmation sites. Georeferenced field maps are provided in [Attachment - Maps](#attach-maps).
 
 <br>
 
 As collaborative decision making was ongoing at the time of reporting, site prioritization can be considered preliminary. 
-Results are summarized in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fig:map-interactive) and ")}` Tables \@ref(tab:tab-overview) - \@ref(fig:plot-fish-all) with raw habitat and fish sampling data included in `r knitr::asis_output(if (gitbook_on) "[Attachment 2](#raw-dat)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "raw-dat.html", anchor_text = "Attachment 2"))`. A summary of preliminary modeling results illustrates the estimated Chinook, coho, and steelhead spawning and rearing habitat potentially available upstream of each crossing, based on measured/modelled channel width and upstream accessible stream length, as presented in Figure \@ref(fig:plot-model-all). Detailed information for each site assessed with Phase 2 assessments (including maps) are presented within site specific appendices to this document.
+Results are summarized in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fig:map-interactive) and ")}` Tables \@ref(tab:tab-overview) - \@ref(fig:plot-fish-all) with raw habitat and fish sampling data included in [Attachment - Data](#attach-dat). A summary of preliminary modeling results illustrates the estimated Chinook, coho, and steelhead spawning and rearing habitat potentially available upstream of each crossing, based on measured/modelled channel width and upstream accessible stream length, as presented in Figure \@ref(fig:plot-model-all). Detailed information for each site assessed with Phase 2 assessments (including maps) are presented within site specific appendices to this document.
 
 `r if(gitbook_on){knitr::asis_output("")} else knitr::asis_output("<br><br><br><br>")`
 
@@ -487,7 +498,18 @@ Results are summarized in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fi
 
 
 ```{r tab-overview, eval = TRUE}
-table_phase2_overview <- function(dat, caption_text = '', font = font_set, scroll = TRUE){
+
+### Unique to Skeena 2024 - remove upstream_habitat_length_m for sites 198913 and 198916 on Comeau Creek due to incorrect mapping in BC Freshwater Atlas, so bcfishpass habitat estimates are misleading.
+tab_overview <- tab_overview |>
+    dplyr::mutate(`Habitat Gain (km)` = dplyr::case_when(`PSCIS ID` %in% c(198913, 198916) ~ NA,
+                                                               .default = `Habitat Gain (km)`))
+
+skeena_2024_footnote <- "Habitat estimates excluded for PSCIS crossings 198913 and 198916 due to incorrect mapping in BC Freshwater Atlas resulting in misleading estimates."
+
+#### - end 
+
+
+table_phase2_overview <- function(dat, caption_text = '', font = font_set, footnote_text = NULL, scroll = TRUE){
   dat2 <- dat |>
     kable(caption = caption_text, booktabs = T, label = NA) |>
     kableExtra::kable_styling(c("condensed"),
@@ -500,11 +522,17 @@ table_phase2_overview <- function(dat, caption_text = '', font = font_set, scrol
     dat2 <- dat2 |>
       kableExtra::scroll_box(width = "100%", height = "500px")
   }
+  
+  if(!is.null(footnote_text)){
+    dat2 <- dat2 |>
+      kableExtra::footnote(symbol = footnote_text)
+  }
+  
   dat2
 }
 
 tab_overview |> 
-  table_phase2_overview(caption_text = paste0("Overview of habitat confirmation sites. ", sp_rearing_caption), 
+  table_phase2_overview(caption_text = paste0("Overview of habitat confirmation sites. ", sp_rearing_caption), footnote_text = skeena_2024_footnote,
                         scroll = gitbook_on)
 
 ```
@@ -522,6 +550,21 @@ fpr::fpr_table_cv_summary(dat = pscis_phase2)  |>
 
 
 ```{r cost-est-phase-2, eval=T}
+
+### Unique to Skeena 2024 - remove upstream_habitat_length_m for sites 198913 and 198916 on Comeau Creek due to incorrect mapping in BC Freshwater Atlas, so bcfishpass habitat estimates are misleading.
+tab_cost_est_phase2 <- tab_cost_est_phase2 |>
+    dplyr::mutate(upstream_habitat_length_m = dplyr::case_when(pscis_crossing_id %in% c(198913, 198916) ~ NA,
+                                                               .default = upstream_habitat_length_m)) |> 
+    dplyr::mutate(cost_net = dplyr::case_when(pscis_crossing_id %in% c(198913, 198916) ~ NA,
+                                                               .default = upstream_habitat_length_m)) |> 
+    dplyr::mutate(cost_area_net = dplyr::case_when(pscis_crossing_id %in% c(198913, 198916) ~ NA,
+                                                               .default = upstream_habitat_length_m))
+
+skeena_2024_footnote <- "Habitat and cost benefit estimates excluded for PSCIS crossings 198913 and 198916 due to incorrect mapping in BC Freshwater Atlas resulting in misleading estimates."
+
+#### - end 
+
+
 tab_cost_est_phase2 |>
     dplyr::rename(
     `PSCIS ID` = pscis_crossing_id,
@@ -536,7 +579,7 @@ tab_cost_est_phase2 |>
     `Cost Benefit (m / $K)` = cost_net,
     `Cost Benefit (m2 / $K)` = cost_area_net
   ) |> 
-  fpr::fpr_kable(caption_text = paste0("Cost benefit analysis for Phase 2 assessments. ", sp_rearing_caption),
+  fpr::fpr_kable(caption_text = paste0("Cost benefit analysis for Phase 2 assessments. ", sp_rearing_caption), footnote_text = skeena_2024_footnote,
                  scroll = F)
 
 ```
@@ -559,7 +602,7 @@ tab_hab_summary |>
 ```{r tab-wshd-sum-all}
 fpr::fpr_table_wshd_sum() |> 
   fpr::fpr_kable(caption_text = paste0('Summary of watershed area statistics upstream of Phase 2 crossings.'),
-                                 footnote_text = 'Elev P60 = Elevation at which 60% of the watershed area is above', scroll = F)
+                                 footnote_text = 'Elev P60 = Elevation at which 60% of the watershed area is above. \n PSCIS crossings 198913 and 198916 excluded due to incorrect mapping in BC Freshwater Atlas resulting in misleading watershed statistics.', scroll = F)
 
 ```
 
@@ -609,7 +652,7 @@ bcfishpass_phase2_plot_prep |>
   ggplot2::geom_bar(stat = "identity") +
   ggplot2::facet_wrap(~name, ncol = 2) +
   ggplot2::labs(x = "Site", y = "Modelled habitat (km)")+
-  ggplot2::theme_light(base_size = 11) +
+  ggplot2::theme_bw(base_size = 11) +
   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1)) 
 
 
@@ -623,7 +666,7 @@ In 2024, fish sampling was conducted at `r tab_fish_sites_sum |> n_distinct()` s
 
 <br>
 
-Fork length data was used to delineate salmonids based on life stages: fry (0 to 65mm), parr (>65 to 110mm), juvenile (>110mm to 140mm) and adult (>140mm) by visually assessing the histograms presented in Figure \@ref(fig:fish-histogram).  A summary of sites assessed are included in Table \@ref(tab:tab-fish-site-summary) and raw data is provided in `r knitr::asis_output(if (gitbook_on) "[Attachment 2](#raw-dat)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "raw-dat.html", anchor_text = "Attachment 2"))`. A summary of density results for all life stages combined of select species is also presented in Figure \@ref(fig:plot-fish-all). 
+Fork length data was used to delineate salmonids based on life stages: fry (0 to 65mm), parr (>65 to 110mm), juvenile (>110mm to 140mm) and adult (>140mm) by visually assessing the histograms presented in Figure \@ref(fig:fish-histogram).  A summary of sites assessed are included in Table \@ref(tab:tab-fish-site-summary) and raw data is provided in [Attachment - Data](#attach-dat). A summary of density results for all life stages combined of select species is also presented in Figure \@ref(fig:plot-fish-all). 
 
 <br>
 
@@ -662,8 +705,7 @@ plot_fish_box_all <- fish_abund |>
   ggplot2::theme(legend.position = "none", axis.title.x = ggplot2::element_blank()) +
   ggplot2::geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 1) +
   ggplot2::ylab(expression(Density ~ (Fish/100 ~  m^2))) +
-  ggplot2::theme_light()
-  # ggdark::dark_theme_bw()
+  ggplot2::theme_bw()
 
 
 
@@ -673,7 +715,27 @@ plot_fish_box_all
 <br>
 
 ```{r fish-histogram, fig.cap= 'Histograms of fish lengths by species.  Fish captured by electrofishing during habitat confirmation assessments.', eval = T}
-knitr::include_graphics("fig/fish_histogram.png")
+
+bin_1 <- floor(min(fish_data_complete$length, na.rm = TRUE) / 5) * 5
+bin_n <- ceiling(max(fish_data_complete$length, na.rm = TRUE) / 5) * 5
+bins <- seq(bin_1, bin_n, by = 5)
+
+# Check what species we have and filter out any we don't want, took out the hybrids so we have an even number of facets
+# fish_data_complete |> dplyr::distinct(species)
+
+plot_fish_hist <- ggplot2::ggplot(
+  fish_data_complete |> dplyr::filter(!species %in% c('Fish Unidentified Species',"Cutthroat Trout /Rainbow Trout  hybrid",  'NFC')),
+  ggplot2::aes(x = length)
+) +
+  ggplot2::geom_histogram(breaks = bins, alpha = 0.75,
+                          position = "identity", size = 0.75) +
+  ggplot2::labs(x = "Fork Length (mm)", y = "Count (#)") +
+  ggplot2::facet_wrap(~species) +
+  ggplot2::theme_bw(base_size = 8) +
+  ggplot2::scale_x_continuous(breaks = bins[seq(1, length(bins), by = 2)]) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+
+plot_fish_hist
 
 ```
 

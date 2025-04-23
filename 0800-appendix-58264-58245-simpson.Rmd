@@ -166,7 +166,7 @@ The stream was surveyed from Lake Kathlyn Road (crossing `r as.character(my_site
 
 <br>
 
-PSCIS crossing `r as.character(my_site4)`, situated approximately 70m upstream of Lake Kathlyn Road, was also assessed during the survey, with the culvert assessment provided in [Appendix 1](#appendix1). The crossing consisted of three 0.95m pipes running beneath a private driveway, with two pipes appearing fully embedded. The crossing was non-backwatered and ranked as a
+PSCIS crossing `r as.character(my_site4)`, situated approximately 70m upstream of Lake Kathlyn Road, was also assessed during the survey, with the culvert assessment provided in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")}else(knitr::asis_output("[Attachment - Phase 1 Data and Photos](#attach-pdf-phase1-dat)"))`. The crossing consisted of three 0.95m pipes running beneath a private driveway, with two pipes appearing fully embedded. The crossing was non-backwatered and ranked as a
 `r fpr::fpr_my_pscis_info(dat = pscis_phase1, col_filter = my_crossing_reference, site = 2024092003, col_pull = barrier_result) |>stringr::str_to_lower()` to upstream fish passage according to the provincial protocol
 [@moe2011Fieldassessment]. Evidence of beaver activity was observed including debris accumulation at the inlet, and the landowner reported previous blockages caused by beavers, which required periodic inlet clearing and the removal of significant accumulated material through dredging.
 

@@ -1,0 +1,8 @@
+#  **Attachment - Bayesian analysis to map stream discharge and temperature causal effects pathways** {-#attach-bayes}
+
+Details of this analysis and subsequent outputs can be reviewed in the report [Spatial Stream Network Analysis of Nechako Watershed Stream Temperatures 2022b](https://www.poissonconsulting.ca/temporary-hidden-link/1295467017/fish-passage-22b/) [@hill_etal2024Spatialstream]. 
+At the time of reporting, ongoing work regarding the project was tracked https://github.com/poissonconsulting/fish-passage-22/issues 
+and https://github.com/poissonconsulting/fish-passage-22b/issues. 
+
+
+
