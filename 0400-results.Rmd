@@ -122,7 +122,7 @@ Fish passage assessment procedures conducted through SERNbc in the Skeena River 
 <br>
 
 
-Since 2020, orthoimagery and elevation model rasters have been generated and stored as Cloud Optimized Geotiffs on a cloud service provider (AWS) with select imagery linked to in the collaborative GIS project. Additionally - a tile service has been set up to facilitate viewing and downloading of individual images, provided `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = paste0("at", params$report_url, "/results-and-discussion.html")))`. 
+Since 2020, orthoimagery and elevation model rasters have been generated and stored as Cloud Optimized Geotiffs on a cloud service provider (AWS) with select imagery linked to in the collaborative GIS project. Additionally - a tile service has been set up to facilitate viewing and downloading of individual images, provided `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = paste0("at", params$report_url, "/results-and-discussion.html")))`. Modelling data for all crossings assessed are included `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-bcfishpass-sum-cap)")}`.
 
 `r if(gitbook_on){knitr::asis_output("<br>")}`
 
@@ -249,6 +249,65 @@ dplyr::left_join(
     cols_freeze_left = 1,
     escape = FALSE
   )
+```
+
+<br>
+
+
+```{r tab-bcfishpass-sum-cap, results = "asis",  eval = gitbook_on}
+my_caption = "Summary of bcfishpass outputs including habitat modelling for sites assessed."
+my_tab_caption()
+```
+
+```{r tab-bcfishpass-sum, eval = gitbook_on}
+# serve a summary of the modelling info for our 2024 sites
+# bcfishpass_sum <- bcfishpass |> 
+#   dplyr::filter(
+#     stream_crossing_id %in% pscis_all$pscis_crossing_id
+#   )
+
+# not sure why a few crossings don't show up.....
+# setdiff(
+#   pscis_all$pscis_crossing_id,
+#   bcfishpass_sum$stream_crossing_id
+# )
+
+
+sites_wsg <- sites_all  |>
+    dplyr::filter(watershed_group %in% wsg) 
+
+
+bcfishpass_sum <- bcfishpass |> 
+  dplyr::filter(
+        stream_crossing_id %in% sites_wsg$stream_crossing_id 
+  )
+
+# not sure why a few crossings don't show up.....
+# setdiff(
+#   sites_all  |>
+#     dplyr::filter(watershed_group %in% wsg) |>
+#     dplyr::pull(stream_crossing_id),
+#   bcfishpass$stream_crossing_id
+# )
+
+cols_to_drop1 <- which(names(bcfishpass) == "aggregated_crossings_id"):which(names(bcfishpass) == "crossing_source")
+
+bcfishpass_sum |> 
+  dplyr::select(
+    stream_crossing_id,
+    modelled_crossing_id,
+    dplyr::everything(),
+    # dplyr::matches("spawning|rearing"),
+    # -dplyr::all_of(names(bcfishpass)[cols_to_drop1]),
+    
+    -dplyr::matches("transport_|ften|rail_|ogc_|dam_"),
+     -dplyr::matches("modelled_crossing_type|modelled_crossing_office|crossings_dnstr|observedspp_dnstr"),
+    -dplyr::matches("wct_|ch_cm_co_pk_sk_|barriers_")
+    ) |>
+  # make all the columns strings so we can filter them
+  dplyr::mutate(across(everything(), as.character)) |> 
+  my_dt_table(cols_freeze_left = 1, page_length = 5)
+
 ```
 
 <br>
@@ -417,7 +476,8 @@ rfp_tracking_prep |>
 Habitat modelling from `bcfishpass` including access model, linear spawning/rearing habitat model and lateral habitat 
 connectivity models for watershed groups within our study area were updated for the spring of 2025 and are included
 spatially in the collaborative GIS project.  A snapshot of these outputs related to each modeled and PSCIS stream 
-crossing structure are also included within an `sqlite` database within this year's project reporting/code repository [here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/blob/main/data/bcfishpass.sqlite).
+crossing structure are included within a portable `sqlite` database stored [here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting/blob/main/data/bcfishpass.sqlite). Modelling data for all crossings assessed with fish passage and habitat confirmation assessments are included `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-bcfishpass-sum-cap)")}`. 
+
 
 
 #### Statistical Support for `bcfishpass` Fish Habitat Modelling Updates
@@ -450,7 +510,8 @@ Reassessments were completed at `r pscis_reassessments |> nrow()` sites where PS
 
 <br>
 
-A summary of crossings assessed, a rough cost estimate for remediation, and a priority ranking for follow-up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")}else(knitr::asis_output("[Attachment - Phase 1 Data and Photos](#attach-pdf-phase1-dat)"))`.
+A summary of crossings assessed, a rough cost estimate for remediation, and a priority ranking for follow-up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")}else(knitr::asis_output("[Attachment - Phase 1 Data and Photos](#attach-pdf-phase1-dat)"))`. Modelling data for all crossings assessed are included `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-bcfishpass-sum-cap)")}`.
+
 
 <br>
 
@@ -490,7 +551,7 @@ sites within the Morice River, Kispiox River, and Bulkley River watershed groups
 <br>
 
 As collaborative decision making was ongoing at the time of reporting, site prioritization can be considered preliminary. 
-Results are summarized in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fig:map-interactive) and ")}` Tables \@ref(tab:tab-overview) - \@ref(fig:plot-fish-all) with raw habitat and fish sampling data included in [Attachment - Data](#attach-dat). A summary of preliminary modeling results illustrates the estimated Chinook, coho, and steelhead spawning and rearing habitat potentially available upstream of each crossing, based on measured/modelled channel width and upstream accessible stream length, as presented in Figure \@ref(fig:plot-model-all). Detailed information for each site assessed with Phase 2 assessments (including maps) are presented within site specific appendices to this document.
+Results are summarized in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fig:map-interactive) and ")}` Tables \@ref(tab:tab-overview) - \@ref(fig:plot-fish-all) with raw habitat and fish sampling data included in [Attachment - Data](#attach-dat). A summary of preliminary modeling results illustrates the estimated Chinook, coho, and steelhead spawning and rearing habitat potentially available upstream of each crossing, based on measured/modelled channel width and upstream accessible stream length, as presented in Figure \@ref(fig:plot-model-all) and `r if(identical(gitbook_on, FALSE)){knitr::asis_output(paste0("online ", ngr::ngr_str_link_url(url_base = params$report_url, anchor_text = "here")))}else{knitr::asis_output("in Table \\@ref(tab:tab-bcfishpass-sum-cap)")}`. Detailed information for each site assessed with Phase 2 assessments (including maps) are presented within site specific appendices to this document.
 
 `r if(gitbook_on){knitr::asis_output("")} else knitr::asis_output("<br><br><br><br>")`
 
