@@ -127,13 +127,12 @@ Since 2020, orthoimagery and elevation model rasters have been generated and sto
 `r if(gitbook_on){knitr::asis_output("<br>")}`
 
 ```{r ld-db}
-conn = fpr::fpr_db_conn()
 
 sites_all <- fpr::fpr_db_query(
   query = "SELECT * FROM working.fp_sites_tracking"
-)
+) |> 
+  dplyr::select(-dplyr::all_of(dplyr::matches("uav")))
 
-DBI::dbDisconnect(conn)
 ```
 
 ```{r summarize-sites}
@@ -164,26 +163,26 @@ wsg_code_skeena <- c(
 
 # here is a summary with Elk watershed group removed
 sites_all_summary <- sites_all |> 
-  # make a flag column for uav flights
-  dplyr::mutate(
-    uav = dplyr::case_when(
-      !is.na(link_uav1) ~ "yes",
-      T ~ NA_character_
-    )) |> 
+  # # make a flag column for uav flights
+  # dplyr::mutate(
+  #   uav = dplyr::case_when(
+  #     !is.na(link_uav1) ~ "yes",
+  #     T ~ NA_character_
+  #   )) |> 
   # remove the elk counts
   dplyr::filter(watershed_group %in% wsg) |>
   dplyr::group_by(watershed_group) |> 
   dplyr::summarise(
-    dplyr::across(assessment:fish_sampling, ~ sum(!is.na(.x))),
-    uav = sum(!is.na(uav))
+    dplyr::across(assessment:fish_sampling, ~ sum(!is.na(.x)))
+    # , uav = sum(!is.na(uav))
   ) |> 
   sf::st_drop_geometry() |> 
   # make pretty names
   dplyr::rename_with(~ stringr::str_replace_all(., "_", " ") |> 
                        stringr::str_to_title()) |> 
-  # annoying special case
-  dplyr::rename(
-    `Drone Imagery` = Uav) |> 
+  # # annoying special case
+  # dplyr::rename(
+  #   `Drone Imagery` = Uav) |> 
   janitor::adorn_totals() |> 
       # make all the columns strings so we can filter them
     dplyr::mutate(across(everything(), as.character))
@@ -290,16 +289,11 @@ bcfishpass_sum <- bcfishpass |>
 #   bcfishpass$stream_crossing_id
 # )
 
-cols_to_drop1 <- which(names(bcfishpass) == "aggregated_crossings_id"):which(names(bcfishpass) == "crossing_source")
-
 bcfishpass_sum |> 
   dplyr::select(
     stream_crossing_id,
     modelled_crossing_id,
     dplyr::everything(),
-    # dplyr::matches("spawning|rearing"),
-    # -dplyr::all_of(names(bcfishpass)[cols_to_drop1]),
-    
     -dplyr::matches("transport_|ften|rail_|ogc_|dam_"),
      -dplyr::matches("modelled_crossing_type|modelled_crossing_office|crossings_dnstr|observedspp_dnstr"),
     -dplyr::matches("wct_|ch_cm_co_pk_sk_|barriers_")
