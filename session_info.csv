@@ -8,7 +8,7 @@
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       America/Vancouver
- date     2025-04-23
+ date     2025-04-24
  rstudio  2024.12.0+467 Kousa Dogwood (desktop)
  pandoc   3.2 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)
 
@@ -110,7 +110,6 @@
  roxygen2            7.3.1      2024-01-22 [2] CRAN (R 4.4.0)
  RPostgres         * 1.4.8      2025-02-25 [1] CRAN (R 4.4.1)
  rprojroot           2.0.4      2023-11-05 [1] CRAN (R 4.4.1)
- rsconnect           1.3.4      2025-01-22 [2] CRAN (R 4.4.1)
  RSQLite             2.3.9      2024-12-03 [1] CRAN (R 4.4.1)
  rstudioapi          0.17.1     2024-10-22 [1] CRAN (R 4.4.1)
  rvest               1.0.4      2024-02-12 [1] CRAN (R 4.4.0)

@@ -233,9 +233,9 @@ dplyr::left_join(
                          stringr::str_replace_all("_", " ") |>
                          stringr::str_replace_all("repo", "Report") |>
                          stringr::str_replace_all("uav", "Drone") |>
-                         stringr::str_to_title()) |> 
+                         stringr::str_to_title()),
     # drop the uav imagery for now since it is out of date
-    dplyr::select(-`Link Drone1`,  -`Link Drone2`),
+    # dplyr::select(-`Link Drone1`,  -`Link Drone2`),
   
   sites_rank |> 
     dplyr::select(`Stream Crossing Id`, Rank),
