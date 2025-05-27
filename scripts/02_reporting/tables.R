@@ -345,6 +345,7 @@ tab_fish_summary <- fish_data_complete |>
                   sampling_method,
                   species) |>
   dplyr::summarise(count_fish = n()) |>
+  dplyr::mutate(count_fish = case_when(species == "NFC" ~ 0, T ~ count_fish)) |>
   dplyr::arrange(site_id, species, ef)
 
 
