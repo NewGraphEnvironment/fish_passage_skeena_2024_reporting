@@ -866,7 +866,7 @@ remediation of fish passage has been completed at the following sites (listed by
 
 ## Monitoring
 
-Five streams where habitat confirmations were conducted in the past were revisited in 2024 to gather data to further inform prioritization and or to provide data for effectiveness monitoring. Below are sites visited (listed by watershed group) with details of data collected and links to reporting provided.
+Several streams where habitat confirmations were conducted in the past were revisited in 2024 to gather data to further inform prioritization and or to provide data for effectiveness monitoring. Below are sites visited (listed by watershed group) with details of data collected and links to reporting provided.
 
 ### Bulkley River
 
@@ -876,9 +876,12 @@ both the prioritization process and baseline monitoring. Reporting updated [here
 - Taman Creek- PSCIS 197967 - Highway 16.  Construction activities took place to replace this crossing between 2022 and 2024.  
 Effectiveness monitoring was conducted in 2024.  Background information was updated  [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/taman-creek---197967---appendix.html) with results of the 2024 monitoring presented in within this document in [Taman Creek - 197967 - Appendix](#taman).
 
-- Waterfall Creek – PSCIS 124421 - 11th Avenue.  This crossing is within New Hazelton. In addition to the aquisition of 
+- Waterfall Creek – PSCIS 124421 - 11th Avenue.  This crossing is within New Hazelton. In addition to the acquisition of 
 a design for PSCIS crossing 124421 on 11th Avenue discussed earlier - in 2024 a field visit was conducted which included a habitat survey covering the
 the area from 10th avenue (Highway 16) to the waterfall located above town.  Additionally  an aerial survey was conducted with a drone to map the historic Waterfall Creek wetland areas located north of Highway 16/10th avenue (east of Churchill Street) to support restoration planning (orthomosaics available `r knitr::asis_output(if (gitbook_on) "in Table \\@ref(tab:tab-uav-imagery-cap)" else ngr::ngr_str_link_url(url_base = params$report_url, url_resource = "results-and-discussion.html", anchor_text = "here"))`). Reporting updated with 2024 data along with background information for the Station Creek and Waterfall Creek watersheds are presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/) and [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2022_reporting/).
+
+- Waterfall Creek – PSCIS 198116 – Highway 16. This crossing is also located within the District of New Hazelton. Originally surveyed in 2022, the stream was re-walked in 2024 from the easternmost Waterfall Creek/Highway 16 crossing (PSCIS 198116) upstream to the waterfall that blocks upstream migration for all life stages and species, located approximately 1200m upstream. Updated information from the 2024 site visit is included in the revised Waterfall Creek memo, available in the [Bulkley Watershed Fish Passage Restoration Planning 2022](https://www.newgraphenvironment.com/fish_passage_bulkley_2022_reporting/) report.
+
 
 
 ### Zymoetz River
