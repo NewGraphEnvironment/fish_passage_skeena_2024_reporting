@@ -178,6 +178,7 @@ The stream was surveyed from the railway crossing (`r as.character(my_site)`) up
 
 <br>
 
+
 ## Stream Characteristics Upstream of Crossing `r as.character(my_site2)` {.unnumbered}
 
 The stream was surveyed upstream from crossing 198913 - located on Highway 16 for 600m. The stream had frequent pools suitable for overwintering fish, with spawning gravels present despite a significant amount of fines. In the ~200 m section just upstream of the crossing, the stream maintained a low gradient and flowed through agricultural fields with mature cottonwood riparian cover throughout the entire area surveyed `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198913-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-198913-d01))."))``r fpr_my_habitat_paragraph(sit = my_site2, loc = 'us')` The habitat was rated as `r fpr::fpr_my_priority_info(sit = my_site2, loc = 'us') |> stringr::str_to_lower()` value for salmonid rearing an spawning. 
@@ -186,16 +187,16 @@ The stream was surveyed upstream from crossing 198913 - located on Highway 16 fo
 
 ## Fish Sampling {.unnumbered}
 
-Electrofishing was conducted on Comeau Creek below and above the railway crossing (`r as.character(my_site)`) as well as 
-upstream and downstream of the crossing on Highway 16 (`r as.character(my_site2)`).
+Electrofishing was conducted on Comeau Creek below and above the railway crossing (PSCIS `r as.character(my_site)`) as well as 
+upstream and downstream of the crossing on Highway 16 (PSCIS `r as.character(my_site2)`).
 
 <br>
 
-Comeau Creek railway crossing (`r as.character(my_site)` results are summarised in Tables \@ref(tab:tab-fish-site-198916) - \@ref(tab:tab-fish-dens-198916) and Figure \@ref(fig:plot-fish-box-198916). A total of `r tab_fish_summary |> filter(site_id == paste0(my_site, '_ds')) |> group_by(site_id) |> janitor::adorn_totals() |> filter(site_id == 'Total') |> pull(count_fish)` fish were captured downstream including Dolly Varden and cutthroat trout, and `r tab_fish_summary |> filter(site_id == paste0(my_site, '_us')) |> group_by(site_id) |> janitor::adorn_totals() |> filter(site_id == 'Total') |> pull(count_fish)` Dolly Varden were captured upstream `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198916-03)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-198913-d02))."))`
+Comeau Creek railway crossing (PSCIS `r as.character(my_site)`) results are summarised in Tables \@ref(tab:tab-fish-site-198916) - \@ref(tab:tab-fish-dens-198916) and Figure \@ref(fig:plot-fish-box-198916). A total of `r tab_fish_summary |> filter(site_id == paste0(my_site, '_ds')) |> group_by(site_id) |> janitor::adorn_totals() |> filter(site_id == 'Total') |> pull(count_fish)` fish were captured downstream including Dolly Varden and cutthroat trout, and `r tab_fish_summary |> filter(site_id == paste0(my_site, '_us')) |> group_by(site_id) |> janitor::adorn_totals() |> filter(site_id == 'Total') |> pull(count_fish)` Dolly Varden were captured upstream `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198916-03)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-198913-d02))."))`
 
 <br>
 
-Electrofishing results for upstream and downstream of the crossing on Highway 16 (`r as.character(my_site2)`) are summarised in Tables \@ref(tab:tab-fish-site-198913) - \@ref(tab:tab-fish-dens-198913) and Figure
+Electrofishing results for upstream and downstream of the crossing on Highway 16 (PSCIS `r as.character(my_site2)`) are summarised in Tables \@ref(tab:tab-fish-site-198913) - \@ref(tab:tab-fish-dens-198913) and Figure
 \@ref(fig:plot-fish-box-198913). A total of `r tab_fish_summary |> filter(site_id == paste0(my_site2, '_ds')) |> group_by(site_id) |> janitor::adorn_totals() |> filter(site_id == 'Total') |> pull(count_fish)` fish were captured downstream including Dolly Varden and cutthroat trout, and `r tab_fish_summary |> filter(site_id == paste0(my_site2, '_us')) |> group_by(site_id) |> janitor::adorn_totals() |> filter(site_id == 'Total') |> pull(count_fish)` Dolly Varden were captured upstream `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198913-03)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-198913-d02))."))`
 
 <br>
