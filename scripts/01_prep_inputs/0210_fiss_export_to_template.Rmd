@@ -18,7 +18,7 @@ editor_options:
 Export fiss site data to csv for cut and paste into the fish data submission spreadsheet (habitat_confirmations.xls). This script has been updated so that the csv contains as much of the data as possible, so that only a few copy/pastes are required. We are trying to move away from all the back and forths between the spreadsheet, R, and Q. 
 
 ```{r params}
-path_form_fiss_site <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024.gpkg')
+path_form_fiss_site <- fs::path(fs::path_expand('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024.gpkg'))
 ```
 
 
@@ -44,12 +44,21 @@ form_fiss_site <- fpr::fpr_sp_gpkg_backup(
 ) 
 ```
 
+## Pull out Waterfall creek sites because they were not actually habitat confirmations - unique to skeena 2024
+
+```{r remove_waterfall}
+
+form_fiss_site_prep1 <- form_fiss_site |> 
+  dplyr::filter(!stringr::str_detect(local_name, "198106"))
+
+```
+
 
 ## Prepare the data for copy paste to spreadsheet.
 
 ```{r cp-prep}
 # see the names of our form
-names(form_fiss_site_prep2)
+names(form_fiss_site_prep1)
 
 # let's get the names of the input template
 # there is lots of work to do to pull out all the information we can use so we will start with one small step at a time
@@ -57,7 +66,7 @@ names(form_fiss_site_prep2)
 form_raw_names_site <- fpr::fpr_import_hab_con(backup = F,
   row_empty_remove = T) |> 
   # pull out just the site info page for now
-  pluck(4) |> 
+  purrr::pluck(4) |> 
   # only keep the names of the columns
   names()
 
@@ -65,7 +74,7 @@ form_raw_names_site <- fpr::fpr_import_hab_con(backup = F,
 form_raw_names_location <- fpr::fpr_import_hab_con(backup = F,
   row_empty_remove = T) |> 
   # pull out just the site info page for now
-  pluck(1) |> 
+  purrr::pluck(1) |> 
   # only keep the names of the columns
   names()
 
@@ -80,7 +89,7 @@ form_raw_names_sl <- c(form_raw_names_location,
 
 
 # Rename the columns to match those in the spreadsheet
-form_site_info_prep <- form_fiss_site_prep2 |> 
+form_site_info_prep2 <- form_fiss_site_prep1 |> 
   sf::st_drop_geometry() |> 
   # alias local name and gazetted_name is not called the same in both sheets so rename
   dplyr::rename(alias_local_name = local_name,
@@ -97,13 +106,13 @@ form_site_info_prep <- form_fiss_site_prep2 |>
 ```
 
 
-## Filter and c/p the reference and location data
+# Filter and c/p the reference and location data
 
 Filter out the location data and burn to csv for copy paste into `step_1_ref_and_loc_info`
 
 ```{r cp-ref-location}
 # make the reference and location form to c.p into `step_1_ref_and_loc_info`
-form_fiss_loc <- bind_rows(
+form_fiss_loc <- dplyr::bind_rows(
 
   # we need the raw form or we don't have all the right columns
   fpr::fpr_import_hab_con(backup = F,
@@ -113,7 +122,7 @@ form_fiss_loc <- bind_rows(
     dplyr::slice(0) |> 
     dplyr::mutate(dplyr::across(dplyr::everything(), as.character)),
       
-   form_site_info_prep |> 
+   form_site_info_prep2 |> 
     dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) |> 
     dplyr::select(dplyr::any_of(form_raw_names_location))) |> 
   
@@ -131,13 +140,13 @@ form_fiss_loc |>
 ```
 
 
-## Filter and c/p stream site data
+# Filter and c/p stream site data
 
 Filter out the stream site data and burn to csv for copy paste into `step_4_stream_site_data`
 
 ```{r cp-stream-site}
 # make the stream site form to c/p into `step_4_stream_site_data`
-form_fiss_site <- bind_rows(
+form_fiss_stream_site <- dplyr::bind_rows(
 
   # we need the raw form or we don't have all the right columns
   fpr::fpr_import_hab_con(backup = F,
@@ -147,23 +156,23 @@ form_fiss_site <- bind_rows(
     dplyr::slice(0) |> 
     dplyr:: mutate(dplyr::across(dplyr::everything(), as.character)),
                    
-  form_site_info_prep |> 
+  form_site_info_prep2 |> 
     dplyr:: mutate(dplyr::across(dplyr::everything(), as.character)) |>
     # these column names differ slightly from those in `step_1_ref_and_loc_info`, so we update them so they are included in the csv for easier c/p.
     dplyr::rename(local_name = alias_local_name,
                 gazetted_names = gazetted_name,
                 waterbody_id = waterbody_id_identifier) |> 
-    select(dplyr::any_of(form_raw_names_site),
+    dplyr::select(dplyr::any_of(form_raw_names_site),
            # add the time to help put the puzzle together after)
            survey_date)
 ) |> 
-  select(everything())
+  dplyr::select(everything())
 
 
 # burn to file
-form_fiss_site |> 
+form_fiss_stream_site |> 
   readr::write_csv(paste0(
-    'data/inputs_extracted/form_fiss_site_tidy',
+    'data/inputs_extracted/form_fiss_stream_site_tidy',
     '.csv'),
     na = '')
 
