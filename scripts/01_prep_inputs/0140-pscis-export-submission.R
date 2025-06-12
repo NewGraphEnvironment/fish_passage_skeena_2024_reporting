@@ -121,7 +121,7 @@ writeLines(
     paste0(url_gitpages, name_repo),
     "",
     "A versioned pdf of the report can be downloaded from: ",
-    paste0(url_github, name_repo, "/raw/main/docs/", name_pdf),
+    paste0(url_github, name_repo, "/blob/main/docs/", name_pdf),
     "",
     "Raw data is available here: ",
     paste0(url_github, name_repo, "/tree/main/data"),
@@ -147,15 +147,15 @@ name_submission <- 'pscis_phase2.xlsm'
 # Create folders and copy over photos -------------
 
 # need to add photos to local machine to upload to PSCIS
-targetdir = fs::path('~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_phase2')
+targetdir = fs::path(fs::path_expand('~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_phase2'))
 
 # create the directory. Take note about which phase
 fs::dir_create(targetdir)
 
 
 # use the pscis spreadsheet to make the folders to copy the photos to. For skeena 2024, the photos are stored in Onedrive.
+path_photos <- fs::path(fs::path_expand('~/Library/CloudStorage/OneDrive-Personal/Projects/2024-072-sern-skeena-fish-passage/data/photos'))
 
-path_photos <- fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-072-sern-skeena-fish-passage/data/photos')
 
 d <- fpr::fpr_import_pscis(workbook_name = 'pscis_phase2.xlsm')
 
@@ -188,8 +188,8 @@ empty_files <- empty_idx |> tfpr_filter_list()
 photo_sort_tracking <- path_to_photos |>
   purrr::map(fpr::fpr_photo_document_all) |>
   purrr::set_names(folderstocopy) |>
-  bind_rows(.id = 'folder') |>
-  mutate(photo_name = str_squish(str_extract(value, "[^/]*$")),
+  dplyr::bind_rows(.id = 'folder') |>
+  dplyr::mutate(photo_name = stringr::str_squish(stringr::str_extract(value, "[^/]*$")),
          photo_name_length = stringr::str_length(photo_name))
 
 ##here we back up a csv that gives us the new location and name of the original JPG photos.
@@ -200,7 +200,7 @@ photo_sort_tracking |>
 
 ## change path name so we can paste to folders
 filestopaste_list <- filestocopy_list |>
-  map(tfpr_photo_change_name)
+  purrr::map(tfpr_photo_change_name)
 
 ##!!!!!!!!!!!!!!!copy over the photos!!!!!!!!!!!!!!!!!!!!!!!
 mapply(fs::file_copy,
@@ -210,9 +210,9 @@ mapply(fs::file_copy,
 
 # QA photos -------------
 
-# do a little QA to be sure all the photos are there.
+# do a little QA to be sure all the photos are there.Table shows photos that are missing. If all NA you are good to go.
 
-t <- fpr::fpr_photo_qa_df(dat = d, dir_photos = '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_phase2/')
+t <- fpr::fpr_photo_qa_df(dat = d, dir_photos = fs::path(fs::path_expand('~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_phase2/')))
 
 
 # Move Pscis file -------------
@@ -229,7 +229,7 @@ writeLines(
     paste0(url_gitpages, name_repo),
     "",
     "A versioned pdf of the report can be downloaded from: ",
-    paste0(url_github, name_repo, "/raw/main/docs/", name_pdf),
+    paste0(url_github, name_repo, "/blob/main/docs/", name_pdf),
     "",
     "Raw data is available here: ",
     paste0(url_github, name_repo, "/tree/main/data"),
@@ -251,7 +251,7 @@ name_submission <- 'pscis_reassessments.xlsm'
 # Create folders and copy over photos -------------
 
 # need to add photos to local machine to upload to PSCIS
-targetdir = fs::path('~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_reassessments')
+targetdir = fs::path(fs::path_expand('~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_reassessments'))
 
 # create the directory. Take note about which phase
 fs::dir_create(targetdir)
@@ -259,7 +259,7 @@ fs::dir_create(targetdir)
 
 # use the pscis spreadsheet to make the folders to copy the photos to. For skeena 2024, the photos are stored in Onedrive.
 
-path_photos <- fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024-072-sern-skeena-fish-passage/data/photos')
+path_photos <- fs::path(fs::path_expand('~/Library/CloudStorage/OneDrive-Personal/Projects/2024-072-sern-skeena-fish-passage/data/photos'))
 
 d <- fpr::fpr_import_pscis(workbook_name = 'pscis_reassessments.xlsm')
 
@@ -270,7 +270,6 @@ path_to_photos <- fs::path(path_photos, folderstocopy)
 
 
 # here we transfer just the photos with labels over into the PSCIS directory where we will upload from to the gov interface
-
 folderstocreate<- fs::path(targetdir, folderstocopy)
 
 ##create the folders
@@ -288,13 +287,12 @@ empty_idx <- which(!lengths(filestocopy_list))
 empty_files <- empty_idx |> tfpr_filter_list()
 
 ##rename long names if necessary
-
 photo_sort_tracking <- path_to_photos |>
   purrr::map(fpr::fpr_photo_document_all) |>
   purrr::set_names(folderstocopy) |>
-  bind_rows(.id = 'folder') |>
-  mutate(photo_name = str_squish(str_extract(value, "[^/]*$")),
-         photo_name_length = stringr::str_length(photo_name))
+  dplyr::bind_rows(.id = 'folder') |>
+  dplyr::mutate(photo_name = stringr::str_squish(stringr::str_extract(value, "[^/]*$")),
+                photo_name_length = stringr::str_length(photo_name))
 
 ##here we back up a csv that gives us the new location and name of the original JPG photos.
 
@@ -304,7 +302,7 @@ photo_sort_tracking |>
 
 ## change path name so we can paste to folders
 filestopaste_list <- filestocopy_list |>
-  map(tfpr_photo_change_name)
+  purrr::map(tfpr_photo_change_name)
 
 ##!!!!!!!!!!!!!!!copy over the photos!!!!!!!!!!!!!!!!!!!!!!!
 mapply(fs::file_copy,
@@ -314,9 +312,9 @@ mapply(fs::file_copy,
 
 # QA photos -------------
 
-# do a little QA to be sure all the photos are there.
+# do a little QA to be sure all the photos are there.Table shows photos that are missing. If all NA you are good to go.
+t <- fpr::fpr_photo_qa_df(dat = d, dir_photos = fs::path(fs::path_expand('~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_reassessments/')))
 
-t <- fpr::fpr_photo_qa_df(dat = d, dir_photos = '/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/submissions/PSCIS/2024/skeena/PSCIS_skeena_2024_reassessments/')
 
 
 # Move Pscis file -------------
@@ -333,7 +331,7 @@ writeLines(
     paste0(url_gitpages, name_repo),
     "",
     "A versioned pdf of the report can be downloaded from: ",
-    paste0(url_github, name_repo, "/raw/main/docs/", name_pdf),
+    paste0(url_github, name_repo, "/blob/main/docs/", name_pdf),
     "",
     "Raw data is available here: ",
     paste0(url_github, name_repo, "/tree/main/data"),
