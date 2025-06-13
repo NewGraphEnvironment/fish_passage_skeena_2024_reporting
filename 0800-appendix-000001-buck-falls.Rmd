@@ -1,8 +1,8 @@
 # Buck Falls - Appendix {-#buck-falls}
 
 Buck falls are located just downstream of the Buck Flats Road bridge on the Buck Creek mainstem - mapped in the freshwater atlas as
-46.7km upstream of its confluence with the Bulkley River. The falls have not yet been documented in the FISS database [@moe2024ProvincialObstacles] but have been previously noted in @gottesfeld_rabnett2007SkeenaFish, the World Waterfall Database [@BuckFallsBritishColumbiaCanadaWorldWaterfallDatabase], and on the Houston Hikers website [@BuckFallsAdventures]. Although rainbow trout, mountain whitefish, kokannee and other non-salmonid resident species have been documented upstream of the falls in the FISS database - no salmon species have been documented upstream [@moe2024KnownBC]. However, @wilson_rabnett2007FishPassage report Neelhdzii Teezdlii Ceek as historic Wet’suwet’en traditional fisheries location upstream approximately 
-24km (stream length) upstream of Buck Falls at the outlet of Goosly Lake. Species noted as captured upstream of the falls
+46.7km upstream of its confluence with the Bulkley River. The falls have not yet been documented in the FISS database [@moe2024ProvincialObstacles] but have been previously noted in @gottesfeld_rabnett2007SkeenaFish, the World Waterfall Database [@BuckFallsBritishColumbiaCanadaWorldWaterfallDatabase], and on the Houston Hikers website [@BuckFallsAdventures]. Although rainbow trout, mountain whitefish, kokannee and other non-salmonid resident species have been documented upstream of the falls in the FISS database - no salmon species have been documented upstream [@moe2024KnownBC]. However, @gottesfeld_rabnett2007SkeenaFish report Neelhdzii Teezdlii Ceek as a historic Wet’suwet’en traditional fisheries location, located approximately 24km upstream (by stream length) of Buck Falls at the outlet of Goosly Lake.
+ Species noted as captured upstream of the falls
 at Neelhdzii Teezdlii Ceek include coho salmon and chinook salmon.  An assessment of the falls was conducted on September 19, 2024.  
 
 <br>

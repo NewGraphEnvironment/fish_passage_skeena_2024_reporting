@@ -28,7 +28,7 @@ my_site4 <- 203126
 
 PSCIS crossings `r as.character(my_site)`, `r as.character(my_site3)`, and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`, approximately 3km northwest of Smithers, BC. Within the BC Freshwater Atlas, the stream is incorrectly mapped at multiple locations including immediately adjacent
 to Kathlyn Creek as well as the entire section of stream between the CN Railway line to approximately 300m upstream of
-Neilson Road (Figure . Simpson Creek flows into Kathlyn Creek, which joins the Bulkley River approximalety 4km downstream. PSCIS crossing `r as.character(my_site)` is located 70m upstream of the confluence of `r fpr::fpr_my_pscis_info()` and Kathlyn Creek, on `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`. Approximately 530 m upstream, crossing `r as.character(my_site3)` is located on and is the responsibility of the Canadian National Railway. A further 950m upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. The `r fpr_my_pscis_info(col_pull = road_name, site = my_site)` and `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)` crossings are the responsibility of the Ministry of Transportation and Infrastructure and all crossing are within the Bulkley River watershed group.
+Neilson Road (Figure \@ref(fig:map-58245)). Simpson Creek flows into Kathlyn Creek, which joins the Bulkley River approximalety 4km downstream. PSCIS crossing `r as.character(my_site)` is located 70m upstream of the confluence of `r fpr::fpr_my_pscis_info()` and Kathlyn Creek, on `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`. Approximately 530 m upstream, crossing `r as.character(my_site3)` is located on and is the responsibility of the Canadian National Railway. A further 950m upstream, crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`. The `r fpr_my_pscis_info(col_pull = road_name, site = my_site)` and `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)` crossings are the responsibility of the Ministry of Transportation and Infrastructure and all crossing are within the Bulkley River watershed group.
 
 ```{r map-58245, fig.cap = my_caption}
 my_caption <- "Map of Simpson Creek"
@@ -58,11 +58,11 @@ In 2012, PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)
 system, noting that since 1986, coho have been transplanted into the Kathlyn Creek system from the Toboggan Creek Hatchery [@gottesfeld_rabnett2007SkeenaFish]. 
 Kathlyn Creek also supports a small population of pink salmon, and steelhead are known to inhabit Kathlyn Lake and spawn upstream of the Chicken Creek confluence, which would include areas near the Simpson Creek confluence [@gottesfeld_rabnett2007SkeenaFish]. Adjacent to the crossing on Nielson Road (`r as.character(my_site2)`), coho salmon, cutthroat trout, rainbow trout, steelhead, mountain whitefish, and Dolly Varden have been documented in the past [@norris2024smnorrisbcfishobs; @moe2024KnownBC]. 
 A landowner adjacent to the stream reported observing steelhead and coho spawning within the last decade and chinook spawning
-historically near their property located approximately 360 m downstream of Nielson Road. 
+historically near their property located approximately 360m downstream of Nielson Road. 
 
 <br>
 
-According to a nearby landowner, the crossing on Nielson Road (`r as.character(my_site2)`) was originally a bridge but was replaced with the current culvert during an emergency flood event in the 1990s. Materials from the flood were used to construct dikes upstream and downstream of the crossing, which remained in place at the time of the 2024 assessment. Upstream of the Nielson Road crossing, a trail runs parallel to the stream for 400m up to the power line, offering an excellent opportunity for community engagement. By connecting people to the land, the trail can foster stewardship and advocacy for the stream, potentially leading to future restoration efforts.
+According to a nearby landowner, the crossing on Nielson Road (`r as.character(my_site2)`) was originally a bridge but was replaced with the current culvert during an emergency flood event in the 1990s. Materials from the flood were used to construct dikes upstream and downstream of the crossing, which remained in place at the time of the 2024 assessment. Upstream of the Nielson Road crossing, a trail runs parallel to the stream for 400m up to the powerline, offering an excellent opportunity for community engagement. By connecting people to the land, the trail can foster stewardship and advocacy for the stream, potentially leading to future restoration efforts.
 
 <br>
 
@@ -77,7 +77,7 @@ fpr::fpr_table_wshd_sum(site_id = my_site) |>
 <br>
 
 Habitat modelling outputs from `bcfishpass` indicated 1.6km of steelhead and 1.4km of coho rearing habitat upstream of crossing `r as.character(my_site)` on `r fpr_my_pscis_info(col_pull = road_name, site = my_site)` (gradients <8.5% for steelhead and <5.5% for coho). Upstream of the crossing on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)`, only 100m of habitat is modelled for steelhead and coho rearing due to a steeper stream gradient exceeding 8.5%. Outputs are presented in Table
-\@ref(tab:tab-culvert-bcfp-58245)). A map of the watershed is provided in
+\@ref(tab:tab-culvert-bcfp-58245). A map of the watershed is provided in
 map attachment
 [`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "bulk", archive_date = "2022-09-06")`).
 
@@ -93,24 +93,24 @@ fpr::fpr_table_bcfp(scroll = gitbook_on)
 ## Stream Characteristics at Crossings `r as.character(my_site)`, `r as.character(my_site3)`, and `r as.character(my_site2)`  {.unnumbered}
 
 At the time of the 2024 assessment, PSCIS crossing `r as.character(my_site)` on `r fpr_my_pscis_info(col_pull = road_name, site = my_site)` was
-un-embedded, non-backwatered and although it ranked as a
-`r fpr::fpr_my_pscis_info(col_pull = barrier_result) |>stringr::str_to_lower()` to upstream fish passage according to the provincial protocol, neither of the two culverts at this location had an outlet drop, therefore it is unlikely a barrier to fish passage [@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-58245)).
+un-embedded, non-backwatered and ranked as a
+`r fpr::fpr_my_pscis_info(col_pull = barrier_result) |>stringr::str_to_lower()` to upstream fish passage according to the provincial protocol [@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-58245)).
 
 <br>
 
-Approximately 530 m upstream of `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`, PSCIS crossing `r as.character(my_site3)` on the CN `r fpr_my_pscis_info(col_pull = road_name, site = my_site3)` was un-embedded, non-backwatered and ranked as a
+Approximately 530m upstream of `r fpr_my_pscis_info(col_pull = road_name, site = my_site)`, PSCIS crossing `r as.character(my_site3)` on the CN `r fpr_my_pscis_info(col_pull = road_name, site = my_site3)` was un-embedded, non-backwatered and ranked as a
 `r fpr::fpr_my_pscis_info(site = my_site3, col_pull = barrier_result) |>stringr::str_to_lower()` to upstream fish passage according to the provincial protocol
-[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-203122)). The two culverts were roughly 30 m apart, the southern pipe was dry and fully embedded, while the northern pipe was currently conveying the main flow of Simpson Creek.
+[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-203122)). The two culverts were roughly 30m apart, the southern pipe was dry and embedded with an average embedment depth of 25cm, while the northern pipe was currently conveying the main flow of Simpson Creek.
 
 <br>
 
 A further 950m upstream, PSCIS crossing  `r as.character(my_site2)` on `r fpr_my_pscis_info(col_pull = road_name, site = my_site2)` was un-embedded, non-backwatered and ranked as a
 `r fpr::fpr_my_pscis_info(site = my_site2, col_pull = barrier_result) |>stringr::str_to_lower()` to upstream fish passage according to the provincial protocol
-[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-58264)). This concrete oval culvert had a significant 1 m outlet drop and 1.2 m deep outlet pool. 
+[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-58264)). This concrete oval culvert had a significant 1m outlet drop and 1.2m deep outlet pool. 
 
 <br>
 
-At all crossings, the water temperature was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'temperature_c')`$^\circ$C,
+The water temperature was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'temperature_c')`$^\circ$C,
 pH was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'p_h')` and
 conductivity was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'conductivity_m_s_cm')` uS/cm.
 
@@ -186,11 +186,11 @@ The stream was surveyed from the CN railway (crossing `r as.character(my_site3)`
  
 ## Fish Sampling {.unnumbered}
 
-Electrofishing was conducted upstream and downstream of crossing (`r as.character(my_site2)`) with results summarised in Tables \@ref(tab:tab-fish-site-58264) - \@ref(tab:tab-fish-dens-58264) and Figure \@ref(fig:plot-fish-box-58264). A total of `r tab_fish_summary |>filter(site_id == paste0(my_site2, '_ds')) |>filter(ef == "ef1") |>  group_by(site_id) |>janitor::adorn_totals() |>filter(site_id == 'Total') |>pull(count_fish)` fish were captured downstream including rainbow trout, cutthroat trout/rainbow trout hybrid, and Dolly Varden. Upstream of the crossing `r tab_fish_summary |>filter(site_id == paste0(my_site2, '_us')) |>group_by(site_id) |>janitor::adorn_totals() |>filter(site_id == 'Total') |>pull(count_fish)` rainbow trout were captured `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-58264-03)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-58264-d02))."))` . 
+Electrofishing was conducted upstream and downstream of Nielsen Road (crossing `r as.character(my_site2)`) with results summarised in Tables \@ref(tab:tab-fish-site-58264) - \@ref(tab:tab-fish-dens-58264) and Figure \@ref(fig:plot-fish-box-58264). A total of `r tab_fish_summary |>filter(site_id == paste0(my_site2, '_ds')) |>filter(ef == "ef1") |>  group_by(site_id) |>janitor::adorn_totals() |>filter(site_id == 'Total') |>pull(count_fish)` fish were captured downstream including rainbow trout, cutthroat trout/rainbow trout hybrid, and Dolly Varden. Upstream of the crossing `r tab_fish_summary |>filter(site_id == paste0(my_site2, '_us')) |>group_by(site_id) |>janitor::adorn_totals() |>filter(site_id == 'Total') |>pull(count_fish)` rainbow trout were captured `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-58264-03)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-58264-d02))."))` . 
 
 <br>
 
-Electrofishing was conducted at one site approximately 360 m downstream of Nielsen Road, with results summarised in Tables \@ref(tab:tab-fish-site-58264) - \@ref(tab:tab-fish-dens-58264) and Figure \@ref(fig:plot-fish-box-58264). At this location, the adjacent landowner had reported recent steelhead and coho spawning and historically Chinook spawning. A total of `r tab_fish_summary |>filter(site_id == paste0(my_site2, '_ds')) |>filter(ef == "ef2") |>  group_by(site_id) |>janitor::adorn_totals() |>filter(site_id == 'Total') |>pull(count_fish)` fish were captured including coho salmon, cutthroat trout/rainbow trout hybrid, and Dolly Varden `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-58264-04)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-58264-d02))."))`
+Additional electrofishing was conducted at one site approximately 360m downstream of Nielsen Road, where the adjacent landowner had reported steelhead and coho spawning within the last decade and historically chinook spawning. A total of `r tab_fish_summary |>filter(site_id == paste0(my_site2, '_ds')) |>filter(ef == "ef2") |>  group_by(site_id) |>janitor::adorn_totals() |>filter(site_id == 'Total') |>pull(count_fish)` fish were captured including coho salmon, cutthroat trout/rainbow trout hybrid, and Dolly Varden `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-58264-04)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-58264-d02))."))` Results are summarised in Tables \@ref(tab:tab-fish-site-58264) - \@ref(tab:tab-fish-dens-58264) and Figure \@ref(fig:plot-fish-box-58264).
 
 
 <br>
@@ -198,15 +198,15 @@ Electrofishing was conducted at one site approximately 360 m downstream of Niels
 
 ## Structure Remediation and Cost Estimate {.unnumbered}
 
-Should restoration/maintenance activities proceed, replacement of the Nielson Road crossing (`r as.character(my_site2)`) with a bridge (`r fpr::fpr_my_pscis_info(site = my_site2, col_pull = recommended_diameter_or_span_meters)` m span) is recommended. The significant 1 m outlet drop at this crossing, combined with the presence of salmonids in the system, makes it a top priority for remediation. At the time of reporting in 2025, the cost of the work is estimated at \$ `r format(fpr::fpr_my_cost_estimate(site = my_site2), big.mark = ',')`.
+Should restoration/maintenance activities proceed, replacement of the Nielson Road crossing (`r as.character(my_site2)`) with a bridge (`r fpr::fpr_my_pscis_info(site = my_site2, col_pull = recommended_diameter_or_span_meters)`m span) is recommended. The significant outlet drop at this crossing, combined with the presence of salmonids in the system, makes it a top priority for remediation. At the time of reporting in 2025, the cost of the work is estimated at \$ `r format(fpr::fpr_my_cost_estimate(site = my_site2), big.mark = ',')`.
 
 <br>
 
-PSCIS crossing `r as.character(my_site3)` on the CN Railway presented a minimal barrier to fish passage and is considered a low priority for replacement. However, if restoration activities are undertaken, replacing the existing structure with a bridge spanning `r fpr::fpr_my_pscis_info(site = my_site3, col_pull = recommended_diameter_or_span_meters)` m is recommended. As of 2025, the estimated replacement cost is \$ `r format(fpr::fpr_my_cost_estimate(site = my_site3), big.mark = ',')`, with the high cost attributed to the complexities of working within a railway corridor. 
+PSCIS crossing `r as.character(my_site3)` on the CN Railway presented a minimal barrier to fish passage and is considered a low priority for replacement. However, if restoration activities are undertaken, replacing the existing structure with a bridge spanning `r fpr::fpr_my_pscis_info(site = my_site3, col_pull = recommended_diameter_or_span_meters)`m is recommended. As of 2025, the estimated replacement cost is \$ `r format(fpr::fpr_my_cost_estimate(site = my_site3), big.mark = ',')`, with the high cost attributed to the complexities of working within a railway corridor. 
 
 <br>
 
-At the time of assessment, the downstream crossing on Lake Kathlyn Road was unlikely a barrier to fish passage. However, should restoration activities proceed, replacement with a bridge spanning `r fpr::fpr_my_pscis_info(site = my_site, col_pull = recommended_diameter_or_span_meters)` m is recommended. At the time of reporting in 2025, the estimated cost for the replacement is \$ `r format(fpr::fpr_my_cost_estimate(), big.mark = ',')`.
+At the time of assessment, the downstream crossing on Lake Kathlyn Road was unlikely a barrier to fish passage; however, it may pose a barrier under lower flow conditions. Should restoration activities proceed, replacement with a bridge spanning `r fpr::fpr_my_pscis_info(site = my_site, col_pull = recommended_diameter_or_span_meters)`m is recommended. At the time of reporting in 2025, the estimated cost for the replacement is \$ `r format(fpr::fpr_my_cost_estimate(), big.mark = ',')`.
 
 <br>
 
@@ -214,12 +214,14 @@ At the time of assessment, the downstream crossing on Lake Kathlyn Road was unli
 
 ## Conclusion {.unnumbered}
 
-Simpson Creek is a significant contributor to the Kathlyn Creek watershed, with flow volumes during the 2024 assessment slightly less than those observed in the Kathlyn Creek mainstem. The habitat was rated as `r fpr::fpr_my_priority_info(sit = my_site2, loc = 'ds') |>stringr::str_to_lower()` value for salmonid spawning and rearing. Simpson Creek has historically supported a variety of salmonids, and coho captured during electrofishing at the time of assessment further confirm the stream’s continued importance as salmonid habitat. PSCIS crossing `r as.character(my_site2)` on Nielsen Road is a strong candidate for remediation, given its large outlet drop (1m) and low traffic volume, it is a `r fpr::fpr_my_priority_info(sit = my_site2, col_pull = priority) |>stringr::str_to_lower()` priority for replacement. Upstream of this crossing, a trail runs alongside the stream offering opportunities for community engagement and education, which could foster stewardship and advocacy for the stream. PSCIS crossing `r as.character(my_site3)` on the CN Railway presented a minimal barrier at the time of assessment and was considered a low priority for replacement. However, if restoration activities proceed at the upstream crossing on Nielsen Road, this crossing should be reassessed. PSCIS crossing `r as.character(my_site)` on Lake Kathlyn Road is not presumed to be a significant barrier to fish passage and was rated as a `r fpr::fpr_my_priority_info(col_pull = priority) |>stringr::str_to_lower()` priority for replacement. However, the culverts were heavily corroded and located in an area impacted by riparian vegetation removal, stream channelization, and bank armouring, which presents a valuable opportunity for community-led restoration efforts and education. The proximity of these sites to Smithers, BC, enhances opportunities for public involvement and education, further supporting long-term restoration goals for Simpson Creek.
+Simpson Creek is a significant contributor to the Kathlyn Creek watershed, with flow volumes during the 2024 assessment slightly less than those observed in the Kathlyn Creek mainstem. The habitat was rated as `r fpr::fpr_my_priority_info(sit = my_site2, loc = 'ds') |>stringr::str_to_lower()` value for salmonid spawning and rearing. Simpson Creek has historically supported a variety of salmonids, and coho captured during electrofishing at the time of assessment further confirm the stream’s continued importance as salmonid habitat. PSCIS crossing `r as.character(my_site2)` on Nielsen Road is a strong candidate for remediation, given its large outlet drop (1m) and low traffic volume, it is a `r fpr::fpr_my_priority_info(sit = my_site2, col_pull = priority) |>stringr::str_to_lower()` priority for replacement. Upstream of this crossing, a trail runs alongside the stream offering opportunities for community engagement and education, which could foster stewardship and advocacy for the stream. PSCIS crossing `r as.character(my_site3)` located downstream of Nielsen Road on the CN Railway presented a minimal barrier at the time of assessment and was considered a low priority for replacement. However, if restoration activities proceed at the upstream crossing on Nielsen Road, this crossing should be reassessed. 
 
+<br>
+
+PSCIS crossing `r as.character(my_site)` on Lake Kathlyn Road was not a significant barrier to fish passage and was rated as a `r fpr::fpr_my_priority_info(col_pull = priority) |> stringr::str_to_lower()` priority for replacement. Although 2024 was a drier than normal year, fish passage conditions may change under lower flow volumes. The culverts were heavily corroded and located in an area impacted by riparian vegetation removal, stream channelization, and bank armouring, which presents a valuable opportunity for community-led restoration efforts and education. The proximity of these sites to Smithers, BC, enhances opportunities for public involvement and education, further supporting long-term restoration goals for Simpson Creek.
 
 `r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
 
-<br>
 
 ```{r tab-habitat-summary-58245, eval = T}
 tab_hab_summary |>

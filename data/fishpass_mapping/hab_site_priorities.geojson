@@ -1,0 +1,14 @@
+{
+"type": "FeatureCollection",
+"name": "hab_site_priorities",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "stream_name": "Comeau Creek", "local_name": "198913_us", "hab_value": "High", "priority": "Moderate", "barrier_result": "Barrier", "utm_zone": 9.0, "easting": 581250.0, "northing": 6115660.0 }, "geometry": { "type": "Point", "coordinates": [ -127.724062133801738, 55.180856347868684 ] } },
+{ "type": "Feature", "properties": { "stream_name": "Comeau Creek", "local_name": "198916_us", "hab_value": "Medium", "priority": "High", "barrier_result": "Barrier", "utm_zone": 9.0, "easting": 580463.0, "northing": 6115769.0 }, "geometry": { "type": "Point", "coordinates": [ -127.736386703876647, 55.181964257135299 ] } },
+{ "type": "Feature", "properties": { "stream_name": "Tributary to Knapper Creek", "local_name": "198935_us", "hab_value": "Medium", "priority": "High", "barrier_result": "Barrier", "utm_zone": 9.0, "easting": 636440.0, "northing": 6020756.0 }, "geometry": { "type": "Point", "coordinates": [ -126.902433786962803, 54.316414523973883 ] } },
+{ "type": "Feature", "properties": { "stream_name": "Tributary to Knapper Creek", "local_name": "198940_us", "hab_value": "Medium", "priority": "High", "barrier_result": "Barrier", "utm_zone": 9.0, "easting": 636706.0, "northing": 6020960.0 }, "geometry": { "type": "Point", "coordinates": [ -126.898254049380597, 54.318175585514183 ] } },
+{ "type": "Feature", "properties": { "stream_name": "Simpson Creek", "local_name": "203122_us", "hab_value": "High", "priority": null, "barrier_result": "Barrier", "utm_zone": 9.0, "easting": 614941.0, "northing": 6075232.0 }, "geometry": { "type": "Point", "coordinates": [ -127.211460608797552, 54.811050598972173 ] } },
+{ "type": "Feature", "properties": { "stream_name": "Simpson Creek", "local_name": "58245_us", "hab_value": "High", "priority": "Low", "barrier_result": "Barrier", "utm_zone": 9.0, "easting": 615383.0, "northing": 6075125.0 }, "geometry": { "type": "Point", "coordinates": [ -127.204629245197552, 54.809987981595121 ] } },
+{ "type": "Feature", "properties": { "stream_name": "Simpson Creek", "local_name": "58264_us", "hab_value": "Medium", "priority": "High", "barrier_result": "Barrier", "utm_zone": 9.0, "easting": 614280.0, "northing": 6074951.0 }, "geometry": { "type": "Point", "coordinates": [ -127.221851448351586, 54.808677635304491 ] } }
+]
+}

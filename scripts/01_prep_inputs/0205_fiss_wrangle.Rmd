@@ -122,37 +122,47 @@ ids <- form_fiss_site_cleaned |>
   dplyr::distinct(site) |> 
   dplyr::pull(site)
 
-
-wscodes <- fpr::fpr_db_query(
-  query = glue::glue("SELECT DISTINCT ON (stream_crossing_id)
-    a.stream_crossing_id,
-    a.linear_feature_id,
-    a.watershed_group_code,
-    b.watershed_code_50k,
-    substring(b.watershed_code_50k from 1 for 3)
-    || '-' || substring(b.watershed_code_50k from 4 for 6)
-    || '-' || substring(b.watershed_code_50k from 10 for 5)
-    || '-' || substring(b.watershed_code_50k from 15 for 5)
-    || '-' || substring(b.watershed_code_50k from 20 for 4)
-    || '-' || substring(b.watershed_code_50k from 24 for 4)
-    || '-' || substring(b.watershed_code_50k from 28 for 3)
-    || '-' || substring(b.watershed_code_50k from 31 for 3)
-    || '-' || substring(b.watershed_code_50k from 34 for 3)
-    || '-' || substring(b.watershed_code_50k from 37 for 3)
-    || '-' || substring(b.watershed_code_50k from 40 for 3)
-    || '-' || substring(b.watershed_code_50k from 43 for 3) AS watershed_code_50k_parsed,
-    b.blue_line_key_20k,
-    b.watershed_key_20k,
-    b.blue_line_key_50k,
-    b.watershed_key_50k,
-    b.match_type
+wscodes_raw <- fpr::fpr_db_query(
+  query = glue::glue("
+    SELECT DISTINCT ON (a.stream_crossing_id)
+      a.stream_crossing_id,
+      a.linear_feature_id,
+      a.watershed_group_code,
+      b.watershed_code_50k,
+      b.blue_line_key_20k,
+      b.watershed_key_20k,
+      b.blue_line_key_50k,
+      b.watershed_key_50k,
+      b.match_type
     FROM bcfishpass.crossings_vw a
     LEFT OUTER JOIN whse_basemapping.fwa_streams_20k_50k b
-    ON a.linear_feature_id = b.linear_feature_id_20k
+      ON a.linear_feature_id = b.linear_feature_id_20k
     WHERE a.stream_crossing_id IN ({glue::glue_collapse(glue::single_quote(ids), sep = ', ')})
-    ORDER BY a.stream_crossing_id, b.match_type;"
-  ) 
+    ORDER BY a.stream_crossing_id, b.match_type;
+  ")
 )
+
+
+parse_ws_code <- function(code) {
+  dplyr::case_when(
+    stringr::str_length(code) < 45 ~ NA_character_,
+    TRUE ~ stringr::str_c(
+      stringr::str_sub(code, 1, 3), "-",  stringr::str_sub(code, 4, 9), "-",  stringr::str_sub(code, 10, 14), "-",
+      stringr::str_sub(code, 15, 19), "-", stringr::str_sub(code, 20, 23), "-", stringr::str_sub(code, 24, 27), "-",
+      stringr::str_sub(code, 28, 30), "-", stringr::str_sub(code, 31, 33), "-", stringr::str_sub(code, 34, 36), "-",
+      stringr::str_sub(code, 37, 39), "-", stringr::str_sub(code, 40, 42), "-", stringr::str_sub(code, 43, 45)
+    )
+  )
+}
+
+
+wscodes <- wscodes_raw |>
+  dplyr::filter(stringr::str_length(watershed_code_50k) == 45) |>
+  dplyr::mutate(watershed_code_50k_parsed = parse_ws_code(watershed_code_50k))
+
+
+
+# 160-635400-46400-00000-0000-0000-000-000-000-000-000-000
 ```
 
 

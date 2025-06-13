@@ -3,25 +3,25 @@ source('scripts/packages.R')
 
 # Paths ------------------------------------------------------
 # Pit tag data for ALL years is currently being stored on OneDrive .
-path_tag <- fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/fish/tag_01_05.csv')
+path_tag <- fs::path(fs::path_expand('~/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/fish/tag_01_05.csv'))
 
 # Raw fish data stored in Onedrive
-path_fish <-  fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/fish/fish_data_raw.xlsx')
+path_fish <-  fs::path(fs::path_expand('~/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/fish/fish_data_raw.xlsx'))
 
 # path for form_fiss_site geopackage
-path_form_fiss_site <- fs::path('~/Projects/gis/sern_peace_fwcp_2023/data_field/2024/form_fiss_site_2024.gpkg')
+path_form_fiss_site <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/data_field/2024/form_fiss_site_2024.gpkg"))
 
 # Onedrive path where to store the fish data with the pit tags joined.
-path_onedrive_tags_joined <-  fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/fish/fish_data_tags_joined.csv')
+path_onedrive_tags_joined <-  fs::path(fs::path_expand('~/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/fish/fish_data_tags_joined.csv'))
 
 # Repo path to individual fish data ready to c/p into `step_3_individual_fish_data`
 path_repo_fish_data_ind <-  fs::path('data/inputs_raw/fish_data_ind.csv')
 
-# Repo path to individual fish data ready to c/p into `step_2_fish_coll_data`
+# Repo path to fisheries collected data ready to c/p into `step_2_fish_coll_data`
 path_repo_fish_data_coll <-  fs::path('data/inputs_raw/fish_data_coll.csv')
 
-# specify which project data we want. for this case `2024-073-sern-peace-fish-passage`
-project = "2024-073-sern-peace-fish-passage"
+# specify which project data we want.
+project = "2024-072-sern-skeena-fish-passage"
 
 
 
@@ -95,11 +95,11 @@ fish_data_complete <- readr::read_csv(file = path_onedrive_tags_joined) |>
   dplyr::filter(project_name == project)
 
 # cross reference with step 1 of hab con sheet to get reference numbers
-ref_names <- left_join(
+ref_names <- dplyr::left_join(
   fish_data_complete,
-  fpr_import_hab_con(backup = F, row_empty_remove = T, col_filter_na = T) |>
-    pluck("step_1_ref_and_loc_info") |>
-    select(reference_number, alias_local_name),
+  fpr::fpr_import_hab_con(backup = F, row_empty_remove = T, col_filter_na = T) |>
+    purrr::pluck("step_1_ref_and_loc_info") |>
+    dplyr::select(reference_number, alias_local_name),
   by = c('local_name' = 'alias_local_name')
 ) |>
   relocate(reference_number, .before = 'local_name')
@@ -216,6 +216,12 @@ fish_coll_data <- dplyr::left_join(
 fish_coll_data |>
   # burn cleaned file to repo
   readr::write_csv(file = path_repo_fish_data_coll, na = '')
+
+
+
+# Backup spreadsheet
+
+fpr::fpr_import_hab_con(row_empty_remove = T, col_filter_na = T)
 
 
 ##### This code does not have to do with reporting
