@@ -198,7 +198,7 @@ wshds |>
 # `/02_reporting/0165-read-sqlite.R`, but needs to be added to the geopackage.
 
 habitat_confirmation_tracks |>
-  # sf::st_transform(4326) |>
+  sf::st_transform(4326) |>
   sf::st_write(dsn = path_repo_gpkg, layer = "hab_tracks", append = TRUE)
 
 
