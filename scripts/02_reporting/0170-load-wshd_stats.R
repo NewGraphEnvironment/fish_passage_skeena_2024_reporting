@@ -16,7 +16,7 @@ wsg <- c('BULK', 'MORR', 'ZYMO', 'KISP', 'KLUM')
 
 # 1 - Retrieve the watershed polygons for the watersheds included in the project study area (big scale)  -------------------------------------------------
 
-# Grab the watershed polygons included in the project study area - this is displayed in the interactive map
+## Grab the watershed polygons included in the project study area - this is displayed in the interactive map -------------------------------------------------
 wshd_study_areas <- fpr::fpr_db_query(
   glue::glue( "SELECT * FROM whse_basemapping.fwa_watershed_groups_poly a
               WHERE a.watershed_group_code IN ({glue::glue_collapse(glue::single_quote(wsg), sep = ', ')})"
@@ -37,6 +37,15 @@ readwritesqlite::rws_write(wshd_study_areas, exists = F, delete = TRUE,
 
 readwritesqlite::rws_list_tables(conn)
 readwritesqlite::rws_disconnect(conn)
+
+## Add to the geopackage -------------------------------------------------
+path_gis_wshds <- fs::path("~/Projects/gis/sern_skeena_2023/data_field/2024/fishpass_mapping.gpkg")
+
+wshd_study_areas |>
+  sf::st_write(dsn = path_gis_wshds,
+               layer = 'wshd_study_areas',
+               delete_layer = T,
+               append = F) ##might want to f the append....
 
 
 

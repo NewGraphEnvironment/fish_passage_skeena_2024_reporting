@@ -155,13 +155,12 @@ phase1_priorities <- pscis_all |>
 
 
 # Burn objects to geopackage -----------------------------------------------
+# We need to specify that we want crs 4326/wsg84, because `fpr_make_geopackage` calls `fpr_sp_assign_sf_from_utm` which uses a default crs 3005.
 
-fpr::fpr_make_geopackage(dat = hab_fish_collect)
-fpr::fpr_make_geopackage(dat = hab_features)
-fpr::fpr_make_geopackage(dat = hab_site_priorities)
-fpr::fpr_make_geopackage(dat = phase1_priorities)
-
-
+fpr::fpr_make_geopackage(dat = hab_fish_collect, crs_return = 4326)
+fpr::fpr_make_geopackage(dat = hab_features, crs_return = 4326)
+fpr::fpr_make_geopackage(dat = hab_site_priorities, crs_return = 4326)
+fpr::fpr_make_geopackage(dat = phase1_priorities, crs_return = 4326)
 
 
 # Add other objects to geopackage -----------------------------------------------
@@ -173,7 +172,24 @@ path_repo_gpkg <- fs::path("data/fishpass_mapping/fishpass_mapping.gpkg")
 # We need to store the:
 # - upstream watersheds for the phase 2 habitat confirmation sites (wshds)
 # - watershed polygons for the watersheds included in the project study area (wshd_study_areas)
-# These have both already been added to `fishpass_mapping.gpkg` in the script `scripts/02_reporting/0170-load-wshd_stats.R`
+# These got added to the `fishpass_mapping.gpkg` in the script `scripts/02_reporting/0170-load-wshd_stats.R` but I guess `fpr_make_geopackage`
+# over writes the file so we need to add them again.
+
+wshd_study_areas |>
+  # sf::st_transform(4326) |>
+  sf::st_write(dsn = path_repo_gpkg,
+               layer = 'wshd_study_areas',
+               delete_layer = T,
+               append = F) ##might want to f the append....
+
+wshds |>
+  # sf::st_transform(4326) |>
+  sf::st_write(dsn = path_repo_gpkg,
+               layer = 'hab_wshds',
+               delete_layer = T,
+               append = F) ##might want to f the append....
+
+
 
 
 ## GPS tracks -----------------------------------------------
@@ -182,16 +198,20 @@ path_repo_gpkg <- fs::path("data/fishpass_mapping/fishpass_mapping.gpkg")
 # `/02_reporting/0165-read-sqlite.R`, but needs to be added to the geopackage.
 
 habitat_confirmation_tracks |>
-  sf::st_write(path_repo_gpkg, 'hab_tracks', append = TRUE)
+  # sf::st_transform(4326) |>
+  sf::st_write(dsn = path_repo_gpkg, layer = "hab_tracks", append = TRUE)
 
 
 
 ## Copy to QGIS project  -----------------------------------------------
 
+# Check that all objects are present and in the correct crs.
+t <- sf::st_layers(path_repo_gpkg)
+
+# Copy to QGIS directory
 fs::file_copy(path = path_repo_gpkg,
               new_path = fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/data_field/2024/fishpass_mapping.gpkg")),
               overwrite = T)
-
 
 
 

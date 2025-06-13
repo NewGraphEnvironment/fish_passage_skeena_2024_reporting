@@ -1,10 +1,10 @@
 {
 "type": "FeatureCollection",
 "name": "hab_features",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3005" } },
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
-{ "type": "Feature", "properties": { "local_name": "198916_us", "feature_type": "LWD Jam", "feature_height_m": 2.0, "feature_length_m": 9, "utm_zone": 9, "easting": 580616, "northing": 6115630, "fiss_obstacle_name": "LWD Jam" }, "geometry": { "type": "Point", "coordinates": [ 889837.35556960280519, 1132748.508243757300079 ] } },
-{ "type": "Feature", "properties": { "local_name": "58264_us", "feature_type": "cascade or Chute", "feature_height_m": 1.6, "feature_length_m": 8, "utm_zone": 9, "easting": 613823, "northing": 6074545, "fiss_obstacle_name": "Cascade/Chute" }, "geometry": { "type": "Point", "coordinates": [ 921182.371904645697214, 1090162.159272966906428 ] } },
-{ "type": "Feature", "properties": { "local_name": "buck_falls", "feature_type": "falls", "feature_height_m": 4.0, "feature_length_m": 200, "utm_zone": 9, "easting": 662825, "northing": 6007372, "fiss_obstacle_name": "Falls" }, "geometry": { "type": "Point", "coordinates": [ 967159.153911908972077, 1020767.279432427952997 ] } }
+{ "type": "Feature", "properties": { "local_name": "198916_us", "feature_type": "LWD Jam", "feature_height_m": 2.0, "feature_length_m": 9, "utm_zone": 9, "easting": 580616, "northing": 6115630, "fiss_obstacle_name": "LWD Jam" }, "geometry": { "type": "Point", "coordinates": [ -127.734024195978634, 55.180690572086583 ] } },
+{ "type": "Feature", "properties": { "local_name": "58264_us", "feature_type": "cascade or Chute", "feature_height_m": 1.6, "feature_length_m": 8, "utm_zone": 9, "easting": 613823, "northing": 6074545, "fiss_obstacle_name": "Cascade/Chute" }, "geometry": { "type": "Point", "coordinates": [ -127.229117916879616, 54.805134712501399 ] } },
+{ "type": "Feature", "properties": { "local_name": "buck_falls", "feature_type": "falls", "feature_height_m": 4.0, "feature_length_m": 200, "utm_zone": 9, "easting": 662825, "northing": 6007372, "fiss_obstacle_name": "Falls" }, "geometry": { "type": "Point", "coordinates": [ -126.504465477691625, 54.188509582997568 ] } }
 ]
 }
