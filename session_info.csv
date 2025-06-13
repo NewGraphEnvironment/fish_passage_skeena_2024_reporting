@@ -1,18 +1,18 @@
-─ Session info ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
  setting  value
  version  R version 4.4.2 (2024-10-31)
- os       macOS Sequoia 15.3.2
+ os       macOS Sequoia 15.4.1
  system   aarch64, darwin20
  ui       RStudio
  language (EN)
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       America/Vancouver
- date     2025-04-24
- rstudio  2024.12.0+467 Kousa Dogwood (desktop)
- pandoc   3.2 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)
+ date     2025-06-13
+ rstudio  2025.05.0+496 Mariposa Orchid (desktop)
+ pandoc   3.4 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)
 
-─ Packages ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
  package           * version    date (UTC) lib source
  archive             1.1.9      2024-09-12 [2] CRAN (R 4.4.1)
  base64enc           0.1-3      2015-07-28 [1] CRAN (R 4.4.1)
@@ -54,6 +54,7 @@
  generics            0.1.3      2022-07-05 [1] CRAN (R 4.4.1)
  ggdark            * 0.2.1      2019-01-11 [1] CRAN (R 4.4.0)
  ggplot2           * 3.5.1      2024-04-23 [1] CRAN (R 4.4.0)
+ gh                  1.4.1      2024-03-28 [2] CRAN (R 4.4.0)
  glue                1.8.0      2024-09-30 [1] CRAN (R 4.4.1)
  gtable              0.3.6      2024-10-25 [1] CRAN (R 4.4.1)
  here                1.0.1      2020-12-13 [1] CRAN (R 4.4.1)
@@ -82,9 +83,9 @@
  mime                0.12       2021-09-28 [1] CRAN (R 4.4.1)
  miniUI              0.1.1.1    2018-05-18 [2] CRAN (R 4.4.0)
  munsell             0.5.1      2024-04-01 [1] CRAN (R 4.4.1)
- ngr               * 0.0.0.9002 2025-04-16 [1] Github (newgraphenvironment/ngr@b9ce397)
+ ngr               * 0.0.1      2025-06-12 [1] local
  pagedown          * 0.22       2025-01-07 [1] CRAN (R 4.4.1)
- pak                 0.8.0.2    2025-04-08 [1] CRAN (R 4.4.1)
+ pak                 0.9.0      2025-05-27 [1] CRAN (R 4.4.1)
  pillar              1.10.1     2025-01-07 [1] CRAN (R 4.4.1)
  pkgbuild            1.4.6      2025-01-16 [1] CRAN (R 4.4.1)
  pkgconfig           2.0.3      2019-09-22 [1] CRAN (R 4.4.1)
@@ -107,9 +108,10 @@
  remotes             2.5.0      2024-03-17 [2] CRAN (R 4.4.0)
  rlang               1.1.5      2025-01-17 [1] CRAN (R 4.4.1)
  rmarkdown         * 2.29       2024-11-04 [1] CRAN (R 4.4.1)
- roxygen2            7.3.1      2024-01-22 [2] CRAN (R 4.4.0)
+ roxygen2            7.3.2.9000 2025-06-10 [1] Github (r-lib/roxygen2@ace81d3)
  RPostgres         * 1.4.8      2025-02-25 [1] CRAN (R 4.4.1)
  rprojroot           2.0.4      2023-11-05 [1] CRAN (R 4.4.1)
+ rsconnect           1.3.4      2025-01-22 [2] CRAN (R 4.4.1)
  RSQLite             2.3.9      2024-12-03 [1] CRAN (R 4.4.1)
  rstudioapi          0.17.1     2024-10-22 [1] CRAN (R 4.4.1)
  rvest               1.0.4      2024-02-12 [1] CRAN (R 4.4.0)
@@ -128,7 +130,7 @@
  systemfonts         1.2.1      2025-01-20 [1] CRAN (R 4.4.1)
  terra               1.8-21     2025-02-10 [1] CRAN (R 4.4.1)
  tibble            * 3.2.1      2023-03-20 [1] CRAN (R 4.4.0)
- tidyhydat           0.7.0      2024-10-04 [1] CRAN (R 4.4.1)
+ tidyhydat           0.7.1      2025-03-11 [1] CRAN (R 4.4.1)
  tidyr             * 1.3.1      2024-01-24 [1] CRAN (R 4.4.1)
  tidyselect          1.2.1      2024-03-11 [1] CRAN (R 4.4.0)
  tidyverse         * 2.0.0      2023-02-22 [1] CRAN (R 4.4.0)
@@ -154,4 +156,4 @@
  [1] /Users/airvine/Library/R/arm64/4.4/library
  [2] /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library
 
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────

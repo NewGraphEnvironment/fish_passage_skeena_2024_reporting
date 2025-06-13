@@ -1,6 +1,8 @@
 # Skeena Watershed Fish Passage Restoration Planning 2024 - Development {-}
 
-  - remove uav info from the summary tables as per 
+
+# Skeena Watershed Fish Passage Restoration Planning 2024 - 0.1.3 (20250613) {-}
+  - remove uav info from the summary tables as that info is now in its own table
 
 
 # Skeena Watershed Fish Passage Restoration Planning 2024 - 0.1.2 (20250423) {-}
