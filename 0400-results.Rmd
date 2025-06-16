@@ -554,7 +554,7 @@ Results are summarized in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fi
 
 ```{r tab-overview, eval = TRUE}
 
-### Unique to Skeena 2024 - remove upstream_habitat_length_m for sites 198913 and 198916 on Comeau Creek due to incorrect mapping in BC Freshwater Atlas, so bcfishpass habitat estimates are misleading.
+### Unique to Skeena 2024 - remove `upstream_habitat_length_m` for sites 198913 and 198916 on Comeau Creek due to incorrect mapping in BC Freshwater Atlas, so bcfishpass habitat estimates are misleading.
 tab_overview <- tab_overview |>
     dplyr::mutate(`Habitat Gain (km)` = dplyr::case_when(`PSCIS ID` %in% c(198913, 198916) ~ NA,
                                                                .default = `Habitat Gain (km)`))
