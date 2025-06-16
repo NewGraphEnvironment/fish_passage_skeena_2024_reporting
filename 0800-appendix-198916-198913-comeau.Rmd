@@ -188,11 +188,7 @@ The stream was surveyed upstream from crossing 198913 - located on Highway 16 fo
 ## Fish Sampling {.unnumbered}
 
 Electrofishing was conducted on Comeau Creek below and above the railway crossing (PSCIS `r as.character(my_site)`) as well as 
-upstream and downstream of the crossing on Highway 16 (PSCIS `r as.character(my_site2)`).
-
-<br>
-
-Comeau Creek railway crossing (PSCIS `r as.character(my_site)`) results are summarised in Tables \@ref(tab:tab-fish-site-198916) - \@ref(tab:tab-fish-dens-198916) and Figure \@ref(fig:plot-fish-box-198916). A total of `r tab_fish_summary |> filter(site_id == paste0(my_site, '_ds')) |> group_by(site_id) |> janitor::adorn_totals() |> filter(site_id == 'Total') |> pull(count_fish)` fish were captured downstream including Dolly Varden and cutthroat trout, and `r tab_fish_summary |> filter(site_id == paste0(my_site, '_us')) |> group_by(site_id) |> janitor::adorn_totals() |> filter(site_id == 'Total') |> pull(count_fish)` Dolly Varden were captured upstream `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198916-03)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-198913-d02))."))`
+upstream and downstream of the crossing on Highway 16 (PSCIS `r as.character(my_site2)`). Comeau Creek railway crossing (PSCIS `r as.character(my_site)`) results are summarised in Tables \@ref(tab:tab-fish-site-198916) - \@ref(tab:tab-fish-dens-198916) and Figure \@ref(fig:plot-fish-box-198916). A total of `r tab_fish_summary |> filter(site_id == paste0(my_site, '_ds')) |> group_by(site_id) |> janitor::adorn_totals() |> filter(site_id == 'Total') |> pull(count_fish)` fish were captured downstream including Dolly Varden and cutthroat trout, and `r tab_fish_summary |> filter(site_id == paste0(my_site, '_us')) |> group_by(site_id) |> janitor::adorn_totals() |> filter(site_id == 'Total') |> pull(count_fish)` Dolly Varden were captured upstream `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198916-03)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-198913-d02))."))`
 
 <br>
 
