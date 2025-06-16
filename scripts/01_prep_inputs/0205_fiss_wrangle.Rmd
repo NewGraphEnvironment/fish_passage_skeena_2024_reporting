@@ -4,25 +4,20 @@ date: "Created: 2024-06-20 | Updated: `r format(Sys.Date(), '%Y-%m-%d')`"
 output: 
   html_document:
     code_folding: "hide"
-params:
-  repo_owner: "NewGraphEnvironment"
-  repo_name: "fish_passage_skeena_2024_reporting"
-  gis_project_name: "sern_skeena_2023"
-  job_name: "2024-072-sern-skeena-fish-passage"
 editor_options: 
   chunk_output_type: console
 ---
 
 # Purpose of this script
 
-Add columns to `form_fiss_site_2024` and then burn back a geopackage. This should really burn to A NEW geopcackage so it was be re-run easily. At the moment if we re-run it things get all weird with actions being duplicated, ahhhhhhh. 
+Add columns to `form_fiss_site_2024` and then burn back a geopackage. 
 
-```{r params}
+```{r paths}
 # path to raw form_fiss_site after QA
-path_form_fiss_site_raw <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024_raw.gpkg')
+path_form_fiss_site_raw <- fs::path_expand(fs::path('~/Projects/gis/', params$gis_project_name ,'/data_field/2024/form_fiss_site_2024_raw.gpkg'))
 
 #NEW geopcackage path for the form after we have added columns as per this script
-path_form_fiss_site <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024/form_fiss_site_2024.gpkg')
+path_form_fiss_site <- fs::path_expand(fs::path('~/Projects/gis/', params$gis_project_name ,'/data_field/2024/form_fiss_site_2024.gpkg'))
 ```
 
 
@@ -31,9 +26,11 @@ path_form_fiss_site <- fs::path('~/Projects/gis/sern_skeena_2023/data_field/2024
 
 ```{r backup-raw}
 
+t <- fs::path_expand(fs::path('~/Projects/repo/', params$repo_name ,'/data/backup/'))
+
 form_fiss_site <- fpr::fpr_sp_gpkg_backup(
   path_gpkg = path_form_fiss_site_raw,
-  dir_backup = "data/backup/",
+  dir_backup = fs::path_expand(fs::path('~/Projects/repo/', params$repo_name ,'/data/backup/')), #need to specify root directory if we want to render this script form the tables.R script, or else it makes another data/backup folder inside the directory this script is stored in (01_prep_inputs)
   update_utm = TRUE,
   update_site_id = FALSE,
   write_back_to_path = FALSE,
@@ -294,7 +291,7 @@ form_fiss_site_prep3 |>
 
 fpr::fpr_sp_gpkg_backup(
   path_gpkg = path_form_fiss_site,
-  dir_backup = "data/backup/",
+  dir_backup = fs::path_expand(fs::path('~/Projects/repo/', repo_name ,'/data/backup/')), #need to specify root directory if we want to render this     script form the tables.R script, or else it makes another data/backup folder inside the directory this script is stored in (01_prep_inputs)
   update_utm = TRUE,
   update_site_id = FALSE,
   write_back_to_path = FALSE,

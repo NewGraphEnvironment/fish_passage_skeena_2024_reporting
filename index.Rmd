@@ -27,6 +27,7 @@ params:
   repo_url: 'https://github.com/NewGraphEnvironment/fish_passage_skeena_2024_reporting'
   report_url: 'https://newgraphenvironment.github.io/fish_passage_skeena_2024_reporting'
   gis_project_name: "sern_skeena_2023"
+  repo_name: "fish_passage_skeena_2024_reporting"
   model_species: "st"
   update_packages: FALSE
   update_form_pscis: FALSE

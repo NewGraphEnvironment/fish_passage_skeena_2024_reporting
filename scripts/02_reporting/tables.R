@@ -34,8 +34,6 @@ model_species_name <- dplyr::case_when(params$model_species == "bt" ~ "Bull trou
                                        params$model_species == "st" ~ "Steelhead")
 
 # Network/access model caption
-
-# Network/access model caption
 sp_network_gradient <- dplyr::case_when(params$model_species == "bt" ~ "25",
                                         params$model_species == "st" ~ "20")
 
@@ -96,6 +94,13 @@ if (params$update_form_pscis) {
 
 # If update_form_fiss_site = TRUE then load form_fiss_site to sqlite - need to load the params from `index.Rmd`
 if (params$update_form_fiss_site) {
+
+  # Run 0205_fiss_wrangle.Rmd which cleans up the form then burns back to geopackage.
+  rmarkdown::render('scripts/01_prep_inputs/0205_fiss_wrangle.Rmd')
+  usethis::use_git_ignore('scripts/02_reporting/0205_fiss_wrangle.html')
+
+
+  #Now read and backup the form
   form_fiss_site <- fpr::fpr_sp_gpkg_backup(
     path_gpkg = path_form_fiss_site,
     dir_backup = "data/backup/",
@@ -109,7 +114,7 @@ if (params$update_form_fiss_site) {
     col_northing = "utm_northing") |>
     sf::st_drop_geometry()
 
-
+  #add to the sqlite
   conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
   # won't run on first build if the table doesn't exist
   readwritesqlite::rws_drop_table("form_fiss_site", conn = conn)
