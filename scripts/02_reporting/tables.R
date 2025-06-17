@@ -11,14 +11,11 @@ path_form_fiss_site <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_pr
 # path to monitoring form
 path_form_monitoring <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/data_field/2024/form_monitoring_2024.gpkg"))
 
-# Onedrive path to the fish data with the pit tags joined.
-path_fish_tags_joined <-  fs::path_expand('~/Projects/repo/fish_passage_skeena_2024_reporting/data/fish_data_tags_joined.csv')
+# Repo path to the fish data with the pit tags joined.
+path_fish_tags_joined <-  fs::path_expand(fs::path("~/Projects/repo/", params$repo_name ,"/data/fish_data_tags_joined.csv"))
 
 # specify which project data we want. for this case `2024-073-sern-peace-fish-passage`
 project = "2024-072-sern-skeena-fish-passage"
-
-# specify the repo
-repo_name <- "fish_passage_skeena_2024_reporting"
 
 
 
@@ -674,9 +671,9 @@ tab_map_phase_1 <- tab_map_phase_1_prep |>
                                      TRUE ~ priority_phase1),
                 priority_phase1 = stringr::str_to_title(priority_phase1)) |>
   dplyr::mutate(data_link = paste0('<a href =', 'sum/cv/', pscis_crossing_id, '.html ', 'target="_blank">Culvert Data</a>')) |>
-  dplyr::mutate(photo_link = dplyr::case_when(is.na(my_crossing_reference) ~ paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', repo_name, '/main/data/photos/', pscis_crossing_id, '/crossing_all.JPG ',
+  dplyr::mutate(photo_link = dplyr::case_when(is.na(my_crossing_reference) ~ paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', params$repo_name, '/main/data/photos/', pscis_crossing_id, '/crossing_all.JPG ',
                                                                                     'target="_blank">Culvert Photos</a>'),
-                                              TRUE ~ paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', repo_name, '/main/data/photos/', my_crossing_reference, '/crossing_all.JPG ',
+                                              TRUE ~ paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', params$repo_name, '/main/data/photos/', my_crossing_reference, '/crossing_all.JPG ',
                                                             'target="_blank">Culvert Photos</a>'))) |>
   dplyr::mutate(model_link = paste0('<a href =', 'sum/bcfp/', pscis_crossing_id, '.html ', 'target="_blank">Model Data</a>')) |>
   dplyr::distinct(site_id, .keep_all = TRUE) #just for now
