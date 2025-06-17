@@ -25,12 +25,9 @@ path_form_fiss_site <- fs::path_expand(fs::path('~/Projects/gis/', params$gis_pr
 ## Backup the form after the QA
 
 ```{r backup-raw}
-
-t <- fs::path_expand(fs::path('~/Projects/repo/', params$repo_name ,'/data/backup/'))
-
 form_fiss_site <- fpr::fpr_sp_gpkg_backup(
   path_gpkg = path_form_fiss_site_raw,
-  dir_backup = fs::path_expand(fs::path('~/Projects/repo/', params$repo_name ,'/data/backup/')), #need to specify root directory if we want to render this script form the tables.R script, or else it makes another data/backup folder inside the directory this script is stored in (01_prep_inputs)
+  dir_backup = paste0(here::here("data", "backup"), "/"), #need to specify root directory if we want to render this script form the tables.R script, or else it sets the CWD to 01_prep_inputs and makes another data/backup folder there
   update_utm = TRUE,
   update_site_id = FALSE,
   write_back_to_path = FALSE,
@@ -291,11 +288,11 @@ form_fiss_site_prep3 |>
 
 fpr::fpr_sp_gpkg_backup(
   path_gpkg = path_form_fiss_site,
-  dir_backup = fs::path_expand(fs::path('~/Projects/repo/', repo_name ,'/data/backup/')), #need to specify root directory if we want to render this     script form the tables.R script, or else it makes another data/backup folder inside the directory this script is stored in (01_prep_inputs)
+  dir_backup = paste0(here::here("data", "backup"), "/"), #need to specify root directory if we want to render this script form the tables.R script, or else it sets the CWD to 01_prep_inputs and makes another data/backup folder there
   update_utm = TRUE,
   update_site_id = FALSE,
   write_back_to_path = FALSE,
-  return_object = TRUE,
+  return_object = FALSE,
   col_easting = "utm_easting",
   col_northing = "utm_northing"
 ) 

@@ -103,7 +103,6 @@ if (params$update_form_fiss_site) {
   #Now read and backup the form
   form_fiss_site <- fpr::fpr_sp_gpkg_backup(
     path_gpkg = path_form_fiss_site,
-    dir_backup = "data/backup/",
     update_utm = TRUE,
     update_site_id = FALSE,
     write_back_to_path = FALSE,
