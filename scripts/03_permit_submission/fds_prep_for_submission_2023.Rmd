@@ -1,9 +1,9 @@
 # FDS cleanup and finalization
-These are the procedures for 2023 data.
+Used for 2024 data submission
 
 First we need to fill in everything in the Step 1 sheet. 
 
-Project Title: Same as report - "Restoring Fish Passage in the Skeena Region - 2023"
+Project Title: Same as report - "Restoring Fish Passage in the Skeena Region - 2024"
 Company/Agency: Other
 Company/Agency (Other): New Graph Environment Ltd.
 Spreadsheet Recorder(s): Allan Irvine or Lucy Schick
@@ -20,136 +20,24 @@ Province of Registration:					British Columbia
 Some of this could move to params in the future but for now we will just define them here.
 
 ```{r}
-#location of the data
-repo_name <- "fish_passage_skeena_2023_reporting"
-permit_id <- 'SM23-814011'
+permit_id <- 'PG24-879256'
 
-stub_repo <- fs::path("~/Projects/repo", repo_name)
+project_region <- stringr::str_match(params$repo_name, "fish_passage_([^_]+)_")[, 2]
 
-path_in <- fs::path(stub_repo, "data/habitat_confirmations.xls")
+stub_onedrive_submission <- fs::path_expand(fs::path("~/Library/CloudStorage/OneDrive-Personal/Projects/submissions/fish_data", params$project_year, project_region))
 
-stub_out_csv <-  fs::path(stub_repo, "data/inputs_extracted")
+path_in <- fs::path("data/habitat_confirmations.xls")
 
-stub_out_permit <- fs::path(stub_repo, "data/permit_submission")
+stub_out_csv <-  fs::path("data/inputs_extracted")
+
+stub_out_permit <- fs::path("data/permit_submission")
+
 
 fs::dir_create(stub_out_permit)
 
 ```
 
 
-## Extract `stream_crossing_id`s
-For now we get the stream crossing ids from the habitat confirmations sheet.  We will use these to query the database for the watershed codes.
-In the future we could perhaps use `form_fiss_site`.
-```{r extract-ids}
-# define a list of stream_crossing_id 
-hab_con <- fpr::fpr_import_hab_con(path = path_in,
-                                               backup = FALSE,
-                                               row_empty_remove = T,
-                                               col_filter_na = TRUE) 
-
-ids <- hab_con |> 
-  purrr::pluck("step_1_ref_and_loc_info") |> 
-  tidyr::separate(alias_local_name, into = c('site', 'location', 'ef'), remove = F) |>
-  dplyr::distinct(site) |> 
-  dplyr::pull(site)
-
-```
-
-## Query database to get 1:50,000 watershed codes
-Really kind of humorous that we are getting 1:50,000 watershed codes from the database then the province turns around
-and converts them back to 1:20,000 (pers. comm. Dave McEwan - Fisheries Standards Biologist - 778 698-4010 - Dave.McEwan@gov.bc.ca).
-
-Some sites are missing in bcfishpass so they are not returned in the following query. The missing sites are delt with in the next section `csv-wsc`. The missing sites are (123377,124500, 58067). Why aren't they in bcfishpass mmmm.... odd that they are all in the BULK watershed...
-
-```{r get-wsc}
-conn <- fpr::fpr_db_conn()
-
-wscodes <- fpr::fpr_db_query(
-  query = glue::glue_sql("SELECT DISTINCT ON (stream_crossing_id)
-    a.stream_crossing_id,
-    a.linear_feature_id,
-    a.watershed_group_code,
-    b.watershed_code_50k,
-    substring(b.watershed_code_50k from 1 for 3)
-    || '-' || substring(b.watershed_code_50k from 4 for 6)
-    || '-' || substring(b.watershed_code_50k from 10 for 5)
-    || '-' || substring(b.watershed_code_50k from 15 for 5)
-    || '-' || substring(b.watershed_code_50k from 20 for 4)
-    || '-' || substring(b.watershed_code_50k from 24 for 4)
-    || '-' || substring(b.watershed_code_50k from 28 for 3)
-    || '-' || substring(b.watershed_code_50k from 31 for 3)
-    || '-' || substring(b.watershed_code_50k from 34 for 3)
-    || '-' || substring(b.watershed_code_50k from 37 for 3)
-    || '-' || substring(b.watershed_code_50k from 40 for 3)
-    || '-' || substring(b.watershed_code_50k from 43 for 3) AS watershed_code_50k_parsed,
-    b.blue_line_key_20k,
-    b.watershed_key_20k,
-    b.blue_line_key_50k,
-    b.watershed_key_50k,
-    b.match_type
-    FROM bcfishpass.crossings_vw a
-    LEFT OUTER JOIN whse_basemapping.fwa_streams_20k_50k b
-    ON a.linear_feature_id = b.linear_feature_id_20k
-    WHERE a.stream_crossing_id IN ({ids*})
-    ORDER BY a.stream_crossing_id, b.match_type;",
-    .con = conn
-  ) 
-)
-DBI::dbDisconnect(conn)
-```
-
-<br>
-
-Now make csv with watershed codes and and burn to file - so we can copy and paste into the spreadsheet. We need to
-QA this data using the `whse_fish.wdic_waterbody_route_line_svw` layer.  This layer has now been added the
-2023 QGIS shared projects for Skeena and Peace:
-
-
-```{r csv-wsc}
-
-##now we need to join to our habitat_confirmations sheet in the right order so we can copy and past into the spreadsheet
-wsc_join <- dplyr::left_join(
-  hab_con |> 
-  purrr::pluck("step_1_ref_and_loc_info") |> 
-    tidyr::separate(alias_local_name, into = c('site', 'location', 'ef'), remove = F) |> 
-    dplyr::mutate(site = as.integer(site)),
-  
-  wscodes |> dplyr::select(stream_crossing_id, watershed_code_50k = watershed_code_50k_parsed, watershed_group_code),
-  
-  by = c('site' = 'stream_crossing_id')) |> 
-  
-  dplyr::select(reference_number, gazetted_name, alias_local_name, site, location, watershed_code_50k, watershed_group_code) |> 
-  ## Here are some hand bomb corrections for the sites that were missing from bcfishpass. We need to add the watershed_group_code so    ## that the waterbody_id can be created
-  # mutate(watershed_group_code = case_when(
-  #   site == 123377 ~ 'BULK',
-  #   site == 124500 ~ 'BULK',
-  #   site == 58067 ~ 'BULK',
-  #   T ~ watershed_group_code)) |>
-  dplyr::mutate(alias_corrected = NA_character_,
-         waterbody_id = paste0('00000', watershed_group_code),
-         waterbody_type = 'stream') |> 
-  # QA in QGIS using the wdic_waterbody_route_line_svw layer in postgres db, this layer comes from:
-  # https://catalogue.data.gov.bc.ca/dataset/wsa-stream-routes-50-000/resource/d694884b-97a6-4d34-9ece-263aa46974f5
-  # here are some hand bomb corrections for the watershed_code_50k
-  # mutate(watershed_code_50k = case_when(
-  #   site == 197360 ~ '460-600600-23900-95600-0000-0000-000-000-000-000-000-000',
-  #   site == 123377 ~ '460-517700-00000-00000-0000-0000-000-000-000-000-000-000',
-  #   site == 198217 ~ '400-448500-00000-00000-0000-0000-000-000-000-000-000-000',
-  #   site == 198022 ~ '460-600600-44500-00000-0000-0000-000-000-000-000-000-000',
-  #   site == 124500 ~ '460-437000-00000-00000-0000-0000-000-000-000-000-000-000',
-  #   site == 198934 ~ '460-600600-17000-18900-0000-0000-000-000-000-000-000-000',
-  #   site == 58067 ~ '460-223800-00000-00000-0000-0000-000-000-000-000-000-000',
-  #   T ~ watershed_code_50k)) |>
-  dplyr::select(reference_number, alias_local_name, site, location, gazetted_name, alias_corrected, waterbody_type, waterbody_id, watershed_code_50k)
-
-
-# order to location spreadsheet and burn to file
-wsc_join |> 
-  readr::write_csv(file = fs::path(stub_out_csv, "hab_con_wsc_codes.csv"), na = "")
-```
-
-
-At this point we do our hand work to transfer over the watershed codes to the `habitat_confirmations.xls` file from the csv.
 
 ## Duplicate the FDS and make final changes for submission
 Now we will make a copy of the data. We don't love having multiple values of the same data but we don't want to break any of
@@ -187,6 +75,8 @@ if we don't put it somewhere else. We want people to be able to cross reference 
 
 ```{r copy-alias-step4}
 
+hab_con <- fpr::fpr_import_hab_con(backup = F, row_empty_remove = T, col_filter_na = T)
+
 # now make a csv with the alias_local_name pasted to the comments so people can see which comments are linked to which site in the reports
 site_comments <- hab_con |> 
   purrr::pluck("step_4_stream_site_data") |> 
@@ -200,9 +90,7 @@ site_comments |>
 <br>
 
 Since we redo `step_4_stream_site_data` anyways to remove the ef sites (at the end), we should just add the updated comments then.
-<!-- Now we do the hand work to copy-paste-special-values the comments from `hab_con_alias_local_name_relocate.csv` over to `step_4_stream_site_data` of the `data/permit_submission/{permit_number}_data.xls` file.   -->
 
-<br>
 
 ### `step_2_fish_coll_data` - add all comments (now with site ids included) to the comments 
 Because one of our next steps is to remove the `_ef*` sites from `step_4_stream_site_data`, `step_2_fish_coll_data` will now be the
@@ -213,7 +101,7 @@ Catalogue but we do it in case it is helpful.
 <br>
 
 First we run a test to see if there is an `ef` in the `alias_local_name` column AND
-if there is an associated site that has the same "12345_us` but does not have the "_ef*" in the `alias_local_name`.
+if there is an associated site that has the same "12345_us" but does not have the "_ef*" in the `alias_local_name`.
 First step is just to answer the question of which sites have a non-ef site associated with them. We do not use this
 information in the final product but it is maybe useful to know.
 
@@ -253,10 +141,15 @@ site_comments_prep <- site_comments |>
   tidyr::replace_na(list(comments = ""))
 
 step_2_prep <- hab_con |> 
-      purrr::pluck("step_2_fish_coll_data") |> 
-      dplyr::select(reference_number, local_name, method_number, comments_step2 = comments) |> 
-      #tidyr::replace_na with "" so we don't get NAs
-      tidyr::replace_na(list(comments_step2 = ""))
+  purrr::pluck("step_2_fish_coll_data") |> 
+  # change comments from logical to character so replace_na works 
+  dplyr::mutate(comments_step2 = as.character(comments)) |> 
+  dplyr::select(reference_number, 
+                local_name, 
+                method_number, 
+                comments_step2) |> 
+  tidyr::replace_na(list(comments_step2 = ""))
+
 
 site_comments_step2 <- dplyr::left_join(
   
@@ -279,7 +172,7 @@ site_comments_step2 |>
 
 Ok - now we do the hand work to transfer `data/inputs_extracted/hab_con_method_comments_step2.csv` to `step_2_fish_coll_data` of the `data/permit_submission/{permit_number}_data.xls` file.
 
-
+ 
 ### Remove `step_4_stream_site_data` sites that are `_ef*` sites 
 We have lots of sites that are return visits where we are just sampling and not doing 100m habitat sites.
 For these we will leave all the locational information in the `step_1_ref_and_loc_info` sheet and remove all the `step_4_stream_site_data`.
@@ -296,9 +189,9 @@ step_4_prep <- hab_con |>
   purrr::pluck("step_4_stream_site_data") |> 
   dplyr::filter(!grepl("ef", local_name)) |> 
   #remove the old comments
-  select(-comments) |> 
+  dplyr::select(-comments) |> 
   #add the new comments
-  left_join(site_comments_prep, 
+  dplyr::left_join(site_comments_prep, 
              by = 'reference_number')
 
 # burn out our csv so we can hand-bomb
@@ -311,8 +204,7 @@ step_4_prep |>
 <br>
 
 Removed data for all sites and copy pasted special back in the data from the `data/inputs_extracted/hab_con_step4_no_ef.csv` 
-to `step_4_stream_site_data` sheet of `data/permit_submission/{permit_number}_data.xls`.  Need to pull up the formulas for averages and deal with `ph` significant digits but
-other than that it seemed to work fine.
+to `step_4_stream_site_data` sheet of `data/permit_submission/{permit_number}_data.xls`.  Need to pull up the formulas for averages and deal with `ph` significant digits but other than that it seemed to work fine.
 
 
 <br>
@@ -330,9 +222,14 @@ divergence with `habitat_confirmations.xls` file that should perhaps be remedied
 Copy data to onedrive to get to windows machine.
 
 ```{r}
-fs::file_copy(path = "/Users/airvine/Projects/repo/fish_passage_peace_2023_reporting/data/permit_submission/PG23-813101_data.xls",
-              new_path = "/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/submissions/fish_data/2023/PG23-813101_data.xls",
+#make a new directory for this years data submission
+fs::dir_create(fs::path(stub_onedrive_submission))
+
+
+fs::file_copy(path = fs::path(stub_out_permit, paste0(permit_id, "_data.xls")),
+              new_path = fs::path(stub_onedrive_submission, paste0(permit_id, "_data.xls")),
               overwrite = TRUE)
+
 ```
 
 Run the QA tool.  Record issues with github and fix in repo permit copy. 
@@ -341,6 +238,11 @@ Run the QA tool.  Record issues with github and fix in repo permit copy.
 **Still to do**
 
 Fix in habitat_confirmations.xls - Rerun `fpr::fpr_import_hab_con(row_empty_remove = T)` and push to github.
+
+```{r}
+fpr::fpr_import_hab_con(row_empty_remove = T, col_filter_na = T)
+```
+
 
 
 
