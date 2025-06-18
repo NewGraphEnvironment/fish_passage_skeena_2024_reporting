@@ -3,16 +3,16 @@ source('scripts/packages.R')
 
 # Paths ------------------------------------------------------
 # Pit tag data for ALL years is currently being stored on OneDrive .
-path_tag <- fs::path(fs::path_expand('~/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/fish/tag_01_05.csv'))
+path_tag <- fs::path_expand(fs::path('~/Library/CloudStorage/OneDrive-Personal/Projects/', paste0(params$project_year, "_data"), '/fish/tag_01_05.csv'))
 
 # Raw fish data stored in Onedrive
-path_fish <-  fs::path(fs::path_expand('~/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/fish/fish_data_raw.xlsx'))
+path_fish <-  fs::path_expand(fs::path('~/Library/CloudStorage/OneDrive-Personal/Projects/', paste0(params$project_year, "_data"), '/fish/fish_data_raw.xlsx'))
 
 # path for form_fiss_site geopackage
-path_form_fiss_site <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/data_field/2024/form_fiss_site_2024.gpkg"))
+path_form_fiss_site <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/data_field/", params$project_year, paste0("form_fiss_site_", params$project_year, ".gpkg")))
 
 # Onedrive path where to store the fish data with the pit tags joined.
-path_onedrive_tags_joined <-  fs::path(fs::path_expand('~/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/fish/fish_data_tags_joined.csv'))
+path_onedrive_tags_joined <-  fs::path_expand(fs::path('~/Library/CloudStorage/OneDrive-Personal/Projects/', paste0(params$project_year, "_data"), '/fish/fish_data_tags_joined.csv'))
 
 # Repo path to individual fish data ready to c/p into `step_3_individual_fish_data`
 path_repo_fish_data_ind <-  fs::path('data/inputs_raw/fish_data_ind.csv')
@@ -20,13 +20,10 @@ path_repo_fish_data_ind <-  fs::path('data/inputs_raw/fish_data_ind.csv')
 # Repo path to fisheries collected data ready to c/p into `step_2_fish_coll_data`
 path_repo_fish_data_coll <-  fs::path('data/inputs_raw/fish_data_coll.csv')
 
-# specify which project data we want.
-project = "2024-072-sern-skeena-fish-passage"
-
-
 
 # Pit Tags ------------------------------------------------------
 # combining pit tag data to individual fish data so that we can copy and paste directly into submission template
+# This only needs to be run once.
 
 # import the pit tag csv
 # tag_01_05 does not have a column name so for that reason the call to read_csv needs to be different (change col_names to F for that file) and
@@ -92,7 +89,7 @@ fish_data_tags |>
 fish_data_complete <- readr::read_csv(file = path_onedrive_tags_joined) |>
   janitor::clean_names() |>
   #filter for peace 2024
-  dplyr::filter(project_name == project)
+  dplyr::filter(project_name == params$job_name)
 
 # cross reference with step 1 of hab con sheet to get reference numbers
 ref_names <- dplyr::left_join(
@@ -224,13 +221,15 @@ fish_coll_data |>
 fpr::fpr_import_hab_con(row_empty_remove = T, col_filter_na = T)
 
 
-##### This code does not have to do with reporting
+
+
+
+
+
+
+# This code does not have to do with reporting -------------------------
 
 # search the fish data for species captured at the specific site
-
-# Onedrive path where to store the fish data with the pit tags joined.
-path_onedrive_tags_joined <-  fs::path('/Users/lucyschick/Library/CloudStorage/OneDrive-Personal/Projects/2024_data/fish/fish_data_tags_joined.csv')
-
 fish_data_complete <- readr::read_csv(file = path_onedrive_tags_joined) |>
   janitor::clean_names()
 
