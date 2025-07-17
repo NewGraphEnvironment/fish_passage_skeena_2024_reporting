@@ -63,8 +63,8 @@ pscis_export_raw <- form_pscis_time_fix |>
 
 ## Fix max culvert length and fill depth
 
-We need to check for sites that have a culvert length (`length_or_width_meters`) over 99.9 or a fill depth (`fill_depth_meters`) over 9.9, because 
-anything over this will cause errors in submission sheet. If over the maximums, we will change them to 99.9 and 9.9,
+We need to check for sites that have a culvert length (`length_or_width_meters`) over 99.0 or a fill depth (`fill_depth_meters`) over 9.9, because 
+anything over this will cause errors in submission sheet. If over the maximums, we will change them to 99.0 and 9.9,
 respectively, and will append a note to the assessment comments.
 
 ```{r max-cul-leng-fill-dpt}
@@ -82,7 +82,7 @@ pscis_export_prep1 <- pscis_export_raw |>
       TRUE ~ assessment_comment
     ),
     length_or_width_meters = dplyr::case_when(
-      length_or_width_meters > 99.9 ~ 99.9,
+      length_or_width_meters > 99.9 ~ 99.0,
       TRUE ~ length_or_width_meters
     ),
     assessment_comment = dplyr::case_when(

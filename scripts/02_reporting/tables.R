@@ -11,14 +11,11 @@ path_form_fiss_site <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_pr
 # path to monitoring form
 path_form_monitoring <- fs::path_expand(fs::path("~/Projects/gis/", params$gis_project_name, "/data_field/2024/form_monitoring_2024.gpkg"))
 
-# Onedrive path to the fish data with the pit tags joined.
-path_fish_tags_joined <-  fs::path_expand('~/Projects/repo/fish_passage_skeena_2024_reporting/data/fish_data_tags_joined.csv')
+# Repo path to the fish data with the pit tags joined.
+path_fish_tags_joined <-  fs::path_expand(fs::path("~/Projects/repo/", params$repo_name ,"/data/fish_data_tags_joined.csv"))
 
 # specify which project data we want. for this case `2024-073-sern-peace-fish-passage`
 project = "2024-072-sern-skeena-fish-passage"
-
-# specify the repo
-repo_name <- "fish_passage_skeena_2024_reporting"
 
 
 
@@ -32,8 +29,6 @@ repo_name <- "fish_passage_skeena_2024_reporting"
 # For Peace we use bull trout
 model_species_name <- dplyr::case_when(params$model_species == "bt" ~ "Bull trout",
                                        params$model_species == "st" ~ "Steelhead")
-
-# Network/access model caption
 
 # Network/access model caption
 sp_network_gradient <- dplyr::case_when(params$model_species == "bt" ~ "25",
@@ -96,9 +91,15 @@ if (params$update_form_pscis) {
 
 # If update_form_fiss_site = TRUE then load form_fiss_site to sqlite - need to load the params from `index.Rmd`
 if (params$update_form_fiss_site) {
+
+  # Run 0205_fiss_wrangle.Rmd which cleans up the form then burns back to geopackage.
+  rmarkdown::render('scripts/01_prep_inputs/0205_fiss_wrangle.Rmd')
+  usethis::use_git_ignore('scripts/02_reporting/0205_fiss_wrangle.html')
+
+
+  #Now read and backup the form
   form_fiss_site <- fpr::fpr_sp_gpkg_backup(
     path_gpkg = path_form_fiss_site,
-    dir_backup = "data/backup/",
     update_utm = TRUE,
     update_site_id = FALSE,
     write_back_to_path = FALSE,
@@ -109,7 +110,7 @@ if (params$update_form_fiss_site) {
     col_northing = "utm_northing") |>
     sf::st_drop_geometry()
 
-
+  #add to the sqlite
   conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
   # won't run on first build if the table doesn't exist
   readwritesqlite::rws_drop_table("form_fiss_site", conn = conn)
@@ -670,9 +671,9 @@ tab_map_phase_1 <- tab_map_phase_1_prep |>
                                      TRUE ~ priority_phase1),
                 priority_phase1 = stringr::str_to_title(priority_phase1)) |>
   dplyr::mutate(data_link = paste0('<a href =', 'sum/cv/', pscis_crossing_id, '.html ', 'target="_blank">Culvert Data</a>')) |>
-  dplyr::mutate(photo_link = dplyr::case_when(is.na(my_crossing_reference) ~ paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', repo_name, '/main/data/photos/', pscis_crossing_id, '/crossing_all.JPG ',
+  dplyr::mutate(photo_link = dplyr::case_when(is.na(my_crossing_reference) ~ paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', params$repo_name, '/main/data/photos/', pscis_crossing_id, '/crossing_all.JPG ',
                                                                                     'target="_blank">Culvert Photos</a>'),
-                                              TRUE ~ paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', repo_name, '/main/data/photos/', my_crossing_reference, '/crossing_all.JPG ',
+                                              TRUE ~ paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', params$repo_name, '/main/data/photos/', my_crossing_reference, '/crossing_all.JPG ',
                                                             'target="_blank">Culvert Photos</a>'))) |>
   dplyr::mutate(model_link = paste0('<a href =', 'sum/bcfp/', pscis_crossing_id, '.html ', 'target="_blank">Model Data</a>')) |>
   dplyr::distinct(site_id, .keep_all = TRUE) #just for now

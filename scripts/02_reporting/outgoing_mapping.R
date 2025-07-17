@@ -199,7 +199,10 @@ wshds |>
 
 habitat_confirmation_tracks |>
   sf::st_transform(4326) |>
-  sf::st_write(dsn = path_repo_gpkg, layer = "hab_tracks", append = TRUE)
+  sf::st_write(dsn = path_repo_gpkg,
+               layer = "hab_tracks",
+               delete_layer = T,
+               append = TRUE)
 
 
 
