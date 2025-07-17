@@ -141,7 +141,7 @@ sfpr_create_hydrograph <- function(
     #Create pane of hydrographs with "Mean", "Minimum", "Maximum", and "Standard Deviation" flows
     hydrograph_stats_print <- fasstr::plot_data_screening(station_number = station, start_year = start_year,
                                                           include_stats = c("Mean", "Minimum", "Maximum", "Standard Deviation"),
-                                                          plot_availability = FALSE)[["Data_Screening"]] + ggdark::dark_theme_bw() ##first version is not dark
+                                                          plot_availability = FALSE)[["Data_Screening"]]
     hydrograph_stats_print
 
     #Save hydrograph pane
@@ -180,13 +180,12 @@ sfpr_create_hydrograph <- function(
     plot <- ggplot2::ggplot()+
       ggplot2::geom_ribbon(data = flow, aes(x = Date, ymax = max,
                                             ymin = min),
-                           alpha = 0.3, linetype = 1)+
+                           alpha = 0.3, linetype = 1, fill = "gray60")+
       ggplot2::scale_x_date(date_labels = "%b", date_breaks = "2 month") +
       ggplot2::labs(x = NULL, y = expression(paste("Mean Daily Discharge (", m^3, "/s)", sep="")))+
-      ggdark::dark_theme_bw() +
+      ggplot2::theme_bw() +
       ggplot2::geom_line(data = flow, aes(x = Date, y = daily_ave),
-                         linetype = 1, linewidth = 0.7) +
-      ggplot2::scale_colour_manual(values = c("grey10", "red"))
+                         linetype = 1, linewidth = 0.5, color = "gray40")
     plot
 
     ggplot2::ggsave(plot = plot, file=paste0("fig/hydrograph_", station, ".png"),
