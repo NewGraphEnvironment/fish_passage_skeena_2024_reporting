@@ -108,9 +108,18 @@ knitr::write_bib(c(
 
 # Acknowledgement {.front-matter .unnumbered}
 
+At New Graph Environment, we understand our well-being as inseparable from the health of the land and waters we work within. When we care for ecosystems, we care for ourselves and for the communities connected to them. This relationship is not metaphorical — it is the foundation of our practice.
 
-Modern civilization has a long journey ahead to acknowledge and address the historic and ongoing impacts of colonialism that have resulted in harm to the cultures and livelihoods living interconnected with our ecosystems for many thousands of years. 
+Modern civilization has a long journey ahead to acknowledge and address the historic and ongoing impacts of colonialism that have resulted in harm to the cultures and livelihoods living interconnected with our ecosystems for many thousands of years.
 
+This work takes place within the territories of [Nations], who have stewarded these lands and waters since time immemorial. [Project-specific connection to territory, governance, species, or watershed.]
+
+[Funding and partner acknowledgements.]
+
+
+# AI Disclosure {.front-matter .unnumbered}
+
+Report preparation was assisted by Claude (Anthropic), a large language model, for literature synthesis and technical writing. All ecological assessments, professional judgments, and conclusions are the sole responsibility of Al Irvine, R.P.Bio., who independently verified all content.
 
 
 ```{js, logo-header, echo = FALSE, eval= T}
